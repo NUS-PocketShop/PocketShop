@@ -14,6 +14,12 @@
 		ADAD9EEA27D88C5D00DE0EE7 /* PocketShopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EE927D88C5D00DE0EE7 /* PocketShopTests.swift */; };
 		ADAD9EF427D88C5D00DE0EE7 /* PocketShopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EF327D88C5D00DE0EE7 /* PocketShopUITests.swift */; };
 		ADAD9EF627D88C5D00DE0EE7 /* PocketShopUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EF527D88C5D00DE0EE7 /* PocketShopUITestsLaunchTests.swift */; };
+		ADAD9F0427DA391800DE0EE7 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F0327DA391800DE0EE7 /* Customer.swift */; };
+		ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F0527DA39AA00DE0EE7 /* Shop.swift */; };
+		ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F0727DA3C6200DE0EE7 /* Product.swift */; };
+		ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F0927DA3F2D00DE0EE7 /* Order.swift */; };
+		ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F0B27DA3FDA00DE0EE7 /* OrderStatus.swift */; };
+		ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F0D27DA413B00DE0EE7 /* OrderProduct.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +50,12 @@
 		ADAD9EEF27D88C5D00DE0EE7 /* PocketShopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketShopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9EF327D88C5D00DE0EE7 /* PocketShopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopUITests.swift; sourceTree = "<group>"; };
 		ADAD9EF527D88C5D00DE0EE7 /* PocketShopUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ADAD9F0327DA391800DE0EE7 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		ADAD9F0527DA39AA00DE0EE7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
+		ADAD9F0727DA3C6200DE0EE7 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		ADAD9F0927DA3F2D00DE0EE7 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		ADAD9F0B27DA3FDA00DE0EE7 /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
+		ADAD9F0D27DA413B00DE0EE7 /* OrderProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProduct.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +106,7 @@
 		ADAD9ED727D88C5B00DE0EE7 /* PocketShop */ = {
 			isa = PBXGroup;
 			children = (
+				ADAD9F0227DA34DD00DE0EE7 /* Model */,
 				ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */,
 				ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */,
 				ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */,
@@ -125,6 +138,19 @@
 				ADAD9EF527D88C5D00DE0EE7 /* PocketShopUITestsLaunchTests.swift */,
 			);
 			path = PocketShopUITests;
+			sourceTree = "<group>";
+		};
+		ADAD9F0227DA34DD00DE0EE7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ADAD9F0327DA391800DE0EE7 /* Customer.swift */,
+				ADAD9F0527DA39AA00DE0EE7 /* Shop.swift */,
+				ADAD9F0727DA3C6200DE0EE7 /* Product.swift */,
+				ADAD9F0927DA3F2D00DE0EE7 /* Order.swift */,
+				ADAD9F0B27DA3FDA00DE0EE7 /* OrderStatus.swift */,
+				ADAD9F0D27DA413B00DE0EE7 /* OrderProduct.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +283,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
+				ADAD9F0427DA391800DE0EE7 /* Customer.swift in Sources */,
+				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
+				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,
+				ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */,
+				ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
