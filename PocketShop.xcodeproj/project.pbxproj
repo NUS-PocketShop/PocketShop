@@ -32,6 +32,11 @@
 		ADAD9F2B27DDE7B400DE0EE7 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */; };
 		ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */; };
 		ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */; };
+		DF67101727DE5EE1002C5AE0 /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101627DE5EE1002C5AE0 /* ProductView.swift */; };
+		DF67101927DE5FF6002C5AE0 /* CustomerHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101827DE5FF6002C5AE0 /* CustomerHomeView.swift */; };
+		DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */; };
+		DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101D27DE769E002C5AE0 /* SearchBarView.swift */; };
+		DF67102027DE7A8D002C5AE0 /* ProductSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +82,11 @@
 		ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAdapter.swift; sourceTree = "<group>"; };
+		DF67101627DE5EE1002C5AE0 /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
+		DF67101827DE5FF6002C5AE0 /* CustomerHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerHomeView.swift; sourceTree = "<group>"; };
+		DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewModel.swift; sourceTree = "<group>"; };
+		DF67101D27DE769E002C5AE0 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +142,10 @@
 			children = (
 				ADAD9F1C27DCCC6D00DE0EE7 /* Database */,
 				ADAD9F0227DA34DD00DE0EE7 /* Model */,
+				DF67101227DE5D69002C5AE0 /* CustomerViews */,
+				DF67101327DE5D90002C5AE0 /* ShopViews */,
 				ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */,
+				DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */,
 				ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */,
 				ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */,
 				ADAD9F1327DCC6FF00DE0EE7 /* GoogleService-Info.plist */,
@@ -210,6 +223,24 @@
 			path = RealtimeDatabase;
 			sourceTree = "<group>";
 		};
+		DF67101227DE5D69002C5AE0 /* CustomerViews */ = {
+			isa = PBXGroup;
+			children = (
+				DF67101D27DE769E002C5AE0 /* SearchBarView.swift */,
+				DF67101827DE5FF6002C5AE0 /* CustomerHomeView.swift */,
+				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
+				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
+			);
+			path = CustomerViews;
+			sourceTree = "<group>";
+		};
+		DF67101327DE5D90002C5AE0 /* ShopViews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ShopViews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -217,6 +248,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADAD9EF927D88C5D00DE0EE7 /* Build configuration list for PBXNativeTarget "PocketShop" */;
 			buildPhases = (
+				DF67101C27DE62DF002C5AE0 /* ShellScript */,
 				ADAD9ED127D88C5B00DE0EE7 /* Sources */,
 				ADAD9ED227D88C5B00DE0EE7 /* Frameworks */,
 				ADAD9ED327D88C5B00DE0EE7 /* Resources */,
@@ -344,6 +376,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DF67101C27DE62DF002C5AE0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		ADAD9ED127D88C5B00DE0EE7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -354,14 +406,19 @@
 				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
 				ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */,
+				DF67102027DE7A8D002C5AE0 /* ProductSummaryView.swift in Sources */,
 				ADAD9F0427DA391800DE0EE7 /* Customer.swift in Sources */,
 				ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */,
+				DF67101927DE5FF6002C5AE0 /* CustomerHomeView.swift in Sources */,
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
+				DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
+				DF67101727DE5EE1002C5AE0 /* ProductView.swift in Sources */,
 				ADAD9F2527DDDDD700DE0EE7 /* AuthError.swift in Sources */,
 				ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */,
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
 				ADAD9F2927DDE68C00DE0EE7 /* Users.swift in Sources */,
+				DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,
 				ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */,
 				ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */,

@@ -3,7 +3,7 @@ import Firebase
 class AuthManager: AuthAdapter {
     static let sharedAuthManager = AuthManager()
     private init() {}
-    
+
     func createNewAccount(email: String, password: String) throws {
         var returnError: AuthErrorCode?
         FirebaseManager.sharedManager.auth.createUser(withEmail: email, password: password) { result, err in
@@ -22,9 +22,9 @@ class AuthManager: AuthAdapter {
             }
             throw throwError
         }
-        
+
     }
-    
+
     func loginUser(email: String, password: String) throws {
         var returnError: AuthErrorCode?
         FirebaseManager.sharedManager.auth.signIn(withEmail: email, password: password) { result, err in
@@ -42,7 +42,7 @@ class AuthManager: AuthAdapter {
             throw throwError
         }
     }
-    
+
     private func getAuthError(errorCode: AuthErrorCode) -> AuthError? {
         switch errorCode {
         case .invalidEmail:
