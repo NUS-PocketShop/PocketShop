@@ -24,8 +24,14 @@
 		ADAD9F1727DCC94800DE0EE7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = ADAD9F1627DCC94800DE0EE7 /* FirebaseAuth */; };
 		ADAD9F1927DCC94800DE0EE7 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = ADAD9F1827DCC94800DE0EE7 /* FirebaseDatabase */; };
 		ADAD9F1B27DCC94800DE0EE7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = ADAD9F1A27DCC94800DE0EE7 /* FirebaseStorage */; };
-		ADAD9F1E27DCCC9D00DE0EE7 /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F1D27DCCC9D00DE0EE7 /* FirebaseAuth.swift */; };
+		ADAD9F1E27DCCC9D00DE0EE7 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F1D27DCCC9D00DE0EE7 /* AuthManager.swift */; };
 		ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F1F27DCCD7100DE0EE7 /* FirebaseManager.swift */; };
+		ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2227DDDB3600DE0EE7 /* AuthAdapter.swift */; };
+		ADAD9F2527DDDDD700DE0EE7 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2427DDDDD700DE0EE7 /* AuthError.swift */; };
+		ADAD9F2927DDE68C00DE0EE7 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2827DDE68C00DE0EE7 /* Users.swift */; };
+		ADAD9F2B27DDE7B400DE0EE7 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */; };
+		ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */; };
+		ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,8 +69,14 @@
 		ADAD9F0B27DA3FDA00DE0EE7 /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
 		ADAD9F0D27DA413B00DE0EE7 /* OrderProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProduct.swift; sourceTree = "<group>"; };
 		ADAD9F1327DCC6FF00DE0EE7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		ADAD9F1D27DCCC9D00DE0EE7 /* FirebaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
+		ADAD9F1D27DCCC9D00DE0EE7 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		ADAD9F1F27DCCD7100DE0EE7 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		ADAD9F2227DDDB3600DE0EE7 /* AuthAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdapter.swift; sourceTree = "<group>"; };
+		ADAD9F2427DDDDD700DE0EE7 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
+		ADAD9F2827DDE68C00DE0EE7 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
+		ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +175,7 @@
 				ADAD9F0927DA3F2D00DE0EE7 /* Order.swift */,
 				ADAD9F0B27DA3FDA00DE0EE7 /* OrderStatus.swift */,
 				ADAD9F0D27DA413B00DE0EE7 /* OrderProduct.swift */,
+				ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -170,10 +183,31 @@
 		ADAD9F1C27DCCC6D00DE0EE7 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				ADAD9F1D27DCCC9D00DE0EE7 /* FirebaseAuth.swift */,
+				ADAD9F2E27DDEB5B00DE0EE7 /* RealtimeDatabase */,
+				ADAD9F2127DDDAC900DE0EE7 /* Authentication */,
 				ADAD9F1F27DCCD7100DE0EE7 /* FirebaseManager.swift */,
+				ADAD9F2227DDDB3600DE0EE7 /* AuthAdapter.swift */,
+				ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		ADAD9F2127DDDAC900DE0EE7 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				ADAD9F1D27DCCC9D00DE0EE7 /* AuthManager.swift */,
+				ADAD9F2427DDDDD700DE0EE7 /* AuthError.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		ADAD9F2E27DDEB5B00DE0EE7 /* RealtimeDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */,
+				ADAD9F2827DDE68C00DE0EE7 /* Users.swift */,
+			);
+			path = RealtimeDatabase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,13 +349,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADAD9F1E27DCCC9D00DE0EE7 /* FirebaseAuth.swift in Sources */,
+				ADAD9F1E27DCCC9D00DE0EE7 /* AuthManager.swift in Sources */,
+				ADAD9F2B27DDE7B400DE0EE7 /* Vendor.swift in Sources */,
+				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
 				ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */,
 				ADAD9F0427DA391800DE0EE7 /* Customer.swift in Sources */,
+				ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */,
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
+				ADAD9F2527DDDDD700DE0EE7 /* AuthError.swift in Sources */,
+				ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */,
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
+				ADAD9F2927DDE68C00DE0EE7 /* Users.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,
 				ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */,
 				ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */,
