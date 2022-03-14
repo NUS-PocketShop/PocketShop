@@ -1,15 +1,14 @@
 import SwiftUI
 
-struct CustomerHomeView: View {
+struct CustomerHomeScreen: View {
     @StateObject var viewModel = CustomerViewModel()
 
     var body: some View {
         NavigationView {
             VStack {
                 Text("Products")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.black)
+                    .font(.appTitle)
+                    .foregroundColor(.gray9)
 
                 SearchBarView(searchText: $viewModel.searchText)
 
@@ -23,6 +22,7 @@ struct CustomerHomeView: View {
                     }
                 }
                 .navigationTitle("Home")
+                .font(.appHeadline)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -31,6 +31,6 @@ struct CustomerHomeView: View {
 
 struct CustomerSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerHomeView()
+        CustomerHomeScreen()
     }
 }
