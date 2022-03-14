@@ -6,8 +6,7 @@ struct ProductView: View {
     var body: some View {
         VStack {
             Text(product.name)
-                .font(.title)
-                .fontWeight(.bold)
+                .font(.appTitle)
 
             // Image from local assets (named by product id)
             Image(product.id)
@@ -17,8 +16,10 @@ struct ProductView: View {
 
             Text(product.description)
                 .padding(.bottom)
+                .font(.appBody)
 
             Text(String(format: "$%.2f", product.price))
+                .font(.appBody)
                 .fontWeight(.semibold)
 
             // TODO: Add quantity and order buttons

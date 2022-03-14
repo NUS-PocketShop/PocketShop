@@ -12,20 +12,17 @@ struct ProductSummaryView: View {
                 .frame(width: 150, height: 150) // Might change to relative sizes
 
             Text(product.shopName)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundColor(Color.gray)
+                .font(.appSubheadline)
+                .foregroundColor(.gray6)
 
             Text(product.name)
-                .font(.headline)
-                .fontWeight(.bold)
-                .foregroundColor(Color.black)
+                .font(.appHeadline)
+                .foregroundColor(.gray9)
                 .padding(.bottom)
 
             Text(String(format: "$%.2f", product.price))
-                .font(.body)
-                .fontWeight(.semibold)
-                .foregroundColor(.purple)
+                .font(.appBody)
+                .foregroundColor(.accent)
         }
         .padding()
     }
