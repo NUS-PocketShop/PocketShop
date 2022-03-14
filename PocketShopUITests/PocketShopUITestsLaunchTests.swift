@@ -14,6 +14,7 @@ class PocketShopUITestsLaunchTests: XCTestCase {
     }
 
     override func setUpWithError() throws {
+        try super.setUpWithError()
         continueAfterFailure = false
     }
 
