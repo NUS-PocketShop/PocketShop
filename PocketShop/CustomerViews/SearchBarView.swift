@@ -1,14 +1,17 @@
 import SwiftUI
 
 struct SearchBarView: View {
+
+    @Binding var searchText: String
+
     var body: some View {
          ZStack {
              RoundedRectangle(cornerRadius: 15)
-                 .strokeBorder(.blue)
+                 .strokeBorder(Color.blue)
                  .foregroundColor(.white)
              HStack {
                  Image(systemName: "magnifyingglass")
-                 Text("Search for products / shops ...")
+                 TextField("Search for products / shops ...", text: $searchText)
              }
              .foregroundColor(.gray)
              .padding(.horizontal)
@@ -19,7 +22,9 @@ struct SearchBarView: View {
 }
 
 struct SearchBarView_Previews: PreviewProvider {
+    @State static var searchText = ""
+
     static var previews: some View {
-        SearchBarView()
+        SearchBarView(searchText: $searchText)
     }
 }
