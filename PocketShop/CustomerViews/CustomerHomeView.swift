@@ -11,6 +11,8 @@ struct CustomerHomeView: View {
                     .fontWeight(.bold)
                     .foregroundColor(Color.black)
 
+                SearchBarView(searchText: $viewModel.searchText)
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(viewModel.productSearchResults, id: \.self) { product in
@@ -20,10 +22,10 @@ struct CustomerHomeView: View {
                         }
                     }
                 }
-                .searchable(text: $viewModel.searchText)
                 .navigationTitle("Home")
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

@@ -10,7 +10,7 @@ class CustomerViewModel: ObservableObject {
         if searchText.isEmpty {
             return products
         } else {
-            return products.filter { $0.name.contains(searchText) }
+            return products.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }
 
