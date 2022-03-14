@@ -2,9 +2,12 @@ import SwiftUI
 
 @main
 struct PocketShopApp: App {
+
+    @StateObject var mainViewRouter = MainViewRouter()
+
     var body: some Scene {
         WindowGroup {
-            CustomerHomeView()
+            ContentView(viewRouter: mainViewRouter)
         }
     }
 }

@@ -7,13 +7,14 @@ struct SearchBarView: View {
     var body: some View {
          ZStack {
              RoundedRectangle(cornerRadius: 15)
-                 .strokeBorder(Color.blue)
+                 .strokeBorder(Color.gray6)
                  .foregroundColor(.white)
              HStack {
                  Image(systemName: "magnifyingglass")
                  TextField("Search for products / shops ...", text: $searchText)
+                    .foregroundColor(.gray9)
              }
-             .foregroundColor(.gray)
+             .foregroundColor(.gray6)
              .padding(.horizontal)
          }
          .frame(height: 40)
