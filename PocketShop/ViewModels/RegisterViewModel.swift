@@ -6,6 +6,8 @@ class RegisterViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var confirmPassword: String = ""
+    @Published var errorMessage: String = ""
+    @Published var isLoading = false
 
     private(set) var viewRouter: MainViewRouter
 
@@ -14,26 +16,27 @@ class RegisterViewModel: ObservableObject {
     }
 
     func register() {
+        self.isLoading = true
         if self.password != self.confirmPassword {
-            print("password and confirm password fields do not match")
+            self.setErrorMessage("Password and confirm password fields do not match")
             return
         }
         DatabaseInterface.auth.createNewAccount(email: self.email, password: self.password) { error, customer in
             switch error {
             case .invalidEmail:
-                print("invalid email")
+                self.setErrorMessage("Please enter a valid email address")
                 return
             case .weakPassword:
-                print("weak password")
+                self.setErrorMessage("Weak password")
                 return
             case .emailAlreadyInUse:
-                print("email already in use")
+                self.setErrorMessage("A user with this email already exists")
                 return
             case .unexpectedError:
-                print("unexpected error")
+                self.setErrorMessage("Unexpected error")
                 return
             default:
-                break
+                self.setErrorMessage("")
             }
             if let customer = customer {
                 print("Customer successfully created with id: \(customer.id)")
@@ -42,6 +45,11 @@ class RegisterViewModel: ObservableObject {
             // TODO: get user type
             self.viewRouter.currentPage = .customer
         }
+    }
+
+    private func setErrorMessage(_ message: String) {
+        self.errorMessage = message
+        self.isLoading = false
     }
 
 }

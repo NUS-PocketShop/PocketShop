@@ -6,6 +6,7 @@ struct PSTextField: View {
     var title: String = ""
     var icon: String = ""
     var placeholder: String = ""
+    var errorMessage: String = ""
     var keyboardType = UIKeyboardType.default
 
     var body: some View {
@@ -26,6 +27,12 @@ struct PSTextField: View {
             }
             .foregroundColor(.gray3)
             .background(Color.gray1)
+
+            if !errorMessage.isEmpty {
+                Text(errorMessage)
+                    .font(.appCaption)
+                    .foregroundColor(.red7)
+            }
         }
         .frame(maxWidth: Constants.maxWidthIPad)
     }

@@ -5,6 +5,8 @@ class LoginViewModel: ObservableObject {
 
     @Published var email: String = ""
     @Published var password: String = ""
+    @Published var errorMessage: String = ""
+    @Published var isLoading = false
 
     private(set) var viewRouter: MainViewRouter
 
@@ -13,23 +15,23 @@ class LoginViewModel: ObservableObject {
     }
 
     func login() {
-        // TODO: handle errors
+        self.isLoading = true
         DatabaseInterface.auth.loginUser(email: self.email, password: self.password) { error, customer in
             switch error {
             case .wrongPassword:
-                print("wrong password")
+                self.setErrorMessage("Wrong password")
                 return
             case .invalidEmail:
-                print("invalid email")
+                self.setErrorMessage("Invalid email")
                 return
             case .userNotFound:
-                print("user not found")
+                self.setErrorMessage("User not found")
                 return
             case .unexpectedError:
-                print("unexpected error")
+                self.setErrorMessage("Unexpected error")
                 return
             default:
-                break
+                self.setErrorMessage("")
             }
             if let customer = customer {
                 print("Customer successfully loaded with id: \(customer.id)")
@@ -38,6 +40,11 @@ class LoginViewModel: ObservableObject {
             // TODO: get user type
             self.viewRouter.currentPage = .customer
         }
+    }
+
+    private func setErrorMessage(_ message: String) {
+        self.errorMessage = message
+        self.isLoading = false
     }
 
 }

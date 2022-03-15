@@ -14,8 +14,10 @@ struct LoginScreen: View {
             VStack(spacing: 12) {
                 HeadlineSection(title: "Login")
                 LoginFields(email: $loginViewModel.email,
-                            password: $loginViewModel.password)
-                LoginButton(handler: loginViewModel.login)
+                            password: $loginViewModel.password,
+                            errorMessage: $loginViewModel.errorMessage)
+                LoginButton(handler: loginViewModel.login,
+                            isLoading: $loginViewModel.isLoading)
                 SignUpSection(router: router)
             }
             .padding()
@@ -35,6 +37,7 @@ struct LoginScreen_Previews: PreviewProvider {
 private struct LoginFields: View {
     @Binding var email: String
     @Binding var password: String
+    @Binding var errorMessage: String
 
     var body: some View {
         VStack {
@@ -45,7 +48,8 @@ private struct LoginFields: View {
             PSSecureField(text: $password,
                           title: "Password",
                           icon: "key",
-                          placeholder: "Password")
+                          placeholder: "Password",
+                          errorMessage: errorMessage)
         }
     }
 }
@@ -53,12 +57,19 @@ private struct LoginFields: View {
 private struct LoginButton: View {
 
     var handler: () -> Void
+    @Binding var isLoading: Bool
 
     var body: some View {
-        PSButton(title: "Log in") {
-            handler()
+        if isLoading {
+            ProgressView()
+        } else {
+            PSButton(title: "Log in") {
+                withAnimation {
+                    handler()
+                }
+            }
+            .buttonStyle(FillButtonStyle())
         }
-        .buttonStyle(FillButtonStyle())
     }
 }
 
