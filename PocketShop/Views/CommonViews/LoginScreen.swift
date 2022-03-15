@@ -2,10 +2,11 @@ import SwiftUI
 
 struct LoginScreen: View {
 
-    @EnvironmentObject var router: MainViewRouter
+    @ObservedObject var router: MainViewRouter
     @ObservedObject var loginViewModel: LoginViewModel
 
     init(router: MainViewRouter) {
+        self.router = router
         self.loginViewModel = LoginViewModel(router: router)
     }
 
