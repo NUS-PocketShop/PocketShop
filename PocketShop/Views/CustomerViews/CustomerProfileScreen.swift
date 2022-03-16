@@ -12,7 +12,7 @@ struct CustomerProfileScreen: View {
                 Spacer()
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {
-                    router.currentPage = .login
+                    signOut()
                 }
                 .buttonStyle(FillButtonStyle())
             }
@@ -20,6 +20,10 @@ struct CustomerProfileScreen: View {
             .buttonStyle(SecondaryButtonStyle())
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+    private func signOut() {
+        DatabaseInterface.auth.signOutUser()
+        router.currentPage = .login
     }
 }
 
