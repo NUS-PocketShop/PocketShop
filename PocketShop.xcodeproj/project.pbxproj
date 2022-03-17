@@ -49,10 +49,12 @@
 		ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F1F27DCCD7100DE0EE7 /* FirebaseManager.swift */; };
 		ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2227DDDB3600DE0EE7 /* AuthAdapter.swift */; };
 		ADAD9F2527DDDDD700DE0EE7 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2427DDDDD700DE0EE7 /* AuthError.swift */; };
-		ADAD9F2927DDE68C00DE0EE7 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2827DDE68C00DE0EE7 /* Users.swift */; };
+		ADAD9F2927DDE68C00DE0EE7 /* DBUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2827DDE68C00DE0EE7 /* DBUsers.swift */; };
 		ADAD9F2B27DDE7B400DE0EE7 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */; };
 		ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */; };
 		ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */; };
+		ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F3227DF7C3400DE0EE7 /* DatabaseError.swift */; };
+		ADAD9F3527DFBBF600DE0EE7 /* DatabaseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F3427DFBBF600DE0EE7 /* DatabaseInterface.swift */; };
 		DF67101727DE5EE1002C5AE0 /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101627DE5EE1002C5AE0 /* ProductView.swift */; };
 		DF67101927DE5FF6002C5AE0 /* CustomerHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101827DE5FF6002C5AE0 /* CustomerHomeScreen.swift */; };
 		DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */; };
@@ -121,10 +123,12 @@
 		ADAD9F1F27DCCD7100DE0EE7 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		ADAD9F2227DDDB3600DE0EE7 /* AuthAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdapter.swift; sourceTree = "<group>"; };
 		ADAD9F2427DDDDD700DE0EE7 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
-		ADAD9F2827DDE68C00DE0EE7 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		ADAD9F2827DDE68C00DE0EE7 /* DBUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUsers.swift; sourceTree = "<group>"; };
 		ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAdapter.swift; sourceTree = "<group>"; };
+		ADAD9F3227DF7C3400DE0EE7 /* DatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseError.swift; sourceTree = "<group>"; };
+		ADAD9F3427DFBBF600DE0EE7 /* DatabaseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseInterface.swift; sourceTree = "<group>"; };
 		DF67101627DE5EE1002C5AE0 /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		DF67101827DE5FF6002C5AE0 /* CustomerHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerHomeScreen.swift; sourceTree = "<group>"; };
 		DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewModel.swift; sourceTree = "<group>"; };
@@ -325,6 +329,7 @@
 				ADAD9F1F27DCCD7100DE0EE7 /* FirebaseManager.swift */,
 				ADAD9F2227DDDB3600DE0EE7 /* AuthAdapter.swift */,
 				ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */,
+				ADAD9F3427DFBBF600DE0EE7 /* DatabaseInterface.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -342,7 +347,8 @@
 			isa = PBXGroup;
 			children = (
 				ADAD9F2C27DDEB2100DE0EE7 /* DatabaseManager.swift */,
-				ADAD9F2827DDE68C00DE0EE7 /* Users.swift */,
+				ADAD9F2827DDE68C00DE0EE7 /* DBUsers.swift */,
+				ADAD9F3227DF7C3400DE0EE7 /* DatabaseError.swift */,
 			);
 			path = RealtimeDatabase;
 			sourceTree = "<group>";
@@ -541,6 +547,7 @@
 				02AD41FD27DF024A00F44822 /* CustomerSearchScreen.swift in Sources */,
 				02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */,
 				ADAD9F2B27DDE7B400DE0EE7 /* Vendor.swift in Sources */,
+				ADAD9F3527DFBBF600DE0EE7 /* DatabaseInterface.swift in Sources */,
 				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
 				02AD420A27DF028900F44822 /* CustomerProfileScreen.swift in Sources */,
@@ -553,6 +560,7 @@
 				ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */,
 				DF67101927DE5FF6002C5AE0 /* CustomerHomeScreen.swift in Sources */,
 				02AD423D27DF293A00F44822 /* PSSecureField.swift in Sources */,
+				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
 				DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */,
 				02AD422327DF1D7200F44822 /* CustomerRootView.swift in Sources */,
@@ -565,7 +573,7 @@
 				ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */,
 				02AD41D027DEFCCE00F44822 /* Color+PocketShop.swift in Sources */,
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
-				ADAD9F2927DDE68C00DE0EE7 /* Users.swift in Sources */,
+				ADAD9F2927DDE68C00DE0EE7 /* DBUsers.swift in Sources */,
 				DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,
 				ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */,
