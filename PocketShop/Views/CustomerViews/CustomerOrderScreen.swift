@@ -18,6 +18,7 @@ struct CustomerOrderScreen: View {
             }
             .pickerStyle(.segmented)
             .padding(.horizontal, 24)
+            .padding(.bottom, 24)
             
             OrderList()
         }
@@ -30,9 +31,10 @@ struct CustomerOrderScreen: View {
             VStack {
                 ForEach(viewModel.filteredOrders) { order in
                     OrderItem(order: order)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
                 }
-                .frame(maxWidth: .infinity, minHeight: 96)
-                .padding(.horizontal, 12)
             }
         }
         .frame(maxWidth: .infinity)
@@ -45,9 +47,13 @@ struct CustomerOrderScreen: View {
                 Text("COLLECTION NO.")
                     .font(.appBody)
                 
+                Spacer()
+                
                 Text("\(order.collectionNo)")
                     .font(.appFont(size: 32))
                     .bold()
+                
+                Spacer()
             }
             
             VStack {
@@ -55,10 +61,14 @@ struct CustomerOrderScreen: View {
                     .font(.appBody)
                     .bold()
                 
+                Spacer()
+                
                 ForEach(order.orderProducts, id: \.id) { orderProduct in
                     Text("\(orderProduct.quantity) x \(orderProduct.name)")
                         .font(.appSmallCaption)
                 }
+                
+                Spacer()
             }
             
             Spacer()
@@ -69,8 +79,7 @@ struct CustomerOrderScreen: View {
                     .bold()
                     .padding(.bottom, 12)
                 
-                Text("\(order.statusAsString)")
-                    .font(.appBody)
+                RingView(color: .success, text: order.statusAsString)
             }
             .frame(width: 84)
         }
@@ -99,15 +108,15 @@ extension CustomerOrderScreen {
         var statusAsString: String {
             switch status {
             case .pending:
-                return "Pending"
+                return "PENDING"
             case .accepted:
-                return "Accepted"
+                return "ACCEPTED"
             case .preparing:
-                return "Preparing"
+                return "PREPARING"
             case .ready:
-                return "Ready"
+                return "READY"
             case .collected:
-                return "Collected"
+                return "COLLECTED"
             }
         }
     }

@@ -28,6 +28,7 @@
 		02AD424727DF2D8200F44822 /* RegisterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424627DF2D8200F44822 /* RegisterScreen.swift */; };
 		02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */; };
 		2B63EB8A27E23269008D5747 /* CustomerOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */; };
+		2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B786B4927E33F1600834CA4 /* RingView.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -102,6 +103,7 @@
 		02AD424627DF2D8200F44822 /* RegisterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreen.swift; sourceTree = "<group>"; };
 		02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrderScreen.swift; sourceTree = "<group>"; };
+		2B786B4927E33F1600834CA4 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				02AD423427DF28FD00F44822 /* PSTextField.swift */,
 				02AD423C27DF293A00F44822 /* PSSecureField.swift */,
 				02AD424127DF294C00F44822 /* PSButton.swift */,
+				2B786B4927E33F1600834CA4 /* RingView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADAD9F1E27DCCC9D00DE0EE7 /* AuthManager.swift in Sources */,
+				2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */,
 				02AD420527DF027200F44822 /* CustomerCartScreen.swift in Sources */,
 				02AD421927DF1CFF00F44822 /* LoginScreen.swift in Sources */,
 				02AD41FD27DF024A00F44822 /* CustomerSearchScreen.swift in Sources */,
