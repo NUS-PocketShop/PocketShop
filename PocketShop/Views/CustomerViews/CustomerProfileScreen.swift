@@ -3,11 +3,16 @@ import SwiftUI
 struct CustomerProfileScreen: View {
 
     @State var router: MainViewRouter
+    @State var willNavigateOrder: Bool = false
 
     var body: some View {
         NavigationView {
             VStack {
-                PSButton(title: "View current orders") {}
+                NavigationLink(destination: CustomerOrderScreen(viewModel: .init()), isActive: $willNavigateOrder) {
+                    PSButton(title: "View current orders") {
+                        willNavigateOrder.toggle()
+                    }
+                }
                 PSButton(title: "Change Password") {}
                 Spacer()
                 PSButton(title: "Logout",
