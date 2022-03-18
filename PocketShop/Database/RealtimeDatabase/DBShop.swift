@@ -10,7 +10,8 @@ class DBShop {
             }
             var newShop = shop
             newShop.id = key
-            let jsonData = try JSONEncoder().encode(newShop)
+            let shopSchema = ShopSchema(shop: newShop)
+            let jsonData = try JSONEncoder().encode(shopSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
@@ -21,7 +22,8 @@ class DBShop {
     func editShop(shop: Shop) {
         do {
             let ref = FirebaseManager.sharedManager.ref.child("shops/\(shop.id)")
-            let jsonData = try JSONEncoder().encode(shop)
+            let shopSchema = ShopSchema(shop: shop)
+            let jsonData = try JSONEncoder().encode(shopSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
@@ -36,7 +38,8 @@ class DBShop {
                 for value in allShops.allValues {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: value)
-                        let shop = try JSONDecoder().decode(Shop.self, from: jsonData)
+                        let shopSchema = try JSONDecoder().decode(ShopSchema.self, from: jsonData)
+                        let shop = shopSchema.toShop()
                         if shop.ownerId == ownerId {
                             shops.append(shop)
                         }

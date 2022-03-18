@@ -29,6 +29,8 @@
 		02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */; };
 		AD15B39827E36E9B00513809 /* DBShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39727E36E9B00513809 /* DBShop.swift */; };
 		AD15B39A27E3968B00513809 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39927E3968B00513809 /* User.swift */; };
+		AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39C27E465BD00513809 /* ShopSchema.swift */; };
+		AD15B39F27E4673400513809 /* ProductSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39E27E4673400513809 /* ProductSchema.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -104,6 +106,8 @@
 		02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		AD15B39727E36E9B00513809 /* DBShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBShop.swift; sourceTree = "<group>"; };
 		AD15B39927E3968B00513809 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AD15B39C27E465BD00513809 /* ShopSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSchema.swift; sourceTree = "<group>"; };
+		AD15B39E27E4673400513809 /* ProductSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSchema.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -247,6 +251,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		AD15B39B27E465AB00513809 /* Schema */ = {
+			isa = PBXGroup;
+			children = (
+				AD15B39C27E465BD00513809 /* ShopSchema.swift */,
+				AD15B39E27E4673400513809 /* ProductSchema.swift */,
+			);
+			path = Schema;
+			sourceTree = "<group>";
+		};
 		ADAD9ECC27D88C5A00DE0EE7 = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +340,7 @@
 		ADAD9F1C27DCCC6D00DE0EE7 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				AD15B39B27E465AB00513809 /* Schema */,
 				ADAD9F2E27DDEB5B00DE0EE7 /* RealtimeDatabase */,
 				ADAD9F2127DDDAC900DE0EE7 /* Authentication */,
 				ADAD9F1F27DCCD7100DE0EE7 /* FirebaseManager.swift */,
@@ -564,6 +578,7 @@
 				DF67101927DE5FF6002C5AE0 /* CustomerHomeScreen.swift in Sources */,
 				AD15B39A27E3968B00513809 /* User.swift in Sources */,
 				02AD423D27DF293A00F44822 /* PSSecureField.swift in Sources */,
+				AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */,
 				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
 				DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */,
@@ -579,6 +594,7 @@
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
 				ADAD9F2927DDE68C00DE0EE7 /* DBUsers.swift in Sources */,
 				DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */,
+				AD15B39F27E4673400513809 /* ProductSchema.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,
 				ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */,
 				ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */,
