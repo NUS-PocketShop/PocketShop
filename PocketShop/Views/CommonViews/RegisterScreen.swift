@@ -15,7 +15,8 @@ struct RegisterScreen: View {
                 ScrollView(.vertical) {
                     RegisterFields(email: $registerViewModel.email,
                                    password: $registerViewModel.password,
-                                   confirmPassword: $registerViewModel.confirmPassword)
+                                   confirmPassword: $registerViewModel.confirmPassword,
+                                   errorMessage: $registerViewModel.errorMessage)
                     PSRadioButtonGroup(title: "I am a",
                                        options: ["Customer", "Vendor"],
                                        callback: { option in
@@ -23,7 +24,8 @@ struct RegisterScreen: View {
                                      })
                 }
 
-                RegisterButton(handler: registerViewModel.register)
+                RegisterButton(handler: registerViewModel.register,
+                               isLoading: $registerViewModel.isLoading)
             }
             .padding()
         }
@@ -42,6 +44,7 @@ private struct RegisterFields: View {
     @Binding var email: String
     @Binding var password: String
     @Binding var confirmPassword: String
+    @Binding var errorMessage: String
 
     var body: some View {
         VStack {
@@ -56,19 +59,28 @@ private struct RegisterFields: View {
             PSSecureField(text: $confirmPassword,
                           title: "Re enter password",
                           icon: "key",
-                          placeholder: "Re enter password")
+                          placeholder: "Re enter password",
+                          errorMessage: errorMessage)
         }
     }
 }
 
 private struct RegisterButton: View {
     var handler: () -> Void
+    @Binding var isLoading: Bool
 
     var body: some View {
-        PSButton(title: "Register") {
-            handler()
+
+        if isLoading {
+            ProgressView()
+        } else {
+            PSButton(title: "Register") {
+                withAnimation {
+                    handler()
+                }
+            }
+            .buttonStyle(FillButtonStyle())
         }
-        .buttonStyle(FillButtonStyle())
     }
 }
 
