@@ -3,6 +3,7 @@ import Combine
 class CustomerViewModel: ObservableObject {
 
     @Published var products: [Product] = [Product]()
+    @Published var customer: Customer?
 
     @Published var searchText = ""
 
@@ -16,6 +17,11 @@ class CustomerViewModel: ObservableObject {
 
     init() {
         generateSampleProducts()
+        DatabaseInterface.auth.getCurrentUser() { _, user in
+            if let customer = user as? Customer {
+                self.customer = customer
+            }
+        }
     }
 
     /// Function used in development to generate sample products

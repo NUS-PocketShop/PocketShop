@@ -3,13 +3,22 @@ class DatabaseManager: DatabaseAdapter {
     private init() {}
 
     let users = DBUsers()
+    let shops = DBShop()
 
     func createCustomer(customer: Customer) {
-        users.createCustomer(id: customer.id)
+        users.createCustomer(customer: customer)
     }
 
-    func getCustomer(with id: String, completionHandler: @escaping (DatabaseError?, Customer?) -> Void) {
-        users.getCustomer(with: id, completionHandler: completionHandler)
+    func createVendor(vendor: Vendor) {
+        users.createVendor(vendor: vendor)
+    }
+
+    func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
+        users.getUser(with: id, completionHandler: completionHandler)
+    }
+
+    func createShop(shop: Shop) {
+        shops.createShop(shop: shop)
     }
 
 }

@@ -4,23 +4,32 @@ class AuthManager: AuthAdapter {
     static let sharedAuthManager = AuthManager()
     private init() {}
 
-    func createNewAccount(email: String, password: String,
-                          completionHandler: @escaping (AuthError?, Customer?) -> Void) {
+    func createNewAccount(email: String, password: String, isCustomer: Bool,
+                          completionHandler: @escaping (AuthError?, User?) -> Void) {
         FirebaseManager.sharedManager.auth.createUser(withEmail: email, password: password) { result, err in
             if let error = err, let errCode = AuthErrorCode(rawValue: error._code) {
                 completionHandler(self.getAuthError(errorCode: errCode), nil)
                 return
             }
             let id: String = result?.user.uid ?? ""
-            let newCustomer = Customer(id: id)
+            if isCustomer {
+                let newCustomer = Customer(id: id)
 
-            print("Successfully created user: \(id)")
-            DatabaseInterface.db.createCustomer(customer: newCustomer)
-            completionHandler(nil, newCustomer)
+                print("Successfully created customer: \(id)")
+                DatabaseInterface.db.createCustomer(customer: newCustomer)
+                completionHandler(nil, newCustomer)
+            } else {
+                let newVendor = Vendor(id: id)
+
+                print("Successfully created vendor: \(id)")
+                DatabaseInterface.db.createVendor(vendor: newVendor)
+                completionHandler(nil, newVendor)
+            }
+
         }
     }
 
-    func loginUser(email: String, password: String, completionHandler: @escaping (AuthError?, Customer?) -> Void) {
+    func loginUser(email: String, password: String, completionHandler: @escaping (AuthError?, User?) -> Void) {
         FirebaseManager.sharedManager.auth.signIn(withEmail: email, password: password) { result, err in
             if let err = err, let errCode = AuthErrorCode(rawValue: err._code) {
                 print(err._code)
@@ -28,7 +37,7 @@ class AuthManager: AuthAdapter {
                 return
             }
             let id: String = result?.user.uid ?? ""
-            DatabaseInterface.db.getCustomer(with: id) { error, customer in
+            DatabaseInterface.db.getUser(with: id) { error, user in
                 if let error = error {
                     if error == .userNotFound {
                         let newCustomer = Customer(id: id)
@@ -40,7 +49,7 @@ class AuthManager: AuthAdapter {
                         return
                     }
                 }
-                completionHandler(nil, customer)
+                completionHandler(nil, user)
                 return
             }
         }
@@ -52,6 +61,24 @@ class AuthManager: AuthAdapter {
             print("Successfully signed out")
         } catch {
             print("Unexpected error when signing out")
+        }
+    }
+
+    func getCurrentUser(completionHandler: @escaping (AuthError?, User?) -> Void) {
+        guard let currentFBUser = FirebaseManager.sharedManager.auth.currentUser else {
+            completionHandler(.userNotFound, nil)
+            return
+        }
+        DatabaseInterface.db.getUser(with: currentFBUser.uid) { error, user in
+            if let error = error {
+                if error == .userNotFound {
+                    completionHandler(.userNotFound, nil)
+                } else {
+                    completionHandler(.unexpectedError, nil)
+                }
+                return
+            }
+            completionHandler(nil, user)
         }
     }
 

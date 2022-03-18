@@ -1,4 +1,6 @@
 protocol DatabaseAdapter {
     func createCustomer(customer: Customer)
-    func getCustomer(with id: String, completionHandler: @escaping (DatabaseError?, Customer?) -> Void)
+    func createVendor(vendor: Vendor)
+    func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void)
+    func createShop(shop: Shop)
 }
