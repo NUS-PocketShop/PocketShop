@@ -31,7 +31,16 @@ class DBShop {
         }
     }
 
-    func observeShops(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
+    func deleteShop(id: String) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(id)")
+        ref.removeValue() { error, _ in
+            if let error = error {
+                print(error)
+            }
+        }
+    }
+
+    func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
         FirebaseManager.sharedManager.ref.child("shops/").observe(DataEventType.value) { snapshot in
             var shops: [Shop] = []
             if let allShops = snapshot.value as? NSDictionary {
@@ -40,17 +49,25 @@ class DBShop {
                         let jsonData = try JSONSerialization.data(withJSONObject: value)
                         let shopSchema = try JSONDecoder().decode(ShopSchema.self, from: jsonData)
                         let shop = shopSchema.toShop()
-                        if shop.ownerId == ownerId {
-                            shops.append(shop)
-                        }
+                        shops.append(shop)
                     } catch {
                         print(error)
                     }
                 }
             }
-            print(shops)
             actionBlock(nil, shops)
-            return
+        }
+    }
+
+    func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
+        observeAllShops() { _, shops in
+            var newShops = [Shop]()
+            if let shops = shops {
+                newShops = shops.filter {
+                    $0.id == ownerId
+                }
+            }
+            actionBlock(nil, newShops)
         }
     }
 }

@@ -5,7 +5,7 @@ struct ShopSchema: Codable {
     var imageURL: String
     var isClosed: Bool
     var ownerId: String
-    var soldProducts: [ProductSchema]?
+    var soldProducts: [String: ProductSchema]?
 
     init(shop: Shop) {
         self.id = shop.id
@@ -14,16 +14,16 @@ struct ShopSchema: Codable {
         self.imageURL = shop.imageURL
         self.isClosed = shop.isClosed
         self.ownerId = shop.ownerId
-        self.soldProducts = []
+        self.soldProducts = [:]
         for product in shop.soldProducts {
-            self.soldProducts?.append(ProductSchema(product: product))
+            self.soldProducts?[product.id] = ProductSchema(product: product)
         }
     }
 
     func toShop() -> Shop {
         var products = [Product]()
         if let soldProducts = self.soldProducts {
-            for productSchema in soldProducts {
+            for productSchema in soldProducts.values {
                 products.append(productSchema.toProduct(shopId: self.id, shopName: self.name))
             }
         }
