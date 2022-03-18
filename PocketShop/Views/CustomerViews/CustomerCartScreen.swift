@@ -5,7 +5,7 @@ struct CustomerCartScreen: View {
         NavigationView {
             Text("Cart Screen")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(.stack)
     }
 }
 

@@ -3,23 +3,37 @@ import Combine
 class CustomerViewModel: ObservableObject {
 
     @Published var products: [Product] = [Product]()
+    @Published var shops: [Shop] = [Shop]()
 
     @Published var searchText = ""
 
     var productSearchResults: [Product] {
         if searchText.isEmpty {
-            return products
+            return Array(products)
         } else {
-            return products.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            return Array(products.filter { $0.name.localizedCaseInsensitiveContains(searchText) })
+        }
+    }
+
+    var shopSearchResults: [Shop] {
+        if searchText.isEmpty {
+            return Array(shops)
+        } else {
+            return Array(shops.filter {
+                let productIds = Set($0.soldProductIds)
+                let matchingProducts = products.filter { productIds.contains($0.id) }
+                return !matchingProducts.isEmpty
+            })
         }
     }
 
     init() {
-        generateSampleProducts()
+        initSampleProducts()
+        initSampleShops()
     }
 
     /// Function used in development to generate sample products
-    func generateSampleProducts() {
+    func initSampleProducts() {
         let strawberryMilkTea = Product(id: "gc_strawberryMilkTea",
                                         name: "Strawberry Milk Tea",
                                         shopName: "Gong Cha",
@@ -79,6 +93,54 @@ class CustomerViewModel: ObservableObject {
                                            isOutOfStock: false)
 
         products = [strawberryMilkTea, chiChaBubbleMilkTea, mcspicy, bigmac, gongChaBubbleMilkTea]
+    }
+
+    func addGongChaShop() {
+        let gongCha = Shop(id: "gc",
+                           name: "Gong Cha",
+                           description: "UTown",
+                           imageURL: """
+                                     http://www.gong-cha-sg.com/wp-content/plugins/agile-store-locator/public/Logo/
+                                     5a4f4dbd345bb_logo.png
+                                     """,
+                           isClosed: false,
+                           ownerId: "gc_vendor01",
+                           soldProductIds: ["gc_strawberryMilkTea", "gc_bubbleMilkTea"])
+        shops.append(gongCha)
+    }
+
+    func addMcDonaldsShop() {
+        let mcd = Shop(id: "mcd",
+                       name: "McDonald's",
+                       description: "Punggol Plaza",
+                       imageURL: """
+                                 https://yt3.ggpht.com/ytc/AKedOLTkYnULPQlg8T4kW26XHKbOsJyREZ7waqnqZadL
+                                 =s900-c-k-c0x00ffffff-no-rj
+                                 """,
+                       isClosed: false,
+                       ownerId: "mcd_vendor01",
+                       soldProductIds: ["mcd_mcspicy", "mcd_bigMac"])
+        shops.append(mcd)
+    }
+
+    func addChiChaShop() {
+        let chiCha = Shop(id: "cc",
+                          name: "CHICHA San Chen",
+                          description: "313@somerset",
+                          imageURL: """
+                                    https://singapore-river.sg/wp-content/uploads/2020/10/cqc-chichasanchen.jpg
+                                    """,
+                          isClosed: false,
+                          ownerId: "cc_vendor01",
+                          soldProductIds: ["cc_bubbleMilkTea"])
+        shops.append(chiCha)
+    }
+
+    func initSampleShops() {
+        shops.removeAll()
+        addGongChaShop()
+        addMcDonaldsShop()
+        addChiChaShop()
     }
 
 }

@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  PocketShop
-//
-//  Created by Lee Zen Been on 9/3/22.
-//
-
 import SwiftUI
 
 struct ContentView: View {

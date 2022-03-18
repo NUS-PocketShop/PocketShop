@@ -7,3 +7,6 @@ struct Shop {
     var ownerId: String
     var soldProductIds: [String]
 }
+
+extension Shop: Hashable {
+}

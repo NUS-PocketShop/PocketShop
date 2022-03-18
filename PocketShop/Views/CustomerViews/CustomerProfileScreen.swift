@@ -19,7 +19,7 @@ struct CustomerProfileScreen: View {
             .padding()
             .buttonStyle(SecondaryButtonStyle())
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(.stack)
     }
 }
 

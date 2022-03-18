@@ -57,6 +57,11 @@
 		DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */; };
 		DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101D27DE769E002C5AE0 /* SearchBarView.swift */; };
 		DF67102027DE7A8D002C5AE0 /* ProductSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */; };
+		DFD49A0327E4B9010067BC32 /* CustomerShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */; };
+		DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0427E4E87B0067BC32 /* ProductListView.swift */; };
+		DFD49A0727E4F1880067BC32 /* ShopSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */; };
+		DFD49A0927E5134D0067BC32 /* ProductsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */; };
+		DFD49A0B27E513F50067BC32 /* ShopsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +133,11 @@
 		DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewModel.swift; sourceTree = "<group>"; };
 		DF67101D27DE769E002C5AE0 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryView.swift; sourceTree = "<group>"; };
+		DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerShopView.swift; sourceTree = "<group>"; };
+		DFD49A0427E4E87B0067BC32 /* ProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
+		DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSummaryView.swift; sourceTree = "<group>"; };
+		DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsScrollView.swift; sourceTree = "<group>"; };
+		DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopsScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,7 +364,12 @@
 				02AD422227DF1D7200F44822 /* CustomerRootView.swift */,
 				02AD41FC27DF024900F44822 /* CustomerSearchScreen.swift */,
 				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
+				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
+				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
+				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
 				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
+				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
+				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
 				DF67101D27DE769E002C5AE0 /* SearchBarView.swift */,
 			);
 			path = CustomerViews;
@@ -533,13 +548,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADAD9F1E27DCCC9D00DE0EE7 /* AuthManager.swift in Sources */,
+				DFD49A0B27E513F50067BC32 /* ShopsScrollView.swift in Sources */,
 				02AD420527DF027200F44822 /* CustomerCartScreen.swift in Sources */,
 				02AD421927DF1CFF00F44822 /* LoginScreen.swift in Sources */,
+				DFD49A0727E4F1880067BC32 /* ShopSummaryView.swift in Sources */,
 				02AD41FD27DF024A00F44822 /* CustomerSearchScreen.swift in Sources */,
+				DFD49A0327E4B9010067BC32 /* CustomerShopView.swift in Sources */,
 				02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */,
 				ADAD9F2B27DDE7B400DE0EE7 /* Vendor.swift in Sources */,
 				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
+				DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */,
 				02AD420A27DF028900F44822 /* CustomerProfileScreen.swift in Sources */,
 				02AD41D827DEFCEA00F44822 /* Font+PocketShop.swift in Sources */,
 				ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */,
@@ -553,6 +572,7 @@
 				DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */,
 				02AD422327DF1D7200F44822 /* CustomerRootView.swift in Sources */,
 				02AD423527DF28FD00F44822 /* PSTextField.swift in Sources */,
+				DFD49A0927E5134D0067BC32 /* ProductsScrollView.swift in Sources */,
 				02AD421127DF1BDE00F44822 /* MainViewRouter.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
 				DF67101727DE5EE1002C5AE0 /* ProductView.swift in Sources */,
