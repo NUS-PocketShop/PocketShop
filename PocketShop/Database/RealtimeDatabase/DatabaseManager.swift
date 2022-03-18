@@ -21,4 +21,12 @@ class DatabaseManager: DatabaseAdapter {
         shops.createShop(shop: shop)
     }
 
+    func editShop(shop: Shop) {
+        shops.editShop(shop: shop)
+    }
+
+    func observeShops(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
+        shops.observeShops(ownerId: ownerId, actionBlock: actionBlock)
+    }
+
 }

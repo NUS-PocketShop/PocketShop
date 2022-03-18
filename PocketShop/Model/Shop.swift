@@ -5,5 +5,5 @@ struct Shop: Codable {
     var imageURL: String
     var isClosed: Bool
     var ownerId: String
-    var soldProductIds: [String]
+    var soldProducts: [Product]?
 }
