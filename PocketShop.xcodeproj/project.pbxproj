@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022EA8B927E4D437003F4E3C /* VendorViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8B827E4D437003F4E3C /* VendorViewRouter.swift */; };
+		022EA8BE27E4D47A003F4E3C /* VendorRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8BD27E4D47A003F4E3C /* VendorRootView.swift */; };
+		022EA8C327E4D4C3003F4E3C /* VendorProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8C227E4D4C3003F4E3C /* VendorProfileScreen.swift */; };
 		02AD41C427DEFC9100F44822 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */; };
 		02AD41C527DEFC9100F44822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */; };
 		02AD41C627DEFC9100F44822 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C227DEFC9100F44822 /* Poppins-Bold.ttf */; };
@@ -27,6 +30,7 @@
 		02AD424227DF294C00F44822 /* PSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424127DF294C00F44822 /* PSButton.swift */; };
 		02AD424727DF2D8200F44822 /* RegisterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424627DF2D8200F44822 /* RegisterScreen.swift */; };
 		02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */; };
+		02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -77,6 +81,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		022EA8B827E4D437003F4E3C /* VendorViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorViewRouter.swift; sourceTree = "<group>"; };
+		022EA8BD27E4D47A003F4E3C /* VendorRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VendorRootView.swift; path = PocketShop/Views/CommonViews/VendorRootView.swift; sourceTree = SOURCE_ROOT; };
+		022EA8C227E4D4C3003F4E3C /* VendorProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VendorProfileScreen.swift; path = PocketShop/Views/CommonViews/VendorProfileScreen.swift; sourceTree = SOURCE_ROOT; };
 		02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		02AD41C227DEFC9100F44822 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
@@ -98,6 +105,7 @@
 		02AD424127DF294C00F44822 /* PSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSButton.swift; sourceTree = "<group>"; };
 		02AD424627DF2D8200F44822 /* RegisterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreen.swift; sourceTree = "<group>"; };
 		02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSRadioButtonGroup.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -205,6 +213,7 @@
 				02AD421827DF1CFF00F44822 /* LoginScreen.swift */,
 				02AD421D27DF1D3100F44822 /* CustomerViewRouter.swift */,
 				02AD424627DF2D8200F44822 /* RegisterScreen.swift */,
+				022EA8B827E4D437003F4E3C /* VendorViewRouter.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -235,6 +244,7 @@
 				02AD423427DF28FD00F44822 /* PSTextField.swift */,
 				02AD423C27DF293A00F44822 /* PSSecureField.swift */,
 				02AD424127DF294C00F44822 /* PSButton.swift */,
+				02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -363,6 +373,8 @@
 		DF67101327DE5D90002C5AE0 /* ShopViews */ = {
 			isa = PBXGroup;
 			children = (
+				022EA8BD27E4D47A003F4E3C /* VendorRootView.swift */,
+				022EA8C227E4D4C3003F4E3C /* VendorProfileScreen.swift */,
 			);
 			name = ShopViews;
 			path = ../ShopViews;
@@ -553,12 +565,15 @@
 				DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */,
 				02AD422327DF1D7200F44822 /* CustomerRootView.swift in Sources */,
 				02AD423527DF28FD00F44822 /* PSTextField.swift in Sources */,
+				022EA8C327E4D4C3003F4E3C /* VendorProfileScreen.swift in Sources */,
 				02AD421127DF1BDE00F44822 /* MainViewRouter.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
 				DF67101727DE5EE1002C5AE0 /* ProductView.swift in Sources */,
 				02AD422C27DF1FC700F44822 /* LoginViewModel.swift in Sources */,
 				ADAD9F2527DDDDD700DE0EE7 /* AuthError.swift in Sources */,
+				02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */,
 				ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */,
+				022EA8BE27E4D47A003F4E3C /* VendorRootView.swift in Sources */,
 				02AD41D027DEFCCE00F44822 /* Color+PocketShop.swift in Sources */,
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
 				ADAD9F2927DDE68C00DE0EE7 /* Users.swift in Sources */,
@@ -568,6 +583,7 @@
 				ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */,
 				02AD424227DF294C00F44822 /* PSButton.swift in Sources */,
 				02AD41DD27DEFD0B00F44822 /* Constants.swift in Sources */,
+				022EA8B927E4D437003F4E3C /* VendorViewRouter.swift in Sources */,
 				02AD421E27DF1D3100F44822 /* CustomerViewRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

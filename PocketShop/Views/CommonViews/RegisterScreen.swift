@@ -12,9 +12,17 @@ struct RegisterScreen: View {
         NavigationView {
             VStack(spacing: 12) {
                 HeadlineSection(title: "Register new account")
-                RegisterFields(email: $registerViewModel.email,
-                               password: $registerViewModel.password,
-                               confirmPassword: $registerViewModel.confirmPassword)
+                ScrollView(.vertical) {
+                    RegisterFields(email: $registerViewModel.email,
+                                   password: $registerViewModel.password,
+                                   confirmPassword: $registerViewModel.confirmPassword)
+                    PSRadioButtonGroup(title: "I am a",
+                                       options: ["Customer", "Vendor"],
+                                       callback: { option in
+                                        registerViewModel.setAccountType(option)
+                                     })
+                }
+
                 RegisterButton(handler: registerViewModel.register)
             }
             .padding()
