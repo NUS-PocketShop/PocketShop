@@ -4,6 +4,7 @@ class CustomerViewModel: ObservableObject {
 
     @Published var products: [Product] = [Product]()
     @Published var shops: [Shop] = [Shop]()
+    @Published var customer: Customer?
 
     @Published var searchText = ""
 
@@ -20,8 +21,7 @@ class CustomerViewModel: ObservableObject {
             return Array(shops)
         } else {
             return Array(shops.filter { shop in
-                let productIds = Set(shop.soldProductIds)
-                let shopProducts = products.filter { productIds.contains($0.id) }
+                let shopProducts = shop.soldProducts
                 let matchingProducts = shopProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
                 return !matchingProducts.isEmpty
             })
@@ -29,15 +29,19 @@ class CustomerViewModel: ObservableObject {
     }
 
     init() {
-        initSampleProducts()
         initSampleShops()
+        DatabaseInterface.auth.getCurrentUser { _, user in
+            if let customer = user as? Customer {
+                self.customer = customer
+            }
+        }
     }
 
-    /// Function used in development to generate sample products
-    func initSampleProducts() {
+    func addGongChaShop() {
         let strawberryMilkTea = Product(id: "gc_strawberryMilkTea",
                                         name: "Strawberry Milk Tea",
                                         shopName: "Gong Cha",
+                                        shopId: "",
                                         description: "Contains real strawberries",
                                         price: 7.90,
                                         imageURL: """
@@ -47,21 +51,38 @@ class CustomerViewModel: ObservableObject {
                                         estimatedPrepTime: 3.0,
                                         isOutOfStock: false)
 
-        let chiChaBubbleMilkTea = Product(id: "cc_bubbleMilkTea",
-                                          name: "Bubble Milk Tea",
-                                          shopName: "CHICHA San Chen",
-                                          description: "Black milk tea with pearls",
-                                          price: 4.50,
-                                          imageURL: """
-                                                    http://sethlui.com/wp-content/uploads/2019/04/chicha-san-chen-
-                                                    taiwan-bubble-tea-new-singapore-outlet-may-2019-online-7.jpg
-                                                    """,
-                                          estimatedPrepTime: 3.0,
-                                          isOutOfStock: false)
+        let gongChaBubbleMilkTea = Product(id: "gc_bubbleMilkTea",
+                                           name: "Bubble Milk Tea",
+                                           shopName: "Gong Cha",
+                                           shopId: "",
+                                           description: "Classic black milk tea with boba",
+                                           price: 3.50,
+                                           imageURL: """
+                                                     http://www.gong-cha-sg.com/wp-content/uploads/2017/11/1.png
+                                                     """,
+                                           estimatedPrepTime: 2.5,
+                                           isOutOfStock: false)
 
+        let gongCha = Shop(id: "gc",
+                           name: "Gong Cha",
+                           description: "UTown",
+                           imageURL: """
+                                     http://www.gong-cha-sg.com/wp-content/plugins/agile-store-locator/public/Logo/
+                                     5a4f4dbd345bb_logo.png
+                                     """,
+                           isClosed: false,
+                           ownerId: "gc_vendor01",
+                           soldProducts: [strawberryMilkTea, gongChaBubbleMilkTea])
+        shops.append(gongCha)
+        products.append(strawberryMilkTea)
+        products.append(gongChaBubbleMilkTea)
+    }
+
+    func addMcDonaldsShop() {
         let mcspicy = Product(id: "mcd_mcspicy",
                               name: "McSpicy",
                               shopName: "McDonald's",
+                              shopId: "",
                               description: "Spicy chicken sandwich",
                               price: 5.25,
                               imageURL: """
@@ -73,6 +94,7 @@ class CustomerViewModel: ObservableObject {
         let bigmac = Product(id: "mcd_bigMac",
                              name: "Big Mac",
                              shopName: "McDonald's",
+                             shopId: "",
                              description: "Classic double-patty burger",
                              price: 5.75,
                              imageURL: """
@@ -82,35 +104,6 @@ class CustomerViewModel: ObservableObject {
                              estimatedPrepTime: 2.0,
                              isOutOfStock: false)
 
-        let gongChaBubbleMilkTea = Product(id: "gc_bubbleMilkTea",
-                                           name: "Bubble Milk Tea",
-                                           shopName: "Gong Cha",
-                                           description: "Classic black milk tea with boba",
-                                           price: 3.50,
-                                           imageURL: """
-                                                     http://www.gong-cha-sg.com/wp-content/uploads/2017/11/1.png
-                                                     """,
-                                           estimatedPrepTime: 2.5,
-                                           isOutOfStock: false)
-
-        products = [strawberryMilkTea, chiChaBubbleMilkTea, mcspicy, bigmac, gongChaBubbleMilkTea]
-    }
-
-    func addGongChaShop() {
-        let gongCha = Shop(id: "gc",
-                           name: "Gong Cha",
-                           description: "UTown",
-                           imageURL: """
-                                     http://www.gong-cha-sg.com/wp-content/plugins/agile-store-locator/public/Logo/
-                                     5a4f4dbd345bb_logo.png
-                                     """,
-                           isClosed: false,
-                           ownerId: "gc_vendor01",
-                           soldProductIds: ["gc_strawberryMilkTea", "gc_bubbleMilkTea"])
-        shops.append(gongCha)
-    }
-
-    func addMcDonaldsShop() {
         let mcd = Shop(id: "mcd",
                        name: "McDonald's",
                        description: "Punggol Plaza",
@@ -120,11 +113,27 @@ class CustomerViewModel: ObservableObject {
                                  """,
                        isClosed: false,
                        ownerId: "mcd_vendor01",
-                       soldProductIds: ["mcd_mcspicy", "mcd_bigMac"])
+                       soldProducts: [mcspicy, bigmac])
+
         shops.append(mcd)
+        products.append(mcspicy)
+        products.append(bigmac)
     }
 
     func addChiChaShop() {
+        let chiChaBubbleMilkTea = Product(id: "cc_bubbleMilkTea",
+                                          name: "Bubble Milk Tea",
+                                          shopName: "CHICHA San Chen",
+                                          shopId: "",
+                                          description: "Black milk tea with pearls",
+                                          price: 4.50,
+                                          imageURL: """
+                                                    http://sethlui.com/wp-content/uploads/2019/04/chicha-san-chen-
+                                                    taiwan-bubble-tea-new-singapore-outlet-may-2019-online-7.jpg
+                                                    """,
+                                          estimatedPrepTime: 3.0,
+                                          isOutOfStock: false)
+
         let chiCha = Shop(id: "cc",
                           name: "CHICHA San Chen",
                           description: "313@somerset",
@@ -133,8 +142,10 @@ class CustomerViewModel: ObservableObject {
                                     """,
                           isClosed: false,
                           ownerId: "cc_vendor01",
-                          soldProductIds: ["cc_bubbleMilkTea"])
+                          soldProducts: [chiChaBubbleMilkTea])
+
         shops.append(chiCha)
+        products.append(chiChaBubbleMilkTea)
     }
 
     func initSampleShops() {
