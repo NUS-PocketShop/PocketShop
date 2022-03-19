@@ -43,16 +43,18 @@ class DBShop {
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
         FirebaseManager.sharedManager.ref.child("shops/").observe(DataEventType.value) { snapshot in
             var shops: [Shop] = []
-            if let allShops = snapshot.value as? NSDictionary {
-                for value in allShops.allValues {
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: value)
-                        let shopSchema = try JSONDecoder().decode(ShopSchema.self, from: jsonData)
-                        let shop = shopSchema.toShop()
-                        shops.append(shop)
-                    } catch {
-                        print(error)
-                    }
+            guard let allShops = snapshot.value as? NSDictionary else {
+                actionBlock(.unexpectedError, nil)
+                return
+            }
+            for value in allShops.allValues {
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: value)
+                    let shopSchema = try JSONDecoder().decode(ShopSchema.self, from: jsonData)
+                    let shop = shopSchema.toShop()
+                    shops.append(shop)
+                } catch {
+                    print(error)
                 }
             }
             actionBlock(nil, shops)

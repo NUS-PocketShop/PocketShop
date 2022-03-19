@@ -32,6 +32,9 @@
 		AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39C27E465BD00513809 /* ShopSchema.swift */; };
 		AD15B39F27E4673400513809 /* ProductSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39E27E4673400513809 /* ProductSchema.swift */; };
 		AD15B3A127E46C9E00513809 /* DBProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A027E46C9E00513809 /* DBProducts.swift */; };
+		AD15B3A327E59DF900513809 /* OrderProductSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A227E59DF900513809 /* OrderProductSchema.swift */; };
+		AD15B3A527E59E5600513809 /* OrderSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A427E59E5600513809 /* OrderSchema.swift */; };
+		AD15B3A727E5A1A900513809 /* DBOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A627E5A1A900513809 /* DBOrders.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -110,6 +113,9 @@
 		AD15B39C27E465BD00513809 /* ShopSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSchema.swift; sourceTree = "<group>"; };
 		AD15B39E27E4673400513809 /* ProductSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSchema.swift; sourceTree = "<group>"; };
 		AD15B3A027E46C9E00513809 /* DBProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBProducts.swift; sourceTree = "<group>"; };
+		AD15B3A227E59DF900513809 /* OrderProductSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProductSchema.swift; sourceTree = "<group>"; };
+		AD15B3A427E59E5600513809 /* OrderSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSchema.swift; sourceTree = "<group>"; };
+		AD15B3A627E5A1A900513809 /* DBOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBOrders.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -258,6 +264,8 @@
 			children = (
 				AD15B39C27E465BD00513809 /* ShopSchema.swift */,
 				AD15B39E27E4673400513809 /* ProductSchema.swift */,
+				AD15B3A227E59DF900513809 /* OrderProductSchema.swift */,
+				AD15B3A427E59E5600513809 /* OrderSchema.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";
@@ -370,6 +378,7 @@
 				ADAD9F3227DF7C3400DE0EE7 /* DatabaseError.swift */,
 				AD15B39727E36E9B00513809 /* DBShop.swift */,
 				AD15B3A027E46C9E00513809 /* DBProducts.swift */,
+				AD15B3A627E5A1A900513809 /* DBOrders.swift */,
 			);
 			path = RealtimeDatabase;
 			sourceTree = "<group>";
@@ -578,13 +587,16 @@
 				ADAD9F0427DA391800DE0EE7 /* Customer.swift in Sources */,
 				02AD424727DF2D8200F44822 /* RegisterScreen.swift in Sources */,
 				ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */,
+				AD15B3A727E5A1A900513809 /* DBOrders.swift in Sources */,
 				DF67101927DE5FF6002C5AE0 /* CustomerHomeScreen.swift in Sources */,
 				AD15B39A27E3968B00513809 /* User.swift in Sources */,
+				AD15B3A527E59E5600513809 /* OrderSchema.swift in Sources */,
 				02AD423D27DF293A00F44822 /* PSSecureField.swift in Sources */,
 				AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */,
 				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
 				DF67101E27DE769E002C5AE0 /* SearchBarView.swift in Sources */,
+				AD15B3A327E59DF900513809 /* OrderProductSchema.swift in Sources */,
 				02AD422327DF1D7200F44822 /* CustomerRootView.swift in Sources */,
 				02AD423527DF28FD00F44822 /* PSTextField.swift in Sources */,
 				02AD421127DF1BDE00F44822 /* MainViewRouter.swift in Sources */,

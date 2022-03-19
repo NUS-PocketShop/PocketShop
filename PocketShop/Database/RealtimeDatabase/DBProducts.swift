@@ -59,19 +59,21 @@ class DBProducts {
     func observeProductsFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
         var products = [Product]()
         FirebaseManager.sharedManager.ref.child("shops/\(shopId)").observe(DataEventType.value) { snapshot in
-            if let shop = snapshot.value as? NSDictionary,
-               let shopId = shop["id"] as? String,
-               let shopName = shop["name"] as? String,
-               let productSchemas = shop["soldProducts"] as? NSDictionary {
-                for value in productSchemas {
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: value)
-                        let productSchema = try JSONDecoder().decode(ProductSchema.self, from: jsonData)
-                        let product = productSchema.toProduct(shopId: shopId, shopName: shopName)
-                        products.append(product)
-                    } catch {
-                        print(error)
-                    }
+            guard let shop = snapshot.value as? NSDictionary,
+                  let shopId = shop["id"] as? String,
+                  let shopName = shop["name"] as? String,
+                  let productSchemas = shop["soldProducts"] as? NSDictionary else {
+                actionBlock(.unexpectedError, nil)
+                return
+            }
+            for value in productSchemas {
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: value)
+                    let productSchema = try JSONDecoder().decode(ProductSchema.self, from: jsonData)
+                    let product = productSchema.toProduct(shopId: shopId, shopName: shopName)
+                    products.append(product)
+                } catch {
+                    print(error)
                 }
             }
             actionBlock(nil, products)

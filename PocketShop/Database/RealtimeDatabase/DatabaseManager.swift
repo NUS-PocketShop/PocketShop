@@ -5,6 +5,7 @@ class DatabaseManager: DatabaseAdapter {
     let users = DBUsers()
     let shops = DBShop()
     let products = DBProducts()
+    let orders = DBOrders()
 
     func createCustomer(customer: Customer) {
         users.createCustomer(customer: customer)
@@ -37,7 +38,7 @@ class DatabaseManager: DatabaseAdapter {
     func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
         shops.observeShopsByOwner(ownerId: ownerId, actionBlock: actionBlock)
     }
-    
+
     func createProduct(shopId: String, product: Product) {
         products.createProduct(shopId: shopId, product: product)
     }
@@ -57,5 +58,30 @@ class DatabaseManager: DatabaseAdapter {
     func observeProductsFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
         products.observeProductsFromShop(shopId: shopId, actionBlock: actionBlock)
     }
+    
+    func createOrder(order: Order) {
+        orders.createOrder(order: order)
+    }
+    
+    func editOrder(order: Order) {
+        orders.editOrder(order: order)
+    }
+    
+    func deleteOrder(id: String) {
+        orders.deleteOrder(id: id)
+    }
+    
+    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
+        orders.observeAllOrders(actionBlock: actionBlock)
+    }
+    
+    func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
+        orders.observeOrdersFromShop(shopId: shopId, actionBlock: actionBlock)
+    }
+    
+    func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
+        orders.observeOrdersFromCustomer(customerId: customerId, actionBlock: actionBlock)
+    }
+
 
 }
