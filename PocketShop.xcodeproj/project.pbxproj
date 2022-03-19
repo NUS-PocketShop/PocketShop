@@ -35,6 +35,7 @@
 		AD15B3A327E59DF900513809 /* OrderProductSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A227E59DF900513809 /* OrderProductSchema.swift */; };
 		AD15B3A527E59E5600513809 /* OrderSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A427E59E5600513809 /* OrderSchema.swift */; };
 		AD15B3A727E5A1A900513809 /* DBOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A627E5A1A900513809 /* DBOrders.swift */; };
+		AD15B3A927E5D2A600513809 /* DBStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A827E5D2A600513809 /* DBStorage.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -116,6 +117,7 @@
 		AD15B3A227E59DF900513809 /* OrderProductSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProductSchema.swift; sourceTree = "<group>"; };
 		AD15B3A427E59E5600513809 /* OrderSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSchema.swift; sourceTree = "<group>"; };
 		AD15B3A627E5A1A900513809 /* DBOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBOrders.swift; sourceTree = "<group>"; };
+		AD15B3A827E5D2A600513809 /* DBStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStorage.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				AD15B39727E36E9B00513809 /* DBShop.swift */,
 				AD15B3A027E46C9E00513809 /* DBProducts.swift */,
 				AD15B3A627E5A1A900513809 /* DBOrders.swift */,
+				AD15B3A827E5D2A600513809 /* DBStorage.swift */,
 			);
 			path = RealtimeDatabase;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				AD15B3A327E59DF900513809 /* OrderProductSchema.swift in Sources */,
 				02AD422327DF1D7200F44822 /* CustomerRootView.swift in Sources */,
 				02AD423527DF28FD00F44822 /* PSTextField.swift in Sources */,
+				AD15B3A927E5D2A600513809 /* DBStorage.swift in Sources */,
 				02AD421127DF1BDE00F44822 /* MainViewRouter.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
 				DF67101727DE5EE1002C5AE0 /* ProductView.swift in Sources */,
