@@ -10,8 +10,8 @@ class DBOrders {
         var newOrder = order
         newOrder.id = key
         var orderSchema = OrderSchema(order: newOrder)
-        let orderProductSchemas = orderSchema.orderProductSchemas
-        orderSchema.orderProductSchemas = []
+        let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
+        orderSchema.orderProductSchemas = [:]
         do {
             let jsonData = try JSONEncoder().encode(orderSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
@@ -19,7 +19,7 @@ class DBOrders {
         } catch {
             print(error)
         }
-        createOrderProducts(orderId: orderSchema.id, orderProductSchemas: orderProductSchemas)
+        createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
     }
 
     private func createOrderProducts(orderId: String, orderProductSchemas: [OrderProductSchema]) {
@@ -75,7 +75,7 @@ class DBOrders {
                     let jsonData = try JSONSerialization.data(withJSONObject: value)
                     let orderSchema = try JSONDecoder().decode(OrderSchema.self, from: jsonData)
                     let orderProducts = self
-                        .getOrderProductFromSchema(orderProductSchemas: orderSchema.orderProductSchemas,
+                        .getOrderProductFromSchema(orderProductSchemas: Array((orderSchema.orderProductSchemas ?? [:]).values),
                                                    snapshot: snapshot)
                     let order = orderSchema.toOrder(orderProducts: orderProducts)
                     orders.append(order)
