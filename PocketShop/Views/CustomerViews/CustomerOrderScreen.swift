@@ -11,20 +11,22 @@ struct CustomerOrderScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
     
     var body: some View {
-        VStack {
-            Picker("Selected View", selection: $viewModel.tabSelection) {
-                Text("Current").tag(TabView.current)
-                Text("History").tag(TabView.history)
+        NavigationView {
+            VStack {
+                Picker("Selected View", selection: $viewModel.tabSelection) {
+                    Text("Current").tag(TabView.current)
+                    Text("History").tag(TabView.history)
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 24)
+                
+                withAnimation(.easeInOut) {
+                    OrderList()
+                }
             }
-            .pickerStyle(.segmented)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
-            
-            withAnimation(.easeInOut) {
-                OrderList()
-            }
+            .navigationTitle("My Orders")
         }
-        .navigationTitle("My Orders")
     }
     
     @ViewBuilder

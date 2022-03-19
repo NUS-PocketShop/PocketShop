@@ -8,11 +8,6 @@ struct CustomerProfileScreen: View {
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: CustomerOrderScreen(viewModel: .init()), isActive: $willNavigateOrder) {
-                    PSButton(title: "View current orders") {
-                        willNavigateOrder.toggle()
-                    }
-                }
                 PSButton(title: "Change Password") {}
                 Spacer()
                 PSButton(title: "Logout",
