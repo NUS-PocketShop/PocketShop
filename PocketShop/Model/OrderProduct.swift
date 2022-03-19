@@ -1,6 +1,6 @@
 struct OrderProduct {
     var id: String
-    var productId: String
+    var product: Product
     var quantity: Int
     var status: OrderStatus
 }

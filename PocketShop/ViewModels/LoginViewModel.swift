@@ -16,13 +16,17 @@ class LoginViewModel: ObservableObject {
 
     func login() {
         self.isLoading = true
-        DatabaseInterface.auth.loginUser(email: self.email, password: self.password) { error, customer in
+        if self.email.isEmpty || self.password.isEmpty {
+            self.setErrorMessage("Please enter all fields")
+            return
+        }
+        DatabaseInterface.auth.loginUser(email: self.email, password: self.password) { error, user in
             switch error {
-            case .wrongPassword:
-                self.setErrorMessage("Wrong password")
-                return
             case .invalidEmail:
                 self.setErrorMessage("Invalid email")
+                return
+            case .wrongPassword:
+                self.setErrorMessage("Wrong password")
                 return
             case .userNotFound:
                 self.setErrorMessage("User not found")
@@ -33,12 +37,16 @@ class LoginViewModel: ObservableObject {
             default:
                 self.setErrorMessage("")
             }
-            if let customer = customer {
+            if let customer = user as? Customer {
                 print("Customer successfully loaded with id: \(customer.id)")
+                self.viewRouter.currentPage = .customer
+            } else if let vendor = user as? Vendor {
+                print("Vendor successfully loaded with id: \(vendor.id)")
+                // self.viewRouter.currentPage = .vendor
+            } else {
+                self.setErrorMessage("Unexpected error")
             }
-            print("logging in with: [\(self.email) & \(self.password)]")
-            // TODO: get user type
-            self.viewRouter.currentPage = .customer
+
         }
     }
 
