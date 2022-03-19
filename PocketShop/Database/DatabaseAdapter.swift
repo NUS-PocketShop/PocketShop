@@ -14,7 +14,7 @@ protocol DatabaseAdapter {
     func deleteProduct(shopId: String, productId: String)
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?) -> Void)
     func observeProductsFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Product]?) -> Void)
-    
+
     func createOrder(order: Order)
     func editOrder(order: Order)
     func deleteOrder(id: String)

@@ -2,15 +2,15 @@ import Firebase
 
 class DBShop {
     func createShop(shop: Shop) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/").childByAutoId()
+        guard let key = ref.key else {
+            print("Unexpected error")
+            return
+        }
+        var newShop = shop
+        newShop.id = key
+        let shopSchema = ShopSchema(shop: newShop)
         do {
-            let ref = FirebaseManager.sharedManager.ref.child("shops/").childByAutoId()
-            guard let key = ref.key else {
-                print("Unexpected error")
-                return
-            }
-            var newShop = shop
-            newShop.id = key
-            let shopSchema = ShopSchema(shop: newShop)
             let jsonData = try JSONEncoder().encode(shopSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
@@ -20,9 +20,10 @@ class DBShop {
     }
 
     func editShop(shop: Shop) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shop.id)")
+        let shopSchema = ShopSchema(shop: shop)
         do {
-            let ref = FirebaseManager.sharedManager.ref.child("shops/\(shop.id)")
-            let shopSchema = ShopSchema(shop: shop)
+
             let jsonData = try JSONEncoder().encode(shopSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
@@ -66,7 +67,7 @@ class DBShop {
             var newShops = [Shop]()
             if let shops = shops {
                 newShops = shops.filter {
-                    $0.id == ownerId
+                    $0.ownerId == ownerId
                 }
             }
             actionBlock(nil, newShops)

@@ -5,7 +5,7 @@ struct ShopSchema: Codable {
     var imageURL: String
     var isClosed: Bool
     var ownerId: String
-    var soldProducts: [String: ProductSchema]?
+    var soldProducts: [String: ProductSchema]? = [:]
 
     init(shop: Shop) {
         self.id = shop.id

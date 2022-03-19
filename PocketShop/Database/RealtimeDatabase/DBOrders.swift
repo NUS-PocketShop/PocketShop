@@ -2,23 +2,45 @@ import Firebase
 
 class DBOrders {
     func createOrder(order: Order) {
+        let ref = FirebaseManager.sharedManager.ref.child("orders/").childByAutoId()
+        guard let key = ref.key else {
+            print("Unexpected error")
+            return
+        }
+        var newOrder = order
+        newOrder.id = key
+        var orderSchema = OrderSchema(order: newOrder)
+        let orderProductSchemas = orderSchema.orderProductSchemas
+        orderSchema.orderProductSchemas = []
         do {
-            let ref = FirebaseManager.sharedManager.ref.child("orders/").childByAutoId()
-            guard let key = ref.key else {
-                print("Unexpected error")
-                return
-            }
-            var newOrder = order
-            newOrder.id = key
-            let orderSchema = OrderSchema(order: newOrder)
             let jsonData = try JSONEncoder().encode(orderSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
             print(error)
         }
+        createOrderProducts(orderId: orderSchema.id, orderProductSchemas: orderProductSchemas)
     }
-    
+
+    private func createOrderProducts(orderId: String, orderProductSchemas: [OrderProductSchema]) {
+        for orderProductSchema in orderProductSchemas {
+            let ref = FirebaseManager.sharedManager.ref.child("orders/\(orderId)/orderProductSchemas").childByAutoId()
+            guard let key = ref.key else {
+                print("Unexpected error")
+                return
+            }
+            var newOrderProductSchema = orderProductSchema
+            newOrderProductSchema.id = key
+            do {
+                let jsonData = try JSONEncoder().encode(newOrderProductSchema)
+                let json = try JSONSerialization.jsonObject(with: jsonData)
+                ref.setValue(json)
+            } catch {
+                print(error)
+            }
+        }
+    }
+
     func editOrder(order: Order) {
         do {
             let ref = FirebaseManager.sharedManager.ref.child("orders/\(order.id)")
@@ -30,7 +52,7 @@ class DBOrders {
             print(error)
         }
     }
-    
+
     func deleteOrder(id: String) {
         let ref = FirebaseManager.sharedManager.ref.child("orders/\(id)")
         ref.removeValue() { error, _ in
@@ -39,7 +61,7 @@ class DBOrders {
             }
         }
     }
-    
+
     func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
         FirebaseManager.sharedManager.ref.observe(DataEventType.value) { snapshot in
             var orders = [Order]()
@@ -64,14 +86,14 @@ class DBOrders {
             actionBlock(nil, orders)
         }
     }
-    
+
     func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
         observeAllOrders { error, orders in
             let newOrders = orders?.filter { $0.shopId == shopId }
             actionBlock(error, newOrders)
         }
     }
-    
+
     func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
         observeAllOrders { error, orders in
             let newOrders = orders?.filter { $0.customerId == customerId }

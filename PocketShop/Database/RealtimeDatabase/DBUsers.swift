@@ -23,13 +23,13 @@ class DBUsers {
 
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         FirebaseManager.sharedManager.ref.child("customers/\(id)").observeSingleEvent(of: .value, with: { snapshot in
-            if let value = snapshot.value as? [String: Any] {
+            if snapshot.value is [String: Any] {
                 let customer = Customer(id: id)
                 completionHandler(nil, customer)
                 return
             }
             FirebaseManager.sharedManager.ref.child("vendors/\(id)").observeSingleEvent(of: .value, with: { snapshot in
-                if let value = snapshot.value as? [String: Any] {
+                if snapshot.value is [String: Any] {
                     let vendor = Vendor(id: id)
                     completionHandler(nil, vendor)
                     return
