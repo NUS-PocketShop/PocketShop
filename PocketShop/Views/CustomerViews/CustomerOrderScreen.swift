@@ -58,15 +58,21 @@ struct CustomerOrderScreen: View {
                     .bold()
                 
                 Spacer()
+                
+                Text("\(order.orderDateString)")
+                    .font(.appBody)
+                
+                Text("\(order.orderTimeString)")
+                    .font(.appBody)
+                    .foregroundColor(.gray)
             }
             .frame(minWidth: 100)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text("\(order.shopName)")
                     .font(.appBody)
                     .bold()
-                
-                Spacer()
+                    .padding(.bottom, 4)
                 
                 ForEach(order.orderProducts, id: \.id) { orderProduct in
                     Text("\(orderProduct.quantity) x \(orderProduct.name)")
@@ -138,6 +144,17 @@ extension CustomerOrderScreen {
                 return .success
             }
         }
+        var orderDate: Date
+        private let dateFormatter: DateFormatter = DateFormatter()
+        
+        var orderDateString: String {
+            dateFormatter.dateFormat = "dd/mm/yyyy"
+            return dateFormatter.string(from: orderDate)
+        }
+        var orderTimeString: String {
+            dateFormatter.dateFormat = "HH:mm a"
+            return dateFormatter.string(from: orderDate)
+        }
     }
     
     struct AdaptedOrderProduct {
@@ -151,7 +168,8 @@ extension CustomerOrderScreen {
             AdaptedOrder(
                 id: "1", collectionNo: 220, shopName: "Cool Spot", total: 13.60,
                 orderProducts: [AdaptedOrderProduct(id: "1", name: "Red Bean Bun", quantity: 10)],
-                status: .preparing),
+                status: .preparing,
+                orderDate: Date()),
             AdaptedOrder(
                 id: "3", collectionNo: 225, shopName: "Cool Spot", total: 13.60,
                 orderProducts: [AdaptedOrderProduct(id: "9", name: "Coffee", quantity: 3),
@@ -162,7 +180,8 @@ extension CustomerOrderScreen {
                                 AdaptedOrderProduct(id: "14", name: "Chocolate Bun", quantity: 2),
                                 AdaptedOrderProduct(id: "15", name: "Chocolate Bun", quantity: 2),
                                 AdaptedOrderProduct(id: "16", name: "Chocolate Bun", quantity: 2)],
-                status: .ready)
+                status: .ready,
+                orderDate: Date())
         ]
         
         var pastOrders: [AdaptedOrder] = [
@@ -170,7 +189,8 @@ extension CustomerOrderScreen {
                 id: "2", collectionNo: 999, shopName: "Cool Spot", total: 13.60,
                 orderProducts: [AdaptedOrderProduct(id: "1", name: "Green Bean Bun", quantity: 10),
                                 AdaptedOrderProduct(id: "2", name: "Red Bean Bun", quantity: 2)],
-                status: .preparing)
+                status: .preparing,
+                orderDate: Date())
         ]
         
         @Published var filteredOrders: [AdaptedOrder] = []
