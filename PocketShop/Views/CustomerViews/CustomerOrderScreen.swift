@@ -20,7 +20,9 @@ struct CustomerOrderScreen: View {
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
             
-            OrderList()
+            withAnimation(.easeInOut) {
+                OrderList()
+            }
         }
         .navigationTitle("My Orders")
     }
@@ -55,8 +57,9 @@ struct CustomerOrderScreen: View {
                 
                 Spacer()
             }
+            .frame(minWidth: 100)
             
-            VStack {
+            VStack(alignment: .leading) {
                 Text("\(order.shopName)")
                     .font(.appBody)
                     .bold()
@@ -68,8 +71,10 @@ struct CustomerOrderScreen: View {
                         .font(.appSmallCaption)
                 }
                 
+                
                 Spacer()
             }
+            .padding(.leading, 8)
             
             Spacer()
             
@@ -79,9 +84,13 @@ struct CustomerOrderScreen: View {
                     .bold()
                     .padding(.bottom, 12)
                 
-                RingView(color: .success, text: order.statusAsString)
+                Spacer()
+                
+                RingView(color: order.ringColor, text: order.statusAsString)
+                
+                Spacer()
             }
-            .frame(width: 84)
+            .frame(minHeight: 128)
         }
     }
 }
@@ -119,6 +128,14 @@ extension CustomerOrderScreen {
                 return "COLLECTED"
             }
         }
+        var ringColor: Color {
+            switch status {
+            case .pending, .accepted, .preparing:
+                return .gray6
+            case .ready, .collected:
+                return .success
+            }
+        }
     }
     
     struct AdaptedOrderProduct {
@@ -136,7 +153,13 @@ extension CustomerOrderScreen {
             AdaptedOrder(
                 id: "3", collectionNo: 225, shopName: "Cool Spot", total: 13.60,
                 orderProducts: [AdaptedOrderProduct(id: "9", name: "Coffee", quantity: 3),
-                                AdaptedOrderProduct(id: "10", name: "Chocolate Bun", quantity: 2)],
+                                AdaptedOrderProduct(id: "10", name: "Chocolate Bun", quantity: 2),
+                                AdaptedOrderProduct(id: "11", name: "Some order with very long name", quantity: 2),
+                                AdaptedOrderProduct(id: "12", name: "Chocolate Bun", quantity: 2),
+                                AdaptedOrderProduct(id: "13", name: "Chocolate Bun", quantity: 2),
+                                AdaptedOrderProduct(id: "14", name: "Chocolate Bun", quantity: 2),
+                                AdaptedOrderProduct(id: "15", name: "Chocolate Bun", quantity: 2),
+                                AdaptedOrderProduct(id: "16", name: "Chocolate Bun", quantity: 2)],
                 status: .ready)
         ]
         
@@ -148,45 +171,40 @@ extension CustomerOrderScreen {
                 status: .preparing)
         ]
         
-        @Published var filteredOrders: [AdaptedOrder] = [
-            AdaptedOrder(
-                id: "1", collectionNo: 220, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "1", name: "Red Bean Bun", quantity: 10)],
-                status: .preparing),
-            AdaptedOrder(
-                id: "3", collectionNo: 225, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "9", name: "Coffee", quantity: 3),
-                                AdaptedOrderProduct(id: "10", name: "Chocolate Bun", quantity: 2)],
-                status: .ready)
-        ]
+        @Published var filteredOrders: [AdaptedOrder] = []
         
-        @Published var tabSelection: TabView = .current {
+        @Published var tabSelection: TabView {
             didSet {
-                // Idea: any time the tab is switched, we should fetch the relevant order
-                //       Not sure whether we need async here
                 switch tabSelection {
                 case .current:
-                    filteredOrders = currentOrders
+                    fetchCurrentOrders()
                 case .history:
-                    filteredOrders = pastOrders
+                    fetchOrderHistory()
                 }
             }
         }
         
-        func fetchCurrentOrders() {
-            
+        init() {
+            tabSelection = .current
+            fetchCurrentOrders()
         }
         
-        func fetchPastOrders() {
+        func fetchCurrentOrders() {
+            filteredOrders = currentOrders
             
+            // Fetch `currentOrders` from backend and listen for changes
+        }
+        
+        func fetchOrderHistory() {
+            filteredOrders = pastOrders
+            
+            // Fetch `pastOrders` from backend and listen for changes
         }
     }
 }
 
 struct CustomerOrderScreen_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            CustomerOrderScreen(viewModel: CustomerOrderScreen.ViewModel())
-        }
+        CustomerOrderScreen(viewModel: .init())
     }
 }
