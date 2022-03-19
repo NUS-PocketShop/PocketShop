@@ -19,9 +19,10 @@ class CustomerViewModel: ObservableObject {
         if searchText.isEmpty {
             return Array(shops)
         } else {
-            return Array(shops.filter {
-                let productIds = Set($0.soldProductIds)
-                let matchingProducts = products.filter { productIds.contains($0.id) }
+            return Array(shops.filter { shop in
+                let productIds = Set(shop.soldProductIds)
+                let shopProducts = products.filter { productIds.contains($0.id) }
+                let matchingProducts = shopProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
                 return !matchingProducts.isEmpty
             })
         }
