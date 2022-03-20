@@ -3,6 +3,7 @@ import Combine
 class CustomerViewModel: ObservableObject {
 
     @Published var products: [Product] = [Product]()
+    @Published var customer: Customer?
 
     @Published var searchText = ""
 
@@ -16,6 +17,11 @@ class CustomerViewModel: ObservableObject {
 
     init() {
         generateSampleProducts()
+        DatabaseInterface.auth.getCurrentUser { _, user in
+            if let customer = user as? Customer {
+                self.customer = customer
+            }
+        }
     }
 
     /// Function used in development to generate sample products
@@ -23,6 +29,7 @@ class CustomerViewModel: ObservableObject {
         let strawberryMilkTea = Product(id: "gc_strawberryMilkTea",
                                         name: "Strawberry Milk Tea",
                                         shopName: "Gong Cha",
+                                        shopId: "",
                                         description: "Contains real strawberries",
                                         price: 7.90,
                                         imageURL: """
@@ -35,6 +42,7 @@ class CustomerViewModel: ObservableObject {
         let chiChaBubbleMilkTea = Product(id: "cc_bubbleMilkTea",
                                           name: "Bubble Milk Tea",
                                           shopName: "CHICHA San Chen",
+                                          shopId: "",
                                           description: "Black milk tea with pearls",
                                           price: 4.50,
                                           imageURL: """
@@ -47,6 +55,7 @@ class CustomerViewModel: ObservableObject {
         let mcspicy = Product(id: "mcd_mcspicy",
                               name: "McSpicy",
                               shopName: "McDonald's",
+                              shopId: "",
                               description: "Spicy chicken sandwich",
                               price: 5.25,
                               imageURL: """
@@ -58,6 +67,7 @@ class CustomerViewModel: ObservableObject {
         let bigmac = Product(id: "mcd_bigMac",
                              name: "Big Mac",
                              shopName: "McDonald's",
+                             shopId: "",
                              description: "Classic double-patty burger",
                              price: 5.75,
                              imageURL: """
@@ -70,6 +80,7 @@ class CustomerViewModel: ObservableObject {
         let gongChaBubbleMilkTea = Product(id: "gc_bubbleMilkTea",
                                            name: "Bubble Milk Tea",
                                            shopName: "Gong Cha",
+                                           shopId: "",
                                            description: "Classic black milk tea with boba",
                                            price: 3.50,
                                            imageURL: """

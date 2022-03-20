@@ -1,4 +1,4 @@
-enum OrderStatus: Int {
+enum OrderStatus: Int, Codable {
     case pending = 1
     case accepted = 2
     case preparing = 3
