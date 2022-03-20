@@ -19,7 +19,7 @@ struct CustomerProfileScreen: View {
             .padding()
             .buttonStyle(SecondaryButtonStyle())
         }
-        .navigationViewStyle(.stack)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     private func signOut() {
         DatabaseInterface.auth.signOutUser()

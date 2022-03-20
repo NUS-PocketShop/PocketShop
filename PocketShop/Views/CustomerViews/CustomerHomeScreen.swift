@@ -12,8 +12,8 @@ struct CustomerHomeScreen: View {
             }
             .navigationTitle("Home")
             .font(.appHeadline)
-            .navigationViewStyle(.stack)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
