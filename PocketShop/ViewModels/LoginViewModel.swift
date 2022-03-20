@@ -23,21 +23,20 @@ class LoginViewModel: ObservableObject {
         }
 
         // service call
-        DatabaseInterface.auth.loginUser(email: self.email, password: self.password) { [self] error, customer in
+        DatabaseInterface.auth.loginUser(email: self.email, password: self.password) { [self] error, user in
             guard ensureNoLoginErrors(error) else {
                 return
             }
 
-            guard let customer = customer else {
-                setErrorMessage("Unexpected error in LoginViewModel")
-                return
-            }
-
-            // TODO: actually retrieve correct type from customer
-            if email == "vendor@a.co" {
+            if let customer = user as? Customer {
+                print("Customer successfully loaded with id: \(customer.id)")
+                navigateToNextScreen(accountType: .customer)
+            } else if let vendor = user as? Vendor {
+                print("Vendor successfully loaded with id: \(vendor.id)")
                 navigateToNextScreen(accountType: .vendor)
             } else {
-                navigateToNextScreen(accountType: .customer)
+                setErrorMessage("Unexpected error in LoginViewModel")
+                return
             }
         }
     }

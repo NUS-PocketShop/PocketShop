@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct VendorProfileScreen: View {
+struct ShopProfileScreen: View {
 
     @State var router: MainViewRouter
 
@@ -23,8 +23,8 @@ struct VendorProfileScreen: View {
     }
 }
 
-struct VendorProfileScreen_Previews: PreviewProvider {
+struct ShopProfileScreen_Previews: PreviewProvider {
     static var previews: some View {
-        VendorProfileScreen(router: MainViewRouter())
+        ShopProfileScreen(router: MainViewRouter())
     }
 }

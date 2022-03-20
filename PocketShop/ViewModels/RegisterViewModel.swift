@@ -14,6 +14,9 @@ class RegisterViewModel: ObservableObject {
     @Published var accountType: AccountType?
     @Published var errorMessage: String = ""
     @Published var isLoading = false
+    private var isCustomer: Bool {
+        accountType == .customer ? true : false
+    }
 
     private(set) var viewRouter: MainViewRouter
 
@@ -35,16 +38,21 @@ class RegisterViewModel: ObservableObject {
         }
 
         // Service call
-        // TODO: to handle isCustomer/isVendor in the createNewAccount call
-        DatabaseInterface.auth.createNewAccount(email: self.email, password: self.password) { [self] error, customer in
+        DatabaseInterface.auth.createNewAccount(email: self.email, password: self.password,
+                                                isCustomer: isCustomer) { [self] error, user in
             guard ensureNoRegisterErrors(error) else {
                 return
             }
 
-            if let customer = customer {
-                print("Customer successfully created with id: \(customer.id)")
+            if let customer = user as? Customer {
+                print("Customer successfully loaded with id: \(customer.id)")
+                navigateToNextScreen(accountType: type)
+            } else if let vendor = user as? Vendor {
+                print("Vendor successfully loaded with id: \(vendor.id)")
+                navigateToNextScreen(accountType: type)
+            } else {
+                self.setErrorMessage("Unexpected error in RegisterViewModel")
             }
-            navigateToNextScreen(accountType: type)
         }
     }
 

@@ -1,6 +1,6 @@
 import SwiftUI
 
-class VendorViewRouter: ObservableObject {
+class ShopViewRouter: ObservableObject {
 
     @Published var currentPage: Page = .home
 
