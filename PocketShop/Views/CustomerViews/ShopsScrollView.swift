@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ShopsScrollView: View {
-    @StateObject var viewModel: CustomerViewModel
+    @EnvironmentObject var viewModel: CustomerViewModel
 
     var body: some View {
         VStack {
@@ -24,6 +24,6 @@ struct ShopsScrollView: View {
 
 struct ShopsScrollView_Previews: PreviewProvider {
     static var previews: some View {
-        ShopsScrollView(viewModel: CustomerViewModel())
+        ShopsScrollView().environmentObject(CustomerViewModel())
     }
 }

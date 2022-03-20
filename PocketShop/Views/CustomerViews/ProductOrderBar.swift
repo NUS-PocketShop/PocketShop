@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ProductOrderBar: View {
+    @EnvironmentObject var customerViewModel: CustomerViewModel
     @State var quantity: Int = 1
     var product: Product
 
@@ -31,8 +32,22 @@ struct ProductOrderBar: View {
                 Text(String(format: "Price: $%.2f", product.price * Double(quantity)))
                     .font(.appHeadline)
                 PSButton(title: "ORDER") {
-                    // TODO: Order item
-
+                    guard let customerId = customerViewModel.customer?.id else {
+                        return
+                    }
+                    
+                    let orderProduct = OrderProduct(id: "dummyId",
+                                                    product: product,
+                                                    quantity: quantity,
+                                                    status: .accepted)
+                    let order = Order(id: "dummyId",
+                                      orderProducts: [orderProduct],
+                                      status: .accepted,
+                                      customerId: customerId,
+                                      shopId: "TTT", // TODO: retrieve real shop id
+                                      date: Date())
+                    
+                    DatabaseInterface.db.createOrder(order: order)
                 }
                 .buttonStyle(FillButtonStyle())
             }
