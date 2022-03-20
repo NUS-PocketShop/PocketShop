@@ -29,10 +29,30 @@ class CustomerViewModel: ObservableObject {
     }
 
     init() {
-        initSampleShops()
         DatabaseInterface.auth.getCurrentUser { _, user in
             if let customer = user as? Customer {
                 self.customer = customer
+            }
+        }
+        DatabaseInterface.db.observeAllShops() { error, allShops in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let allShops = allShops {
+                self.shops.removeAll()
+                self.shops = allShops
+            }
+        }
+        DatabaseInterface.db.observeAllProducts() { error, allProducts in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let allProducts = allProducts {
+                self.products.removeAll()
+                self.products = allProducts
+
             }
         }
     }
