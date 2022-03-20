@@ -148,7 +148,7 @@ extension CustomerOrderScreen {
         private let dateFormatter = DateFormatter()
 
         var orderDateString: String {
-            dateFormatter.dateFormat = "dd/mm/yyyy"
+            dateFormatter.dateFormat = "dd/MM/yyyy"
             return dateFormatter.string(from: orderDate)
         }
         var orderTimeString: String {
