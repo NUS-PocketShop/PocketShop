@@ -47,11 +47,9 @@ class DBProducts {
                 actionBlock(.unexpectedError, nil)
                 return
             }
-            for case let key as String in allShops.allKeys {
-                self.observeProductsFromShop(shopId: key) { _, shopProducts in
-                    if let shopProducts = shopProducts {
-                        products.append(contentsOf: shopProducts)
-                    }
+            for case let value as NSDictionary in allShops.allValues {
+                if let newProducts = self.getProductsFromShop(shop: value) {
+                    products.append(contentsOf: newProducts)
                 }
             }
             actionBlock(nil, products)
@@ -59,26 +57,33 @@ class DBProducts {
     }
 
     func observeProductsFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
-        var products = [Product]()
         FirebaseManager.sharedManager.ref.child("shops/\(shopId)").observe(DataEventType.value) { snapshot in
             guard let shop = snapshot.value as? NSDictionary,
-                  let shopId = shop["id"] as? String,
-                  let shopName = shop["name"] as? String,
-                  let productSchemas = shop["soldProducts"] as? NSDictionary else {
+                  let newProducts = self.getProductsFromShop(shop: shop) else {
                 actionBlock(.unexpectedError, nil)
                 return
             }
-            for value in productSchemas.allValues {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: value)
-                    let productSchema = try JSONDecoder().decode(ProductSchema.self, from: jsonData)
-                    let product = productSchema.toProduct(shopId: shopId, shopName: shopName)
-                    products.append(product)
-                } catch {
-                    print(error)
-                }
-            }
-            actionBlock(nil, products)
+            actionBlock(nil, newProducts)
         }
+    }
+
+    private func getProductsFromShop(shop: NSDictionary) -> [Product]? {
+        var products = [Product]()
+        guard let shopId = shop["id"] as? String,
+              let shopName = shop["name"] as? String,
+              let productSchemas = shop["soldProducts"] as? NSDictionary else {
+            return nil
+        }
+        for value in productSchemas.allValues {
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: value)
+                let productSchema = try JSONDecoder().decode(ProductSchema.self, from: jsonData)
+                let product = productSchema.toProduct(shopId: shopId, shopName: shopName)
+                products.append(product)
+            } catch {
+                print(error)
+            }
+        }
+        return products
     }
 }
