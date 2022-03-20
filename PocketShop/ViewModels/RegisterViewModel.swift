@@ -6,7 +6,7 @@ enum AccountType: String {
     case vendor = "Vendor"
 }
 
-class RegisterViewModel: ObservableObject {
+final class RegisterViewModel: ObservableObject {
 
     @Published var email: String = ""
     @Published var password: String = ""
