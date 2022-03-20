@@ -62,7 +62,10 @@ struct OutlineButtonStyle: ButtonStyle {
             .padding()
             .foregroundColor(Color.accent)
             .background(Color.white)
-            .cornerRadius(4.0)
+            .overlay(
+                RoundedRectangle(cornerRadius: 4.0)
+                    .stroke(Color.accent, lineWidth: 1)
+            )
             .opacity(configuration.isPressed ? 0.7 : 1)
             .scaleEffect(configuration.isPressed ? 0.8 : 1)
             .animation(.easeInOut(duration: 0.2))

@@ -3,20 +3,21 @@ import SwiftUI
 struct ShopRootView: View {
     let tabData = [
         TabItem(title: Text("Home"), image: Image(systemName: "house"), tag: 0),
-        TabItem(title: Text("Orders"), image: Image(systemName: "tag"), tag: 1),
+        TabItem(title: Text("Orders"), image: Image(systemName: "list.bullet"), tag: 1),
         TabItem(title: Text("Profile"), image: Image(systemName: "person"), tag: 2)
     ]
 
     @State var currentTab: Int = 0
 
     @StateObject var viewRouter = ShopViewRouter()
+    @StateObject var viewModel = VendorViewModel()
 
     @EnvironmentObject var router: MainViewRouter
 
     var body: some View {
         TabView(selection: $viewRouter.currentPage) {
 
-            Text("home")
+            ShopHomeScreen()
                 .tabItem {
                     tabData[0].title
                     tabData[0].image
@@ -34,6 +35,7 @@ struct ShopRootView: View {
                     tabData[2].image
                 }.tag(ShopViewRouter.Page.profile)
         }
+        .environmentObject(viewModel)
     }
 }
 
