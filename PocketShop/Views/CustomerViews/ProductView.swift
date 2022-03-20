@@ -13,14 +13,16 @@ struct ProductView: View {
                 .frame(width: 200, height: 200) // Might change to relative sizes
 
             Text(product.description)
-                .padding(.bottom)
+                .padding(.vertical)
                 .font(.appBody)
 
             Text(String(format: "$%.2f", product.price))
                 .font(.appBody)
                 .fontWeight(.semibold)
 
-            // TODO: Add quantity and order buttons
+            Spacer()
+
+            ProductOrderBar(product: product)
         }
     }
 }
@@ -28,6 +30,6 @@ struct ProductView: View {
 struct ProductView_Previews: PreviewProvider {
     static var previews: some View {
         let sampleProduct = CustomerViewModel().products.first!
-        ProductView(product: sampleProduct)
+        ProductView(product: sampleProduct).environmentObject(CustomerViewModel())
     }
 }

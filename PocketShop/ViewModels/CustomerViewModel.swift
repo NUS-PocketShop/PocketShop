@@ -1,6 +1,6 @@
 import Combine
 
-class CustomerViewModel: ObservableObject {
+final class CustomerViewModel: ObservableObject {
 
     @Published var products: [Product] = [Product]()
     @Published var shops: [Shop] = [Shop]()
@@ -10,29 +10,49 @@ class CustomerViewModel: ObservableObject {
 
     var productSearchResults: [Product] {
         if searchText.isEmpty {
-            return Array(products)
+            return products
         } else {
-            return Array(products.filter { $0.name.localizedCaseInsensitiveContains(searchText) })
+            return products.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }
 
     var shopSearchResults: [Shop] {
         if searchText.isEmpty {
-            return Array(shops)
+            return shops
         } else {
-            return Array(shops.filter { shop in
+            return shops.filter { shop in
                 let shopProducts = shop.soldProducts
                 let matchingProducts = shopProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
                 return !matchingProducts.isEmpty
-            })
+            }
         }
     }
 
     init() {
-        initSampleShops()
         DatabaseInterface.auth.getCurrentUser { _, user in
             if let customer = user as? Customer {
                 self.customer = customer
+            }
+        }
+        DatabaseInterface.db.observeAllShops { error, allShops in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let allShops = allShops {
+                self.shops.removeAll()
+                self.shops = allShops
+            }
+        }
+        DatabaseInterface.db.observeAllProducts { error, allProducts in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let allProducts = allProducts {
+                self.products.removeAll()
+                self.products = allProducts
+
             }
         }
     }

@@ -1,10 +1,3 @@
-//
-//  CustomerOrderScreen.swift
-//  PocketShop
-//
-//  Created by Dasco Gabriel on 16/3/22.
-//
-
 import SwiftUI
 
 struct CustomerOrderScreen: View {
@@ -105,8 +98,8 @@ struct CustomerOrderScreen: View {
 
 extension CustomerOrderScreen {
     enum TabView: String {
-        case current = "current"
-        case history = "history"
+        case current
+        case history
     }
 }
 

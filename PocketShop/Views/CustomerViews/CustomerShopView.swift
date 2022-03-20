@@ -22,10 +22,14 @@ struct CustomerShopView: View {
                     .frame(width: 100, height: 100) // Might change to relative sizes
             }
 
-            List {
-                ForEach(viewModel.products, id: \.self) { product in
-                    if product.shopName == shop.name {
-                        ProductListView(product: product)
+            if (!viewModel.products.contains(where: { $0.shopName == shop.name })) {
+                Text("This shop has no products... yet!")
+            } else {
+                List {
+                    ForEach(viewModel.products, id: \.self) { product in
+                        if product.shopName == shop.name {
+                            ProductListView(product: product).environmentObject(viewModel)
+                        }
                     }
                 }
             }

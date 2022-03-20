@@ -1,9 +1,10 @@
 import Firebase
 
 class DBShop {
-    func createShop(shop: Shop) {
+    func createShop(shop: Shop, completionHandler: @escaping (DatabaseError?, Shop?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/").childByAutoId()
         guard let key = ref.key else {
+            completionHandler(.unexpectedError, nil)
             print("Unexpected error")
             return
         }
@@ -17,7 +18,9 @@ class DBShop {
             ref.setValue(json)
         } catch {
             print(error)
+            completionHandler(.unexpectedError, nil)
         }
+        completionHandler(nil, newShop)
     }
 
     func editShop(shop: Shop) {
