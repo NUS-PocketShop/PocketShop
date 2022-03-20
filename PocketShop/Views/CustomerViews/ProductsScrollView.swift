@@ -12,8 +12,8 @@ struct ProductsScrollView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.productSearchResults, id: \.self) { product in
-                        NavigationLink(destination: ProductView(product: product)) {
-                            ProductSummaryView(product: product)
+                        NavigationLink(destination: ProductView(product: product).environmentObject(viewModel)) {
+                            ProductSummaryView(product: product).environmentObject(viewModel)
                         }
                     }
                 }

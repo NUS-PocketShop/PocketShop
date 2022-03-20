@@ -33,6 +33,7 @@ struct ProductOrderBar: View {
                     .font(.appHeadline)
                 PSButton(title: "ORDER") {
                     guard let customerId = customerViewModel.customer?.id else {
+                        // TODO: More helpful error message
                         return
                     }
                     
@@ -44,7 +45,7 @@ struct ProductOrderBar: View {
                                       orderProducts: [orderProduct],
                                       status: .accepted,
                                       customerId: customerId,
-                                      shopId: "TTT", // TODO: retrieve real shop id
+                                      shopId: product.shopId,
                                       date: Date())
                     
                     DatabaseInterface.db.createOrder(order: order)
