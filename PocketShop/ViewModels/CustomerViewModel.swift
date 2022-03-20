@@ -35,23 +35,24 @@ class CustomerViewModel: ObservableObject {
             }
         }
         DatabaseInterface.db.observeAllShops() { error, allShops in
-            self.shops.removeAll()
             if let error = error {
                 print(error)
                 return
             }
             if let allShops = allShops {
+                self.shops.removeAll()
                 self.shops = allShops
             }
         }
         DatabaseInterface.db.observeAllProducts() { error, allProducts in
-            self.products.removeAll()
             if let error = error {
                 print(error)
                 return
             }
             if let allProducts = allProducts {
+                self.products.removeAll()
                 self.products = allProducts
+
             }
         }
     }
