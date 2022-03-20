@@ -34,7 +34,7 @@ class DBShop {
 
     func deleteShop(id: String) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/\(id)")
-        ref.removeValue() { error, _ in
+        ref.removeValue { error, _ in
             if let error = error {
                 print(error)
             }
@@ -63,7 +63,7 @@ class DBShop {
     }
 
     func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
-        observeAllShops() { _, shops in
+        observeAllShops { _, shops in
             var newShops = [Shop]()
             if let shops = shops {
                 newShops = shops.filter {

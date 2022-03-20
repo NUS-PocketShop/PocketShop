@@ -55,7 +55,7 @@ class DBOrders {
 
     func deleteOrder(id: String) {
         let ref = FirebaseManager.sharedManager.ref.child("orders/\(id)")
-        ref.removeValue() { error, _ in
+        ref.removeValue { error, _ in
             if let error = error {
                 print(error)
             }

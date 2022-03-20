@@ -16,37 +16,66 @@ class LoginViewModel: ObservableObject {
 
     func login() {
         self.isLoading = true
-        if self.email.isEmpty || self.password.isEmpty {
-            self.setErrorMessage("Please enter all fields")
+
+        // input check
+        guard loginInputChecks() else {
             return
         }
-        DatabaseInterface.auth.loginUser(email: self.email, password: self.password) { error, user in
-            switch error {
-            case .invalidEmail:
-                self.setErrorMessage("Invalid email")
+
+        // service call
+        DatabaseInterface.auth.loginUser(email: self.email, password: self.password) { [self] error, user in
+            guard ensureNoLoginErrors(error) else {
                 return
-            case .wrongPassword:
-                self.setErrorMessage("Wrong password")
-                return
-            case .userNotFound:
-                self.setErrorMessage("User not found")
-                return
-            case .unexpectedError:
-                self.setErrorMessage("Unexpected error")
-                return
-            default:
-                self.setErrorMessage("")
-            }
-            if let customer = user as? Customer {
-                print("Customer successfully loaded with id: \(customer.id)")
-                self.viewRouter.currentPage = .customer
-            } else if let vendor = user as? Vendor {
-                print("Vendor successfully loaded with id: \(vendor.id)")
-                // self.viewRouter.currentPage = .vendor
-            } else {
-                self.setErrorMessage("Unexpected error")
             }
 
+            if let customer = user as? Customer {
+                print("Customer successfully loaded with id: \(customer.id)")
+                navigateToNextScreen(accountType: .customer)
+            } else if let vendor = user as? Vendor {
+                print("Vendor successfully loaded with id: \(vendor.id)")
+                navigateToNextScreen(accountType: .vendor)
+            } else {
+                setErrorMessage("Unexpected error in LoginViewModel")
+                return
+            }
+        }
+    }
+
+    // returns true if no errors
+    private func ensureNoLoginErrors(_ error: AuthError?) -> Bool {
+        switch error {
+        case .wrongPassword:
+            setErrorMessage("Wrong password")
+        case .invalidEmail:
+            setErrorMessage("Invalid email")
+        case .userNotFound:
+            setErrorMessage("User not found")
+        case .unexpectedError:
+            setErrorMessage("Unexpected error")
+        default:
+            setErrorMessage("")
+            return true
+        }
+        return false
+    }
+
+    private func loginInputChecks() -> Bool {
+        if email.isEmpty {
+            setErrorMessage("Please enter an email")
+        } else if password.isEmpty {
+            setErrorMessage("Please enter your password")
+        } else {
+            return true
+        }
+        return false
+    }
+
+    private func navigateToNextScreen(accountType: AccountType) {
+        switch accountType {
+        case .vendor:
+            viewRouter.currentPage = .vendor
+        default:
+            viewRouter.currentPage = .customer
         }
     }
 

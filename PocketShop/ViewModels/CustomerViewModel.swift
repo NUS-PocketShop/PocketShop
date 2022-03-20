@@ -17,7 +17,7 @@ class CustomerViewModel: ObservableObject {
 
     init() {
         generateSampleProducts()
-        DatabaseInterface.auth.getCurrentUser() { _, user in
+        DatabaseInterface.auth.getCurrentUser { _, user in
             if let customer = user as? Customer {
                 self.customer = customer
             }

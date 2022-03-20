@@ -10,7 +10,7 @@ struct CustomerHomeScreen: View {
                     .font(.appTitle)
                     .foregroundColor(.gray9)
 
-                SearchBarView(searchText: $viewModel.searchText)
+                PSSearchBarView(searchText: $viewModel.searchText)
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {

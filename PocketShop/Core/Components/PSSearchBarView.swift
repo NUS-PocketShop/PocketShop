@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SearchBarView: View {
+struct PSSearchBarView: View {
 
     @Binding var searchText: String
 
@@ -22,10 +22,10 @@ struct SearchBarView: View {
      }
 }
 
-struct SearchBarView_Previews: PreviewProvider {
+struct PSSearchBarView_Previews: PreviewProvider {
     @State static var searchText = ""
 
     static var previews: some View {
-        SearchBarView(searchText: $searchText)
+        PSSearchBarView(searchText: $searchText)
     }
 }

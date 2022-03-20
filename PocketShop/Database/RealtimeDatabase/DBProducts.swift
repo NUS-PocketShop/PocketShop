@@ -33,7 +33,7 @@ class DBProducts {
 
     func deleteProduct(shopId: String, productId: String) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts/\(productId)")
-        ref.removeValue() { error, _ in
+        ref.removeValue { error, _ in
             if let error = error {
                 print(error)
             }

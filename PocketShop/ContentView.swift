@@ -21,7 +21,8 @@ struct ContentView: View {
             CustomerRootView()
                 .environmentObject(viewRouter)
         case .vendor:
-            Text("vendor")
+            ShopRootView()
+                .environmentObject(viewRouter)
         }
     }
 }
