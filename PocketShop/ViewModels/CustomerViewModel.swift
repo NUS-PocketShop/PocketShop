@@ -1,6 +1,6 @@
 import Combine
 
-class CustomerViewModel: ObservableObject {
+final class CustomerViewModel: ObservableObject {
 
     @Published var products: [Product] = [Product]()
     @Published var shops: [Shop] = [Shop]()
@@ -34,7 +34,7 @@ class CustomerViewModel: ObservableObject {
                 self.customer = customer
             }
         }
-        DatabaseInterface.db.observeAllShops() { error, allShops in
+        DatabaseInterface.db.observeAllShops { error, allShops in
             if let error = error {
                 print(error)
                 return
@@ -44,7 +44,7 @@ class CustomerViewModel: ObservableObject {
                 self.shops = allShops
             }
         }
-        DatabaseInterface.db.observeAllProducts() { error, allProducts in
+        DatabaseInterface.db.observeAllProducts { error, allProducts in
             if let error = error {
                 print(error)
                 return

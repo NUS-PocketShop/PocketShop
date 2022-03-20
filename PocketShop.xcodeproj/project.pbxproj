@@ -10,6 +10,11 @@
 		022EA8B927E4D437003F4E3C /* ShopViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8B827E4D437003F4E3C /* ShopViewRouter.swift */; };
 		022EA8BE27E4D47A003F4E3C /* ShopRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */; };
 		022EA8C327E4D4C3003F4E3C /* ShopProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */; };
+		022EA8F527E71A78003F4E3C /* ShopHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8F427E71A78003F4E3C /* ShopHomeScreen.swift */; };
+		022EA8FA27E71DDF003F4E3C /* EditShopDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8F927E71DDF003F4E3C /* EditShopDetailsScreen.swift */; };
+		022EA8FF27E71FD8003F4E3C /* PSImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */; };
+		022EA90427E731F0003F4E3C /* VendorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA90327E731F0003F4E3C /* VendorViewModel.swift */; };
+		022EA90927E76279003F4E3C /* ShopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA90827E76279003F4E3C /* ShopInfoView.swift */; };
 		02AD41C427DEFC9100F44822 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */; };
 		02AD41C527DEFC9100F44822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */; };
 		02AD41C627DEFC9100F44822 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C227DEFC9100F44822 /* Poppins-Bold.ttf */; };
@@ -30,9 +35,9 @@
 		02AD424227DF294C00F44822 /* PSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424127DF294C00F44822 /* PSButton.swift */; };
 		02AD424727DF2D8200F44822 /* RegisterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424627DF2D8200F44822 /* RegisterScreen.swift */; };
 		02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */; };
+		02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */; };
 		2B63EB8A27E23269008D5747 /* CustomerOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */; };
 		2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B786B4927E33F1600834CA4 /* RingView.swift */; };
-		02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */; };
 		AD15B39827E36E9B00513809 /* DBShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39727E36E9B00513809 /* DBShop.swift */; };
 		AD15B39A27E3968B00513809 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39927E3968B00513809 /* User.swift */; };
 		AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39C27E465BD00513809 /* ShopSchema.swift */; };
@@ -104,6 +109,11 @@
 		022EA8B827E4D437003F4E3C /* ShopViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewRouter.swift; sourceTree = "<group>"; };
 		022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopRootView.swift; path = PocketShop/Views/CommonViews/ShopRootView.swift; sourceTree = SOURCE_ROOT; };
 		022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopProfileScreen.swift; path = PocketShop/Views/CommonViews/ShopProfileScreen.swift; sourceTree = SOURCE_ROOT; };
+		022EA8F427E71A78003F4E3C /* ShopHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopHomeScreen.swift; sourceTree = SOURCE_ROOT; };
+		022EA8F927E71DDF003F4E3C /* EditShopDetailsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditShopDetailsScreen.swift; sourceTree = SOURCE_ROOT; };
+		022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSImagePicker.swift; sourceTree = "<group>"; };
+		022EA90327E731F0003F4E3C /* VendorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorViewModel.swift; sourceTree = "<group>"; };
+		022EA90827E76279003F4E3C /* ShopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopInfoView.swift; path = PocketShop/ViewModels/ShopInfoView.swift; sourceTree = SOURCE_ROOT; };
 		02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		02AD41C227DEFC9100F44822 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
@@ -125,9 +135,9 @@
 		02AD424127DF294C00F44822 /* PSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSButton.swift; sourceTree = "<group>"; };
 		02AD424627DF2D8200F44822 /* RegisterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreen.swift; sourceTree = "<group>"; };
 		02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSRadioButtonGroup.swift; sourceTree = "<group>"; };
 		2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrderScreen.swift; sourceTree = "<group>"; };
 		2B786B4927E33F1600834CA4 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
-		02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSRadioButtonGroup.swift; sourceTree = "<group>"; };
 		AD15B39727E36E9B00513809 /* DBShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBShop.swift; sourceTree = "<group>"; };
 		AD15B39927E3968B00513809 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AD15B39C27E465BD00513809 /* ShopSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSchema.swift; sourceTree = "<group>"; };
@@ -273,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */,
+				022EA90327E731F0003F4E3C /* VendorViewModel.swift */,
 				02AD422B27DF1FC700F44822 /* LoginViewModel.swift */,
 				02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */,
 			);
@@ -288,6 +299,7 @@
 				02AD424127DF294C00F44822 /* PSButton.swift */,
 				2B786B4927E33F1600834CA4 /* RingView.swift */,
 				02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */,
+				022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -432,7 +444,6 @@
 				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
 				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
 				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
-				DF67101D27DE769E002C5AE0 /* SearchBarView.swift */,
 				2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */,
 			);
 			path = CustomerViews;
@@ -443,6 +454,9 @@
 			children = (
 				022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */,
 				022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */,
+				022EA8F427E71A78003F4E3C /* ShopHomeScreen.swift */,
+				022EA8F927E71DDF003F4E3C /* EditShopDetailsScreen.swift */,
+				022EA90827E76279003F4E3C /* ShopInfoView.swift */,
 			);
 			name = ShopViews;
 			path = ../ShopViews;
@@ -627,6 +641,7 @@
 				02AD420527DF027200F44822 /* CustomerCartScreen.swift in Sources */,
 				02AD421927DF1CFF00F44822 /* LoginScreen.swift in Sources */,
 				DFD49A0727E4F1880067BC32 /* ShopSummaryView.swift in Sources */,
+				022EA90927E76279003F4E3C /* ShopInfoView.swift in Sources */,
 				02AD41FD27DF024A00F44822 /* CustomerSearchScreen.swift in Sources */,
 				DFD49A0327E4B9010067BC32 /* CustomerShopView.swift in Sources */,
 				02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */,
@@ -637,6 +652,7 @@
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
 				DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */,
 				02AD420A27DF028900F44822 /* CustomerProfileScreen.swift in Sources */,
+				022EA8FA27E71DDF003F4E3C /* EditShopDetailsScreen.swift in Sources */,
 				02AD41D827DEFCEA00F44822 /* Font+PocketShop.swift in Sources */,
 				ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */,
 				DF67102027DE7A8D002C5AE0 /* ProductSummaryView.swift in Sources */,
@@ -649,6 +665,7 @@
 				AD15B39A27E3968B00513809 /* User.swift in Sources */,
 				AD15B3A527E59E5600513809 /* OrderSchema.swift in Sources */,
 				02AD423D27DF293A00F44822 /* PSSecureField.swift in Sources */,
+				022EA8F527E71A78003F4E3C /* ShopHomeScreen.swift in Sources */,
 				AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */,
 				DF86A0DD27E7004700D8423C /* ImageLoader.swift in Sources */,
 				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
@@ -674,11 +691,13 @@
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
 				ADAD9F2927DDE68C00DE0EE7 /* DBUsers.swift in Sources */,
 				DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */,
+				022EA90427E731F0003F4E3C /* VendorViewModel.swift in Sources */,
 				AD15B39F27E4673400513809 /* ProductSchema.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,
 				ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */,
 				ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */,
 				02AD424227DF294C00F44822 /* PSButton.swift in Sources */,
+				022EA8FF27E71FD8003F4E3C /* PSImagePicker.swift in Sources */,
 				02AD41DD27DEFD0B00F44822 /* Constants.swift in Sources */,
 				022EA8B927E4D437003F4E3C /* ShopViewRouter.swift in Sources */,
 				02AD421E27DF1D3100F44822 /* CustomerViewRouter.swift in Sources */,
