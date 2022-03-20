@@ -24,8 +24,10 @@ protocol DatabaseAdapter {
     func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
     func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
 
-    func uploadProductImage(productId: String, imageData: Data, completionHandler: @escaping (DatabaseError?, String?) -> Void)
+    func uploadProductImage(productId: String, imageData: Data,
+                            completionHandler: @escaping (DatabaseError?, String?) -> Void)
     func getProductImage(productId: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void)
-    func uploadShopImage(shopId: String, imageData: Data, completionHandler: @escaping (DatabaseError?, String?) -> Void)
+    func uploadShopImage(shopId: String, imageData: Data,
+                         completionHandler: @escaping (DatabaseError?, String?) -> Void)
     func getShopImage(shopId: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void)
 }

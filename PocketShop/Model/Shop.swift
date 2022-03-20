@@ -7,3 +7,6 @@ struct Shop: Codable {
     var ownerId: String
     var soldProducts: [Product]
 }
+
+extension Shop: Hashable {
+}

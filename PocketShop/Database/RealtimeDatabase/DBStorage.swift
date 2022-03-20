@@ -4,7 +4,8 @@ class DBStorage {
     let imageRef = FirebaseManager.sharedManager.storageRef.child("images")
     let MAX_FILE_SIZE: Int64 = 5 * 1_024 * 1_024 // 5MB
 
-    private func uploadImage(data: Data, fileName: String, completionHandler: @escaping (DatabaseError?, String?) -> Void) {
+    private func uploadImage(data: Data, fileName: String,
+                             completionHandler: @escaping (DatabaseError?, String?) -> Void) {
         let ref = imageRef.child(fileName)
         ref.putData(data, metadata: nil) { _, error in
             if error != nil {
@@ -33,7 +34,8 @@ class DBStorage {
         }
     }
 
-    func uploadProductImage(productId: String, imageData: Data, completionHandler: @escaping (DatabaseError?, String?) -> Void) {
+    func uploadProductImage(productId: String, imageData: Data,
+                            completionHandler: @escaping (DatabaseError?, String?) -> Void) {
         uploadImage(data: imageData, fileName: "product_\(productId).png", completionHandler: completionHandler)
     }
 
@@ -41,7 +43,8 @@ class DBStorage {
         downloadImage(fileName: "product_\(productId).png", completionHandler: completionHandler)
     }
 
-    func uploadShopImage(shopId: String, imageData: Data, completionHandler: @escaping (DatabaseError?, String?) -> Void) {
+    func uploadShopImage(shopId: String, imageData: Data,
+                         completionHandler: @escaping (DatabaseError?, String?) -> Void) {
         uploadImage(data: imageData, fileName: "shop_\(shopId).png", completionHandler: completionHandler)
     }
 

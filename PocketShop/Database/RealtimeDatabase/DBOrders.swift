@@ -75,7 +75,8 @@ class DBOrders {
                     let jsonData = try JSONSerialization.data(withJSONObject: value)
                     let orderSchema = try JSONDecoder().decode(OrderSchema.self, from: jsonData)
                     let orderProducts = self
-                        .getOrderProductFromSchema(orderProductSchemas: Array((orderSchema.orderProductSchemas ?? [:]).values),
+                        .getOrderProductFromSchema(orderProductSchemas:
+                                                    Array((orderSchema.orderProductSchemas ?? [:]).values),
                                                    snapshot: snapshot)
                     let order = orderSchema.toOrder(orderProducts: orderProducts)
                     orders.append(order)

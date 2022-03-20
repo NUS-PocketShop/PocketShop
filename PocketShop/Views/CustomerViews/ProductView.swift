@@ -8,9 +8,7 @@ struct ProductView: View {
             Text(product.name)
                 .font(.appTitle)
 
-            // Image from local assets (named by product id)
-            Image(product.id)
-                .resizable()
+            URLImage(urlString: product.imageURL)
                 .scaledToFit()
                 .frame(width: 200, height: 200) // Might change to relative sizes
 

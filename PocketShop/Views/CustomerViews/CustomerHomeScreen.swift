@@ -5,25 +5,13 @@ struct CustomerHomeScreen: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                Text("Products")
-                    .font(.appTitle)
-                    .foregroundColor(.gray9)
-
+            ScrollView(.vertical) {
                 PSSearchBarView(searchText: $viewModel.searchText)
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(viewModel.productSearchResults, id: \.self) { product in
-                            NavigationLink(destination: ProductView(product: product)) {
-                                ProductSummaryView(product: product)
-                            }
-                        }
-                    }
-                }
-                .navigationTitle("Home")
-                .font(.appHeadline)
+                ProductsScrollView(viewModel: viewModel)
+                ShopsScrollView(viewModel: viewModel)
             }
+            .navigationTitle("Home")
+            .font(.appHeadline)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

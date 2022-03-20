@@ -86,7 +86,8 @@ class DatabaseManager: DatabaseAdapter {
         orders.observeOrdersFromCustomer(customerId: customerId, actionBlock: actionBlock)
     }
 
-    func uploadProductImage(productId: String, imageData: Data, completionHandler: @escaping (DatabaseError?, String?) -> Void) {
+    func uploadProductImage(productId: String, imageData: Data,
+                            completionHandler: @escaping (DatabaseError?, String?) -> Void) {
         storage.uploadProductImage(productId: productId, imageData: imageData, completionHandler: completionHandler)
     }
 
@@ -94,7 +95,8 @@ class DatabaseManager: DatabaseAdapter {
         storage.getProductImage(productId: productId, completionHandler: completionHandler)
     }
 
-    func uploadShopImage(shopId: String, imageData: Data, completionHandler: @escaping (DatabaseError?, String?) -> Void) {
+    func uploadShopImage(shopId: String, imageData: Data,
+                         completionHandler: @escaping (DatabaseError?, String?) -> Void) {
         storage.uploadShopImage(shopId: shopId, imageData: imageData, completionHandler: completionHandler)
     }
 
