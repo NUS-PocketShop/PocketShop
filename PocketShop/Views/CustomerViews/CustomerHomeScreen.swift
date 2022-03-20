@@ -6,7 +6,7 @@ struct CustomerHomeScreen: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical) {
-                SearchBarView(searchText: $viewModel.searchText)
+                PSSearchBarView(searchText: $viewModel.searchText)
                 ProductsScrollView(viewModel: viewModel)
                 ShopsScrollView(viewModel: viewModel)
             }

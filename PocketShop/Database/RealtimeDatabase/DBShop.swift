@@ -9,6 +9,7 @@ class DBShop {
         }
         var newShop = shop
         newShop.id = key
+        newShop.soldProducts = []
         let shopSchema = ShopSchema(shop: newShop)
         do {
             let jsonData = try JSONEncoder().encode(shopSchema)
