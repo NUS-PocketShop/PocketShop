@@ -45,7 +45,7 @@ class CustomerViewModel: ObservableObject {
                                         description: "Contains real strawberries",
                                         price: 7.90,
                                         imageURL: """
-                                                  https://gongchausa.com/wp-content/
+                                                  https://gongchausa.com/wp-content/\
                                                   uploads/2022/01/Strawberry-Milk-Tea.png
                                                   """,
                                         estimatedPrepTime: 3.0,
@@ -58,7 +58,7 @@ class CustomerViewModel: ObservableObject {
                                            description: "Classic black milk tea with boba",
                                            price: 3.50,
                                            imageURL: """
-                                                     http://www.gong-cha-sg.com/wp-content/uploads/2017/11/1.png
+                                                     https://www.gong-cha-sg.com/wp-content/uploads/2017/11/1.png
                                                      """,
                                            estimatedPrepTime: 2.5,
                                            isOutOfStock: false)
@@ -67,7 +67,7 @@ class CustomerViewModel: ObservableObject {
                            name: "Gong Cha",
                            description: "UTown",
                            imageURL: """
-                                     http://www.gong-cha-sg.com/wp-content/plugins/agile-store-locator/public/Logo/
+                                     https://www.gong-cha-sg.com/wp-content/plugins/agile-store-locator/public/Logo/\
                                      5a4f4dbd345bb_logo.png
                                      """,
                            isClosed: false,
@@ -98,7 +98,7 @@ class CustomerViewModel: ObservableObject {
                              description: "Classic double-patty burger",
                              price: 5.75,
                              imageURL: """
-                                       https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Big-Mac-1:
+                                       https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Big-Mac-1:\
                                        1-3-product-tile-desktop?wid=830&hei=516&dpr=off
                                        """,
                              estimatedPrepTime: 2.0,
@@ -108,7 +108,7 @@ class CustomerViewModel: ObservableObject {
                        name: "McDonald's",
                        description: "Punggol Plaza",
                        imageURL: """
-                                 https://yt3.ggpht.com/ytc/AKedOLTkYnULPQlg8T4kW26XHKbOsJyREZ7waqnqZadL
+                                 https://yt3.ggpht.com/ytc/AKedOLTkYnULPQlg8T4kW26XHKbOsJyREZ7waqnqZadL\
                                  =s900-c-k-c0x00ffffff-no-rj
                                  """,
                        isClosed: false,
@@ -128,7 +128,7 @@ class CustomerViewModel: ObservableObject {
                                           description: "Black milk tea with pearls",
                                           price: 4.50,
                                           imageURL: """
-                                                    http://sethlui.com/wp-content/uploads/2019/04/chicha-san-chen-
+                                                    https://sethlui.com/wp-content/uploads/2019/04/chicha-san-chen-\
                                                     taiwan-bubble-tea-new-singapore-outlet-may-2019-online-7.jpg
                                                     """,
                                           estimatedPrepTime: 3.0,

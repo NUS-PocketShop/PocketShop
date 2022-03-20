@@ -5,8 +5,7 @@ struct ProductListView: View {
 
     var body: some View {
         HStack {
-            Image(product.id)
-                .resizable()
+            URLImage(urlString: product.imageURL)
                 .scaledToFit()
                 .frame(width: 100, height: 100) // Might change to relative sizes
                 .padding(.leading)

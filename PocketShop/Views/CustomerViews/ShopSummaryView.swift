@@ -5,9 +5,7 @@ struct ShopSummaryView: View {
 
     var body: some View {
         VStack {
-            // Image from local assets (named by product id)
-            Image(shop.id)
-                .resizable()
+            URLImage(urlString: shop.imageURL)
                 .scaledToFit()
                 .frame(width: 150, height: 150) // Might change to relative sizes
 

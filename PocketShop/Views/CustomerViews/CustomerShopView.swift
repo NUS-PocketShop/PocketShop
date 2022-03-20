@@ -16,9 +16,8 @@ struct CustomerShopView: View {
                         .font(.appBody)
                         .padding(.bottom)
                 }
-                // Image from local assets (named by product id)
-                Image(shop.id)
-                    .resizable()
+
+                URLImage(urlString: shop.imageURL)
                     .scaledToFit()
                     .frame(width: 100, height: 100) // Might change to relative sizes
             }
