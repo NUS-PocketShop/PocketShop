@@ -8,29 +8,18 @@ struct ProductListView: View {
             URLImage(urlString: product.imageURL)
                 .scaledToFit()
                 .frame(width: 100, height: 100) // Might change to relative sizes
-                .padding(.leading)
-
-            Text(product.name)
-                .font(.appButton)
-                .foregroundColor(Color.black)
-                .padding(.leading)
-
-            Spacer()
+                .padding([.top, .leading, .bottom])
 
             VStack {
+                Text(product.name)
+                    .font(.appButton)
+                    .foregroundColor(Color.black)
+                    .padding([.leading, .bottom])
+
                 Text(String(format: "$%.2f", product.price))
                     .font(.appButton)
                     .foregroundColor(Color.black)
-                    .padding([.bottom, .trailing])
-
-                Button(action: {
-                    // Add product to order
-
-                }, label: {
-                    Image(systemName: "plus.circle")
-                        .foregroundColor(Color.accent)
-                        .padding(.trailing)
-                })
+                    .padding(.leading)
             }
         }
     }

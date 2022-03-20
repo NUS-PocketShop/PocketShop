@@ -10,21 +10,21 @@ final class CustomerViewModel: ObservableObject {
 
     var productSearchResults: [Product] {
         if searchText.isEmpty {
-            return Array(products)
+            return products
         } else {
-            return Array(products.filter { $0.name.localizedCaseInsensitiveContains(searchText) })
+            return products.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }
 
     var shopSearchResults: [Shop] {
         if searchText.isEmpty {
-            return Array(shops)
+            return shops
         } else {
-            return Array(shops.filter { shop in
+            return shops.filter { shop in
                 let shopProducts = shop.soldProducts
                 let matchingProducts = shopProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
                 return !matchingProducts.isEmpty
-            })
+            }
         }
     }
 

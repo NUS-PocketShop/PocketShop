@@ -81,6 +81,7 @@
 		DF67102027DE7A8D002C5AE0 /* ProductSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */; };
 		DF86A0DD27E7004700D8423C /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF86A0DC27E7004700D8423C /* ImageLoader.swift */; };
 		DF86A0DF27E70C7B00D8423C /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF86A0DE27E70C7B00D8423C /* URLImage.swift */; };
+		DF86A0E127E7324000D8423C /* ProductOrderBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF86A0E027E7324000D8423C /* ProductOrderBar.swift */; };
 		DFD49A0327E4B9010067BC32 /* CustomerShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */; };
 		DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0427E4E87B0067BC32 /* ProductListView.swift */; };
 		DFD49A0727E4F1880067BC32 /* ShopSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */; };
@@ -181,6 +182,7 @@
 		DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryView.swift; sourceTree = "<group>"; };
 		DF86A0DC27E7004700D8423C /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		DF86A0DE27E70C7B00D8423C /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
+		DF86A0E027E7324000D8423C /* ProductOrderBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOrderBar.swift; sourceTree = "<group>"; };
 		DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerShopView.swift; sourceTree = "<group>"; };
 		DFD49A0427E4E87B0067BC32 /* ProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
 		DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSummaryView.swift; sourceTree = "<group>"; };
@@ -442,6 +444,7 @@
 				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
 				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
 				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
+				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
 				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
 				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
 				2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */,
@@ -686,6 +689,7 @@
 				02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */,
 				ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */,
 				DF86A0DF27E70C7B00D8423C /* URLImage.swift in Sources */,
+				DF86A0E127E7324000D8423C /* ProductOrderBar.swift in Sources */,
 				022EA8BE27E4D47A003F4E3C /* ShopRootView.swift in Sources */,
 				02AD41D027DEFCCE00F44822 /* Color+PocketShop.swift in Sources */,
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,

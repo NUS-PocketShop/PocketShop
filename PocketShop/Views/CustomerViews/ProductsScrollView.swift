@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ProductsScrollView: View {
-    @StateObject var viewModel: CustomerViewModel
+    @EnvironmentObject var viewModel: CustomerViewModel
 
     var body: some View {
         VStack {
@@ -12,8 +12,8 @@ struct ProductsScrollView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.productSearchResults, id: \.self) { product in
-                        NavigationLink(destination: ProductView(product: product)) {
-                            ProductSummaryView(product: product)
+                        NavigationLink(destination: ProductView(product: product).environmentObject(viewModel)) {
+                            ProductSummaryView(product: product).environmentObject(viewModel)
                         }
                     }
                 }
@@ -24,6 +24,6 @@ struct ProductsScrollView: View {
 
 struct ProductsScrollView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductsScrollView(viewModel: CustomerViewModel())
+        ProductsScrollView().environmentObject(CustomerViewModel())
     }
 }
