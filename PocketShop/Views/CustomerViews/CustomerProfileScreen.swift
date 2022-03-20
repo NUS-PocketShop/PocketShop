@@ -3,7 +3,7 @@ import SwiftUI
 struct CustomerProfileScreen: View {
 
     @State var router: MainViewRouter
-    @State var willNavigateOrder: Bool = false
+    @State var willNavigateOrder = false
 
     var body: some View {
         NavigationView {

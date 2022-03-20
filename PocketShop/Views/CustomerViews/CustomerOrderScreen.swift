@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomerOrderScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -17,18 +17,19 @@ struct CustomerOrderScreen: View {
                     Text("Current").tag(TabView.current)
                     Text("History").tag(TabView.history)
                 }
-                .pickerStyle(.segmented)
+                .pickerStyle(SegmentedPickerStyle())
                 .padding(.horizontal, 24)
                 .padding(.bottom, 24)
-                
+
                 withAnimation(.easeInOut) {
                     OrderList()
                 }
             }
             .navigationTitle("My Orders")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
-    
+
     @ViewBuilder
     func OrderList() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -43,59 +44,58 @@ struct CustomerOrderScreen: View {
         }
         .frame(maxWidth: .infinity)
     }
-    
+
     @ViewBuilder
     func OrderItem(order: AdaptedOrder) -> some View {
-        HStack(alignment: .top){
+        HStack(alignment: .top) {
             VStack {
                 Text("COLLECTION NO.")
                     .font(.appBody)
-                
+
                 Spacer()
-                
+
                 Text("\(order.collectionNo)")
                     .font(.appFont(size: 32))
                     .bold()
-                
+
                 Spacer()
-                
+
                 Text("\(order.orderDateString)")
                     .font(.appBody)
-                
+
                 Text("\(order.orderTimeString)")
                     .font(.appBody)
                     .foregroundColor(.gray)
             }
             .frame(minWidth: 100)
-            
+
             VStack(alignment: .leading, spacing: 0) {
                 Text("\(order.shopName)")
                     .font(.appBody)
                     .bold()
                     .padding(.bottom, 4)
-                
+
                 ForEach(order.orderProducts, id: \.id) { orderProduct in
                     Text("\(orderProduct.quantity) x \(orderProduct.name)")
                         .font(.appSmallCaption)
                 }
-                
-                
+
                 Spacer()
             }
             .padding(.leading, 8)
-            
+
             Spacer()
-            
+
             VStack {
                 Text(String(format: "$%2.f", order.total))
                     .font(.appBody)
                     .bold()
                     .padding(.bottom, 12)
-                
+
                 Spacer()
-                
+
                 RingView(color: order.ringColor, text: order.statusAsString)
-                
+
                 Spacer()
             }
             .frame(minHeight: 128)
@@ -145,8 +145,8 @@ extension CustomerOrderScreen {
             }
         }
         var orderDate: Date
-        private let dateFormatter: DateFormatter = DateFormatter()
-        
+        private let dateFormatter = DateFormatter()
+
         var orderDateString: String {
             dateFormatter.dateFormat = "dd/mm/yyyy"
             return dateFormatter.string(from: orderDate)
@@ -156,13 +156,13 @@ extension CustomerOrderScreen {
             return dateFormatter.string(from: orderDate)
         }
     }
-    
+
     struct AdaptedOrderProduct {
         var id: String
         var name: String
         var quantity: Int
     }
-    
+
     class ViewModel: ObservableObject {
         var currentOrders: [AdaptedOrder] = [
             AdaptedOrder(
@@ -183,7 +183,7 @@ extension CustomerOrderScreen {
                 status: .ready,
                 orderDate: Date())
         ]
-        
+
         var pastOrders: [AdaptedOrder] = [
             AdaptedOrder(
                 id: "2", collectionNo: 999, shopName: "Cool Spot", total: 13.60,
@@ -192,9 +192,9 @@ extension CustomerOrderScreen {
                 status: .preparing,
                 orderDate: Date())
         ]
-        
+
         @Published var filteredOrders: [AdaptedOrder] = []
-        
+
         @Published var tabSelection: TabView {
             didSet {
                 switch tabSelection {
@@ -205,21 +205,21 @@ extension CustomerOrderScreen {
                 }
             }
         }
-        
+
         init() {
             tabSelection = .current
             fetchCurrentOrders()
         }
-        
+
         func fetchCurrentOrders() {
             filteredOrders = currentOrders
-            
+
             // Fetch `currentOrders` from backend and listen for changes
         }
-        
+
         func fetchOrderHistory() {
             filteredOrders = pastOrders
-            
+
             // Fetch `pastOrders` from backend and listen for changes
         }
     }

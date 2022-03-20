@@ -3,7 +3,7 @@ import SwiftUI
 struct CustomerRootView: View {
     let tabData = [
         TabItem(title: Text("Home"), image: Image(systemName: "house"), tag: 0),
-        TabItem(title: Text("Order"), image: Image(systemName: "list.bullet.rectangle.portrait"), tag: 1),
+        TabItem(title: Text("Orders"), image: Image(systemName: "list.bullet"), tag: 1),
         TabItem(title: Text("Cart"), image: Image(systemName: "cart"), tag: 2),
         TabItem(title: Text("Profile"), image: Image(systemName: "person"), tag: 3)
     ]
