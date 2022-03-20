@@ -41,8 +41,8 @@ class DBProducts {
     }
 
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
-        var products = [Product]()
         FirebaseManager.sharedManager.ref.child("shops/").observe(DataEventType.value) { snapshot in
+            var products = [Product]()
             guard let allShops = snapshot.value as? NSDictionary else {
                 actionBlock(.unexpectedError, nil)
                 return

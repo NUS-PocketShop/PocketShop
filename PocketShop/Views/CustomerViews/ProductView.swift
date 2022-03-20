@@ -30,6 +30,6 @@ struct ProductView: View {
 struct ProductView_Previews: PreviewProvider {
     static var previews: some View {
         let sampleProduct = CustomerViewModel().products.first!
-        ProductView(product: sampleProduct)
+        ProductView(product: sampleProduct).environmentObject(CustomerViewModel())
     }
 }

@@ -7,8 +7,8 @@ struct CustomerHomeScreen: View {
         NavigationView {
             ScrollView(.vertical) {
                 PSSearchBarView(searchText: $viewModel.searchText)
-                ProductsScrollView(viewModel: viewModel)
-                ShopsScrollView(viewModel: viewModel)
+                ProductsScrollView().environmentObject(viewModel)
+                ShopsScrollView().environmentObject(viewModel)
             }
             .navigationTitle("Home")
             .font(.appHeadline)

@@ -1,4 +1,4 @@
-struct Shop: Codable {
+struct Shop: Codable, Hashable {
     var id: String
     var name: String
     var description: String
@@ -6,7 +6,4 @@ struct Shop: Codable {
     var isClosed: Bool
     var ownerId: String
     var soldProducts: [Product]
-}
-
-extension Shop: Hashable {
 }

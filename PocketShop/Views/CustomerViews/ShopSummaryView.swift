@@ -17,7 +17,6 @@ struct ShopSummaryView: View {
                 .font(.appHeadline)
                 .foregroundColor(.gray9)
                 .padding(.bottom)
-
         }
         .padding()
     }
