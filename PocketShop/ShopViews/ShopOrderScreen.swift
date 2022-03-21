@@ -100,19 +100,35 @@ struct ShopOrderScreen: View {
                             fatalError("Order does not exist")
                         }
                         
-                        return Alert(
-                            title: Text("Confirmation"),
-                            message: Text("Confirm that order \(selectedOrder.collectionNo) is ready?"),
-                            primaryButton: .default(Text("Confirm")) {
-                                viewModel.setOrderReady(order: selectedOrder)
-                            },
-                            secondaryButton: .destructive(Text("Cancel")))
+                        return getAlertForOrder(selectedOrder)
                     }
 
                 Spacer()
             }
             .frame(minHeight: 128)
         }
+    }
+    
+    private func getAlertForOrder(_ order: Order) -> Alert {
+        if order.status == .accepted {
+            return Alert(
+                title: Text("Confirmation"),
+                message: Text("Confirm that order \(order.collectionNo) is ready?"),
+                primaryButton: .default(Text("Confirm")) {
+                    viewModel.setOrderReady(order: order)
+                },
+                secondaryButton: .destructive(Text("Cancel")))
+        }
+        
+        assert(order.status == .ready, "Implement order collection type of \(order.status)!")
+        
+        return Alert(
+            title: Text("Confirmation"),
+            message: Text("Confirm that order \(order.collectionNo) is collected?"),
+            primaryButton: .default(Text("Confirm")) {
+                viewModel.setOrderCollected(order: order)
+            },
+            secondaryButton: .destructive(Text("Cancel")))
     }
 }
 
@@ -180,6 +196,13 @@ extension ShopOrderScreen {
         func setOrderReady(order: Order) {
             var order = order
             order.status = .ready
+            
+            DatabaseInterface.db.editOrder(order: order)
+        }
+        
+        func setOrderCollected(order: Order) {
+            var order = order
+            order.status = .collected
             
             DatabaseInterface.db.editOrder(order: order)
         }
