@@ -38,27 +38,7 @@ final class VendorViewModel: ObservableObject {
                                 ownerId: vendor.id,
                                 soldProducts: [])
 
-        DatabaseInterface.db.createShop(shop: shopToCreate) { error, shop in
-            if let error = error {
-                print(error)
-                return
-            }
-
-            guard let imageData = image.pngData(), var shop = shop else {
-                print("ERROR: either no image or no shop")
-                return
-            }
-            DBStorage().uploadShopImage(shopId: shop.id,
-                                        imageData: imageData,
-                                        completionHandler: { _, imageUrl in
-                                            guard let imageUrl = imageUrl else {
-                                                return
-                                            }
-                                            shop.imageURL = imageUrl
-                                            DatabaseInterface.db.editShop(shop: shop)
-                                        })
-        }
-
+        DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
     }
 
     func createProduct(name: String, description: String, price: Double, estimatedPrepTime: Double, image: UIImage) {
@@ -77,31 +57,7 @@ final class VendorViewModel: ObservableObject {
                               estimatedPrepTime: estimatedPrepTime,
                               isOutOfStock: false)
 
-        DatabaseInterface.db.createProduct(shopId: shop.id, product: product) { [self] error, product in
-            guard resolveErrors(error) else {
-                return
-            }
-
-            guard var product = product else {
-                print("ERROR: Product not created!")
-                return
-            }
-
-            guard let imageData = image.pngData() else {
-                print("ERROR: No image provided!")
-                return
-            }
-
-            DBStorage().uploadProductImage(productId: product.id,
-                                           imageData: imageData,
-                                           completionHandler: { _, imageURL in
-                guard let imageURL = imageURL else {
-                    return
-                }
-                product.imageURL = imageURL
-                DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
-            })
-        }
+        DatabaseInterface.db.createProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }
 
     func editProduct(oldProductId: String, name: String, description: String,

@@ -22,8 +22,8 @@ class DatabaseManager: DatabaseAdapter {
         users.getUser(with: id, completionHandler: completionHandler)
     }
 
-    func createShop(shop: Shop, completionHandler: @escaping (DatabaseError?, Shop?) -> Void) {
-        shops.createShop(shop: shop, completionHandler: completionHandler)
+    func createShop(shop: Shop, imageData: Data?) {
+        shops.createShop(shop: shop, imageData: imageData)
     }
 
     func editShop(shop: Shop) {
@@ -42,9 +42,8 @@ class DatabaseManager: DatabaseAdapter {
         shops.observeShopsByOwner(ownerId: ownerId, actionBlock: actionBlock)
     }
 
-    func createProduct(shopId: String, product: Product,
-                       completionHandler: @escaping (DatabaseError?, Product?) -> Void) {
-        products.createProduct(shopId: shopId, product: product, completionHandler: completionHandler)
+    func createProduct(shopId: String, product: Product, imageData: Data?) {
+        products.createProduct(shopId: shopId, product: product, imageData: imageData)
     }
 
     func editProduct(shopId: String, product: Product) {
