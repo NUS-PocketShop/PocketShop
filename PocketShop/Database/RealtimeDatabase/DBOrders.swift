@@ -78,11 +78,12 @@ class DBOrders {
                         .getOrderProductFromSchema(orderProductSchemas:
                                                     Array((orderSchema.orderProductSchemas ?? [:]).values),
                                                    snapshot: snapshot)
+                    let shopName = self.getShopNameFromSnapshot(shopId: orderSchema.shopId, snapshot: snapshot) ?? ""
                     var total = 0.0
                     for orderProduct in orderProducts {
                         total += orderProduct.total
                     }
-                    let order = orderSchema.toOrder(orderProducts: orderProducts, total: total)
+                    let order = orderSchema.toOrder(orderProducts: orderProducts, shopName: shopName, total: total)
                     orders.append(order)
                 } catch {
                     print(error)
@@ -143,5 +144,21 @@ class DBOrders {
             }
         }
         return product
+    }
+
+    private func getShopNameFromSnapshot(shopId: String, snapshot: DataSnapshot) -> String? {
+        guard let categories = snapshot.value as? NSDictionary,
+              let shops = categories["shops"] as? NSDictionary else {
+            return nil
+        }
+        for case let shop as NSDictionary in shops.allValues {
+            if let curShopId = shop["id"] as? String,
+                  let curShopName = shop["name"] as? String {
+                if shopId == curShopId {
+                    return curShopName
+                }
+            }
+        }
+        return nil
     }
 }
