@@ -6,23 +6,10 @@ struct ShopHomeScreen: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                if let shop = viewModel.currentShop {
-                    ShopInfoView(shop: shop)
-                } else {
-                    AddShopDetailsView()
-                }
-            }
-            .navigationTitle(viewModel.shopName)
-            .font(.appHeadline)
-            .toolbar {
-                if let shop = viewModel.currentShop {
-                    Button {
-                        // edit the current shop's items
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                    }
-                }
+            if let shop = viewModel.currentShop {
+                ShopProductsView(shop: shop)
+            } else {
+                AddShopDetailsView()
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -40,14 +27,16 @@ struct AddShopDetailsView: View {
     @State private var isAddingShop = false
 
     var body: some View {
-        Text("Your shop is not created yet! Press the '+' button to get started.")
-            .font(.appBody)
-        NavigationLink(
-            destination: EditShopDetailsScreen(),
-            isActive: $isAddingShop) {
-            PSButton(title: "+") {
-                isAddingShop = true
-            }.buttonStyle(OutlineButtonStyle())
+        VStack(spacing: 12) {
+            Text("Your shop is not created yet! Tap the '+' button to get started")
+                .font(.appBody)
+            NavigationLink(
+                destination: EditShopDetailsScreen(),
+                isActive: $isAddingShop) {
+                PSButton(title: "+") {
+                    isAddingShop = true
+                }.buttonStyle(OutlineButtonStyle())
+            }
         }
     }
 }

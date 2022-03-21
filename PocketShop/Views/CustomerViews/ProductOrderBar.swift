@@ -36,7 +36,7 @@ struct ProductOrderBar: View {
                         // TODO: More helpful error message
                         return
                     }
-                    
+
                     let orderProduct = OrderProduct(id: "dummyId",
                                                     product: product,
                                                     quantity: quantity,
@@ -51,7 +51,7 @@ struct ProductOrderBar: View {
                                       date: Date(),
                                       collectionNo: 0,
                                       total: 0)
-                    
+
                     DatabaseInterface.db.createOrder(order: order)
                 }
                 .buttonStyle(FillButtonStyle())

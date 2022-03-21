@@ -10,7 +10,7 @@ struct ProductListView: View {
                 .frame(width: 100, height: 100) // Might change to relative sizes
                 .padding([.top, .leading, .bottom])
 
-            VStack {
+            VStack(alignment: .leading) {
                 Text(product.name)
                     .font(.appButton)
                     .foregroundColor(Color.black)
