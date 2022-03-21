@@ -6,13 +6,13 @@ final class VendorViewModel: ObservableObject {
     @Published var products: [Product] = [Product]()
     @Published var vendor: Vendor?
     @Published var currentShop: Shop?
+
     var shopName: String {
         currentShop?.name ?? "My Shop"
     }
 
     init() {
         print("initializing vendor view model")
-
         DatabaseInterface.auth.getCurrentUser { [self] _, user in
             if let vendor = user as? Vendor {
                 self.vendor = vendor
@@ -38,14 +38,13 @@ final class VendorViewModel: ObservableObject {
                                 ownerId: vendor.id,
                                 soldProducts: [])
 
-        DatabaseInterface.db.createShop(shop: shopToCreate) { [self] error, shop in
+        DatabaseInterface.db.createShop(shop: shopToCreate) { error, shop in
             if let error = error {
                 print(error)
                 return
             }
 
-            guard let imageData = image.pngData(),
-                  let shop = shop else {
+            guard let imageData = image.pngData(), let shop = shop else {
                 // should have image
                 print("ERROR: either no image or no shop")
                 return
@@ -57,6 +56,50 @@ final class VendorViewModel: ObservableObject {
                                         })
         }
 
+    }
+
+    func createProduct(name: String, description: String, price: Double, estimatedPrepTime: Double, image: UIImage) {
+        guard let shop = currentShop else {
+            print("No current shop!")
+            return
+        }
+
+        var product = Product(id: "",
+                              name: name,
+                              shopName: shop.name,
+                              shopId: shop.id,
+                              description: description,
+                              price: price,
+                              imageURL: "",
+                              estimatedPrepTime: estimatedPrepTime,
+                              isOutOfStock: false)
+
+        DatabaseInterface.db.createProduct(shopId: shop.id, product: product) { error, product in
+            if let error = error {
+                print(error)
+                return
+            }
+
+            guard var product = product else {
+                print("Error: Product not created!")
+                return
+            }
+
+            guard let imageData = image.pngData() else {
+                print("ERROR: No image provided!")
+                return
+            }
+
+            DBStorage().uploadProductImage(productId: product.id,
+                                           imageData: imageData,
+                                           completionHandler: { _, imageURL in
+                guard let imageURL = imageURL else {
+                    return
+                }
+                product.imageURL = imageURL
+                DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
+            })
+        }
     }
 
     // MARK: Private functions

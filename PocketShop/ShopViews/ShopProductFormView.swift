@@ -6,6 +6,9 @@ struct ShopProductFormView: View {
 
     @State private var name: String = ""
     @State private var price: String = ""
+    @State private var description: String = ""
+    @State private var prepTime: String = ""
+    @State private var image: UIImage?
 
     var body: some View {
         Group {
@@ -15,32 +18,47 @@ struct ShopProductFormView: View {
                         .ignoresSafeArea()
 
                     VStack {
-                        Text("PRODUCT NAME")
-                            .font(.appHeadline)
-                        PSTextField(text: $name, placeholder: "Enter product name")
+                        PSTextField(text: $name,
+                                    title: "Product Name",
+                                    placeholder: "Enter product name")
 
-                        Text("PRODUCT PRICE")
-                            .font(.appHeadline)
-                        PSTextField(text: $price, placeholder: "Enter product price")
+                        PSTextField(text: $price,
+                                    title: "Product Price",
+                                    placeholder: "Enter product price")
 
-                        Text("PRODUCT IMAGE")
-                            .font(.appHeadline)
+                        PSTextField(text: $description,
+                                    title: "Product Description (optional)",
+                                    placeholder: "Enter product description")
 
-                        PSButton(title: "Upload image", icon: "plus") {
-                            // Upload image
+                        PSTextField(text: $prepTime,
+                                    title: "Estimated Prep Time",
+                                    placeholder: "Enter estimated prep time")
 
-                        }
-                        .buttonStyle(OutlineButtonStyle())
-                        .padding(.bottom)
+                        PSImagePicker(title: "Product Image",
+                                      image: $image)
+                            .padding(.bottom)
 
                         PSButton(title: "Save") {
+                            guard let image = image, !name.isEmpty else {
+                                return
+                            }
+                            guard let price = Double(price) else {
+                                return
+                            }
+                            guard let estimatedPrepTime = Double(prepTime) else {
+                                return
+                            }
                             // Create Product and save to db
-
+                            viewModel.createProduct(name: name,
+                                                    description: description,
+                                                    price: price,
+                                                    estimatedPrepTime: estimatedPrepTime,
+                                                    image: image)
                             showModal = false
                         }
                         .buttonStyle(FillButtonStyle())
-                        .padding(.horizontal)
                     }
+                    .padding(.horizontal)
                 }
             }
         }

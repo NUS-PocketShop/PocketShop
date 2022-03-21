@@ -3,35 +3,53 @@ import SwiftUI
 struct ShopProductsView: View {
     @StateObject var viewModel: VendorViewModel
     @State var showModal = false
+    var shop: Shop {
+        guard let shop = viewModel.currentShop else {
+            return Shop(id: "", name: "", description: "", imageURL: "", isClosed: true, ownerId: "", soldProducts: [])
+        }
+        return shop
+    }
+
+//    init?(viewModel: VendorViewModel) {
+//        self._viewModel = StateObject(wrappedValue: viewModel)
+//        guard let shop = viewModel.currentShop else {
+//            return nil
+//        }
+//        self.shop = shop
+//    }
 
     var body: some View {
         VStack {
             HStack {
                 VStack {
-                    Text(viewModel.shop.name)
+                    Text(shop.name)
                         .font(.appTitle)
                         .padding(.bottom)
 
-                    Text(viewModel.shop.description)
+                    Text(shop.description)
                         .font(.appBody)
                         .padding(.bottom)
                 }
 
-                URLImage(urlString: viewModel.shop.imageURL)
+                URLImage(urlString: shop.imageURL)
                     .scaledToFit()
                     .frame(width: 100, height: 100) // Might change to relative sizes
             }
 
-            List {
-                ForEach(viewModel.shop.soldProducts, id: \.self) { product in
-                    if product.shopName == viewModel.shop.name {
-                        NavigationLink(destination: ProductView(product: product)) {
-                            ProductListView(product: product)
+            if (!viewModel.products.contains(where: { $0.shopName == shop.name })) {
+                Text("This shop has no products... yet!")
+            } else {
+                List {
+                    ForEach(shop.soldProducts, id: \.self) { product in
+                        if product.shopName == shop.name {
+                            NavigationLink(destination: ProductView(product: product)) {
+                                ProductListView(product: product)
+                            }
                         }
                     }
-                }
-                .onDelete { _ in
-                    // Delete item from db
+                    .onDelete { _ in
+                        // Delete item from db
+                    }
                 }
             }
 
@@ -43,11 +61,5 @@ struct ShopProductsView: View {
             .padding(.horizontal)
         }
         .overlay(ShopProductFormView(viewModel: viewModel, showModal: $showModal))
-    }
-}
-
-struct ShopProductsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ShopProductsView(viewModel: VendorViewModel())
     }
 }

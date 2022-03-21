@@ -6,23 +6,10 @@ struct ShopHomeScreen: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                if let shop = viewModel.currentShop {
-                    ShopInfoView(shop: shop)
-                } else {
-                    AddShopDetailsView()
-                }
-            }
-            .navigationTitle(viewModel.shopName)
-            .font(.appHeadline)
-            .toolbar {
-                if let shop = viewModel.currentShop {
-                    Button {
-                        // edit the current shop's items
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                    }
-                }
+            if let _ = viewModel.currentShop {
+                ShopProductsView(viewModel: viewModel)
+            } else {
+                AddShopDetailsView()
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
