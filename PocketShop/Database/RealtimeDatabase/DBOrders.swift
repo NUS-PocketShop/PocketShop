@@ -42,15 +42,18 @@ class DBOrders {
     }
 
     func editOrder(order: Order) {
+        let ref = FirebaseManager.sharedManager.ref.child("orders/\(order.id)")
+        var orderSchema = OrderSchema(order: order)
+        let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
+        orderSchema.orderProductSchemas = [:]
         do {
-            let ref = FirebaseManager.sharedManager.ref.child("orders/\(order.id)")
-            let orderSchema = OrderSchema(order: order)
             let jsonData = try JSONEncoder().encode(orderSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
             print(error)
         }
+        createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
     }
 
     func deleteOrder(id: String) {
