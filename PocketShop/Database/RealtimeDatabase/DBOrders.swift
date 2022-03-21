@@ -106,7 +106,7 @@ class DBOrders {
                                            snapshot: DataSnapshot) -> [OrderProduct] {
         var orderProducts = [OrderProduct]()
         for orderProductSchema in orderProductSchemas {
-            if let product = getProductFromSnapshot(productId: orderProductSchema.id, snapshot: snapshot) {
+            if let product = getProductFromSnapshot(productId: orderProductSchema.productId, snapshot: snapshot) {
                 let orderProduct = orderProductSchema.toOrderProduct(product: product)
                 orderProducts.append(orderProduct)
             }
@@ -124,7 +124,7 @@ class DBOrders {
             guard let shopId = shop["id"] as? String,
                   let shopName = shop["name"] as? String,
                   let productSchemas = shop["soldProducts"] as? NSDictionary else {
-                      return nil
+                      continue
                   }
             for case let value as NSDictionary in productSchemas.allValues {
                 do {

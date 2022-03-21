@@ -98,8 +98,8 @@ struct CustomerOrderScreen: View {
 
 extension CustomerOrderScreen {
     enum TabView: String {
-        case current
-        case history
+        case current = "current"
+        case history = "history"
     }
 }
 
@@ -148,72 +148,90 @@ extension CustomerOrderScreen {
             dateFormatter.dateFormat = "HH:mm a"
             return dateFormatter.string(from: orderDate)
         }
+        
+        static func from(order: Order) -> AdaptedOrder {
+            let total = order.orderProducts.reduce(0) { res, orderProduct in
+                res + Double(orderProduct.quantity) * orderProduct.product.price
+            }
+            
+            let adaptedOrderProducts = order.orderProducts.map { orderProduct in
+                AdaptedOrderProduct.from(orderProduct: orderProduct)
+            }
+            
+            return AdaptedOrder(id: order.id,
+                                collectionNo: 123,
+                                shopName: order.orderProducts[0].product.shopName,
+                                total: total,
+                                orderProducts: adaptedOrderProducts,
+                                status: order.status,
+                                orderDate: order.date)
+        }
     }
 
     struct AdaptedOrderProduct {
         var id: String
         var name: String
         var quantity: Int
+        
+        static func from(orderProduct: OrderProduct) -> AdaptedOrderProduct {
+            AdaptedOrderProduct(id: orderProduct.id,
+                                name: orderProduct.product.name,
+                                quantity: orderProduct.quantity)
+        }
     }
 
     class ViewModel: ObservableObject {
-        var currentOrders: [AdaptedOrder] = [
-            AdaptedOrder(
-                id: "1", collectionNo: 220, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "1", name: "Red Bean Bun", quantity: 10)],
-                status: .preparing,
-                orderDate: Date()),
-            AdaptedOrder(
-                id: "3", collectionNo: 225, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "9", name: "Coffee", quantity: 3),
-                                AdaptedOrderProduct(id: "10", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "11", name: "Some order with very long name", quantity: 2),
-                                AdaptedOrderProduct(id: "12", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "13", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "14", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "15", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "16", name: "Chocolate Bun", quantity: 2)],
-                status: .ready,
-                orderDate: Date())
-        ]
-
-        var pastOrders: [AdaptedOrder] = [
-            AdaptedOrder(
-                id: "2", collectionNo: 999, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "1", name: "Green Bean Bun", quantity: 10),
-                                AdaptedOrderProduct(id: "2", name: "Red Bean Bun", quantity: 2)],
-                status: .preparing,
-                orderDate: Date())
-        ]
-
+        private var customerViewModel = CustomerViewModel()
+        @Published var orders: [Order] =  []
         @Published var filteredOrders: [AdaptedOrder] = []
 
         @Published var tabSelection: TabView {
             didSet {
-                switch tabSelection {
-                case .current:
-                    fetchCurrentOrders()
-                case .history:
-                    fetchOrderHistory()
-                }
+                updateFilter()
             }
         }
 
         init() {
             tabSelection = .current
-            fetchCurrentOrders()
+            fetchOrder()
+        }
+        
+        private func fetchOrder() {
+            DatabaseInterface.auth.getCurrentUser { _, user in
+                guard let user = user else {
+                    print("No user")
+                    return
+                }
+                
+                DatabaseInterface.db.observeOrdersFromCustomer(customerId: user.id) { [self] error, orders in
+                    guard let orders = orders else {
+                        fatalError("Something wrong when listening to orders")
+                    }
+                    self.orders = orders
+                    self.updateFilter()
+                }
+            }
+        }
+        
+        private func updateFilter() {
+            switch tabSelection {
+            case .current:
+                setFilterCurrent()
+            case .history:
+                setFilterHistory()
+            }
         }
 
-        func fetchCurrentOrders() {
-            filteredOrders = currentOrders
-
-            // Fetch `currentOrders` from backend and listen for changes
+        func setFilterCurrent() {
+            filteredOrders = orders.filter { order in
+                order.status != .collected
+            }.map(AdaptedOrder.from)
         }
 
-        func fetchOrderHistory() {
-            filteredOrders = pastOrders
-
-            // Fetch `pastOrders` from backend and listen for changes
+        func setFilterHistory() {
+            filteredOrders = orders.filter { order in
+                order.status != .collected
+            }.map(AdaptedOrder.from)
         }
     }
 }
