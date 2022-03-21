@@ -23,7 +23,7 @@ struct ShopRootView: View {
                     tabData[0].image
                 }.tag(ShopViewRouter.Page.home)
 
-            ShopOrderScreen(viewModel: .init())
+            ShopOrderScreen(viewModel: .init(vendorViewModel: viewModel))
                 .tabItem {
                     tabData[1].title
                     tabData[1].image

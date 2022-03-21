@@ -3,7 +3,7 @@ import SwiftUI
 struct ShopOrderScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
     @State private var showConfirmation = false
-    @State private var selectedOrder: AdaptedOrder?
+    @State private var selectedOrder: Order?
 
     var body: some View {
         NavigationView {
@@ -29,7 +29,7 @@ struct ShopOrderScreen: View {
     func OrderList() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
-                ForEach(viewModel.filteredOrders) { order in
+                ForEach(viewModel.filteredOrders, id: \.id) { order in
                     OrderItem(order: order)
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 12)
@@ -41,7 +41,7 @@ struct ShopOrderScreen: View {
     }
 
     @ViewBuilder
-    func OrderItem(order: AdaptedOrder) -> some View {
+    func OrderItem(order: Order) -> some View {
         HStack(alignment: .top) {
             VStack {
                 Text("COLLECTION NO.")
@@ -71,7 +71,7 @@ struct ShopOrderScreen: View {
                     .padding(.bottom, 4)
 
                 ForEach(order.orderProducts, id: \.id) { orderProduct in
-                    Text("\(orderProduct.quantity) x \(orderProduct.name)")
+                    Text("\(orderProduct.quantity) x \(orderProduct.product.name)")
                         .font(.appSmallCaption)
                 }
 
@@ -89,7 +89,7 @@ struct ShopOrderScreen: View {
 
                 Spacer()
 
-                RingView(color: order.ringColor, text: order.statusAsString)
+                RingView(color: order.ringColor, text: order.status.toString())
                     .onTapGesture {
                         showConfirmation.toggle()
                         selectedOrder = order
@@ -125,133 +125,70 @@ extension ShopOrderScreen {
 
 // MARK: view model
 extension ShopOrderScreen {
-    struct AdaptedOrder: Identifiable {
-        var id: String
-        var collectionNo: Int
-        var shopName: String
-        var total: Double
-        var orderProducts: [AdaptedOrderProduct]
-        var status: OrderStatus
-        var isHistory: Bool {
-            status == .collected
-        }
-        var statusAsString: String {
-            switch status {
-            case .pending:
-                return "PENDING"
-            case .accepted:
-                return "ACCEPTED"
-            case .preparing:
-                return "PREPARING"
-            case .ready:
-                return "READY"
-            case .collected:
-                return "COLLECTED"
-            }
-        }
-        var ringColor: Color {
-            switch status {
-            case .pending, .accepted, .preparing:
-                return .gray6
-            case .ready, .collected:
-                return .success
-            }
-        }
-        var orderDate: Date
-        private let dateFormatter = DateFormatter()
-
-        var orderDateString: String {
-            dateFormatter.dateFormat = "dd/MM/yyyy"
-            return dateFormatter.string(from: orderDate)
-        }
-        var orderTimeString: String {
-            dateFormatter.dateFormat = "HH:mm a"
-            return dateFormatter.string(from: orderDate)
-        }
-    }
-
-    struct AdaptedOrderProduct {
-        var id: String
-        var name: String
-        var quantity: Int
-    }
-
     class ViewModel: ObservableObject {
-        var orderModels: [Order] = []
-        var currentOrders: [AdaptedOrder] = [
-            AdaptedOrder(
-                id: "1", collectionNo: 220, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "1", name: "Red Bean Bun", quantity: 10)],
-                status: .preparing,
-                orderDate: Date()),
-            AdaptedOrder(
-                id: "3", collectionNo: 225, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "9", name: "Coffee", quantity: 3),
-                                AdaptedOrderProduct(id: "10", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "11", name: "Some order with very long name", quantity: 2),
-                                AdaptedOrderProduct(id: "12", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "13", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "14", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "15", name: "Chocolate Bun", quantity: 2),
-                                AdaptedOrderProduct(id: "16", name: "Chocolate Bun", quantity: 2)],
-                status: .ready,
-                orderDate: Date())
-        ]
-
-        var pastOrders: [AdaptedOrder] = [
-            AdaptedOrder(
-                id: "2", collectionNo: 999, shopName: "Cool Spot", total: 13.60,
-                orderProducts: [AdaptedOrderProduct(id: "1", name: "Green Bean Bun", quantity: 10),
-                                AdaptedOrderProduct(id: "2", name: "Red Bean Bun", quantity: 2)],
-                status: .preparing,
-                orderDate: Date())
-        ]
-
-        @Published var filteredOrders: [AdaptedOrder] = []
+        @ObservedObject private var vendorViewModel: VendorViewModel
+        @Published var orders: [Order] =  []
+        @Published var filteredOrders: [Order] = []
 
         @Published var tabSelection: TabView {
             didSet {
-                switch tabSelection {
-                case .current:
-                    fetchCurrentOrders()
-                case .history:
-                    fetchOrderHistory()
-                }
+                updateFilter()
             }
         }
 
-        init() {
+        init(vendorViewModel: VendorViewModel) {
+            self.vendorViewModel = vendorViewModel
             tabSelection = .current
-            fetchCurrentOrders()
-        }
-
-        func fetchCurrentOrders() {
-            filteredOrders = currentOrders
-
-            // Fetch `currentOrders` from backend and listen for changes
-        }
-
-        func fetchOrderHistory() {
-            filteredOrders = pastOrders
-
-            // Fetch `pastOrders` from backend and listen for changes
+            fetchOrder(shop: vendorViewModel.currentShop)
         }
         
-        func setOrderReady(order: ShopOrderScreen.AdaptedOrder) {
-            print("Edit order: \(order)")
-//            guard let orderModel = orderModels.first(where: { $0.id == order.id }) else {
-//                // TODO: show user-friendly error message
-//                fatalError("Order \(order) does not exist")
-//            }
+        private func fetchOrder(shop: Shop?) {
+            guard let shop = shop else {
+                return
+            }
             
-            // DatabaseInterface.db.editOrder(order: orderModel)
+            DatabaseInterface.db.observeOrdersFromShop(shopId: shop.id) { [self] error, orders in
+                guard let orders = orders else {
+                    fatalError("Something wrong when listening to orders")
+                }
+                self.orders = orders
+                self.updateFilter()
+            }
+        }
+        
+        private func updateFilter() {
+            switch tabSelection {
+            case .current:
+                setFilterCurrent()
+            case .history:
+                setFilterHistory()
+            }
+        }
+
+        func setFilterCurrent() {
+            filteredOrders = orders.filter { order in
+                order.status != .collected
+            }
+        }
+
+        func setFilterHistory() {
+            filteredOrders = orders.filter { order in
+                order.status == .collected
+            }
+        }
+        
+        func setOrderReady(order: Order) {
+            var order = order
+            order.status = .ready
+            
+            DatabaseInterface.db.editOrder(order: order)
         }
     }
 }
 
 struct ShopOrderScreen_Previews: PreviewProvider {
     static var previews: some View {
-        ShopOrderScreen(viewModel: .init())
+        ShopOrderScreen(viewModel: .init(vendorViewModel: VendorViewModel()))
     }
 }
 
