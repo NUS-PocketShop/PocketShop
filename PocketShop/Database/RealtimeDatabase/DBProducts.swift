@@ -1,25 +1,34 @@
 import Firebase
 
 class DBProducts {
-    func createProduct(shopId: String, product: Product, completionHandler: @escaping (DatabaseError?, Product?) -> Void) {
+    func createProduct(shopId: String, product: Product, imageData: Data?) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts").childByAutoId()
         guard let key = ref.key else {
-            completionHandler(.unexpectedError, nil)
             print("Unexpected error")
             return
         }
         var newProduct = product
         newProduct.id = key
-        let productSchema = ProductSchema(product: newProduct)
-        do {
-            let jsonData = try JSONEncoder().encode(productSchema)
-            let json = try JSONSerialization.jsonObject(with: jsonData)
-            ref.setValue(json)
-        } catch {
-            print(error)
-            completionHandler(.unexpectedError, nil)
+        let uploadProduct = {
+            let productSchema = ProductSchema(product: newProduct)
+            do {
+                let jsonData = try JSONEncoder().encode(productSchema)
+                let json = try JSONSerialization.jsonObject(with: jsonData)
+                ref.setValue(json)
+            } catch {
+                print(error)
+            }
         }
-        completionHandler(nil, newProduct)
+
+        if let imageData = imageData {
+            DatabaseInterface.db.uploadProductImage(productId: newProduct.id, imageData: imageData) { _, url in
+                if let url = url {
+                    newProduct.imageURL = url
+                }
+                uploadProduct()
+            }
+        }
+        uploadProduct()
     }
 
     func editProduct(shopId: String, product: Product) {

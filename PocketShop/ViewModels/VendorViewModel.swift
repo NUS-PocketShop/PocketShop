@@ -47,7 +47,7 @@ final class VendorViewModel: ObservableObject {
             return
         }
 
-        var product = Product(id: "",
+        let product = Product(id: "",
                               name: name,
                               shopName: shop.name,
                               shopId: shop.id,
@@ -57,31 +57,7 @@ final class VendorViewModel: ObservableObject {
                               estimatedPrepTime: estimatedPrepTime,
                               isOutOfStock: false)
 
-        DatabaseInterface.db.createProduct(shopId: shop.id, product: product) { [self] error, product in
-            guard resolveErrors(error) else {
-                return
-            }
-
-            guard var product = product else {
-                print("ERROR: Product not created!")
-                return
-            }
-
-            guard let imageData = image.pngData() else {
-                print("ERROR: No image provided!")
-                return
-            }
-
-            DBStorage().uploadProductImage(productId: product.id,
-                                           imageData: imageData,
-                                           completionHandler: { _, imageURL in
-                guard let imageURL = imageURL else {
-                    return
-                }
-                product.imageURL = imageURL
-                DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
-            })
-        }
+        DatabaseInterface.db.createProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }
 
     func deleteProduct(at positions: IndexSet) {

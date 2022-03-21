@@ -42,9 +42,8 @@ class DatabaseManager: DatabaseAdapter {
         shops.observeShopsByOwner(ownerId: ownerId, actionBlock: actionBlock)
     }
 
-    func createProduct(shopId: String, product: Product,
-                       completionHandler: @escaping (DatabaseError?, Product?) -> Void) {
-        products.createProduct(shopId: shopId, product: product, completionHandler: completionHandler)
+    func createProduct(shopId: String, product: Product, imageData: Data?) {
+        products.createProduct(shopId: shopId, product: product, imageData: imageData)
     }
 
     func editProduct(shopId: String, product: Product) {
