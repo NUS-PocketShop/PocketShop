@@ -78,7 +78,11 @@ class DBOrders {
                         .getOrderProductFromSchema(orderProductSchemas:
                                                     Array((orderSchema.orderProductSchemas ?? [:]).values),
                                                    snapshot: snapshot)
-                    let order = orderSchema.toOrder(orderProducts: orderProducts)
+                    var total = 0.0
+                    for orderProduct in orderProducts {
+                        total += orderProduct.total
+                    }
+                    let order = orderSchema.toOrder(orderProducts: orderProducts, total: total)
                     orders.append(order)
                 } catch {
                     print(error)

@@ -3,4 +3,6 @@ struct OrderProduct {
     var product: Product
     var quantity: Int
     var status: OrderStatus
+    var total: Double
+    var shopName: String
 }
