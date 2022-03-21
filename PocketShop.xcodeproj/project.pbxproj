@@ -89,6 +89,7 @@
 		DFD49A0727E4F1880067BC32 /* ShopSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */; };
 		DFD49A0927E5134D0067BC32 /* ProductsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */; };
 		DFD49A0B27E513F50067BC32 /* ShopsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */; };
+		DFEEE73027E8C7610054B36F /* ShopProductEditFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEEE72F27E8C7610054B36F /* ShopProductEditFormView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +193,7 @@
 		DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSummaryView.swift; sourceTree = "<group>"; };
 		DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsScrollView.swift; sourceTree = "<group>"; };
 		DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopsScrollView.swift; sourceTree = "<group>"; };
+		DFEEE72F27E8C7610054B36F /* ShopProductEditFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopProductEditFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -463,6 +465,7 @@
 				022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */,
 				DF86A0E427E73DBB00D8423C /* ShopProductsView.swift */,
 				DF86A0E827E7604300D8423C /* ShopProductFormView.swift */,
+				DFEEE72F27E8C7610054B36F /* ShopProductEditFormView.swift */,
 				022EA8F427E71A78003F4E3C /* ShopHomeScreen.swift */,
 				022EA8F927E71DDF003F4E3C /* EditShopDetailsScreen.swift */,
 				022EA90827E76279003F4E3C /* ShopInfoView.swift */,
@@ -660,6 +663,7 @@
 				AD15B39827E36E9B00513809 /* DBShop.swift in Sources */,
 				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
+				DFEEE73027E8C7610054B36F /* ShopProductEditFormView.swift in Sources */,
 				DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */,
 				02AD420A27DF028900F44822 /* CustomerProfileScreen.swift in Sources */,
 				022EA8FA27E71DDF003F4E3C /* EditShopDetailsScreen.swift in Sources */,

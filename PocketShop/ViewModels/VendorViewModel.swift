@@ -67,7 +67,7 @@ final class VendorViewModel: ObservableObject {
             return
         }
 
-        var product = Product(id: "",
+        let product = Product(id: "",
                               name: name,
                               shopName: shop.name,
                               shopId: shop.id,
@@ -102,6 +102,27 @@ final class VendorViewModel: ObservableObject {
                 DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
             })
         }
+    }
+
+    func editProduct(oldProductId: String, name: String, description: String,
+                     price: Double, estimatedPrepTime: Double, image: UIImage) {
+
+        guard let shop = currentShop else {
+            print("No current shop!")
+            return
+        }
+
+        let product = Product(id: oldProductId,
+                              name: name,
+                              shopName: shop.name,
+                              shopId: shop.id,
+                              description: description,
+                              price: price,
+                              imageURL: "",
+                              estimatedPrepTime: estimatedPrepTime,
+                              isOutOfStock: false)
+
+        DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
     }
 
     func deleteProduct(at positions: IndexSet) {
