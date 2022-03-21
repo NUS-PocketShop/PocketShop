@@ -1,65 +1,76 @@
 import SwiftUI
 
 struct ShopProductsView: View {
-    @StateObject var viewModel: VendorViewModel
+    @EnvironmentObject var viewModel: VendorViewModel
     @State var showModal = false
-    var shop: Shop {
-        guard let shop = viewModel.currentShop else {
-            return Shop(id: "", name: "", description: "", imageURL: "", isClosed: true, ownerId: "", soldProducts: [])
-        }
-        return shop
-    }
-
-//    init?(viewModel: VendorViewModel) {
-//        self._viewModel = StateObject(wrappedValue: viewModel)
-//        guard let shop = viewModel.currentShop else {
-//            return nil
-//        }
-//        self.shop = shop
-//    }
+    var shop: Shop
 
     var body: some View {
         VStack {
-            HStack {
-                VStack {
-                    Text(shop.name)
-                        .font(.appTitle)
-                        .padding(.bottom)
+            ShopHeader(name: shop.name,
+                       description: shop.description,
+                       imageUrl: shop.imageURL)
 
-                    Text(shop.description)
-                        .font(.appBody)
-                        .padding(.bottom)
-                }
-
-                URLImage(urlString: shop.imageURL)
-                    .scaledToFit()
-                    .frame(width: 100, height: 100) // Might change to relative sizes
-            }
-
-            if (!viewModel.products.contains(where: { $0.shopName == shop.name })) {
+            Spacer()
+            if shop.soldProducts.isEmpty {
                 Text("This shop has no products... yet!")
             } else {
                 List {
                     ForEach(shop.soldProducts, id: \.self) { product in
-                        if product.shopName == shop.name {
-                            NavigationLink(destination: ProductView(product: product)) {
-                                ProductListView(product: product)
-                            }
+                        NavigationLink(destination: ProductView(product: product)) {
+                            ProductListView(product: product)
                         }
                     }
-                    .onDelete { _ in
-                        // Delete item from db
+                    .onDelete { positions in
+                        viewModel.deleteProduct(at: positions)
                     }
                 }
             }
-
-            // Add item button
-            PSButton(title: "+") {
-                showModal = true
-            }
-            .buttonStyle(FillButtonStyle())
-            .padding(.horizontal)
+            AddProductButton(showModal: $showModal)
+            Spacer()
         }
-        .overlay(ShopProductFormView(viewModel: viewModel, showModal: $showModal))
+        .padding()
+        .sheet(isPresented: $showModal) {
+            NavigationView {
+                ShopProductFormView(viewModel: viewModel)
+            }
+        }
+    }
+}
+
+struct ShopHeader: View {
+
+    var name: String
+    var description: String
+    var imageUrl: String
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(name)
+                    .font(.appTitle)
+                    .padding(.bottom)
+
+                Text(description)
+                    .font(.appBody)
+                    .padding(.bottom)
+            }
+            Spacer()
+            URLImage(urlString: imageUrl)
+                .scaledToFit()
+                .frame(width: 100, height: 100) // Might change to relative sizes
+        }.padding()
+    }
+}
+
+struct AddProductButton: View {
+    @Binding var showModal: Bool
+
+    var body: some View {
+        PSButton(title: "Add item to menu") {
+            showModal = true
+        }
+        .buttonStyle(FillButtonStyle())
+        .padding(.horizontal)
     }
 }
