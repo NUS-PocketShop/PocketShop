@@ -22,8 +22,8 @@ class DatabaseManager: DatabaseAdapter {
         users.getUser(with: id, completionHandler: completionHandler)
     }
 
-    func createShop(shop: Shop, completionHandler: @escaping (DatabaseError?, Shop?) -> Void) {
-        shops.createShop(shop: shop, completionHandler: completionHandler)
+    func createShop(shop: Shop, imageData: Data?) {
+        shops.createShop(shop: shop, imageData: imageData)
     }
 
     func editShop(shop: Shop) {

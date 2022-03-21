@@ -1,26 +1,35 @@
 import Firebase
 
 class DBShop {
-    func createShop(shop: Shop, completionHandler: @escaping (DatabaseError?, Shop?) -> Void) {
+    func createShop(shop: Shop, imageData: Data?) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/").childByAutoId()
         guard let key = ref.key else {
-            completionHandler(.unexpectedError, nil)
             print("Unexpected error")
             return
         }
         var newShop = shop
         newShop.id = key
         newShop.soldProducts = []
-        let shopSchema = ShopSchema(shop: newShop)
-        do {
-            let jsonData = try JSONEncoder().encode(shopSchema)
-            let json = try JSONSerialization.jsonObject(with: jsonData)
-            ref.setValue(json)
-        } catch {
-            print(error)
-            completionHandler(.unexpectedError, nil)
+        let uploadShop = {
+            let shopSchema = ShopSchema(shop: newShop)
+            do {
+                let jsonData = try JSONEncoder().encode(shopSchema)
+                let json = try JSONSerialization.jsonObject(with: jsonData)
+                ref.setValue(json)
+            } catch {
+                print(error)
+            }
         }
-        completionHandler(nil, newShop)
+
+        if let imageData = imageData {
+            DatabaseInterface.db.uploadShopImage(shopId: newShop.id, imageData: imageData) { _, url in
+                if let url = url {
+                    newShop.imageURL = url
+                }
+                uploadShop()
+            }
+        }
+        uploadShop()
     }
 
     func editShop(shop: Shop) {

@@ -38,27 +38,7 @@ final class VendorViewModel: ObservableObject {
                                 ownerId: vendor.id,
                                 soldProducts: [])
 
-        DatabaseInterface.db.createShop(shop: shopToCreate) { error, shop in
-            if let error = error {
-                print(error)
-                return
-            }
-
-            guard let imageData = image.pngData(), var shop = shop else {
-                print("ERROR: either no image or no shop")
-                return
-            }
-            DBStorage().uploadShopImage(shopId: shop.id,
-                                        imageData: imageData,
-                                        completionHandler: { _, imageUrl in
-                                            guard let imageUrl = imageUrl else {
-                                                return
-                                            }
-                                            shop.imageURL = imageUrl
-                                            DatabaseInterface.db.editShop(shop: shop)
-                                        })
-        }
-
+        DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
     }
 
     func createProduct(name: String, description: String, price: Double, estimatedPrepTime: Double, image: UIImage) {
