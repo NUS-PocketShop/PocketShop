@@ -1,9 +1,10 @@
 import Firebase
 
 class DBProducts {
-    func createProduct(shopId: String, product: Product) {
+    func createProduct(shopId: String, product: Product, completionHandler: @escaping (DatabaseError?, Product?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts").childByAutoId()
         guard let key = ref.key else {
+            completionHandler(.unexpectedError, nil)
             print("Unexpected error")
             return
         }
@@ -16,7 +17,9 @@ class DBProducts {
             ref.setValue(json)
         } catch {
             print(error)
+            completionHandler(.unexpectedError, nil)
         }
+        completionHandler(nil, newProduct)
     }
 
     func editProduct(shopId: String, product: Product) {

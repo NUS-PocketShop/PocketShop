@@ -6,24 +6,13 @@ struct CustomerShopView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                VStack {
-                    Text(shop.name)
-                        .font(.appTitle)
-                        .padding(.bottom)
-
-                    Text(shop.description)
-                        .font(.appBody)
-                        .padding(.bottom)
-                }
-
-                URLImage(urlString: shop.imageURL)
-                    .scaledToFit()
-                    .frame(width: 100, height: 100) // Might change to relative sizes
-            }
-
+            ShopHeader(name: shop.name,
+                       description: shop.description,
+                       imageUrl: shop.imageURL)
+            Spacer()
             if (!viewModel.products.contains(where: { $0.shopName == shop.name })) {
                 Text("This shop has no products... yet!")
+                Spacer()
             } else {
                 List {
                     ForEach(viewModel.products, id: \.self) { product in
