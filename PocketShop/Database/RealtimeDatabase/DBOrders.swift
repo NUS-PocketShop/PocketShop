@@ -42,15 +42,18 @@ class DBOrders {
     }
 
     func editOrder(order: Order) {
+        let ref = FirebaseManager.sharedManager.ref.child("orders/\(order.id)")
+        var orderSchema = OrderSchema(order: order)
+        let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
+        orderSchema.orderProductSchemas = [:]
         do {
-            let ref = FirebaseManager.sharedManager.ref.child("orders/\(order.id)")
-            let orderSchema = OrderSchema(order: order)
             let jsonData = try JSONEncoder().encode(orderSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
             print(error)
         }
+        createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
     }
 
     func deleteOrder(id: String) {
@@ -78,7 +81,12 @@ class DBOrders {
                         .getOrderProductFromSchema(orderProductSchemas:
                                                     Array((orderSchema.orderProductSchemas ?? [:]).values),
                                                    snapshot: snapshot)
-                    let order = orderSchema.toOrder(orderProducts: orderProducts)
+                    let shopName = self.getShopNameFromSnapshot(shopId: orderSchema.shopId, snapshot: snapshot) ?? ""
+                    var total = 0.0
+                    for orderProduct in orderProducts {
+                        total += orderProduct.total
+                    }
+                    let order = orderSchema.toOrder(orderProducts: orderProducts, shopName: shopName, total: total)
                     orders.append(order)
                 } catch {
                     print(error)
@@ -106,7 +114,7 @@ class DBOrders {
                                            snapshot: DataSnapshot) -> [OrderProduct] {
         var orderProducts = [OrderProduct]()
         for orderProductSchema in orderProductSchemas {
-            if let product = getProductFromSnapshot(productId: orderProductSchema.id, snapshot: snapshot) {
+            if let product = getProductFromSnapshot(productId: orderProductSchema.productId, snapshot: snapshot) {
                 let orderProduct = orderProductSchema.toOrderProduct(product: product)
                 orderProducts.append(orderProduct)
             }
@@ -124,7 +132,7 @@ class DBOrders {
             guard let shopId = shop["id"] as? String,
                   let shopName = shop["name"] as? String,
                   let productSchemas = shop["soldProducts"] as? NSDictionary else {
-                      return nil
+                      continue
                   }
             for case let value as NSDictionary in productSchemas.allValues {
                 do {
@@ -139,5 +147,21 @@ class DBOrders {
             }
         }
         return product
+    }
+
+    private func getShopNameFromSnapshot(shopId: String, snapshot: DataSnapshot) -> String? {
+        guard let categories = snapshot.value as? NSDictionary,
+              let shops = categories["shops"] as? NSDictionary else {
+            return nil
+        }
+        for case let shop as NSDictionary in shops.allValues {
+            if let curShopId = shop["id"] as? String,
+                  let curShopName = shop["name"] as? String {
+                if shopId == curShopId {
+                    return curShopName
+                }
+            }
+        }
+        return nil
     }
 }

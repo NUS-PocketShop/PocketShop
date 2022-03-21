@@ -1,7 +1,9 @@
 import SwiftUI
 
-struct CustomerOrderScreen: View {
+struct ShopOrderScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
+    @State private var showConfirmation = false
+    @State private var selectedOrder: Order?
 
     var body: some View {
         NavigationView {
@@ -88,15 +90,49 @@ struct CustomerOrderScreen: View {
                 Spacer()
 
                 RingView(color: order.ringColor, text: order.status.toString())
+                    .onTapGesture {
+                        showConfirmation.toggle()
+                        selectedOrder = order
+                    }
+                    .alert(isPresented: $showConfirmation) {
+                        guard let selectedOrder = self.selectedOrder else {
+                            // TODO: show user-friendly error message
+                            fatalError("Order does not exist")
+                        }
+                        
+                        return getAlertForOrder(selectedOrder)
+                    }
 
                 Spacer()
             }
             .frame(minHeight: 128)
         }
     }
+    
+    private func getAlertForOrder(_ order: Order) -> Alert {
+        if order.status == .accepted {
+            return Alert(
+                title: Text("Confirmation"),
+                message: Text("Confirm that order \(order.collectionNo) is ready?"),
+                primaryButton: .default(Text("Confirm")) {
+                    viewModel.setOrderReady(order: order)
+                },
+                secondaryButton: .destructive(Text("Cancel")))
+        }
+        
+        assert(order.status == .ready, "Implement order collection type of \(order.status)!")
+        
+        return Alert(
+            title: Text("Confirmation"),
+            message: Text("Confirm that order \(order.collectionNo) is collected?"),
+            primaryButton: .default(Text("Confirm")) {
+                viewModel.setOrderCollected(order: order)
+            },
+            secondaryButton: .destructive(Text("Cancel")))
+    }
 }
 
-extension CustomerOrderScreen {
+extension ShopOrderScreen {
     enum TabView: String {
         case current = "current"
         case history = "history"
@@ -104,9 +140,9 @@ extension CustomerOrderScreen {
 }
 
 // MARK: view model
-extension CustomerOrderScreen {
+extension ShopOrderScreen {
     class ViewModel: ObservableObject {
-        private var customerViewModel = CustomerViewModel()
+        @ObservedObject private var vendorViewModel: VendorViewModel
         @Published var orders: [Order] =  []
         @Published var filteredOrders: [Order] = []
 
@@ -116,25 +152,23 @@ extension CustomerOrderScreen {
             }
         }
 
-        init() {
+        init(vendorViewModel: VendorViewModel) {
+            self.vendorViewModel = vendorViewModel
             tabSelection = .current
-            fetchOrder()
+            fetchOrder(shop: vendorViewModel.currentShop)
         }
         
-        private func fetchOrder() {
-            DatabaseInterface.auth.getCurrentUser { _, user in
-                guard let user = user else {
-                    print("No user")
-                    return
+        private func fetchOrder(shop: Shop?) {
+            guard let shop = shop else {
+                return
+            }
+            
+            DatabaseInterface.db.observeOrdersFromShop(shopId: shop.id) { [self] error, orders in
+                guard let orders = orders else {
+                    fatalError("Something wrong when listening to orders")
                 }
-                
-                DatabaseInterface.db.observeOrdersFromCustomer(customerId: user.id) { [self] error, orders in
-                    guard let orders = orders else {
-                        fatalError("Something wrong when listening to orders")
-                    }
-                    self.orders = orders
-                    self.updateFilter()
-                }
+                self.orders = orders
+                self.updateFilter()
             }
         }
         
@@ -158,11 +192,26 @@ extension CustomerOrderScreen {
                 order.status == .collected
             }
         }
+        
+        func setOrderReady(order: Order) {
+            var order = order
+            order.status = .ready
+            
+            DatabaseInterface.db.editOrder(order: order)
+        }
+        
+        func setOrderCollected(order: Order) {
+            var order = order
+            order.status = .collected
+            
+            DatabaseInterface.db.editOrder(order: order)
+        }
     }
 }
 
-struct CustomerOrderScreen_Previews: PreviewProvider {
+struct ShopOrderScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerOrderScreen(viewModel: .init())
+        ShopOrderScreen(viewModel: .init(vendorViewModel: VendorViewModel()))
     }
 }
+

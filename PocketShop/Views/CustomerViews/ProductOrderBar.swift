@@ -40,13 +40,17 @@ struct ProductOrderBar: View {
                     let orderProduct = OrderProduct(id: "dummyId",
                                                     product: product,
                                                     quantity: quantity,
-                                                    status: .accepted)
+                                                    status: .accepted,
+                                                    total: 0)
                     let order = Order(id: "dummyId",
                                       orderProducts: [orderProduct],
                                       status: .accepted,
                                       customerId: customerId,
                                       shopId: product.shopId,
-                                      date: Date())
+                                      shopName: product.shopName,
+                                      date: Date(),
+                                      collectionNo: 0,
+                                      total: 0)
 
                     DatabaseInterface.db.createOrder(order: order)
                 }
