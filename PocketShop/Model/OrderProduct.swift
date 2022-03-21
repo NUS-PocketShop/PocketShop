@@ -4,5 +4,4 @@ struct OrderProduct {
     var quantity: Int
     var status: OrderStatus
     var total: Double
-    var shopName: String
 }

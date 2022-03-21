@@ -13,6 +13,6 @@ struct OrderProductSchema: Codable {
 
     func toOrderProduct(product: Product) -> OrderProduct {
         OrderProduct(id: self.id, product: product, quantity: self.quantity,
-                     status: self.status, total: product.price * Double(quantity), shopName: product.shopName)
+                     status: self.status, total: product.price * Double(quantity))
     }
 }

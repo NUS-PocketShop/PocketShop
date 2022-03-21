@@ -23,9 +23,9 @@ struct OrderSchema: Codable {
         }
     }
 
-    func toOrder(orderProducts: [OrderProduct], total: Double) -> Order {
+    func toOrder(orderProducts: [OrderProduct], shopName: String, total: Double) -> Order {
         Order(id: self.id, orderProducts: orderProducts,
-              status: self.status, customerId: self.customerId, shopId: self.shopId,
+              status: self.status, customerId: self.customerId, shopId: self.shopId, shopName: shopName,
               date: self.date, collectionNo: self.collectionNo, total: total)
     }
 }
