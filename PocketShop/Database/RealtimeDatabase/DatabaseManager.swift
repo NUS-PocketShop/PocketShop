@@ -54,11 +54,12 @@ class DatabaseManager: DatabaseAdapter {
         products.deleteProduct(shopId: shopId, productId: productId)
     }
 
-    func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
+    func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         products.observeAllProducts(actionBlock: actionBlock)
     }
 
-    func observeProductsFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
+    func observeProductsFromShop(shopId: String,
+                                 actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         products.observeProductsFromShop(shopId: shopId, actionBlock: actionBlock)
     }
 

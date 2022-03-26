@@ -44,15 +44,22 @@ final class CustomerViewModel: ObservableObject {
                 self.shops = allShops
             }
         }
-        DatabaseInterface.db.observeAllProducts { error, allProducts in
+        DatabaseInterface.db.observeAllProducts { error, allProducts, eventType in
             if let error = error {
                 print(error)
                 return
             }
-            if let allProducts = allProducts {
-                self.products.removeAll()
-                self.products = allProducts
-
+            if let allProducts = allProducts, let eventType = eventType {
+                if eventType == .added || eventType == .updated {
+                    for product in allProducts {
+                        self.products.removeAll(where: { $0 == product })
+                        self.products.append(product)
+                    }
+                } else if eventType == .deleted {
+                    for product in allProducts {
+                        self.products.removeAll(where: { $0 == product })
+                    }
+                }
             }
         }
     }

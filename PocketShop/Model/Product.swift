@@ -1,4 +1,4 @@
-struct Product: Codable, Hashable {
+struct Product: Hashable, Identifiable {
     var id: String
     var name: String
     var shopName: String
@@ -8,4 +8,12 @@ struct Product: Codable, Hashable {
     var imageURL: String
     var estimatedPrepTime: Double
     var isOutOfStock: Bool
+
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

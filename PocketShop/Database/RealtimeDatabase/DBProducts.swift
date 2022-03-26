@@ -52,30 +52,99 @@ class DBProducts {
         }
     }
 
-    func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
-        FirebaseManager.sharedManager.ref.child("shops/").observe(DataEventType.value) { snapshot in
-            var products = [Product]()
-            guard let allShops = snapshot.value as? NSDictionary else {
-                actionBlock(.unexpectedError, nil)
+    func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/")
+        ref.observeSingleEvent(of: .value) { snapshot in
+            guard let shops = snapshot.value as? NSDictionary,
+                  let shops = shops.allKeys as? [String] else {
                 return
             }
-            for case let value as NSDictionary in allShops.allValues {
-                if let newProducts = self.getProductsFromShop(shop: value) {
-                    products.append(contentsOf: newProducts)
-                }
+            for shop in shops {
+                self.observeProductsFromShop(shopId: shop, actionBlock: actionBlock)
             }
-            actionBlock(nil, products)
         }
+
+//        FirebaseManager.sharedManager.ref.child("shops/").observe(DataEventType.value) { snapshot in
+//            var products = [Product]()
+//            guard let allShops = snapshot.value as? NSDictionary else {
+//                actionBlock(.unexpectedError, nil)
+//                return
+//            }
+//            for case let value as NSDictionary in allShops.allValues {
+//                if let newProducts = self.getProductsFromShop(shop: value) {
+//                    products.append(contentsOf: newProducts)
+//                }
+//            }
+//            actionBlock(nil, products)
+//        }
     }
 
-    func observeProductsFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Product]?) -> Void) {
-        FirebaseManager.sharedManager.ref.child("shops/\(shopId)").observe(DataEventType.value) { snapshot in
+    func observeProductsFromShop(shopId: String,
+                                 actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
+        let shopRef = FirebaseManager.sharedManager.ref.child("shops/\(shopId)")
+
+        shopRef.observeSingleEvent(of: .value) { snapshot in
             guard let shop = snapshot.value as? NSDictionary,
-                  let newProducts = self.getProductsFromShop(shop: shop) else {
-                actionBlock(.unexpectedError, nil)
+                  let shopId = shop["id"] as? String,
+                  var shopName = shop["name"] as? String else {
                 return
             }
-            actionBlock(nil, newProducts)
+            shopRef.child("name").observe(.value) { snapshot in
+                if snapshot.key == "name", let newValue = snapshot.value as? String {
+                    shopName = newValue
+                }
+                shopRef.observeSingleEvent(of: .value) { snapshot in
+                    guard let shop = snapshot.value as? NSDictionary else {
+                        return
+                    }
+                    let products = self.getProductsFromShop(shop: shop)
+                    actionBlock(nil, products, .updated)
+                }
+            }
+
+            shopRef.child("soldProducts").observe(.childAdded) { snapshot in
+                print("added")
+                if let value = snapshot.value,
+                   let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
+                    actionBlock(nil, [product], .added)
+                }
+            }
+
+            shopRef.child("soldProducts").observe(.childChanged) { snapshot in
+                print("updated")
+                if let value = snapshot.value,
+                   let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
+                    actionBlock(nil, [product], .updated)
+                }
+            }
+
+            shopRef.child("soldProducts").observe(.childRemoved) { snapshot in
+                print("deleted")
+                if let value = snapshot.value,
+                   let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
+                    actionBlock(nil, [product], .deleted)
+                }
+            }
+        }
+//        FirebaseManager.sharedManager.ref.child("shops/\(shopId)").observe(DataEventType.value) { snapshot in
+//            guard let shop = snapshot.value as? NSDictionary,
+//                  let newProducts = self.getProductsFromShop(shop: shop) else {
+//                actionBlock(.unexpectedError, nil)
+//                return
+//            }
+//            actionBlock(nil, newProducts)
+//        }
+    }
+
+    private func convertProduct(productJson: Any, shopId: String, shopName: String) -> Product? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: productJson)
+            let productSchema = try JSONDecoder().decode(ProductSchema.self, from: jsonData)
+            let product = productSchema.toProduct(shopId: shopId, shopName: shopName)
+            return product
+        } catch {
+            print(error)
+            return nil
         }
     }
 
@@ -87,13 +156,8 @@ class DBProducts {
             return nil
         }
         for value in productSchemas.allValues {
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: value)
-                let productSchema = try JSONDecoder().decode(ProductSchema.self, from: jsonData)
-                let product = productSchema.toProduct(shopId: shopId, shopName: shopName)
+            if let product = convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
                 products.append(product)
-            } catch {
-                print(error)
             }
         }
         return products
