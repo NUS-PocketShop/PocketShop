@@ -34,11 +34,11 @@ class DatabaseManager: DatabaseAdapter {
         shops.deleteShop(id: id)
     }
 
-    func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
+    func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         shops.observeAllShops(actionBlock: actionBlock)
     }
 
-    func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
+    func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         shops.observeShopsByOwner(ownerId: ownerId, actionBlock: actionBlock)
     }
 

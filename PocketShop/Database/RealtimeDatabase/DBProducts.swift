@@ -63,20 +63,6 @@ class DBProducts {
                 self.observeProductsFromShop(shopId: shop, actionBlock: actionBlock)
             }
         }
-
-//        FirebaseManager.sharedManager.ref.child("shops/").observe(DataEventType.value) { snapshot in
-//            var products = [Product]()
-//            guard let allShops = snapshot.value as? NSDictionary else {
-//                actionBlock(.unexpectedError, nil)
-//                return
-//            }
-//            for case let value as NSDictionary in allShops.allValues {
-//                if let newProducts = self.getProductsFromShop(shop: value) {
-//                    products.append(contentsOf: newProducts)
-//                }
-//            }
-//            actionBlock(nil, products)
-//        }
     }
 
     func observeProductsFromShop(shopId: String,
@@ -126,14 +112,6 @@ class DBProducts {
                 }
             }
         }
-//        FirebaseManager.sharedManager.ref.child("shops/\(shopId)").observe(DataEventType.value) { snapshot in
-//            guard let shop = snapshot.value as? NSDictionary,
-//                  let newProducts = self.getProductsFromShop(shop: shop) else {
-//                actionBlock(.unexpectedError, nil)
-//                return
-//            }
-//            actionBlock(nil, newProducts)
-//        }
     }
 
     private func convertProduct(productJson: Any, shopId: String, shopName: String) -> Product? {

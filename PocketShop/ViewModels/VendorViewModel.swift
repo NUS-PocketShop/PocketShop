@@ -95,18 +95,19 @@ final class VendorViewModel: ObservableObject {
 
     // MARK: Private functions
     private func getCurrentShop(_ vendorId: String) {
-        DatabaseInterface.db.observeShopsByOwner(ownerId: vendorId) { [self] error, shop in
+        DatabaseInterface.db.observeShopsByOwner(ownerId: vendorId) { [self] error, shop, eventType in
             guard resolveErrors(error) else {
                 return
             }
 
-            guard let shop = shop else {
-                return
-            }
-
-            if !shop.isEmpty {
-                currentShop = shop[0]
-                products = shop[0].soldProducts
+            if let shop = shop, let eventType = eventType, !shop.isEmpty {
+                if eventType == .added || eventType == .updated {
+                    currentShop = shop[0]
+                    products = shop[0].soldProducts
+                } else if eventType == .deleted {
+                    currentShop = nil
+                    products = [Product]()
+                }
             }
         }
     }

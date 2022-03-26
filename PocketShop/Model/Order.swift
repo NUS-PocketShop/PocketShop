@@ -33,12 +33,4 @@ struct Order: Hashable, Identifiable {
         dateFormatter.dateFormat = "HH:mm a"
         return dateFormatter.string(from: date)
     }
-
-    static func == (lhs: Order, rhs: Order) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
 }

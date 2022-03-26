@@ -8,12 +8,4 @@ struct Product: Hashable, Identifiable {
     var imageURL: String
     var estimatedPrepTime: Double
     var isOutOfStock: Bool
-
-    static func == (lhs: Product, rhs: Product) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
 }
