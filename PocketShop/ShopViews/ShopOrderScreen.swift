@@ -99,7 +99,7 @@ struct ShopOrderScreen: View {
                             // TODO: show user-friendly error message
                             fatalError("Order does not exist")
                         }
-                        
+
                         return getAlertForOrder(selectedOrder)
                     }
 
@@ -108,7 +108,7 @@ struct ShopOrderScreen: View {
             .frame(minHeight: 128)
         }
     }
-    
+
     private func getAlertForOrder(_ order: Order) -> Alert {
         if order.status == .accepted {
             return Alert(
@@ -119,9 +119,9 @@ struct ShopOrderScreen: View {
                 },
                 secondaryButton: .destructive(Text("Cancel")))
         }
-        
+
         assert(order.status == .ready, "Implement order collection type of \(order.status)!")
-        
+
         return Alert(
             title: Text("Confirmation"),
             message: Text("Confirm that order \(order.collectionNo) is collected?"),
@@ -143,7 +143,7 @@ extension ShopOrderScreen {
 extension ShopOrderScreen {
     class ViewModel: ObservableObject {
         @ObservedObject private var vendorViewModel: VendorViewModel
-        @Published var orders: [Order] =  []
+        @Published var orders: [Order] = []
         @Published var filteredOrders: [Order] = []
 
         @Published var tabSelection: TabView {
@@ -157,13 +157,13 @@ extension ShopOrderScreen {
             tabSelection = .current
             fetchOrder(shop: vendorViewModel.currentShop)
         }
-        
+
         private func fetchOrder(shop: Shop?) {
             guard let shop = shop else {
                 return
             }
-            
-            DatabaseInterface.db.observeOrdersFromShop(shopId: shop.id) { [self] error, orders in
+
+            DatabaseInterface.db.observeOrdersFromShop(shopId: shop.id) { [self] _, orders in
                 guard let orders = orders else {
                     fatalError("Something wrong when listening to orders")
                 }
@@ -171,7 +171,7 @@ extension ShopOrderScreen {
                 self.updateFilter()
             }
         }
-        
+
         private func updateFilter() {
             switch tabSelection {
             case .current:
@@ -192,18 +192,18 @@ extension ShopOrderScreen {
                 order.status == .collected
             }
         }
-        
+
         func setOrderReady(order: Order) {
             var order = order
             order.status = .ready
-            
+
             DatabaseInterface.db.editOrder(order: order)
         }
-        
+
         func setOrderCollected(order: Order) {
             var order = order
             order.status = .collected
-            
+
             DatabaseInterface.db.editOrder(order: order)
         }
     }
@@ -214,4 +214,3 @@ struct ShopOrderScreen_Previews: PreviewProvider {
         ShopOrderScreen(viewModel: .init(vendorViewModel: VendorViewModel()))
     }
 }
-

@@ -107,7 +107,7 @@ extension CustomerOrderScreen {
 extension CustomerOrderScreen {
     class ViewModel: ObservableObject {
         private var customerViewModel = CustomerViewModel()
-        @Published var orders: [Order] =  []
+        @Published var orders: [Order] = []
         @Published var filteredOrders: [Order] = []
 
         @Published var tabSelection: TabView {
@@ -120,15 +120,15 @@ extension CustomerOrderScreen {
             tabSelection = .current
             fetchOrder()
         }
-        
+
         private func fetchOrder() {
             DatabaseInterface.auth.getCurrentUser { _, user in
                 guard let user = user else {
                     print("No user")
                     return
                 }
-                
-                DatabaseInterface.db.observeOrdersFromCustomer(customerId: user.id) { [self] error, orders in
+
+                DatabaseInterface.db.observeOrdersFromCustomer(customerId: user.id) { [self] _, orders in
                     guard let orders = orders else {
                         fatalError("Something wrong when listening to orders")
                     }
@@ -137,7 +137,7 @@ extension CustomerOrderScreen {
                 }
             }
         }
-        
+
         private func updateFilter() {
             switch tabSelection {
             case .current:
