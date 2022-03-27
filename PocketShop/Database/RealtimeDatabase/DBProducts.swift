@@ -56,11 +56,11 @@ class DBProducts {
         let ref = FirebaseManager.sharedManager.ref.child("shops/")
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let shops = snapshot.value as? NSDictionary,
-                  let shops = shops.allKeys as? [String] else {
+                  let shopIds = shops.allKeys as? [String] else {
                 return
             }
-            for shop in shops {
-                self.observeProductsFromShop(shopId: shop, actionBlock: actionBlock)
+            for shopId in shopIds {
+                self.observeProductsFromShop(shopId: shopId, actionBlock: actionBlock)
             }
         }
     }
