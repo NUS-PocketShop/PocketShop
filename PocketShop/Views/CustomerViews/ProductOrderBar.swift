@@ -38,10 +38,14 @@ struct ProductOrderBar: View {
                     }
 
                     let orderProduct = OrderProduct(id: "dummyId",
-                                                    product: product,
                                                     quantity: quantity,
                                                     status: .accepted,
-                                                    total: 0)
+                                                    total: 0,
+                                                    productName: product.name,
+                                                    productPrice: product.price,
+                                                    productImageURL: product.imageURL,
+                                                    productId: product.id,
+                                                    shopId: product.shopId)
                     let order = Order(id: "dummyId",
                                       orderProducts: [orderProduct],
                                       status: .accepted,

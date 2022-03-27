@@ -4,6 +4,7 @@ final class CustomerViewModel: ObservableObject {
 
     @Published var products: [Product] = [Product]()
     @Published var shops: [Shop] = [Shop]()
+    @Published var orders: [Order] = [Order]()
     @Published var customer: Customer?
 
     @Published var searchText = ""
@@ -32,26 +33,14 @@ final class CustomerViewModel: ObservableObject {
         DatabaseInterface.auth.getCurrentUser { _, user in
             if let customer = user as? Customer {
                 self.customer = customer
+                self.observeOrders(customerId: customer.id)
             }
         }
-        DatabaseInterface.db.observeAllShops { error, allShops, eventType in
-            if let error = error {
-                print(error)
-                return
-            }
-            if let allShops = allShops, let eventType = eventType {
-                if eventType == .added || eventType == .updated {
-                    for shop in allShops {
-                        self.products.removeAll(where: { $0.id == shop.id })
-                        self.shops.append(shop)
-                    }
-                } else if eventType == .deleted {
-                    for shop in allShops {
-                        self.products.removeAll(where: { $0.id == shop.id })
-                    }
-                }
-            }
-        }
+        observeProducts()
+        observeShops()
+    }
+
+    private func observeProducts() {
         DatabaseInterface.db.observeAllProducts { error, allProducts, eventType in
             if let error = error {
                 print(error)
@@ -67,6 +56,45 @@ final class CustomerViewModel: ObservableObject {
                     for product in allProducts {
                         self.products.removeAll(where: { $0.id == product.id })
                     }
+                }
+            }
+        }
+    }
+
+    private func observeShops() {
+        DatabaseInterface.db.observeAllShops { error, allShops, eventType in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let allShops = allShops, let eventType = eventType {
+                if eventType == .added || eventType == .updated {
+                    for shop in allShops {
+                        self.shops.removeAll(where: { $0.id == shop.id })
+                        self.shops.append(shop)
+                    }
+                } else if eventType == .deleted {
+                    for shop in allShops {
+                        self.shops.removeAll(where: { $0.id == shop.id })
+                    }
+                }
+            }
+        }
+    }
+
+    private func observeOrders(customerId: String) {
+        DatabaseInterface.db.observeOrdersFromCustomer(customerId: customerId) { _, allOrders, eventType in
+            guard let allOrders = allOrders else {
+                fatalError("Something wrong when listening to orders")
+            }
+            if eventType == .added || eventType == .updated {
+                for order in allOrders {
+                    self.orders.removeAll(where: { $0.id == order.id })
+                    self.orders.append(order)
+                }
+            } else if eventType == .deleted {
+                for order in allOrders {
+                    self.orders.removeAll(where: { $0.id == order.id })
                 }
             }
         }

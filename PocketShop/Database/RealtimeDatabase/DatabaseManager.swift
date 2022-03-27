@@ -38,7 +38,8 @@ class DatabaseManager: DatabaseAdapter {
         shops.observeAllShops(actionBlock: actionBlock)
     }
 
-    func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
+    func observeShopsByOwner(ownerId: String,
+                             actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         shops.observeShopsByOwner(ownerId: ownerId, actionBlock: actionBlock)
     }
 
@@ -75,15 +76,17 @@ class DatabaseManager: DatabaseAdapter {
         orders.deleteOrder(id: id)
     }
 
-    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
+    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         orders.observeAllOrders(actionBlock: actionBlock)
     }
 
-    func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
+    func observeOrdersFromShop(shopId: String,
+                               actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         orders.observeOrdersFromShop(shopId: shopId, actionBlock: actionBlock)
     }
 
-    func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
+    func observeOrdersFromCustomer(customerId: String,
+                                   actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         orders.observeOrdersFromCustomer(customerId: customerId, actionBlock: actionBlock)
     }
 

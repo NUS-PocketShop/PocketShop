@@ -22,9 +22,11 @@ protocol DatabaseAdapter {
     func createOrder(order: Order)
     func editOrder(order: Order)
     func deleteOrder(id: String)
-    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
-    func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
-    func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
+    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
+    func observeOrdersFromShop(shopId: String,
+                               actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
+    func observeOrdersFromCustomer(customerId: String,
+                                   actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
 
     func uploadProductImage(productId: String, imageData: Data,
                             completionHandler: @escaping (DatabaseError?, String?) -> Void)

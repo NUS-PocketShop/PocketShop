@@ -69,7 +69,7 @@ struct CustomerOrderScreen: View {
                     .padding(.bottom, 4)
 
                 ForEach(order.orderProducts, id: \.id) { orderProduct in
-                    Text("\(orderProduct.quantity) x \(orderProduct.product.name)")
+                    Text("\(orderProduct.quantity) x \(orderProduct.productName)")
                         .font(.appSmallCaption)
                 }
 
@@ -107,7 +107,6 @@ extension CustomerOrderScreen {
 extension CustomerOrderScreen {
     class ViewModel: ObservableObject {
         private var customerViewModel = CustomerViewModel()
-        @Published var orders: [Order] =  []
         @Published var filteredOrders: [Order] = []
 
         @Published var tabSelection: TabView {
@@ -118,26 +117,8 @@ extension CustomerOrderScreen {
 
         init() {
             tabSelection = .current
-            fetchOrder()
         }
-        
-        private func fetchOrder() {
-            DatabaseInterface.auth.getCurrentUser { _, user in
-                guard let user = user else {
-                    print("No user")
-                    return
-                }
-                
-                DatabaseInterface.db.observeOrdersFromCustomer(customerId: user.id) { [self] error, orders in
-                    guard let orders = orders else {
-                        fatalError("Something wrong when listening to orders")
-                    }
-                    self.orders = orders
-                    self.updateFilter()
-                }
-            }
-        }
-        
+
         private func updateFilter() {
             switch tabSelection {
             case .current:
@@ -148,13 +129,13 @@ extension CustomerOrderScreen {
         }
 
         func setFilterCurrent() {
-            filteredOrders = orders.filter { order in
+            filteredOrders = customerViewModel.orders.filter { order in
                 order.status != .collected
             }
         }
 
         func setFilterHistory() {
-            filteredOrders = orders.filter { order in
+            filteredOrders = customerViewModel.orders.filter { order in
                 order.status == .collected
             }
         }

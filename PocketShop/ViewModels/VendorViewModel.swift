@@ -6,6 +6,7 @@ final class VendorViewModel: ObservableObject {
     @Published var vendor: Vendor?
     @Published var currentShop: Shop?
     @Published var products: [Product] = [Product]()
+    @Published var orders: [Order] = [Order]()
 
     var shopName: String {
         currentShop?.name ?? "My Shop"
@@ -16,7 +17,7 @@ final class VendorViewModel: ObservableObject {
         DatabaseInterface.auth.getCurrentUser { [self] _, user in
             if let vendor = user as? Vendor {
                 self.vendor = vendor
-                getCurrentShop(vendor.id)
+                initialiseShop(vendor.id)
             }
         }
     }
@@ -94,19 +95,41 @@ final class VendorViewModel: ObservableObject {
     }
 
     // MARK: Private functions
-    private func getCurrentShop(_ vendorId: String) {
-        DatabaseInterface.db.observeShopsByOwner(ownerId: vendorId) { [self] error, shop, eventType in
+    private func initialiseShop(_ vendorId: String) {
+        DatabaseInterface.db.observeShopsByOwner(ownerId: vendorId) { [self] error, allShops, eventType in
             guard resolveErrors(error) else {
                 return
             }
 
-            if let shop = shop, let eventType = eventType, !shop.isEmpty {
+            if let allShops = allShops, let eventType = eventType, !allShops.isEmpty {
                 if eventType == .added || eventType == .updated {
-                    currentShop = shop[0]
-                    products = shop[0].soldProducts
+                    currentShop = allShops[0]
+                    products = allShops[0].soldProducts
+                    getOrders(allShops[0].id)
                 } else if eventType == .deleted {
                     currentShop = nil
                     products = [Product]()
+                    orders = [Order]()
+                }
+            }
+        }
+    }
+
+    private func getOrders(_ shopId: String) {
+        DatabaseInterface.db.observeOrdersFromShop(shopId: shopId) { [self] error, allOrders, eventType in
+            guard resolveErrors(error) else {
+                return
+            }
+            if let allOrders = allOrders {
+                if eventType == .added || eventType == .updated {
+                    for order in allOrders {
+                        self.orders.removeAll(where: { $0.id == order.id })
+                        self.orders.append(order)
+                    }
+                } else if eventType == .deleted {
+                    for order in allOrders {
+                        self.orders.removeAll(where: { $0.id == order.id })
+                    }
                 }
             }
         }

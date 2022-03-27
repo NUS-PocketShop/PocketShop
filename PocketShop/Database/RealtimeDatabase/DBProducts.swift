@@ -71,7 +71,6 @@ class DBProducts {
 
         shopRef.observeSingleEvent(of: .value) { snapshot in
             guard let shop = snapshot.value as? NSDictionary,
-                  let shopId = shop["id"] as? String,
                   var shopName = shop["name"] as? String else {
                 return
             }
