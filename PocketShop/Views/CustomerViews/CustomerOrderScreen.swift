@@ -106,7 +106,6 @@ extension CustomerOrderScreen {
 // MARK: view model
 extension CustomerOrderScreen {
     class ViewModel: ObservableObject {
-        private var customerViewModel = CustomerViewModel()
         @Published var orders: [Order] = []
         @Published var filteredOrders: [Order] = []
 
