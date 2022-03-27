@@ -90,14 +90,16 @@ class DBOrders {
 
     }
 
-    func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
+    func observeOrdersFromShop(shopId: String,
+                               actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         observeAllOrders { error, orders, eventType in
             let newOrders = orders?.filter { $0.shopId == shopId }
             actionBlock(error, newOrders, eventType)
         }
     }
 
-    func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
+    func observeOrdersFromCustomer(customerId: String,
+                                   actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         observeAllOrders { error, orders, eventType in
             let newOrders = orders?.filter { $0.customerId == customerId }
             actionBlock(error, newOrders, eventType)

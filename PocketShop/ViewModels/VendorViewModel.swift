@@ -14,7 +14,10 @@ final class VendorViewModel: ObservableObject {
 
     init() {
         print("initializing vendor view model")
-        DatabaseInterface.auth.getCurrentUser { [self] _, user in
+        DatabaseInterface.auth.getCurrentUser { [self] error, user in
+            guard resolveErrors(error) else {
+                return
+            }
             if let vendor = user as? Vendor {
                 self.vendor = vendor
                 initialiseShop(vendor.id)
@@ -123,21 +126,21 @@ final class VendorViewModel: ObservableObject {
             if let allOrders = allOrders {
                 if eventType == .added || eventType == .updated {
                     for order in allOrders {
-                        self.orders.removeAll(where: { $0.id == order.id })
-                        self.orders.append(order)
+                        orders.removeAll(where: { $0.id == order.id })
+                        orders.append(order)
                     }
                 } else if eventType == .deleted {
                     for order in allOrders {
-                        self.orders.removeAll(where: { $0.id == order.id })
+                        orders.removeAll(where: { $0.id == order.id })
                     }
                 }
             }
         }
     }
 
-    private func resolveErrors(_ error: DatabaseError?) -> Bool {
-        if error != nil {
-            print("there was an error: \(error?.localizedDescription)")
+    private func resolveErrors(_ error: Error?) -> Bool {
+        if let error = error {
+            print("there was an error: \(error.localizedDescription)")
             return false
         }
         return true

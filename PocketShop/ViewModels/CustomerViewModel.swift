@@ -30,10 +30,13 @@ final class CustomerViewModel: ObservableObject {
     }
 
     init() {
-        DatabaseInterface.auth.getCurrentUser { _, user in
-            if let customer = user as? Customer {
-                self.customer = customer
-                self.observeOrders(customerId: customer.id)
+        DatabaseInterface.auth.getCurrentUser { [self] error, user in
+            guard resolveErrors(error) else {
+                return
+            }
+            if let currentCustomer = user as? Customer {
+                customer = currentCustomer
+                observeOrders(customerId: currentCustomer.id)
             }
         }
         observeProducts()
@@ -41,20 +44,19 @@ final class CustomerViewModel: ObservableObject {
     }
 
     private func observeProducts() {
-        DatabaseInterface.db.observeAllProducts { error, allProducts, eventType in
-            if let error = error {
-                print(error)
+        DatabaseInterface.db.observeAllProducts { [self] error, allProducts, eventType in
+            guard resolveErrors(error) else {
                 return
             }
             if let allProducts = allProducts, let eventType = eventType {
                 if eventType == .added || eventType == .updated {
                     for product in allProducts {
-                        self.products.removeAll(where: { $0.id == product.id })
-                        self.products.append(product)
+                        products.removeAll(where: { $0.id == product.id })
+                        products.append(product)
                     }
                 } else if eventType == .deleted {
                     for product in allProducts {
-                        self.products.removeAll(where: { $0.id == product.id })
+                        products.removeAll(where: { $0.id == product.id })
                     }
                 }
             }
@@ -62,20 +64,19 @@ final class CustomerViewModel: ObservableObject {
     }
 
     private func observeShops() {
-        DatabaseInterface.db.observeAllShops { error, allShops, eventType in
-            if let error = error {
-                print(error)
+        DatabaseInterface.db.observeAllShops { [self] error, allShops, eventType in
+            guard resolveErrors(error) else {
                 return
             }
             if let allShops = allShops, let eventType = eventType {
                 if eventType == .added || eventType == .updated {
                     for shop in allShops {
-                        self.shops.removeAll(where: { $0.id == shop.id })
-                        self.shops.append(shop)
+                        shops.removeAll(where: { $0.id == shop.id })
+                        shops.append(shop)
                     }
                 } else if eventType == .deleted {
                     for shop in allShops {
-                        self.shops.removeAll(where: { $0.id == shop.id })
+                        shops.removeAll(where: { $0.id == shop.id })
                     }
                 }
             }
@@ -83,20 +84,30 @@ final class CustomerViewModel: ObservableObject {
     }
 
     private func observeOrders(customerId: String) {
-        DatabaseInterface.db.observeOrdersFromCustomer(customerId: customerId) { _, allOrders, eventType in
-            guard let allOrders = allOrders else {
-                fatalError("Something wrong when listening to orders")
+        DatabaseInterface.db.observeOrdersFromCustomer(customerId: customerId) { [self] error, allOrders, eventType in
+            guard resolveErrors(error) else {
+                return
             }
-            if eventType == .added || eventType == .updated {
-                for order in allOrders {
-                    self.orders.removeAll(where: { $0.id == order.id })
-                    self.orders.append(order)
-                }
-            } else if eventType == .deleted {
-                for order in allOrders {
-                    self.orders.removeAll(where: { $0.id == order.id })
+            if let allOrders = allOrders {
+                if eventType == .added || eventType == .updated {
+                    for order in allOrders {
+                        self.orders.removeAll(where: { $0.id == order.id })
+                        self.orders.append(order)
+                    }
+                } else if eventType == .deleted {
+                    for order in allOrders {
+                        self.orders.removeAll(where: { $0.id == order.id })
+                    }
                 }
             }
         }
+    }
+    
+    private func resolveErrors(_ error: Error?) -> Bool {
+        if let error = error {
+            print("there was an error: \(error.localizedDescription)")
+            return false
+        }
+        return true
     }
 }
