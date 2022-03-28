@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct CustomerOrderScreen: View {
-    @ObservedObject private(set) var viewModel: ViewModel
-
+    @EnvironmentObject var customerViewModel: CustomerViewModel
+    @ObservedObject var viewModel: ViewModel
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -106,7 +107,7 @@ extension CustomerOrderScreen {
 // MARK: view model
 extension CustomerOrderScreen {
     class ViewModel: ObservableObject {
-        private var customerViewModel = CustomerViewModel()
+        @ObservedObject var customerViewModel: CustomerViewModel
         @Published var filteredOrders: [Order] = []
 
         @Published var tabSelection: TabView {
@@ -115,8 +116,14 @@ extension CustomerOrderScreen {
             }
         }
 
-        init() {
+        init(customerViewModel: CustomerViewModel) {
+            self.customerViewModel = customerViewModel
+            
+            // When we first set the value,
+            // it won't call the didSet
+            // hence we have to call updateFilter() manually once
             tabSelection = .current
+            updateFilter()
         }
 
         private func updateFilter() {
@@ -144,6 +151,7 @@ extension CustomerOrderScreen {
 
 struct CustomerOrderScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerOrderScreen(viewModel: .init())
+        CustomerOrderScreen(viewModel: .init(customerViewModel: CustomerViewModel()))
+            .environmentObject(CustomerViewModel())
     }
 }
