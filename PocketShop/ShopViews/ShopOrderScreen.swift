@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct ShopOrderScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
@@ -29,7 +30,7 @@ struct ShopOrderScreen: View {
     func OrderList() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
-                ForEach(viewModel.filteredOrders, id: \.id) { order in
+                ForEach(viewModel.filteredOrders, id: \.self) { order in
                     OrderItem(order: order)
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 12)
@@ -153,7 +154,8 @@ extension ShopOrderScreen {
 
         init(vendorViewModel: VendorViewModel) {
             self.vendorViewModel = vendorViewModel
-            tabSelection = .current
+            self.tabSelection = .current
+            updateFilter()
         }
 
         private func updateFilter() {
@@ -178,17 +180,13 @@ extension ShopOrderScreen {
         }
 
         func setOrderReady(order: Order) {
-            var order = order
-            order.status = .ready
-
-            DatabaseInterface.db.editOrder(order: order)
+            // Used id so when order needs to be adapted as view model,
+            // we can still use this function
+            vendorViewModel.setOrderReady(orderId: order.id)
         }
 
         func setOrderCollected(order: Order) {
-            var order = order
-            order.status = .collected
-
-            DatabaseInterface.db.editOrder(order: order)
+            vendorViewModel.setOrderCollected(orderId: order.id)
         }
     }
 }

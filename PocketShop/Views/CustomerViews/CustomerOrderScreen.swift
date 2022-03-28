@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct CustomerOrderScreen: View {
-    @EnvironmentObject var customerViewModel: CustomerViewModel
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
@@ -28,7 +27,7 @@ struct CustomerOrderScreen: View {
     func OrderList() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
-                ForEach(viewModel.filteredOrders, id: \.id) { order in
+                ForEach(viewModel.filteredOrders, id: \.self) { order in
                     OrderItem(order: order)
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 12)
