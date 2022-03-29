@@ -8,21 +8,25 @@ protocol DatabaseAdapter {
     func createShop(shop: Shop, imageData: Data?)
     func editShop(shop: Shop)
     func deleteShop(id: String)
-    func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void)
-    func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void)
+    func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
+    func observeShopsByOwner(ownerId: String,
+                             actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
 
     func createProduct(shopId: String, product: Product, imageData: Data?)
     func editProduct(shopId: String, product: Product)
     func deleteProduct(shopId: String, productId: String)
-    func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?) -> Void)
-    func observeProductsFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Product]?) -> Void)
+    func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
+    func observeProductsFromShop(shopId: String,
+                                 actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
 
     func createOrder(order: Order)
     func editOrder(order: Order)
     func deleteOrder(id: String)
-    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
-    func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
-    func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void)
+    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
+    func observeOrdersFromShop(shopId: String,
+                               actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
+    func observeOrdersFromCustomer(customerId: String,
+                                   actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
 
     func uploadProductImage(productId: String, imageData: Data,
                             completionHandler: @escaping (DatabaseError?, String?) -> Void)

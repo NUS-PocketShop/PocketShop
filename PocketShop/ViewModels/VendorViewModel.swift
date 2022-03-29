@@ -6,6 +6,7 @@ final class VendorViewModel: ObservableObject {
     @Published var vendor: Vendor?
     @Published var currentShop: Shop?
     @Published var products: [Product] = [Product]()
+    @Published var orders: [Order] = [Order]()
 
     var shopName: String {
         currentShop?.name ?? "My Shop"
@@ -13,10 +14,13 @@ final class VendorViewModel: ObservableObject {
 
     init() {
         print("initializing vendor view model")
-        DatabaseInterface.auth.getCurrentUser { [self] _, user in
+        DatabaseInterface.auth.getCurrentUser { [self] error, user in
+            guard resolveErrors(error) else {
+                return
+            }
             if let vendor = user as? Vendor {
                 self.vendor = vendor
-                getCurrentShop(vendor.id)
+                initialiseShop(vendor.id)
             }
         }
     }
@@ -92,28 +96,100 @@ final class VendorViewModel: ObservableObject {
         }
         products.remove(atOffsets: positions)
     }
+    
+    func setOrderReady(orderId: String) {
+        let filteredOrder = self.orders.filter { order in
+            order.id == orderId
+        }
+        
+        guard filteredOrder.count == 1 else {
+            fatalError("The order id \(orderId) does not appear in order")
+        }
+        
+        let order = filteredOrder[0]
+        
+        let editedOrder = Order(id: order.id,
+                                orderProducts: order.orderProducts,
+                                status: .ready,
+                                customerId: order.customerId,
+                                shopId: order.shopId,
+                                shopName: order.shopName,
+                                date: order.date,
+                                collectionNo: order.collectionNo,
+                                total: order.total)
+        
+        DatabaseInterface.db.editOrder(order: editedOrder)
+    }
+    
+    func setOrderCollected(orderId: String) {
+        let filteredOrder = self.orders.filter { order in
+            order.id == orderId
+        }
+        
+        guard filteredOrder.count == 1 else {
+            fatalError("The order id \(orderId) does not appear in order")
+        }
+        
+        let order = filteredOrder[0]
+        
+        let editedOrder = Order(id: order.id,
+                                orderProducts: order.orderProducts,
+                                status: .collected,
+                                customerId: order.customerId,
+                                shopId: order.shopId,
+                                shopName: order.shopName,
+                                date: order.date,
+                                collectionNo: order.collectionNo,
+                                total: order.total)
+        
+        DatabaseInterface.db.editOrder(order: editedOrder)
+        
+    }
 
     // MARK: Private functions
-    private func getCurrentShop(_ vendorId: String) {
-        DatabaseInterface.db.observeShopsByOwner(ownerId: vendorId) { [self] error, shop in
+    private func initialiseShop(_ vendorId: String) {
+        DatabaseInterface.db.observeShopsByOwner(ownerId: vendorId) { [self] error, allShops, eventType in
             guard resolveErrors(error) else {
                 return
             }
 
-            guard let shop = shop else {
-                return
-            }
-
-            if !shop.isEmpty {
-                currentShop = shop[0]
-                products = shop[0].soldProducts
+            if let allShops = allShops, let eventType = eventType, !allShops.isEmpty {
+                if eventType == .added || eventType == .updated {
+                    currentShop = allShops[0]
+                    products = allShops[0].soldProducts
+                    getOrders(allShops[0].id)
+                } else if eventType == .deleted {
+                    currentShop = nil
+                    products = [Product]()
+                    orders = [Order]()
+                }
             }
         }
     }
 
-    private func resolveErrors(_ error: DatabaseError?) -> Bool {
-        if error != nil {
-            print("there was an error: \(error?.localizedDescription)")
+    private func getOrders(_ shopId: String) {
+        DatabaseInterface.db.observeOrdersFromShop(shopId: shopId) { [self] error, allOrders, eventType in
+            guard resolveErrors(error) else {
+                return
+            }
+            if let allOrders = allOrders {
+                if eventType == .added || eventType == .updated {
+                    for order in allOrders {
+                        orders.removeAll(where: { $0.id == order.id })
+                        orders.append(order)
+                    }
+                } else if eventType == .deleted {
+                    for order in allOrders {
+                        orders.removeAll(where: { $0.id == order.id })
+                    }
+                }
+            }
+        }
+    }
+
+    private func resolveErrors(_ error: Error?) -> Bool {
+        if let error = error {
+            print("there was an error: \(error.localizedDescription)")
             return false
         }
         return true

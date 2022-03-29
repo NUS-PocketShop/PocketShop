@@ -65,103 +65,56 @@ class DBOrders {
         }
     }
 
-    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
-        FirebaseManager.sharedManager.ref.observe(DataEventType.value) { snapshot in
-            var orders = [Order]()
-            guard let categories = snapshot.value as? NSDictionary,
-                  let allOrders = categories["orders"] as? NSDictionary else {
-                actionBlock(.unexpectedError, nil)
-                return
+    func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
+        let orderRef = FirebaseManager.sharedManager.ref.child("orders")
+
+        orderRef.observe(.childAdded) { snapshot in
+            print("added")
+            if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
+                actionBlock(nil, [order], .added)
             }
-            for value in allOrders.allValues {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: value)
-                    let orderSchema = try JSONDecoder().decode(OrderSchema.self, from: jsonData)
-                    let orderProducts = self
-                        .getOrderProductFromSchema(orderProductSchemas:
-                                                    Array((orderSchema.orderProductSchemas ?? [:]).values),
-                                                   snapshot: snapshot)
-                    let shopName = self.getShopNameFromSnapshot(shopId: orderSchema.shopId, snapshot: snapshot) ?? ""
-                    var total = 0.0
-                    for orderProduct in orderProducts {
-                        total += orderProduct.total
-                    }
-                    let order = orderSchema.toOrder(orderProducts: orderProducts, shopName: shopName, total: total)
-                    orders.append(order)
-                } catch {
-                    print(error)
-                }
-            }
-            actionBlock(nil, orders)
         }
+
+        orderRef.observe(.childChanged) { snapshot in
+            print("updated")
+            if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
+                actionBlock(nil, [order], .updated)
+            }
+        }
+        orderRef.observe(.childRemoved) { snapshot in
+            print("deleted")
+            if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
+                actionBlock(nil, [order], .deleted)
+            }
+        }
+
     }
 
-    func observeOrdersFromShop(shopId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
-        observeAllOrders { error, orders in
+    func observeOrdersFromShop(shopId: String,
+                               actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
+        observeAllOrders { error, orders, eventType in
             let newOrders = orders?.filter { $0.shopId == shopId }
-            actionBlock(error, newOrders)
+            actionBlock(error, newOrders, eventType)
         }
     }
 
-    func observeOrdersFromCustomer(customerId: String, actionBlock: @escaping (DatabaseError?, [Order]?) -> Void) {
-        observeAllOrders { error, orders in
+    func observeOrdersFromCustomer(customerId: String,
+                                   actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
+        observeAllOrders { error, orders, eventType in
             let newOrders = orders?.filter { $0.customerId == customerId }
-            actionBlock(error, newOrders)
+            actionBlock(error, newOrders, eventType)
         }
     }
 
-    private func getOrderProductFromSchema(orderProductSchemas: [OrderProductSchema],
-                                           snapshot: DataSnapshot) -> [OrderProduct] {
-        var orderProducts = [OrderProduct]()
-        for orderProductSchema in orderProductSchemas {
-            if let product = getProductFromSnapshot(productId: orderProductSchema.productId, snapshot: snapshot) {
-                let orderProduct = orderProductSchema.toOrderProduct(product: product)
-                orderProducts.append(orderProduct)
-            }
-        }
-        return orderProducts
-    }
-
-    private func getProductFromSnapshot(productId: String, snapshot: DataSnapshot) -> Product? {
-        var product: Product?
-        guard let categories = snapshot.value as? NSDictionary,
-              let shops = categories["shops"] as? NSDictionary else {
+    private func convertOrder(orderJson: Any) -> Order? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: orderJson)
+            let orderSchema = try JSONDecoder().decode(OrderSchema.self, from: jsonData)
+            let order = orderSchema.toOrder()
+            return order
+        } catch {
+            print(error)
             return nil
         }
-        for case let shop as NSDictionary in shops.allValues {
-            guard let shopId = shop["id"] as? String,
-                  let shopName = shop["name"] as? String,
-                  let productSchemas = shop["soldProducts"] as? NSDictionary else {
-                      continue
-                  }
-            for case let value as NSDictionary in productSchemas.allValues {
-                do {
-                    if let id = value["id"] as? String, id == productId {
-                        let jsonData = try JSONSerialization.data(withJSONObject: value)
-                        let productSchema = try JSONDecoder().decode(ProductSchema.self, from: jsonData)
-                        product = productSchema.toProduct(shopId: shopId, shopName: shopName)
-                    }
-                } catch {
-                    print(error)
-                }
-            }
-        }
-        return product
-    }
-
-    private func getShopNameFromSnapshot(shopId: String, snapshot: DataSnapshot) -> String? {
-        guard let categories = snapshot.value as? NSDictionary,
-              let shops = categories["shops"] as? NSDictionary else {
-            return nil
-        }
-        for case let shop as NSDictionary in shops.allValues {
-            if let curShopId = shop["id"] as? String,
-                  let curShopName = shop["name"] as? String {
-                if shopId == curShopId {
-                    return curShopName
-                }
-            }
-        }
-        return nil
     }
 }

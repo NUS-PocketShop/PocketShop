@@ -48,6 +48,7 @@
 		AD15B3A527E59E5600513809 /* OrderSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A427E59E5600513809 /* OrderSchema.swift */; };
 		AD15B3A727E5A1A900513809 /* DBOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A627E5A1A900513809 /* DBOrders.swift */; };
 		AD15B3A927E5D2A600513809 /* DBStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B3A827E5D2A600513809 /* DBStorage.swift */; };
+		AD7A9C0927EF03C80069B70C /* DatabaseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A9C0827EF03C80069B70C /* DatabaseEvent.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -153,6 +154,7 @@
 		AD15B3A427E59E5600513809 /* OrderSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSchema.swift; sourceTree = "<group>"; };
 		AD15B3A627E5A1A900513809 /* DBOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBOrders.swift; sourceTree = "<group>"; };
 		AD15B3A827E5D2A600513809 /* DBStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStorage.swift; sourceTree = "<group>"; };
+		AD7A9C0827EF03C80069B70C /* DatabaseEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseEvent.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				AD15B3A027E46C9E00513809 /* DBProducts.swift */,
 				AD15B3A627E5A1A900513809 /* DBOrders.swift */,
 				AD15B3A827E5D2A600513809 /* DBStorage.swift */,
+				AD7A9C0827EF03C80069B70C /* DatabaseEvent.swift */,
 			);
 			path = RealtimeDatabase;
 			sourceTree = "<group>";
@@ -655,6 +658,7 @@
 				DFD49A0B27E513F50067BC32 /* ShopsScrollView.swift in Sources */,
 				2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */,
 				02AD420527DF027200F44822 /* CustomerCartScreen.swift in Sources */,
+				AD7A9C0927EF03C80069B70C /* DatabaseEvent.swift in Sources */,
 				02AD421927DF1CFF00F44822 /* LoginScreen.swift in Sources */,
 				DFD49A0727E4F1880067BC32 /* ShopSummaryView.swift in Sources */,
 				022EA90927E76279003F4E3C /* ShopInfoView.swift in Sources */,

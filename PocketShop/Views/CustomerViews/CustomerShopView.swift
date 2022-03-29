@@ -15,7 +15,7 @@ struct CustomerShopView: View {
                 Spacer()
             } else {
                 List {
-                    ForEach(viewModel.products, id: \.self) { product in
+                    ForEach(viewModel.products) { product in
                         if product.shopName == shop.name {
                             ProductListView(product: product).environmentObject(viewModel)
                         }

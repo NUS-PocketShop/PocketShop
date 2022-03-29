@@ -11,6 +11,7 @@ struct CustomerRootView: View {
     @State var currentTab: Int = 1
 
     @StateObject var viewRouter = CustomerViewRouter()
+    @StateObject var customerViewModel = CustomerViewModel()
 
     @EnvironmentObject var router: MainViewRouter
 
@@ -23,7 +24,7 @@ struct CustomerRootView: View {
                     tabData[0].image
                 }.tag(CustomerViewRouter.Page.home)
 
-            CustomerOrderScreen(viewModel: .init())
+            CustomerOrderScreen(viewModel: .init(customerViewModel: customerViewModel))
                 .tabItem {
                     tabData[1].title
                     tabData[1].image
@@ -40,7 +41,7 @@ struct CustomerRootView: View {
                     tabData[3].title
                     tabData[3].image
                 }.tag(CustomerViewRouter.Page.profile)
-        }
+        }.environmentObject(customerViewModel)
     }
 }
 
