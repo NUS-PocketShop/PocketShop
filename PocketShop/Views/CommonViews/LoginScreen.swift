@@ -4,10 +4,12 @@ struct LoginScreen: View {
 
     @ObservedObject var router: MainViewRouter
     @ObservedObject var loginViewModel: LoginViewModel
+    @ObservedObject var registerViewModel: RegisterViewModel
 
     init(router: MainViewRouter) {
         self.router = router
         self.loginViewModel = LoginViewModel(router: router)
+        self.registerViewModel = RegisterViewModel(router: router)
     }
 
     var body: some View {
@@ -23,6 +25,7 @@ struct LoginScreen: View {
             }
             .padding()
         }
+        .environmentObject(registerViewModel)
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -92,7 +95,7 @@ private struct SignUpSection: View {
         HStack {
             Text("Don't have an account?")
             NavigationLink(
-                destination: RegisterScreen(router: router),
+                destination: RegisterScreen().environmentObject(router),
                 label: {
                     Text("Sign Up")
                 })

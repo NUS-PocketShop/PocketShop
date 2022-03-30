@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CustomerOrderScreen: View {
     @ObservedObject var viewModel: ViewModel
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -117,7 +117,7 @@ extension CustomerOrderScreen {
 
         init(customerViewModel: CustomerViewModel) {
             self.customerViewModel = customerViewModel
-            
+
             // When we first set the value,
             // it won't call the didSet
             // hence we have to call updateFilter() manually once
@@ -135,14 +135,14 @@ extension CustomerOrderScreen {
         }
 
         func setFilterCurrent() {
-            filteredOrders = customerViewModel.orders.filter { order in
-                order.status != .collected
+            filteredOrders = customerViewModel.orders.filter {
+                $0.status != OrderStatus.collected
             }
         }
 
         func setFilterHistory() {
-            filteredOrders = customerViewModel.orders.filter { order in
-                order.status == .collected
+            filteredOrders = customerViewModel.orders.filter {
+                $0.status == OrderStatus.collected
             }
         }
     }

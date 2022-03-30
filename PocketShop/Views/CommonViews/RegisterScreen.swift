@@ -2,11 +2,7 @@ import SwiftUI
 
 struct RegisterScreen: View {
 
-    @ObservedObject var registerViewModel: RegisterViewModel
-
-    init(router: MainViewRouter) {
-        self.registerViewModel = RegisterViewModel(router: router)
-    }
+    @EnvironmentObject var registerViewModel: RegisterViewModel
 
     var body: some View {
         NavigationView {
@@ -19,6 +15,7 @@ struct RegisterScreen: View {
                                    errorMessage: $registerViewModel.errorMessage)
                     PSRadioButtonGroup(title: "I am a",
                                        options: ["Customer", "Vendor"],
+                                       selectedId: registerViewModel.accountType?.rawValue ?? "",
                                        callback: { option in
                                         registerViewModel.setAccountType(option)
                                      })
@@ -35,7 +32,7 @@ struct RegisterScreen: View {
 
 struct RegisterScreen_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterScreen(router: MainViewRouter())
+        RegisterScreen()
     }
 }
 

@@ -102,7 +102,7 @@ final class CustomerViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func resolveErrors(_ error: Error?) -> Bool {
         if let error = error {
             print("there was an error: \(error.localizedDescription)")

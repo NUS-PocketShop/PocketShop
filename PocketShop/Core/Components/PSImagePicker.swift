@@ -50,7 +50,8 @@ struct ImagePicker: UIViewControllerRepresentable {
     @Binding var isShown: Bool
     @Binding var image: UIImage?
 
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+    func updateUIViewController(_ uiViewController: UIImagePickerController,
+                                context: UIViewControllerRepresentableContext<ImagePicker>) {
     }
 
     func makeCoordinator() -> ImagePickerCordinator {

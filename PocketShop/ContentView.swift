@@ -3,7 +3,6 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var viewRouter: MainViewRouter
-    @StateObject var customerRouter = CustomerViewRouter()
 
     var body: some View {
         switch viewRouter.currentPage {

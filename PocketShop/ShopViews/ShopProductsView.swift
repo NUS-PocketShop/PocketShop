@@ -17,7 +17,8 @@ struct ShopProductsView: View {
             } else {
                 List {
                     ForEach(shop.soldProducts, id: \.self) { product in
-                        NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel, product: product)) {
+                        NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
+                                                                            product: product)) {
                             ProductListView(product: product)
                         }
                     }
