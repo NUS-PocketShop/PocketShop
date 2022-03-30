@@ -1,4 +1,4 @@
-struct Product: Codable, Hashable {
+struct Product: Hashable, Identifiable {
     var id: String
     var name: String
     var shopName: String

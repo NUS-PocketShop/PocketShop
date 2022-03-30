@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Order {
+struct Order: Hashable, Identifiable {
     var id: String
     var orderProducts: [OrderProduct]
     var status: OrderStatus

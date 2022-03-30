@@ -54,36 +54,50 @@ class DBShop {
         }
     }
 
-    func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
-        FirebaseManager.sharedManager.ref.child("shops/").observe(DataEventType.value) { snapshot in
-            var shops: [Shop] = []
-            guard let allShops = snapshot.value as? NSDictionary else {
-                actionBlock(.unexpectedError, nil)
-                return
+    func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/")
+        ref.observe(.childAdded) { snapshot in
+            print("added")
+            if let value = snapshot.value, let shop = self.convertShop(shopJson: value) {
+                actionBlock(nil, [shop], .added)
             }
-            for value in allShops.allValues {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: value)
-                    let shopSchema = try JSONDecoder().decode(ShopSchema.self, from: jsonData)
-                    let shop = shopSchema.toShop()
-                    shops.append(shop)
-                } catch {
-                    print(error)
-                }
+        }
+        ref.observe(.childChanged) { snapshot in
+            print("updated")
+            if let value = snapshot.value, let shop = self.convertShop(shopJson: value) {
+                actionBlock(nil, [shop], .updated)
             }
-            actionBlock(nil, shops)
+        }
+        ref.observe(.childRemoved) { snapshot in
+            print("deleted")
+            if let value = snapshot.value, let shop = self.convertShop(shopJson: value) {
+                actionBlock(nil, [shop], .deleted)
+            }
         }
     }
 
-    func observeShopsByOwner(ownerId: String, actionBlock: @escaping (DatabaseError?, [Shop]?) -> Void) {
-        observeAllShops { _, shops in
+    func observeShopsByOwner(ownerId: String,
+                             actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
+        observeAllShops { _, shops, eventType in
             var newShops = [Shop]()
             if let shops = shops {
                 newShops = shops.filter {
                     $0.ownerId == ownerId
                 }
             }
-            actionBlock(nil, newShops)
+            actionBlock(nil, newShops, eventType)
+        }
+    }
+
+    private func convertShop(shopJson: Any) -> Shop? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: shopJson)
+            let shopSchema = try JSONDecoder().decode(ShopSchema.self, from: jsonData)
+            let shop = shopSchema.toShop()
+            return shop
+        } catch {
+            print(error)
+            return nil
         }
     }
 }

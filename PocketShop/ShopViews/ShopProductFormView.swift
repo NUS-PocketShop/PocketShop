@@ -4,27 +4,22 @@ struct ShopProductFormView: View {
     @StateObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
 
-    @State private var name: String = ""
-    @State private var price: String = ""
-    @State private var description: String = ""
-    @State private var prepTime: String = ""
+    @State private var name = ""
+    @State private var price = ""
+    @State private var prepTime = ""
+    @State private var description = ""
     @State private var image: UIImage?
 
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Add new product")
-                    .font(.appTitle)
-
+                Text("Add new product").font(.appTitle)
                 UserInputSegment(name: $name,
                                  price: $price,
                                  description: $description,
                                  prepTime: $prepTime)
-
                 PSImagePicker(title: "Product Image",
-                              image: $image)
-                    .padding(.bottom)
-
+                              image: $image).padding(.bottom)
                 PSButton(title: "Save") {
                     guard let image = image, !name.isEmpty,
                           let price = Double(price),
@@ -38,11 +33,8 @@ struct ShopProductFormView: View {
                                             estimatedPrepTime: estimatedPrepTime,
                                             image: image)
                     presentationMode.wrappedValue.dismiss()
-
-                }
-                .buttonStyle(FillButtonStyle())
-            }
-            .padding()
+                }.buttonStyle(FillButtonStyle())
+            }.padding()
         }
         .navigationBarItems(trailing: Button("Cancel") {
             presentationMode.wrappedValue.dismiss()
@@ -51,7 +43,6 @@ struct ShopProductFormView: View {
 }
 
 struct UserInputSegment: View {
-
     @Binding var name: String
     @Binding var price: String
     @Binding var description: String
