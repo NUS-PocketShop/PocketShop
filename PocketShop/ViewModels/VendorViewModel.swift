@@ -84,7 +84,7 @@ final class VendorViewModel: ObservableObject {
                               isOutOfStock: false,
                               options: [])
 
-        DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
+        DatabaseInterface.db.editProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }
 
     func deleteProduct(at positions: IndexSet) {

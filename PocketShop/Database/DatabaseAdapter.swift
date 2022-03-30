@@ -13,7 +13,7 @@ protocol DatabaseAdapter {
                              actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
 
     func createProduct(shopId: String, product: Product, imageData: Data?)
-    func editProduct(shopId: String, product: Product)
+    func editProduct(shopId: String, product: Product, imageData: Data?)
     func deleteProduct(shopId: String, productId: String)
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
     func observeProductsFromShop(shopId: String,

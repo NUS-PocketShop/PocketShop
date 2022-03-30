@@ -47,8 +47,8 @@ class DatabaseManager: DatabaseAdapter {
         products.createProduct(shopId: shopId, product: product, imageData: imageData)
     }
 
-    func editProduct(shopId: String, product: Product) {
-        products.editProduct(shopId: shopId, product: product)
+    func editProduct(shopId: String, product: Product, imageData: Data?) {
+        products.editProduct(shopId: shopId, product: product, imageData: imageData)
     }
 
     func deleteProduct(shopId: String, productId: String) {
