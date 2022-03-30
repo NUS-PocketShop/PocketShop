@@ -59,7 +59,8 @@ final class VendorViewModel: ObservableObject {
                               price: price,
                               imageURL: "",
                               estimatedPrepTime: estimatedPrepTime,
-                              isOutOfStock: false)
+                              isOutOfStock: false,
+                              options: [])
 
         DatabaseInterface.db.createProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }
@@ -80,7 +81,8 @@ final class VendorViewModel: ObservableObject {
                               price: price,
                               imageURL: "",
                               estimatedPrepTime: estimatedPrepTime,
-                              isOutOfStock: false)
+                              isOutOfStock: false,
+                              options: [])
 
         DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
     }
@@ -96,18 +98,18 @@ final class VendorViewModel: ObservableObject {
         }
         products.remove(atOffsets: positions)
     }
-    
+
     func setOrderReady(orderId: String) {
         let filteredOrder = self.orders.filter { order in
             order.id == orderId
         }
-        
+
         guard filteredOrder.count == 1 else {
             fatalError("The order id \(orderId) does not appear in order")
         }
-        
+
         let order = filteredOrder[0]
-        
+
         let editedOrder = Order(id: order.id,
                                 orderProducts: order.orderProducts,
                                 status: .ready,
@@ -117,21 +119,21 @@ final class VendorViewModel: ObservableObject {
                                 date: order.date,
                                 collectionNo: order.collectionNo,
                                 total: order.total)
-        
+
         DatabaseInterface.db.editOrder(order: editedOrder)
     }
-    
+
     func setOrderCollected(orderId: String) {
         let filteredOrder = self.orders.filter { order in
             order.id == orderId
         }
-        
+
         guard filteredOrder.count == 1 else {
             fatalError("The order id \(orderId) does not appear in order")
         }
-        
+
         let order = filteredOrder[0]
-        
+
         let editedOrder = Order(id: order.id,
                                 orderProducts: order.orderProducts,
                                 status: .collected,
@@ -141,9 +143,9 @@ final class VendorViewModel: ObservableObject {
                                 date: order.date,
                                 collectionNo: order.collectionNo,
                                 total: order.total)
-        
+
         DatabaseInterface.db.editOrder(order: editedOrder)
-        
+
     }
 
     // MARK: Private functions
