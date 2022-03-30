@@ -5,6 +5,7 @@ final class CustomerViewModel: ObservableObject {
     @Published var products: [Product] = [Product]()
     @Published var shops: [Shop] = [Shop]()
     @Published var orders: [Order] = [Order]()
+    @Published var cart: [CartProduct] = [CartProduct]()
     @Published var customer: Customer?
 
     @Published var searchText = ""
@@ -103,6 +104,26 @@ final class CustomerViewModel: ObservableObject {
         }
     }
     
+    private func observeCart(customerId: String) {
+        DatabaseInterface.db.observeCart(userId: customerId) { [self] error, cartProducts, eventType in
+            guard resolveErrors(error) else {
+                return
+            }
+            if let cartProducts = cartProducts {
+                if eventType == .added || eventType == .updated {
+                    for cartProduct in cartProducts {
+                        self.cart.removeAll(where: { $0.product.id == cartProduct.product.id })
+                        self.cart.append(cartProduct)
+                    }
+                } else if eventType == .deleted {
+                    for cartProduct in cartProducts {
+                        self.cart.removeAll(where: { $0.product.id == cartProduct.product.id })
+                    }
+                }
+            }
+        }
+    }
+
     private func resolveErrors(_ error: Error?) -> Bool {
         if let error = error {
             print("there was an error: \(error.localizedDescription)")

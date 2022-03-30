@@ -9,13 +9,14 @@ class DatabaseManager: DatabaseAdapter {
     let products = DBProducts()
     let orders = DBOrders()
     let storage = DBStorage()
+    let cart = DBCart()
 
-    func createCustomer(customer: Customer) {
-        users.createCustomer(customer: customer)
+    func createCustomer(id: String) {
+        users.createCustomer(id: id)
     }
 
-    func createVendor(vendor: Vendor) {
-        users.createVendor(vendor: vendor)
+    func createVendor(id: String) {
+        users.createVendor(id: id)
     }
 
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
@@ -106,6 +107,22 @@ class DatabaseManager: DatabaseAdapter {
 
     func getShopImage(shopId: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void) {
         storage.getShopImage(shopId: shopId, completionHandler: completionHandler)
+    }
+
+    func addProductToCart(userId: String, product: Product, quantity: Int) {
+        cart.addProductToCart(userId: userId, product: product, quantity: quantity)
+    }
+
+    func removeProductFromCart(userId: String, product: Product) {
+        cart.removeProductFromCart(userId: userId, product: product)
+    }
+
+    func changeProductQuantity(userId: String, product: Product, quantity: Int) {
+        cart.changeProductQuantity(userId: userId, product: product, quantity: quantity)
+    }
+
+    func observeCart(userId: String, completionHandler: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void) {
+        cart.observeCart(userId: userId, completionHandler: completionHandler)
     }
 
 }

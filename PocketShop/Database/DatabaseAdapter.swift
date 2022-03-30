@@ -1,8 +1,8 @@
 import SwiftUI
 
 protocol DatabaseAdapter {
-    func createCustomer(customer: Customer)
-    func createVendor(vendor: Vendor)
+    func createCustomer(id: String)
+    func createVendor(id: String)
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void)
 
     func createShop(shop: Shop, imageData: Data?)
@@ -34,4 +34,9 @@ protocol DatabaseAdapter {
     func uploadShopImage(shopId: String, imageData: Data,
                          completionHandler: @escaping (DatabaseError?, String?) -> Void)
     func getShopImage(shopId: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void)
+
+    func addProductToCart(userId: String, product: Product, quantity: Int)
+    func removeProductFromCart(userId: String, product: Product)
+    func changeProductQuantity(userId: String, product: Product, quantity: Int)
+    func observeCart(userId: String, completionHandler: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void)
 }
