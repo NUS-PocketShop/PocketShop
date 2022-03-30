@@ -20,26 +20,22 @@ struct CustomerRootView: View {
 
             CustomerHomeScreen()
                 .tabItem {
-                    tabData[0].title
-                    tabData[0].image
+                    TabItemView(tabItem: tabData[0])
                 }.tag(CustomerViewRouter.Page.home)
 
             CustomerOrderScreen(viewModel: .init(customerViewModel: customerViewModel))
                 .tabItem {
-                    tabData[1].title
-                    tabData[1].image
+                    TabItemView(tabItem: tabData[1])
                 }.tag(CustomerViewRouter.Page.search)
 
             CustomerCartScreen()
                 .tabItem {
-                    tabData[2].title
-                    tabData[2].image
+                    TabItemView(tabItem: tabData[2])
                 }.tag(CustomerViewRouter.Page.cart)
 
             CustomerProfileScreen(router: router)
                 .tabItem {
-                    tabData[3].title
-                    tabData[3].image
+                    TabItemView(tabItem: tabData[3])
                 }.tag(CustomerViewRouter.Page.profile)
         }.environmentObject(customerViewModel)
     }
@@ -57,4 +53,16 @@ struct TabItem: Identifiable {
     var title: Text
     var image: Image
     var tag: Int
+}
+
+struct TabItemView: View {
+
+    var tabItem: TabItem
+
+    var body: some View {
+        VStack {
+            tabItem.title
+            tabItem.image
+        }
+    }
 }
