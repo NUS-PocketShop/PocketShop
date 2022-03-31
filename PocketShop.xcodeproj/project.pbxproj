@@ -37,6 +37,7 @@
 		02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */; };
 		02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */; };
 		2B02BB0327E74DF00066A192 /* ShopOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B02BB0227E74DF00066A192 /* ShopOrderScreen.swift */; };
+		2B54157D27F5AD0400B9C758 /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */; };
 		2B63EB8A27E23269008D5747 /* CustomerOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */; };
 		2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B786B4927E33F1600834CA4 /* RingView.swift */; };
 		AD15B39827E36E9B00513809 /* DBShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD15B39727E36E9B00513809 /* DBShop.swift */; };
@@ -147,6 +148,7 @@
 		02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSRadioButtonGroup.swift; sourceTree = "<group>"; };
 		2B02BB0227E74DF00066A192 /* ShopOrderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopOrderScreen.swift; sourceTree = "<group>"; };
+		2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
 		2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrderScreen.swift; sourceTree = "<group>"; };
 		2B786B4927E33F1600834CA4 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
 		AD15B39727E36E9B00513809 /* DBShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBShop.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				022EA90327E731F0003F4E3C /* VendorViewModel.swift */,
 				02AD422B27DF1FC700F44822 /* LoginViewModel.swift */,
 				02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */,
+				2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				022EA90927E76279003F4E3C /* ShopInfoView.swift in Sources */,
 				02AD41FD27DF024A00F44822 /* CustomerSearchScreen.swift in Sources */,
 				DFD49A0327E4B9010067BC32 /* CustomerShopView.swift in Sources */,
+				2B54157D27F5AD0400B9C758 /* OrderViewModel.swift in Sources */,
 				02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */,
 				ADAD9F2B27DDE7B400DE0EE7 /* Vendor.swift in Sources */,
 				ADAD9F3527DFBBF600DE0EE7 /* DatabaseInterface.swift in Sources */,

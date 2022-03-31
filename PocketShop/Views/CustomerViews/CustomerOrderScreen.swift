@@ -39,7 +39,7 @@ struct CustomerOrderScreen: View {
     }
 
     @ViewBuilder
-    func OrderItem(order: Order) -> some View {
+    func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
             VStack {
                 Text("COLLECTION NO.")
@@ -107,7 +107,7 @@ extension CustomerOrderScreen {
 extension CustomerOrderScreen {
     class ViewModel: ObservableObject {
         @ObservedObject var customerViewModel: CustomerViewModel
-        @Published var filteredOrders: [Order] = []
+        @Published var filteredOrders: [OrderViewModel] = []
 
         @Published var tabSelection: TabView {
             didSet {
@@ -137,12 +137,16 @@ extension CustomerOrderScreen {
         func setFilterCurrent() {
             filteredOrders = customerViewModel.orders.filter {
                 $0.status != OrderStatus.collected
+            }.map {
+                OrderViewModel(order: $0)
             }
         }
 
         func setFilterHistory() {
             filteredOrders = customerViewModel.orders.filter {
                 $0.status == OrderStatus.collected
+            }.map {
+                OrderViewModel(order: $0)
             }
         }
     }

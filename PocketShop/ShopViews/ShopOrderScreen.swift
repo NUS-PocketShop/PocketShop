@@ -4,7 +4,7 @@ import Combine
 struct ShopOrderScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
     @State private var showConfirmation = false
-    @State private var selectedOrder: Order?
+    @State private var selectedOrder: OrderViewModel?
 
     var body: some View {
         NavigationView {
@@ -42,7 +42,7 @@ struct ShopOrderScreen: View {
     }
 
     @ViewBuilder
-    func OrderItem(order: Order) -> some View {
+    func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
             VStack {
                 Text("COLLECTION NO.")
@@ -110,7 +110,7 @@ struct ShopOrderScreen: View {
         }
     }
 
-    private func getAlertForOrder(_ order: Order) -> Alert {
+    private func getAlertForOrder(_ order: OrderViewModel) -> Alert {
         if order.status == .accepted {
             return Alert(
                 title: Text("Confirmation"),
@@ -144,7 +144,7 @@ extension ShopOrderScreen {
 extension ShopOrderScreen {
     class ViewModel: ObservableObject {
         @ObservedObject private var vendorViewModel: VendorViewModel
-        @Published var filteredOrders: [Order] = []
+        @Published var filteredOrders: [OrderViewModel] = []
 
         @Published var tabSelection: TabView {
             didSet {
@@ -170,22 +170,26 @@ extension ShopOrderScreen {
         func setFilterCurrent() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status != .collected
+            }.map {
+                OrderViewModel(order: $0)
             }
         }
 
         func setFilterHistory() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status == .collected
+            }.map {
+                OrderViewModel(order: $0)
             }
         }
 
-        func setOrderReady(order: Order) {
+        func setOrderReady(order: OrderViewModel) {
             // Used id so when order needs to be adapted as view model,
             // we can still use this function
             vendorViewModel.setOrderReady(orderId: order.id)
         }
 
-        func setOrderCollected(order: Order) {
+        func setOrderCollected(order: OrderViewModel) {
             vendorViewModel.setOrderCollected(orderId: order.id)
         }
     }
