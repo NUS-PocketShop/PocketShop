@@ -2,6 +2,8 @@ import SwiftUI
 
 struct CustomerOrderScreen: View {
     @ObservedObject var viewModel: ViewModel
+    @State private var showCancelConfirmation = false
+    @State private var selectedOrder: OrderViewModel?
 
     var body: some View {
         NavigationView {
@@ -39,7 +41,7 @@ struct CustomerOrderScreen: View {
     }
 
     @ViewBuilder
-    func OrderItem(order: Order) -> some View {
+    func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
             VStack {
                 Text("COLLECTION NO.")
@@ -90,9 +92,33 @@ struct CustomerOrderScreen: View {
                 RingView(color: order.ringColor, text: order.status.toString())
 
                 Spacer()
+                
+                if order.showCancel {
+                    PSButton(title: "Cancel") {
+                        showCancelConfirmation.toggle()
+                        selectedOrder = order
+                    }
+                    .alert(isPresented: $showCancelConfirmation) {
+                        guard let selectedOrder = self.selectedOrder else {
+                            fatalError("Order does not exist")
+                        }
+
+                        return getCancelAlertForOrder(selectedOrder)
+                    }
+                    .buttonStyle(FillButtonStyle())
+                }
             }
             .frame(minHeight: 128)
         }
+    }
+    
+    private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {
+        Alert(title: Text("Confirmation"),
+              message: Text("Confirm to cancel order \(order.collectionNo)?"),
+              primaryButton: .default(Text("Yes")) {
+                    viewModel.cancelOrder(order: order)
+              },
+              secondaryButton: .destructive(Text("No")))
     }
 }
 
@@ -107,7 +133,7 @@ extension CustomerOrderScreen {
 extension CustomerOrderScreen {
     class ViewModel: ObservableObject {
         @ObservedObject var customerViewModel: CustomerViewModel
-        @Published var filteredOrders: [Order] = []
+        @Published var filteredOrders: [OrderViewModel] = []
 
         @Published var tabSelection: TabView {
             didSet {
@@ -137,13 +163,21 @@ extension CustomerOrderScreen {
         func setFilterCurrent() {
             filteredOrders = customerViewModel.orders.filter {
                 $0.status != OrderStatus.collected
+            }.map {
+                OrderViewModel(order: $0)
             }
         }
 
         func setFilterHistory() {
             filteredOrders = customerViewModel.orders.filter {
                 $0.status == OrderStatus.collected
+            }.map {
+                OrderViewModel(order: $0)
             }
+        }
+        
+        func cancelOrder(order: OrderViewModel) {
+            customerViewModel.deleteOrder(orderId: order.id)
         }
     }
 }

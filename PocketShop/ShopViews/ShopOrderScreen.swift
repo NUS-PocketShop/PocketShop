@@ -4,7 +4,8 @@ import Combine
 struct ShopOrderScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
     @State private var showConfirmation = false
-    @State private var selectedOrder: Order?
+    @State private var showCancelConfirmation = false
+    @State private var selectedOrder: OrderViewModel?
 
     var body: some View {
         NavigationView {
@@ -42,7 +43,7 @@ struct ShopOrderScreen: View {
     }
 
     @ViewBuilder
-    func OrderItem(order: Order) -> some View {
+    func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
             VStack {
                 Text("COLLECTION NO.")
@@ -105,12 +106,46 @@ struct ShopOrderScreen: View {
                     }
 
                 Spacer()
+                
+                if order.showCancel {
+                    PSButton(title: "Cancel") {
+                        showCancelConfirmation.toggle()
+                        selectedOrder = order
+                    }
+                    .alert(isPresented: $showCancelConfirmation) {
+                        guard let selectedOrder = self.selectedOrder else {
+                            fatalError("Order does not exist")
+                        }
+
+                        return getCancelAlertForOrder(selectedOrder)
+                    }
+                    .buttonStyle(FillButtonStyle())
+                }
             }
             .frame(minHeight: 128)
         }
     }
+    
+    private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {
+        Alert(title: Text("Confirmation"),
+              message: Text("Confirm to cancel order \(order.collectionNo)?"),
+              primaryButton: .default(Text("Yes")) {
+                    viewModel.cancelOrder(order: order)
+              },
+              secondaryButton: .destructive(Text("No")))
+    }
 
-    private func getAlertForOrder(_ order: Order) -> Alert {
+    private func getAlertForOrder(_ order: OrderViewModel) -> Alert {
+        if order.status == .pending {
+            return Alert(
+                title: Text("Confirmation"),
+                message: Text("Confirm to accept order \(order.collectionNo)?"),
+                primaryButton: .default(Text("Confirm")) {
+                    viewModel.setOrderAccept(order: order)
+                },
+                secondaryButton: .destructive(Text("Cancel")))
+        }
+        
         if order.status == .accepted {
             return Alert(
                 title: Text("Confirmation"),
@@ -120,8 +155,6 @@ struct ShopOrderScreen: View {
                 },
                 secondaryButton: .destructive(Text("Cancel")))
         }
-
-        assert(order.status == .ready, "Implement order collection type of \(order.status)!")
 
         return Alert(
             title: Text("Confirmation"),
@@ -144,7 +177,7 @@ extension ShopOrderScreen {
 extension ShopOrderScreen {
     class ViewModel: ObservableObject {
         @ObservedObject private var vendorViewModel: VendorViewModel
-        @Published var filteredOrders: [Order] = []
+        @Published var filteredOrders: [OrderViewModel] = []
 
         @Published var tabSelection: TabView {
             didSet {
@@ -170,22 +203,34 @@ extension ShopOrderScreen {
         func setFilterCurrent() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status != .collected
+            }.map {
+                OrderViewModel(order: $0)
             }
         }
 
         func setFilterHistory() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status == .collected
+            }.map {
+                OrderViewModel(order: $0)
             }
         }
+        
+        func cancelOrder(order: OrderViewModel) {
+            vendorViewModel.deleteOrder(orderId: order.id)
+        }
+        
+        func setOrderAccept(order: OrderViewModel) {
+            vendorViewModel.setOrderAccept(orderId: order.id)
+        }
 
-        func setOrderReady(order: Order) {
+        func setOrderReady(order: OrderViewModel) {
             // Used id so when order needs to be adapted as view model,
             // we can still use this function
             vendorViewModel.setOrderReady(orderId: order.id)
         }
 
-        func setOrderCollected(order: Order) {
+        func setOrderCollected(order: OrderViewModel) {
             vendorViewModel.setOrderCollected(orderId: order.id)
         }
     }
