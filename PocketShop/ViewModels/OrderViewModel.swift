@@ -44,6 +44,10 @@ struct OrderViewModel {
             return .success
         }
     }
+    
+    var showCancel: Bool {
+        return status == .pending
+    }
 
     private let dateFormatter = DateFormatter()
     var orderDateString: String {

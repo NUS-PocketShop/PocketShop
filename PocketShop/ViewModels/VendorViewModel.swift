@@ -98,32 +98,24 @@ final class VendorViewModel: ObservableObject {
         }
         products.remove(atOffsets: positions)
     }
+    
+    func deleteOrder(orderId: String) {
+        DatabaseInterface.db.deleteOrder(id: orderId)
+    }
+    
+    func setOrderAccept(orderId: String) {
+        setOrderStatus(orderId: orderId, status: .accepted)
+    }
 
     func setOrderReady(orderId: String) {
-        let filteredOrder = self.orders.filter { order in
-            order.id == orderId
-        }
-
-        guard filteredOrder.count == 1 else {
-            fatalError("The order id \(orderId) does not appear in order")
-        }
-
-        let order = filteredOrder[0]
-
-        let editedOrder = Order(id: order.id,
-                                orderProducts: order.orderProducts,
-                                status: .ready,
-                                customerId: order.customerId,
-                                shopId: order.shopId,
-                                shopName: order.shopName,
-                                date: order.date,
-                                collectionNo: order.collectionNo,
-                                total: order.total)
-
-        DatabaseInterface.db.editOrder(order: editedOrder)
+        setOrderStatus(orderId: orderId, status: .ready)
     }
 
     func setOrderCollected(orderId: String) {
+        setOrderStatus(orderId: orderId, status: .collected)
+    }
+    
+    private func setOrderStatus(orderId: String, status: OrderStatus) {
         let filteredOrder = self.orders.filter { order in
             order.id == orderId
         }
@@ -136,7 +128,7 @@ final class VendorViewModel: ObservableObject {
 
         let editedOrder = Order(id: order.id,
                                 orderProducts: order.orderProducts,
-                                status: .collected,
+                                status: status,
                                 customerId: order.customerId,
                                 shopId: order.shopId,
                                 shopName: order.shopName,
@@ -145,7 +137,6 @@ final class VendorViewModel: ObservableObject {
                                 total: order.total)
 
         DatabaseInterface.db.editOrder(order: editedOrder)
-
     }
 
     // MARK: Private functions

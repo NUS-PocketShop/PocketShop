@@ -39,7 +39,7 @@ struct ProductOrderBar: View {
 
                     let orderProduct = OrderProduct(id: "dummyId",
                                                     quantity: quantity,
-                                                    status: .accepted,
+                                                    status: .pending,
                                                     total: 0,
                                                     productName: product.name,
                                                     productPrice: product.price,
@@ -48,7 +48,7 @@ struct ProductOrderBar: View {
                                                     shopId: product.shopId)
                     let order = Order(id: "dummyId",
                                       orderProducts: [orderProduct],
-                                      status: .accepted,
+                                      status: .pending,
                                       customerId: customerId,
                                       shopId: product.shopId,
                                       shopName: product.shopName,

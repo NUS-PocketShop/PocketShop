@@ -123,6 +123,10 @@ final class CustomerViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteOrder(orderId: String) {
+        DatabaseInterface.db.deleteOrder(id: orderId)
+    }
 
     private func resolveErrors(_ error: Error?) -> Bool {
         if let error = error {
