@@ -16,13 +16,13 @@ class AuthManager: AuthAdapter {
                 let newCustomer = Customer(id: id)
 
                 print("Successfully created customer: \(id)")
-                DatabaseInterface.db.createCustomer(customer: newCustomer)
+                DatabaseInterface.db.createCustomer(id: id)
                 completionHandler(nil, newCustomer)
             } else {
                 let newVendor = Vendor(id: id)
 
                 print("Successfully created vendor: \(id)")
-                DatabaseInterface.db.createVendor(vendor: newVendor)
+                DatabaseInterface.db.createVendor(id: id)
                 completionHandler(nil, newVendor)
             }
 
@@ -41,7 +41,7 @@ class AuthManager: AuthAdapter {
                 if let error = error {
                     if error == .userNotFound {
                         let newCustomer = Customer(id: id)
-                        DatabaseInterface.db.createCustomer(customer: newCustomer)
+                        DatabaseInterface.db.createCustomer(id: id)
                         completionHandler(nil, newCustomer)
                         return
                     } else {

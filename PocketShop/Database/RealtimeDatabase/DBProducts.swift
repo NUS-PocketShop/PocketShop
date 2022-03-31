@@ -7,8 +7,19 @@ class DBProducts {
             print("Unexpected error")
             return
         }
+        uploadProduct(product: product, newId: key, imageData: imageData, ref: ref)
+    }
+
+    func editProduct(shopId: String, product: Product, imageData: Data?) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts/\(product.id)")
+        uploadProduct(product: product, newId: nil, imageData: imageData, ref: ref)
+    }
+
+    private func uploadProduct(product: Product, newId: String?, imageData: Data?, ref: DatabaseReference) {
         var newProduct = product
-        newProduct.id = key
+        if let newId = newId {
+            newProduct.id = newId
+        }
         let uploadProduct = {
             let productSchema = ProductSchema(product: newProduct)
             do {
@@ -27,19 +38,8 @@ class DBProducts {
                 }
                 uploadProduct()
             }
-        }
-        uploadProduct()
-    }
-
-    func editProduct(shopId: String, product: Product) {
-        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts/\(product.id)")
-        let productSchema = ProductSchema(product: product)
-        do {
-            let jsonData = try JSONEncoder().encode(productSchema)
-            let json = try JSONSerialization.jsonObject(with: jsonData)
-            ref.setValue(json)
-        } catch {
-            print(error)
+        } else {
+            uploadProduct()
         }
     }
 

@@ -59,7 +59,8 @@ final class VendorViewModel: ObservableObject {
                               price: price,
                               imageURL: "",
                               estimatedPrepTime: estimatedPrepTime,
-                              isOutOfStock: false)
+                              isOutOfStock: false,
+                              options: [])
 
         DatabaseInterface.db.createProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }
@@ -80,9 +81,10 @@ final class VendorViewModel: ObservableObject {
                               price: price,
                               imageURL: "",
                               estimatedPrepTime: estimatedPrepTime,
-                              isOutOfStock: false)
+                              isOutOfStock: false,
+                              options: [])
 
-        DatabaseInterface.db.editProduct(shopId: shop.id, product: product)
+        DatabaseInterface.db.editProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }
 
     func deleteProduct(at positions: IndexSet) {

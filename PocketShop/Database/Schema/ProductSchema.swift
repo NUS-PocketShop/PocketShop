@@ -6,6 +6,7 @@ struct ProductSchema: Codable {
     var imageURL: String
     var estimatedPrepTime: Double
     var isOutOfStock: Bool
+    var options: [ProductOption]?
 
     init(product: Product) {
         self.id = product.id
@@ -15,11 +16,13 @@ struct ProductSchema: Codable {
         self.imageURL = product.imageURL
         self.estimatedPrepTime = product.estimatedPrepTime
         self.isOutOfStock = product.isOutOfStock
+        self.options = product.options
     }
 
     func toProduct(shopId: String, shopName: String) -> Product {
         Product(id: self.id, name: self.name, shopName: shopName, shopId: shopId,
                 description: self.description, price: self.price, imageURL: self.imageURL,
-                estimatedPrepTime: self.estimatedPrepTime, isOutOfStock: self.isOutOfStock)
+                estimatedPrepTime: self.estimatedPrepTime, isOutOfStock: self.isOutOfStock,
+                options: self.options ?? [])
     }
 }
