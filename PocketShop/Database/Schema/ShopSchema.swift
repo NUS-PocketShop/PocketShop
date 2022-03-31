@@ -4,6 +4,7 @@ struct ShopSchema: Codable {
     var description: String
     var imageURL: String
     var isClosed: Bool
+    var collectionNumber: Int
     var ownerId: String
     var soldProducts: [String: ProductSchema]? = [:]
 
@@ -13,6 +14,7 @@ struct ShopSchema: Codable {
         self.description = shop.description
         self.imageURL = shop.imageURL
         self.isClosed = shop.isClosed
+        self.collectionNumber = shop.collectionNumber
         self.ownerId = shop.ownerId
         self.soldProducts = [:]
         for product in shop.soldProducts {
@@ -28,7 +30,8 @@ struct ShopSchema: Codable {
             }
         }
         return Shop(id: self.id, name: self.name, description: self.description,
-                    imageURL: self.imageURL, isClosed: self.isClosed, ownerId: self.ownerId,
+                    imageURL: self.imageURL, isClosed: self.isClosed,
+                    collectionNumber: self.collectionNumber, ownerId: self.ownerId,
                     soldProducts: products)
     }
 }
