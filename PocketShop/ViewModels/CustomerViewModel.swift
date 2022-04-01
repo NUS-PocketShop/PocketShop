@@ -103,7 +103,7 @@ final class CustomerViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func observeCart(customerId: String) {
         DatabaseInterface.db.observeCart(userId: customerId) { [self] error, cartProducts, eventType in
             guard resolveErrors(error) else {
@@ -123,7 +123,7 @@ final class CustomerViewModel: ObservableObject {
             }
         }
     }
-    
+
     func deleteOrder(orderId: String) {
         DatabaseInterface.db.deleteOrder(id: orderId)
     }

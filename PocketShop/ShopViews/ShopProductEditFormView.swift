@@ -14,10 +14,10 @@ struct ShopProductEditFormView: View {
     init(viewModel: VendorViewModel, product: Product) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.product = product
-        self.name = product.name
-        self.price = String(product.price)
-        self.description = product.description
-        self.prepTime = String(product.estimatedPrepTime)
+        self._name = State(initialValue: product.name)
+        self._price = State(initialValue: String(product.price))
+        self._description = State(initialValue: product.description)
+        self._prepTime = State(initialValue: String(product.estimatedPrepTime))
     }
 
     var body: some View {
@@ -33,6 +33,14 @@ struct ShopProductEditFormView: View {
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
+                    .onAppear {
+                        DatabaseManager.sharedDatabaseManager.getProductImage(productId: product.id, completionHandler: { error, imgData in
+                            guard let imgData = imgData, error == nil else {
+                                return
+                            }
+                            image = UIImage(data: imgData)
+                        })
+                    }
                     .padding(.bottom)
 
                 PSButton(title: "Save") {

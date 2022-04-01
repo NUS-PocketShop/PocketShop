@@ -50,7 +50,7 @@ class DBCart {
                         return
                     }
                     let cartProductsToEdit = cartProducts.filter { $0.product.id == product.id }
-                    cartProducts.removeAll() { $0.product.id == product.id }
+                    cartProducts.removeAll { $0.product.id == product.id }
                     if cartProductsToEdit.isEmpty {
                         let newCartProduct = CartProduct(product: product, quantity: cartProductSchema.quantity)
                         cartProducts.append(newCartProduct)
@@ -73,7 +73,7 @@ class DBCart {
         ref.observe(.childChanged) { snapshot in
             if let value = snapshot.value, let cartProductSchema = self.convertCartProductSchema(cartProductJson: value) {
                 let cartProductsToEdit = cartProducts.filter { $0.product.id == cartProductSchema.productId }
-                cartProducts.removeAll() { $0.product.id == cartProductSchema.productId }
+                cartProducts.removeAll { $0.product.id == cartProductSchema.productId }
                 var newCartProducts = [CartProduct]()
                 for cartProduct in cartProductsToEdit {
                     var newCartProduct = cartProduct
@@ -88,7 +88,7 @@ class DBCart {
         ref.observe(.childRemoved) { snapshot in
             if let value = snapshot.value, let cartProductSchema = self.convertCartProductSchema(cartProductJson: value) {
                 let cartProductsToDelete = cartProducts.filter { $0.product.id == cartProductSchema.productId }
-                cartProducts.removeAll() { $0.product.id == cartProductSchema.productId }
+                cartProducts.removeAll { $0.product.id == cartProductSchema.productId }
                 if let remover = listenerRemovers[cartProductSchema.productId] {
                     remover()
                 }
