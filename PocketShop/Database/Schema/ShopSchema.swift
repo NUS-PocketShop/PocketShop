@@ -36,7 +36,7 @@ struct ShopSchema: Codable {
             }
         }
         let categories = Array((self.categories ?? [:]).values)
-        
+
         return Shop(id: self.id, name: self.name, description: self.description,
                     imageURL: self.imageURL, isClosed: self.isClosed,
                     collectionNumber: self.collectionNumber, ownerId: self.ownerId,

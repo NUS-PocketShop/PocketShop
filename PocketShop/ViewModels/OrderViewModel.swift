@@ -3,35 +3,35 @@ import SwiftUI
 
 struct OrderViewModel {
     private let model: Order
-    
+
     var id: String {
         model.id
     }
-    
+
     var orderProducts: [OrderProduct] {
         model.orderProducts
     }
-    
+
     var status: OrderStatus {
         model.status
     }
-    
+
     var shopName: String {
         model.shopName
     }
-    
+
     var collectionNo: Int {
         model.collectionNo
     }
-    
+
     var total: Double {
         model.total
     }
-    
+
     init(order: Order) {
         self.model = order
     }
-    
+
     var isHistory: Bool {
         status == .collected
     }
@@ -44,9 +44,9 @@ struct OrderViewModel {
             return .success
         }
     }
-    
+
     var showCancel: Bool {
-        return status == .pending
+        status == .pending
     }
 
     private let dateFormatter = DateFormatter()
@@ -64,7 +64,7 @@ extension OrderViewModel: Hashable {
     static func == (lhs: OrderViewModel, rhs: OrderViewModel) -> Bool {
         lhs.model == rhs.model
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

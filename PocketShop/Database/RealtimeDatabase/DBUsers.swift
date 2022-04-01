@@ -24,7 +24,8 @@ class DBUsers {
     }
 
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
-        FirebaseManager.sharedManager.ref.child("customers/\(id)").observeSingleEvent(of: .value, with: { snapshot in
+        FirebaseManager.sharedManager.ref.child("customers/\(id)").observeSingleEvent(of: .value,
+                                                                                      with: { snapshot in
             if snapshot.exists(), let value = snapshot.value {
                 do {
                     let jsonData = try JSONSerialization.data(withJSONObject: value)
@@ -35,7 +36,8 @@ class DBUsers {
                 }
                 return
             } else {
-                FirebaseManager.sharedManager.ref.child("vendors/\(id)").observeSingleEvent(of: .value, with: { snapshot in
+                FirebaseManager.sharedManager.ref.child("vendors/\(id)").observeSingleEvent(of: .value,
+                                                                                            with: { snapshot in
                     if snapshot.exists(), let value = snapshot.value {
                         do {
                             let jsonData = try JSONSerialization.data(withJSONObject: value)

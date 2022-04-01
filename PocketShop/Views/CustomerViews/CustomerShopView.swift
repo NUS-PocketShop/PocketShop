@@ -17,7 +17,9 @@ struct CustomerShopView: View {
                 List {
                     ForEach(viewModel.products) { product in
                         if product.shopName == shop.name {
-                            ProductListView(product: product).environmentObject(viewModel)
+                            NavigationLink(destination: ProductView(product: product)) {
+                                ProductListView(product: product).environmentObject(viewModel)
+                            }
                         }
                     }
                 }

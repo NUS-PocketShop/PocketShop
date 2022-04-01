@@ -30,8 +30,8 @@ struct ProductSchema: Codable {
         let options = Array((self.options ?? [:]).values)
 
         return Product(id: self.id, name: self.name, shopName: shopName, shopId: shopId,
-                description: self.description, price: self.price, imageURL: self.imageURL,
-                estimatedPrepTime: self.estimatedPrepTime, isOutOfStock: self.isOutOfStock,
-                shopCategory: self.shopCategory, options: options)
+                       description: self.description, price: self.price, imageURL: self.imageURL,
+                       estimatedPrepTime: self.estimatedPrepTime, isOutOfStock: self.isOutOfStock,
+                       shopCategory: self.shopCategory, options: options)
     }
 }

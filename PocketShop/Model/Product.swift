@@ -12,6 +12,6 @@ struct Product: Hashable, Identifiable {
     var options: [ProductOption]
 
     var optionChoices: [ProductOptionChoice] {
-        options.map({ $0.optionChoices }).reduce([], +)
+        options.flatMap { $0.optionChoices }
     }
 }

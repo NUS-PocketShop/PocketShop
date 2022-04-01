@@ -106,7 +106,7 @@ struct ShopOrderScreen: View {
                     }
 
                 Spacer()
-                
+
                 if order.showCancel {
                     PSButton(title: "Cancel") {
                         showCancelConfirmation.toggle()
@@ -125,7 +125,7 @@ struct ShopOrderScreen: View {
             .frame(minHeight: 128)
         }
     }
-    
+
     private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {
         Alert(title: Text("Confirmation"),
               message: Text("Confirm to cancel order \(order.collectionNo)?"),
@@ -145,7 +145,7 @@ struct ShopOrderScreen: View {
                 },
                 secondaryButton: .destructive(Text("Cancel")))
         }
-        
+
         if order.status == .accepted {
             return Alert(
                 title: Text("Confirmation"),
@@ -168,8 +168,8 @@ struct ShopOrderScreen: View {
 
 extension ShopOrderScreen {
     enum TabView: String {
-        case current = "current"
-        case history = "history"
+        case current
+        case history
     }
 }
 
@@ -215,11 +215,11 @@ extension ShopOrderScreen {
                 OrderViewModel(order: $0)
             }
         }
-        
+
         func cancelOrder(order: OrderViewModel) {
             vendorViewModel.deleteOrder(orderId: order.id)
         }
-        
+
         func setOrderAccept(order: OrderViewModel) {
             vendorViewModel.setOrderAccept(orderId: order.id)
         }

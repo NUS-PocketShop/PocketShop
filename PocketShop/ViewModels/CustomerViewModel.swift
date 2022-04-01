@@ -66,7 +66,8 @@ final class CustomerViewModel: ObservableObject {
         return invalidCartProducts
     }
 
-    private func validateCartProduct(product: Product, cartProduct: CartProduct) -> (CartValidationError, CartProduct)? {
+    private func validateCartProduct(product: Product,
+                                     cartProduct: CartProduct) -> (CartValidationError, CartProduct)? {
         if product.name != cartProduct.productName
             || product.price != cartProduct.productPrice
             || product.imageURL != cartProduct.productImageURL {
