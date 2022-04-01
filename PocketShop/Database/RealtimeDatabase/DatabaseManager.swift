@@ -1,5 +1,4 @@
 import Firebase
-
 class DatabaseManager: DatabaseAdapter {
     static let sharedDatabaseManager = DatabaseManager()
     private init() {}
@@ -109,20 +108,22 @@ class DatabaseManager: DatabaseAdapter {
         storage.getShopImage(shopId: shopId, completionHandler: completionHandler)
     }
 
-    func addProductToCart(userId: String, product: Product, quantity: Int) {
-        cart.addProductToCart(userId: userId, product: product, quantity: quantity)
+    func addProductToCart(userId: String, product: Product,
+                          productOptionChoices: [ProductOptionChoice]?, quantity: Int) {
+        cart.addProductToCart(userId: userId, product: product,
+                              productOptionChoices: productOptionChoices, quantity: quantity)
     }
 
-    func removeProductFromCart(userId: String, product: Product) {
-        cart.removeProductFromCart(userId: userId, product: product)
+    func removeProductFromCart(userId: String, cartProduct: CartProduct) {
+        cart.removeProductFromCart(userId: userId, cartProduct: cartProduct)
     }
 
-    func changeProductQuantity(userId: String, product: Product, quantity: Int) {
-        cart.changeProductQuantity(userId: userId, product: product, quantity: quantity)
+    func changeProductQuantity(userId: String, cartProduct: Product, quantity: Int) {
+        cart.changeProductQuantity(userId: userId, cartProduct: cartProduct, quantity: quantity)
     }
 
-    func observeCart(userId: String, completionHandler: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void) {
-        cart.observeCart(userId: userId, completionHandler: completionHandler)
+    func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void) {
+        cart.observeCart(userId: userId, actionBlock: actionBlock)
     }
 
 }

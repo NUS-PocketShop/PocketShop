@@ -10,4 +10,8 @@ struct Product: Hashable, Identifiable {
     var isOutOfStock: Bool
     var shopCategory: ShopCategory?
     var options: [ProductOption]
+
+    var optionChoices: [ProductOptionChoice] {
+        options.map({ $0.optionChoices }).reduce([], +)
+    }
 }
