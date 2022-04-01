@@ -44,6 +44,7 @@ struct ProductOrderBar: View {
                                                     productName: product.name,
                                                     productPrice: product.price,
                                                     productImageURL: product.imageURL,
+                                                    productOptionChoices: [],
                                                     productId: product.id,
                                                     shopId: product.shopId)
                     let order = Order(id: "dummyId",
