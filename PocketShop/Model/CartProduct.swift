@@ -17,4 +17,5 @@ enum CartValidationError: Error {
     case productChanged
     case productDeleted
     case productOutOfStock
+    case shopClosed
 }

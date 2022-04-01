@@ -8,6 +8,8 @@ protocol DatabaseAdapter {
     func createShop(shop: Shop, imageData: Data?)
     func editShop(shop: Shop)
     func deleteShop(id: String)
+    func openShop(id: String)
+    func closeShop(id: String)
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
     func observeShopsByOwner(ownerId: String,
                              actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)

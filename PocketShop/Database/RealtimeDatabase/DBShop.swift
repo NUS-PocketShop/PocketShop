@@ -54,6 +54,16 @@ class DBShop {
         }
     }
 
+    func openShop(id: String) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(id)/isClosed")
+        ref.setValue(false)
+    }
+
+    func closeShop(id: String) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(id)/isClosed")
+        ref.setValue(true)
+    }
+
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/")
         ref.observe(.childAdded) { snapshot in

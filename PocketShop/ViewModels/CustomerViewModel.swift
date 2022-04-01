@@ -66,7 +66,7 @@ final class CustomerViewModel: ObservableObject {
         return invalidCartProducts
     }
 
-    func validateCartProduct(product: Product, cartProduct: CartProduct) -> (CartValidationError, CartProduct)? {
+    private func validateCartProduct(product: Product, cartProduct: CartProduct) -> (CartValidationError, CartProduct)? {
         if product.name != cartProduct.productName
             || product.price != cartProduct.productPrice
             || product.imageURL != cartProduct.productImageURL {
@@ -80,6 +80,10 @@ final class CustomerViewModel: ObservableObject {
         }
         if product.isOutOfStock {
             return (.productOutOfStock, cartProduct)
+        }
+        let shops = self.shops.filter({ $0.id == product.id })
+        if !shops.isEmpty, shops[0].isClosed {
+            return (.shopClosed, cartProduct)
         }
         return nil
     }
