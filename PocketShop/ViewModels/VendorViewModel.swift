@@ -98,11 +98,15 @@ final class VendorViewModel: ObservableObject {
         }
         products.remove(atOffsets: positions)
     }
-    
+
+    func toggleShopOpenClose() {
+        print("open/close")
+    }
+
     func deleteOrder(orderId: String) {
         DatabaseInterface.db.deleteOrder(id: orderId)
     }
-    
+
     func setOrderAccept(orderId: String) {
         setOrderStatus(orderId: orderId, status: .accepted)
     }
@@ -114,7 +118,7 @@ final class VendorViewModel: ObservableObject {
     func setOrderCollected(orderId: String) {
         setOrderStatus(orderId: orderId, status: .collected)
     }
-    
+
     private func setOrderStatus(orderId: String, status: OrderStatus) {
         let filteredOrder = self.orders.filter { order in
             order.id == orderId
