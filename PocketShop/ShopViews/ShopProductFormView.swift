@@ -72,23 +72,46 @@ struct SaveNewProductButton: View {
     @Binding var description: String
     @Binding var image: UIImage?
 
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+
     var body: some View {
         PSButton(title: "Save") {
-            guard let image = image, !name.isEmpty,
-                  let price = Double(price),
-                  let estimatedPrepTime = Double(prepTime) else {
+            guard !name.isEmpty else {
+                alertMessage = "Product name cannot be empty!"
+                showAlert = true
+                return
+            }
+
+            guard let price = Double(price) else {
+                alertMessage = price.isEmpty ? "Product price can't be empty!" : "Product price must be a valid double!"
+                showAlert = true
+                return
+            }
+
+            guard let estimatedPrepTime = Double(prepTime) else {
+                alertMessage = prepTime.isEmpty ? "Product prep time can't be empty!"
+                                                : "Product prep time must be a valid double!"
+                showAlert = true
+                return
+            }
+
+            guard let image = image else {
+                alertMessage = "Missing product image!"
+                showAlert = true
                 return
             }
 
             // Create Product and save to db
-            viewModel.createProduct(name: name,
-                                    description: description,
-                                    price: price,
-                                    estimatedPrepTime: estimatedPrepTime,
-                                    image: image)
+            viewModel.createProduct(name: name, description: description, price: price,
+                                    estimatedPrepTime: estimatedPrepTime, image: image)
 
             presentationMode.wrappedValue.dismiss()
         }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
+        }
         .buttonStyle(FillButtonStyle())
     }
+
 }

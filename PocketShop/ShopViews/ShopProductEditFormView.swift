@@ -67,29 +67,61 @@ struct SaveEditedProductButton: View {
     @Binding var prepTime: String
     @Binding var image: UIImage?
 
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+
     var body: some View {
         PSButton(title: "Save") {
-            guard let image = image, !name.isEmpty,
-                  let price = Double(price),
-                  let estimatedPrepTime = Double(prepTime) else {
+            guard let image = image else {
+                alertMessage = "Missing product image!"
+                showAlert = true
                 return
             }
-            // Create edited Product and save to db
-            let product = Product(id: product.id,
-                                  name: name,
-                                  shopName: product.shopName,
-                                  shopId: product.shopId,
-                                  description: description,
-                                  price: price,
-                                  imageURL: "",
-                                  estimatedPrepTime: estimatedPrepTime,
-                                  isOutOfStock: false,
-                                  options: [])
 
-            viewModel.editProduct(newProduct: product, image: image)
+            guard let newProduct = createEditedProduct() else {
+                print("Product edit unsuccessful")
+                return
+            }
+
+            viewModel.editProduct(newProduct: newProduct, image: image)
             presentationMode.wrappedValue.dismiss()
-
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
         }
         .buttonStyle(FillButtonStyle())
+    }
+
+    func createEditedProduct() -> Product? {
+        guard !name.isEmpty else {
+            alertMessage = "Product name cannot be empty!"
+            showAlert = true
+            return nil
+        }
+
+        guard let price = Double(price) else {
+            alertMessage = price.isEmpty ? "Product price can't be empty!" : "Product price must be a valid double!"
+            showAlert = true
+            return nil
+        }
+
+        guard let estimatedPrepTime = Double(prepTime) else {
+            alertMessage = prepTime.isEmpty ? "Product prep time can't be empty!"
+                                            : "Product prep time must be a valid double!"
+            showAlert = true
+            return nil
+        }
+
+        // Create edited Product and save to db
+        return Product(id: product.id,
+                       name: name,
+                       shopName: product.shopName,
+                       shopId: product.shopId,
+                       description: description,
+                       price: price,
+                       imageURL: "",
+                       estimatedPrepTime: estimatedPrepTime,
+                       isOutOfStock: false,
+                       options: [])
     }
 }
