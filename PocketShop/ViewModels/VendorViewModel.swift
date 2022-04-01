@@ -40,7 +40,8 @@ final class VendorViewModel: ObservableObject {
                                 imageURL: "",
                                 isClosed: false,
                                 ownerId: vendor.id,
-                                soldProducts: [])
+                                soldProducts: [],
+                                categories: [])
 
         DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
     }

@@ -7,6 +7,7 @@ struct OrderProduct: Hashable, Identifiable {
     var productName: String
     var productPrice: Double
     var productImageURL: String
+    var productOptionChoices: [ProductOptionChoice]
 
     // To link back to the shop/product page
     var productId: String

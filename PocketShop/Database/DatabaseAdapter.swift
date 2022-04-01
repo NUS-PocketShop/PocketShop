@@ -8,6 +8,8 @@ protocol DatabaseAdapter {
     func createShop(shop: Shop, imageData: Data?)
     func editShop(shop: Shop)
     func deleteShop(id: String)
+    func openShop(id: String)
+    func closeShop(id: String)
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
     func observeShopsByOwner(ownerId: String,
                              actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
@@ -35,8 +37,8 @@ protocol DatabaseAdapter {
                          completionHandler: @escaping (DatabaseError?, String?) -> Void)
     func getShopImage(shopId: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void)
 
-    func addProductToCart(userId: String, product: Product, quantity: Int)
-    func removeProductFromCart(userId: String, product: Product)
-    func changeProductQuantity(userId: String, product: Product, quantity: Int)
-    func observeCart(userId: String, completionHandler: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void)
+    func addProductToCart(userId: String, product: Product, productOptionChoices: [ProductOptionChoice]?, quantity: Int)
+    func removeProductFromCart(userId: String, cartProduct: CartProduct)
+    func changeProductQuantity(userId: String, cartProduct: Product, quantity: Int)
+    func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void)
 }

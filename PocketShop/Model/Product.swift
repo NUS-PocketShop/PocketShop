@@ -8,5 +8,10 @@ struct Product: Hashable, Identifiable {
     var imageURL: String
     var estimatedPrepTime: Double
     var isOutOfStock: Bool
+    var shopCategory: ShopCategory?
     var options: [ProductOption]
+
+    var optionChoices: [ProductOptionChoice] {
+        options.map({ $0.optionChoices }).reduce([], +)
+    }
 }

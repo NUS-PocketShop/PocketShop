@@ -44,6 +44,50 @@ final class CustomerViewModel: ObservableObject {
         observeShops()
     }
 
+    func deleteOrder(orderId: String) {
+        DatabaseInterface.db.deleteOrder(id: orderId)
+    }
+
+    func validateCart() -> [(CartValidationError, CartProduct)]? {
+        var invalidCartProducts = [(CartValidationError, CartProduct)]()
+        for cartProduct in self.cart {
+            let products = self.products.filter({ $0.id == cartProduct.productId })
+            if products.isEmpty {
+                invalidCartProducts.append((.productDeleted, cartProduct))
+                continue
+            }
+            if let invalidCartProduct = validateCartProduct(product: products[0], cartProduct: cartProduct) {
+                invalidCartProducts.append(invalidCartProduct)
+            }
+        }
+        if invalidCartProducts.isEmpty {
+            return nil
+        }
+        return invalidCartProducts
+    }
+
+    private func validateCartProduct(product: Product, cartProduct: CartProduct) -> (CartValidationError, CartProduct)? {
+        if product.name != cartProduct.productName
+            || product.price != cartProduct.productPrice
+            || product.imageURL != cartProduct.productImageURL {
+            return (.productChanged, cartProduct)
+        }
+        let productOptionChoices = product.optionChoices
+        for optionChoice in cartProduct.productOptionChoices {
+            if !productOptionChoices.contains(optionChoice) {
+                return (.productChanged, cartProduct)
+            }
+        }
+        if product.isOutOfStock {
+            return (.productOutOfStock, cartProduct)
+        }
+        let shops = self.shops.filter({ $0.id == product.id })
+        if !shops.isEmpty, shops[0].isClosed {
+            return (.shopClosed, cartProduct)
+        }
+        return nil
+    }
+
     private func observeProducts() {
         DatabaseInterface.db.observeAllProducts { [self] error, allProducts, eventType in
             guard resolveErrors(error) else {
@@ -112,20 +156,16 @@ final class CustomerViewModel: ObservableObject {
             if let cartProducts = cartProducts {
                 if eventType == .added || eventType == .updated {
                     for cartProduct in cartProducts {
-                        self.cart.removeAll(where: { $0.product.id == cartProduct.product.id })
+                        self.cart.removeAll(where: { $0.id == cartProduct.id })
                         self.cart.append(cartProduct)
                     }
                 } else if eventType == .deleted {
                     for cartProduct in cartProducts {
-                        self.cart.removeAll(where: { $0.product.id == cartProduct.product.id })
+                        self.cart.removeAll(where: { $0.id == cartProduct.id })
                     }
                 }
             }
         }
-    }
-
-    func deleteOrder(orderId: String) {
-        DatabaseInterface.db.deleteOrder(id: orderId)
     }
 
     private func resolveErrors(_ error: Error?) -> Bool {
