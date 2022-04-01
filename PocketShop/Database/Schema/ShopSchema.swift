@@ -7,6 +7,7 @@ struct ShopSchema: Codable {
     var collectionNumber: Int
     var ownerId: String
     var soldProducts: [String: ProductSchema]? = [:]
+    var categories: [Int: ShopCategory]? = [:]
 
     init(shop: Shop) {
         self.id = shop.id
@@ -20,6 +21,11 @@ struct ShopSchema: Codable {
         for product in shop.soldProducts {
             self.soldProducts?[product.id] = ProductSchema(product: product)
         }
+        var counter = 0
+        for category in shop.categories {
+            self.categories?[counter] = category
+            counter += 1
+        }
     }
 
     func toShop() -> Shop {
@@ -29,9 +35,11 @@ struct ShopSchema: Codable {
                 products.append(productSchema.toProduct(shopId: self.id, shopName: self.name))
             }
         }
+        let categories = Array((self.categories ?? [:]).values)
+        
         return Shop(id: self.id, name: self.name, description: self.description,
                     imageURL: self.imageURL, isClosed: self.isClosed,
                     collectionNumber: self.collectionNumber, ownerId: self.ownerId,
-                    soldProducts: products)
+                    soldProducts: products, categories: categories)
     }
 }

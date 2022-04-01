@@ -6,7 +6,8 @@ struct ProductSchema: Codable {
     var imageURL: String
     var estimatedPrepTime: Double
     var isOutOfStock: Bool
-    var options: [ProductOption]?
+    var shopCategory: ShopCategory?
+    var options: [Int:ProductOption]? = [:]
 
     init(product: Product) {
         self.id = product.id
@@ -16,13 +17,21 @@ struct ProductSchema: Codable {
         self.imageURL = product.imageURL
         self.estimatedPrepTime = product.estimatedPrepTime
         self.isOutOfStock = product.isOutOfStock
-        self.options = product.options
+        self.shopCategory = product.shopCategory
+        
+        var counter = 0
+        for option in product.options {
+            self.options?[counter] = option
+            counter += 1
+        }
     }
 
     func toProduct(shopId: String, shopName: String) -> Product {
-        Product(id: self.id, name: self.name, shopName: shopName, shopId: shopId,
+        let options = Array((self.options ?? [:]).values)
+        
+        return Product(id: self.id, name: self.name, shopName: shopName, shopId: shopId,
                 description: self.description, price: self.price, imageURL: self.imageURL,
                 estimatedPrepTime: self.estimatedPrepTime, isOutOfStock: self.isOutOfStock,
-                options: self.options ?? [])
+                shopCategory: self.shopCategory, options: options)
     }
 }

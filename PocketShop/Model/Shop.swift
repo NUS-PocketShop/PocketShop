@@ -7,4 +7,9 @@ struct Shop: Hashable, Identifiable {
     var collectionNumber: Int = 1
     var ownerId: String
     var soldProducts: [Product]
+    var categories: [ShopCategory]
+}
+
+struct ShopCategory: Hashable, Codable {
+    var title: String
 }
