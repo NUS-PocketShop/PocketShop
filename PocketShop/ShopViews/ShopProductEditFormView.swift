@@ -34,7 +34,8 @@ struct ShopProductEditFormView: View {
                 PSImagePicker(title: "Product Image",
                               image: $image)
                     .onAppear {
-                        DatabaseManager.sharedDatabaseManager.getProductImage(productId: product.id, completionHandler: { error, imgData in
+                        DatabaseManager.sharedDatabaseManager.getProductImage(productId: product.id,
+                                                                              completionHandler: { error, imgData in
                             guard let imgData = imgData, error == nil else {
                                 return
                             }
@@ -43,28 +44,52 @@ struct ShopProductEditFormView: View {
                     }
                     .padding(.bottom)
 
-                PSButton(title: "Save") {
-                    guard let image = image, !name.isEmpty,
-                          let price = Double(price),
-                          let estimatedPrepTime = Double(prepTime) else {
-                        return
-                    }
-                    // Create Product and save to db
-                    viewModel.editProduct(oldProductId: product.id,
-                                          name: name,
-                                          description: description,
-                                          price: price,
-                                          estimatedPrepTime: estimatedPrepTime,
-                                          image: image)
-                    presentationMode.wrappedValue.dismiss()
-
-                }
-                .buttonStyle(FillButtonStyle())
+                SaveEditedProductButton(viewModel: viewModel, product: product,
+                                        name: $name, price: $price, description: $description,
+                                        prepTime: $prepTime, image: $image)
             }
             .padding()
         }
         .navigationBarItems(trailing: Button("Cancel") {
             presentationMode.wrappedValue.dismiss()
         })
+    }
+}
+
+struct SaveEditedProductButton: View {
+    @StateObject var viewModel: VendorViewModel
+    @Environment(\.presentationMode) var presentationMode
+    var product: Product
+
+    @Binding var name: String
+    @Binding var price: String
+    @Binding var description: String
+    @Binding var prepTime: String
+    @Binding var image: UIImage?
+
+    var body: some View {
+        PSButton(title: "Save") {
+            guard let image = image, !name.isEmpty,
+                  let price = Double(price),
+                  let estimatedPrepTime = Double(prepTime) else {
+                return
+            }
+            // Create edited Product and save to db
+            let product = Product(id: product.id,
+                                  name: name,
+                                  shopName: product.shopName,
+                                  shopId: product.shopId,
+                                  description: description,
+                                  price: price,
+                                  imageURL: "",
+                                  estimatedPrepTime: estimatedPrepTime,
+                                  isOutOfStock: false,
+                                  options: [])
+
+            viewModel.editProduct(newProduct: product, image: image)
+            presentationMode.wrappedValue.dismiss()
+
+        }
+        .buttonStyle(FillButtonStyle())
     }
 }

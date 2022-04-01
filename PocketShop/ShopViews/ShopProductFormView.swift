@@ -13,27 +13,20 @@ struct ShopProductFormView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Add new product").font(.appTitle)
+                Text("Add new product")
+                    .font(.appTitle)
+
                 UserInputSegment(name: $name,
                                  price: $price,
                                  description: $description,
                                  prepTime: $prepTime)
-                PSImagePicker(title: "Product Image",
-                              image: $image).padding(.bottom)
-                PSButton(title: "Save") {
-                    guard let image = image, !name.isEmpty,
-                          let price = Double(price),
-                          let estimatedPrepTime = Double(prepTime) else {
-                        return
-                    }
-                    // Create Product and save to db
-                    viewModel.createProduct(name: name,
-                                            description: description,
-                                            price: price,
-                                            estimatedPrepTime: estimatedPrepTime,
-                                            image: image)
-                    presentationMode.wrappedValue.dismiss()
-                }.buttonStyle(FillButtonStyle())
+
+                PSImagePicker(title: "Product Image", image: $image)
+                    .padding(.bottom)
+
+                SaveNewProductButton(viewModel: viewModel, name: $name,
+                                     price: $price, prepTime: $prepTime,
+                                     description: $description, image: $image)
             }.padding()
         }
         .navigationBarItems(trailing: Button("Cancel") {
@@ -66,5 +59,36 @@ struct UserInputSegment: View {
                         title: "Estimated Prep Time",
                         placeholder: "Enter estimated prep time")
         }
+    }
+}
+
+struct SaveNewProductButton: View {
+    @StateObject var viewModel: VendorViewModel
+    @Environment(\.presentationMode) var presentationMode
+
+    @Binding var name: String
+    @Binding var price: String
+    @Binding var prepTime: String
+    @Binding var description: String
+    @Binding var image: UIImage?
+
+    var body: some View {
+        PSButton(title: "Save") {
+            guard let image = image, !name.isEmpty,
+                  let price = Double(price),
+                  let estimatedPrepTime = Double(prepTime) else {
+                return
+            }
+
+            // Create Product and save to db
+            viewModel.createProduct(name: name,
+                                    description: description,
+                                    price: price,
+                                    estimatedPrepTime: estimatedPrepTime,
+                                    image: image)
+
+            presentationMode.wrappedValue.dismiss()
+        }
+        .buttonStyle(FillButtonStyle())
     }
 }

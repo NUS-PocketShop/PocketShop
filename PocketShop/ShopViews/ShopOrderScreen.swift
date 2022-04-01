@@ -168,8 +168,8 @@ struct ShopOrderScreen: View {
 
 extension ShopOrderScreen {
     enum TabView: String {
-        case current = "current"
-        case history = "history"
+        case current
+        case history
     }
 }
 
