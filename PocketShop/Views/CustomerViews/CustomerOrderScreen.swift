@@ -92,7 +92,7 @@ struct CustomerOrderScreen: View {
                 RingView(color: order.ringColor, text: order.status.toString())
 
                 Spacer()
-                
+
                 if order.showCancel {
                     PSButton(title: "Cancel") {
                         showCancelConfirmation.toggle()
@@ -111,7 +111,7 @@ struct CustomerOrderScreen: View {
             .frame(minHeight: 128)
         }
     }
-    
+
     private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {
         Alert(title: Text("Confirmation"),
               message: Text("Confirm to cancel order \(order.collectionNo)?"),
@@ -124,8 +124,8 @@ struct CustomerOrderScreen: View {
 
 extension CustomerOrderScreen {
     enum TabView: String {
-        case current = "current"
-        case history = "history"
+        case current
+        case history
     }
 }
 
@@ -175,7 +175,7 @@ extension CustomerOrderScreen {
                 OrderViewModel(order: $0)
             }
         }
-        
+
         func cancelOrder(order: OrderViewModel) {
             customerViewModel.deleteOrder(orderId: order.id)
         }

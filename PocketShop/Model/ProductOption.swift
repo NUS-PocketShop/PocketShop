@@ -1,7 +1,7 @@
 struct ProductOption: Hashable, Codable {
     var title: String
     var type: OptionType
-    var options: [ProductOptionChoice]
+    var optionChoices: [ProductOptionChoice]
 }
 
 struct ProductOptionChoice: Hashable, Codable {

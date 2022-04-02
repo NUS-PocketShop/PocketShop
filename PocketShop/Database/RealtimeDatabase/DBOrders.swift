@@ -20,6 +20,13 @@ class DBOrders {
             print(error)
         }
         createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
+
+        let collectionNumberRef = FirebaseManager.sharedManager.ref.child("shops/\(newOrder.shopId)/collectionNumber")
+        collectionNumberRef.observeSingleEvent(of: .value) { snapshot in
+            if let colNum = snapshot.value as? Int {
+                collectionNumberRef.setValue(colNum + 1)
+            }
+        }
     }
 
     private func createOrderProducts(orderId: String, orderProductSchemas: [OrderProductSchema]) {

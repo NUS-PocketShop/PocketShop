@@ -8,7 +8,6 @@ struct CustomerProfileScreen: View {
     var body: some View {
         NavigationView {
             VStack {
-                PSButton(title: "Change Password") {}
                 Spacer()
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {

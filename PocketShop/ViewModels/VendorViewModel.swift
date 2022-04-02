@@ -40,7 +40,8 @@ final class VendorViewModel: ObservableObject {
                                 imageURL: "",
                                 isClosed: false,
                                 ownerId: vendor.id,
-                                soldProducts: [])
+                                soldProducts: [],
+                                categories: [])
 
         DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
     }
@@ -65,26 +66,13 @@ final class VendorViewModel: ObservableObject {
         DatabaseInterface.db.createProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }
 
-    func editProduct(oldProductId: String, name: String, description: String,
-                     price: Double, estimatedPrepTime: Double, image: UIImage) {
-
+    func editProduct(newProduct: Product, image: UIImage) {
         guard let shop = currentShop else {
             print("No current shop!")
             return
         }
 
-        let product = Product(id: oldProductId,
-                              name: name,
-                              shopName: shop.name,
-                              shopId: shop.id,
-                              description: description,
-                              price: price,
-                              imageURL: "",
-                              estimatedPrepTime: estimatedPrepTime,
-                              isOutOfStock: false,
-                              options: [])
-
-        DatabaseInterface.db.editProduct(shopId: shop.id, product: product, imageData: image.pngData())
+        DatabaseInterface.db.editProduct(shopId: shop.id, product: newProduct, imageData: image.pngData())
     }
 
     func deleteProduct(at positions: IndexSet) {

@@ -12,7 +12,7 @@ struct ShopsScrollView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.shopSearchResults, id: \.self) { shop in
-                        NavigationLink(destination: CustomerShopView(viewModel: viewModel, shop: shop)) {
+                        NavigationLink(destination: CustomerShopView(shop: shop).environmentObject(viewModel)) {
                             ShopSummaryView(shop: shop)
                         }
                     }
