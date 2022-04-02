@@ -47,8 +47,31 @@ final class CustomerViewModel: ObservableObject {
     func deleteOrder(orderId: String) {
         DatabaseInterface.db.deleteOrder(id: orderId)
     }
+    
+    func makeOrderFromCart() -> [(CartValidationError, CartProduct)]? {
+        let cartErrors = self.validateCart()
+        guard cartErrors == nil else {
+            return cartErrors
+        }
+        
+        guard let customerId = customer?.id else {
+            fatalError("Cannot make order for unknown customer")
+        }
+        
+        let orderProducts = cart.map {
+            $0.toOrderProduct()
+        }
+        
+        let orderProductsGroups = Dictionary(grouping: orderProducts, by: { $0.shopId })
+        
+        for (shopId, orderProducts) in orderProductsGroups {
+//            let order = Order(id: "dummyId", orderProducts: orderProducts, status: .pending, customerId: customerId, shopId: shopId, shopName: , date: <#T##Date#>, collectionNo: <#T##Int#>, total: <#T##Double#>)
+        }
+        
+        return nil
+    }
 
-    func validateCart() -> [(CartValidationError, CartProduct)]? {
+    private func validateCart() -> [(CartValidationError, CartProduct)]? {
         var invalidCartProducts = [(CartValidationError, CartProduct)]()
         for cartProduct in self.cart {
             let products = self.products.filter({ $0.id == cartProduct.productId })
@@ -65,7 +88,7 @@ final class CustomerViewModel: ObservableObject {
         }
         return invalidCartProducts
     }
-
+    
     private func validateCartProduct(product: Product,
                                      cartProduct: CartProduct) -> (CartValidationError, CartProduct)? {
         if product.name != cartProduct.productName

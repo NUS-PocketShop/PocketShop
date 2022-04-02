@@ -28,7 +28,7 @@ struct CustomerRootView: View {
                     TabItemView(tabItem: tabData[1])
                 }.tag(CustomerViewRouter.Page.search)
 
-            CustomerCartScreen()
+            CustomerCartScreen(viewModel: .init(customerViewModel: customerViewModel))
                 .tabItem {
                     TabItemView(tabItem: tabData[2])
                 }.tag(CustomerViewRouter.Page.cart)

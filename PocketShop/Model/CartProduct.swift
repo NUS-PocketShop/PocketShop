@@ -11,6 +11,13 @@ struct CartProduct: Hashable, Identifiable {
     // To link back to the shop/product page
     var productId: String
     var shopId: String
+    
+    func toOrderProduct() -> OrderProduct {
+        OrderProduct(id: id, quantity: quantity, status: .pending, total: total,
+                     productName: productName, productPrice: productPrice,
+                     productImageURL: productImageURL,
+                     productOptionChoices: productOptionChoices, productId: productId, shopId: shopId)
+    }
 }
 
 enum CartValidationError: Error {
