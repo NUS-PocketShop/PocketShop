@@ -52,21 +52,7 @@ struct PriceAndOrderButton: View {
             Text(String(format: "Price: $%.2f", product.price * Double(quantity)))
                 .font(.appHeadline)
             PSButton(title: "ORDER") {
-                guard let customerId = customerViewModel.customer?.id else {
-                    // TODO: More helpful error message
-                    return
-                }
-
-                let orderProduct = OrderProduct(id: "dummyId", quantity: quantity, status: .pending, total: 0,
-                                                productName: product.name, productPrice: product.price,
-                                                productImageURL: product.imageURL, productOptionChoices: [],
-                                                productId: product.id, shopId: product.shopId)
-
-                let order = Order(id: "dummyId", orderProducts: [orderProduct], status: .pending,
-                                  customerId: customerId, shopId: product.shopId, shopName: product.shopName,
-                                  date: Date(), collectionNo: 0, total: 0)
-
-                DatabaseInterface.db.createOrder(order: order)
+                customerViewModel.addProductToCart(product, quantity: quantity, choices: product.optionChoices)
             }
             .buttonStyle(FillButtonStyle())
         }
