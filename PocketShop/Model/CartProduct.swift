@@ -18,7 +18,8 @@ struct CartProduct: Hashable, Identifiable {
         OrderProduct(id: id, quantity: quantity, status: .pending, total: total,
                      productName: productName, productPrice: productPrice,
                      productImageURL: productImageURL,
-                     productOptionChoices: productOptionChoices, productId: productId, shopId: shopId)
+                     productOptionChoices: productOptionChoices, shopName: shopName,
+                     productId: productId, shopId: shopId)
     }
 }
 

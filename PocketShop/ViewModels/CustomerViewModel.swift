@@ -1,3 +1,4 @@
+import Foundation
 import Combine
 
 final class CustomerViewModel: ObservableObject {
@@ -38,6 +39,7 @@ final class CustomerViewModel: ObservableObject {
             if let currentCustomer = user as? Customer {
                 customer = currentCustomer
                 observeOrders(customerId: currentCustomer.id)
+                observeCart(customerId: currentCustomer.id)
             }
         }
         observeProducts()
@@ -46,6 +48,17 @@ final class CustomerViewModel: ObservableObject {
 
     func deleteOrder(orderId: String) {
         DatabaseInterface.db.deleteOrder(id: orderId)
+    }
+    
+    func addProductToCart(_ product: Product, quantity: Int, choices: [ProductOptionChoice]) {
+        guard let customerId = customer?.id else {
+            fatalError("Cannot add product to cart for unknown customer")
+        }
+        
+        DatabaseInterface.db.addProductToCart(userId: customerId,
+                                              product: product,
+                                              productOptionChoices: choices,
+                                              quantity: quantity)
     }
     
     func makeOrderFromCart() -> [(CartValidationError, CartProduct)]? {
@@ -65,7 +78,14 @@ final class CustomerViewModel: ObservableObject {
         let orderProductsGroups = Dictionary(grouping: orderProducts, by: { $0.shopId })
         
         for (shopId, orderProducts) in orderProductsGroups {
-//            let order = Order(id: "dummyId", orderProducts: orderProducts, status: .pending, customerId: customerId, shopId: shopId, shopName: , date: <#T##Date#>, collectionNo: <#T##Int#>, total: <#T##Double#>)
+            let order = Order(id: "dummyId", orderProducts: orderProducts,
+                              status: .pending, customerId: customerId, shopId: shopId,
+                              shopName: orderProducts[0].shopName, date: Date(), collectionNo: 0, total: 0)
+            DatabaseInterface.db.createOrder(order: order)
+        }
+        
+        for cartProduct in cart {
+            DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
         }
         
         return nil
@@ -110,6 +130,14 @@ final class CustomerViewModel: ObservableObject {
             return (.shopClosed, cartProduct)
         }
         return nil
+    }
+    
+    func removeCartProduct(_ cartProduct: CartProduct) {
+        guard let customerId = customer?.id else {
+            fatalError("Unable to remove product from cart for unknown customer")
+        }
+        
+        DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
     }
 
     private func observeProducts() {
