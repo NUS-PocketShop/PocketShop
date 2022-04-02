@@ -99,7 +99,7 @@ struct SaveEditedProductButton: View {
             return nil
         }
 
-        guard let price = Double(price) else {
+        guard let inputPrice = Double(price) else {
             alertMessage = price.isEmpty ? "Product price can't be empty!" : "Product price must be a valid double!"
             showAlert = true
             return nil
@@ -118,7 +118,7 @@ struct SaveEditedProductButton: View {
                        shopName: product.shopName,
                        shopId: product.shopId,
                        description: description,
-                       price: price,
+                       price: inputPrice,
                        imageURL: "",
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,

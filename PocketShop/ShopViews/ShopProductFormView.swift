@@ -50,6 +50,7 @@ struct UserInputSegment: View {
             PSTextField(text: $price,
                         title: "Product Price",
                         placeholder: "Enter product price")
+                .keyboardType(.numberPad)
 
             PSTextField(text: $description,
                         title: "Product Description (optional)",
@@ -58,6 +59,7 @@ struct UserInputSegment: View {
             PSTextField(text: $prepTime,
                         title: "Estimated Prep Time",
                         placeholder: "Enter estimated prep time")
+                .keyboardType(.numberPad)
         }
     }
 }
@@ -83,7 +85,7 @@ struct SaveNewProductButton: View {
                 return
             }
 
-            guard let price = Double(price) else {
+            guard let inputPrice = Double(price) else {
                 alertMessage = price.isEmpty ? "Product price can't be empty!" : "Product price must be a valid double!"
                 showAlert = true
                 return
@@ -103,7 +105,7 @@ struct SaveNewProductButton: View {
             }
 
             // Create Product and save to db
-            viewModel.createProduct(name: name, description: description, price: price,
+            viewModel.createProduct(name: name, description: description, price: inputPrice,
                                     estimatedPrepTime: estimatedPrepTime, image: image)
 
             presentationMode.wrappedValue.dismiss()
