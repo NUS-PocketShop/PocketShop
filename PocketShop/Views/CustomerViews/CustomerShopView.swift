@@ -21,7 +21,7 @@ struct ShopStatus: View {
     var shop: Shop
     var body: some View {
         if shop.isClosed {
-            Text("This shop is currently closed. You may not be able to place orders")
+            Text("This shop is currently closed. You may not be able to place orders.")
         }
     }
 }
