@@ -15,6 +15,7 @@ class DBCart {
                                          productPrice: product.price,
                                          productImageURL: product.imageURL,
                                          productOptionChoices: productOptionChoices ?? [],
+                                         shopName: product.shopName,
                                          productId: product.id,
                                          shopId: product.shopId)
         let newCartProductSchema = CartProductSchema(cartProduct: newCartProduct)
