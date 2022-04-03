@@ -14,14 +14,14 @@ class DBShop {
         let ref = FirebaseManager.sharedManager.ref.child("shops/\(shop.id)")
         uploadShop(shop: shop, newId: nil, imageData: imageData, ref: ref)
     }
-    
+
     private func uploadShop(shop: Shop, newId: String?, imageData: Data?, ref: DatabaseReference) {
         var newShop = shop
         if let newId = newId {
             newShop.id = newId
             newShop.soldProducts = []
         }
-        
+
         let encodeAndUploadShop = {
             let shopSchema = ShopSchema(shop: newShop)
             do {
