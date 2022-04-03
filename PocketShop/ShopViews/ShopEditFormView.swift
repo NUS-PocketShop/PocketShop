@@ -5,10 +5,10 @@ struct ShopEditFormView: View {
     @State private var name = ""
     @State private var address = ""
     @State private var image: UIImage?
+    @State private var categories = [String]()
 
     @EnvironmentObject var viewModel: VendorViewModel
     var shop: Shop
-    @State private var categories = [String]()
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -18,7 +18,6 @@ struct ShopEditFormView: View {
         self._name = State(initialValue: shop.name)
         self._address = State(initialValue: shop.description)
         self._categories = State(initialValue: shop.categories.map { $0.title })
-        print("Categories: \(categories)")
     }
 
     var body: some View {
@@ -85,8 +84,8 @@ struct ShopEditFormView: View {
                     return
                 }
 
-                categories = Array(Set(categories.filter { !$0.isEmpty }))
-                let shopCategories = categories.map { ShopCategory(title: $0) }
+                let uniqueCategories = Array(Set(categories.filter { !$0.isEmpty }))
+                let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
 
                 let newShop = Shop(id: shop.id,
                                    name: name,

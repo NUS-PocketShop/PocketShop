@@ -28,6 +28,7 @@ final class VendorViewModel: ObservableObject {
     // MARK: User intents
     func createShop(name: String,
                     description: String,
+                    categories: [ShopCategory],
                     image: UIImage) {
         guard let vendor = vendor else {
             // unable to create shop when vendor not initialized
@@ -41,7 +42,7 @@ final class VendorViewModel: ObservableObject {
                                 isClosed: false,
                                 ownerId: vendor.id,
                                 soldProducts: [],
-                                categories: [])
+                                categories: categories)
 
         DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
     }

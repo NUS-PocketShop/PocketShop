@@ -5,6 +5,7 @@ struct ShopFormView: View {
     @State private var name = ""
     @State private var address = ""
     @State private var image: UIImage?
+    @State private var categories = [String]()
 
     @EnvironmentObject var viewModel: VendorViewModel
 
@@ -20,9 +21,24 @@ struct ShopFormView: View {
                 PSTextField(text: $name,
                             title: "Shop Name",
                             placeholder: "Shop Name")
+
                 PSTextField(text: $address,
                             title: "Shop Address",
                             placeholder: "Shop Address")
+
+                ForEach(0..<categories.count, id: \.self) { index in
+                    PSTextField(text: $categories[index],
+                                title: "Shop Category \(index + 1)",
+                                placeholder: "Shop Category \(index + 1)")
+                }
+
+                Button(action: {
+                    categories.append("")
+                }, label: {
+                    Text("\(Image(systemName: "plus.circle")) Add new shop category")
+                })
+                    .padding(.vertical)
+
                 PSImagePicker(title: "Shop Image",
                               image: $image)
             }
@@ -51,8 +67,12 @@ struct ShopFormView: View {
                     return
                 }
 
+                let uniqueCategories = Array(Set(categories.filter { !$0.isEmpty }))
+                let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
+
                 viewModel.createShop(name: name,
                                      description: address,
+                                     categories: shopCategories,
                                      image: image)
                 presentationMode.wrappedValue.dismiss()
             }
