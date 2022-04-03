@@ -20,7 +20,7 @@ class DBProducts {
         if let newId = newId {
             newProduct.id = newId
         }
-        let uploadProduct = {
+        let encodeAndUploadProduct = {
             let productSchema = ProductSchema(product: newProduct)
             do {
                 let jsonData = try JSONEncoder().encode(productSchema)
@@ -36,10 +36,10 @@ class DBProducts {
                 if let url = url {
                     newProduct.imageURL = url
                 }
-                uploadProduct()
+                encodeAndUploadProduct()
             }
         } else {
-            uploadProduct()
+            encodeAndUploadProduct()
         }
     }
 
