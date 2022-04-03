@@ -38,6 +38,8 @@ struct ShopProductFormView: View {
 }
 
 struct UserInputSegment: View {
+    @EnvironmentObject var viewModel: VendorViewModel
+
     @Binding var name: String
     @Binding var price: String
     @Binding var description: String
@@ -59,9 +61,14 @@ struct UserInputSegment: View {
                         title: "Product Description (optional)",
                         placeholder: "Enter product description")
 
-            PSTextField(text: $category,
-                        title: "Product Category (optional)",
-                        placeholder: "Enter product category")
+            Text("Select Product Category:")
+            Picker("Select a product category", selection: $category) {
+                if let shop = viewModel.currentShop {
+                    ForEach(shop.categories, id: \.self.title) { shopCategory in
+                        Text(shopCategory.title)
+                    }
+                }
+            }
 
             PSTextField(text: $prepTime,
                         title: "Estimated Prep Time",
@@ -102,6 +109,12 @@ struct SaveNewProductButton: View {
             guard let estimatedPrepTime = Double(prepTime) else {
                 alertMessage = prepTime.isEmpty ? "Product prep time can't be empty!"
                                                 : "Product prep time must be a valid double!"
+                showAlert = true
+                return
+            }
+
+            guard !category.isEmpty else {
+                alertMessage = "Please select a category from the dropdown menu or add a new category to your shop"
                 showAlert = true
                 return
             }

@@ -27,11 +27,8 @@ struct ShopProductEditFormView: View {
                 Text("Edit product")
                     .font(.appTitle)
 
-                UserInputSegment(name: $name,
-                                 price: $price,
-                                 description: $description,
-                                 prepTime: $prepTime,
-                                 category: $category)
+                UserInputSegment(name: $name, price: $price, description: $description,
+                                 prepTime: $prepTime, category: $category)
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
@@ -111,6 +108,12 @@ struct SaveEditedProductButton: View {
         guard let estimatedPrepTime = Double(prepTime) else {
             alertMessage = prepTime.isEmpty ? "Product prep time can't be empty!"
                                             : "Product prep time must be a valid double!"
+            showAlert = true
+            return nil
+        }
+
+        guard !category.isEmpty else {
+            alertMessage = "Please select a category from the dropdown menu or add a new category to your shop"
             showAlert = true
             return nil
         }
