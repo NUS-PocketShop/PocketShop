@@ -7,6 +7,8 @@ struct CartProductSchema: Codable {
     var productImageURL: String
     var productOptionChoices: [Int: ProductOptionChoice]? = [:]
 
+    var shopName: String
+
     var productId: String
     var shopId: String
 
@@ -16,6 +18,7 @@ struct CartProductSchema: Codable {
         self.productName = cartProduct.productName
         self.productPrice = cartProduct.productPrice
         self.productImageURL = cartProduct.productImageURL
+        self.shopName = cartProduct.shopName
         self.productId = cartProduct.productId
         self.shopId = cartProduct.shopId
 
@@ -35,6 +38,7 @@ struct CartProductSchema: Codable {
                            productPrice: self.productPrice,
                            productImageURL: self.productImageURL,
                            productOptionChoices: productOptionChoices,
+                           shopName: self.shopName,
                            productId: self.productId, shopId: self.shopId)
     }
 }
