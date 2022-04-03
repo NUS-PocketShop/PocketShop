@@ -49,6 +49,7 @@ private struct RegisterFields: View {
                         title: "Email",
                         icon: "envelope",
                         placeholder: "Email")
+                .keyboardType(.emailAddress)
             PSSecureField(text: $password,
                           title: "Password",
                           icon: "key",

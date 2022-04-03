@@ -15,7 +15,7 @@ struct LoginScreen: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 12) {
-                HeadlineSection(title: "Login")
+                HeadlineSection(title: "Login to PocketShop")
                 LoginFields(email: $loginViewModel.email,
                             password: $loginViewModel.password,
                             errorMessage: $loginViewModel.errorMessage)
@@ -49,6 +49,7 @@ private struct LoginFields: View {
                         title: "Email",
                         icon: "envelope",
                         placeholder: "Email")
+                .keyboardType(.emailAddress)
             PSSecureField(text: $password,
                           title: "Password",
                           icon: "key",
@@ -82,8 +83,11 @@ private struct HeadlineSection: View {
     var title: String
 
     var body: some View {
-        Text(title)
-            .font(.appTitle)
+        VStack {
+            Image(Constants.appImage)
+            Text(title)
+                .font(.appTitle)
+        }.padding()
     }
 }
 

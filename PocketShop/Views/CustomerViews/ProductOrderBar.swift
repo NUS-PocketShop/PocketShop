@@ -46,16 +46,29 @@ struct PriceAndOrderButton: View {
     var product: Product
     @Binding var quantity: Int
 
+    @State var isShowingAddToCartAlert = false
+
     var body: some View {
         VStack {
             // Price and order button
             Text(String(format: "Price: $%.2f", product.price * Double(quantity)))
                 .font(.appHeadline)
-            PSButton(title: "ORDER") {
-                customerViewModel.addProductToCart(product, quantity: quantity, choices: product.optionChoices)
+            PSButton(title: "Add to Cart") {
+                addToCart()
+                isShowingAddToCartAlert = true
             }
             .buttonStyle(FillButtonStyle())
         }
+        .alert(isPresented: $isShowingAddToCartAlert) {
+            Alert(title: Text("Added to cart"),
+                  message: Text("\(product.name) has been added to Cart."))
+        }
         .padding()
+    }
+
+    func addToCart() {
+        customerViewModel.addProductToCart(product,
+                                           quantity: quantity,
+                                           choices: product.optionChoices)
     }
 }

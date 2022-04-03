@@ -3,22 +3,22 @@ import SwiftUI
 struct CustomerCartScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
     @State private var showConfirmDelete = false
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 ScrollView(.vertical) {
                     CartList()
                 }
-                
+
                 HStack {
                     Spacer()
-                    
+
                     VStack {
                         Text(String(format: "Total: %.2f", viewModel.total))
                             .font(.appHeadline)
                             .bold()
-                        
+
                         PSButton(title: "Order") {
                             viewModel.makeOrder()
                         }
@@ -37,40 +37,40 @@ struct CustomerCartScreen: View {
                   dismissButton: .default(Text("OK")))
         }
     }
-    
+
     @ViewBuilder
     func CartList() -> some View {
         ForEach(viewModel.cartProducts, id: \.self) { cartProduct in
             CartItem(cartProduct: cartProduct)
         }
     }
-    
+
     @ViewBuilder
     func CartItem(cartProduct: CartProduct) -> some View {
         VStack(alignment: .leading) {
             Text("\(cartProduct.productName)")
                 .font(.appHeadline)
                 .bold()
-            
+
             HStack {
                 URLImage(urlString: cartProduct.productImageURL)
                     .scaledToFit()
                     .frame(width: 100, height: 100)
-                
+
                 VStack(alignment: .leading) {
                     Text("\(cartProduct.shopName)")
                         .font(.appBody)
-                    
+
                     Text("Qty: \(cartProduct.quantity)")
                         .font(.appBody)
                         .padding(.bottom)
-                    
+
                     Text(String(format: "$%.2f", cartProduct.total))
                         .font(.appBody)
                 }
-                
+
                 Spacer()
-                
+
                 Image(systemName: "trash")
                     .resizable()
                     .frame(width: 24, height: 24)
@@ -99,29 +99,29 @@ extension CustomerCartScreen {
         @Published var cartProducts: [CartProduct] = []
         @Published var showError = false
         @Published var errorMessage = ""
-        
+
         var total: Double {
             cartProducts.reduce(0) { result, cartProduct in
                 result + cartProduct.total
             }
         }
-        
+
         init(customerViewModel: CustomerViewModel) {
             self.customerViewModel = customerViewModel
             self.cartProducts = customerViewModel.cart
         }
-        
+
         func makeOrder() {
             let invalidCartProducts = customerViewModel.makeOrderFromCart()
-            
+
             guard invalidCartProducts == nil else {
                 let invalidCartProducts = invalidCartProducts!
-                
+
                 showError(cartProduct: invalidCartProducts[0].1, error: invalidCartProducts[0].0)
                 return
             }
         }
-        
+
         func showError(cartProduct: CartProduct, error: CartValidationError) {
             switch error {
             case .productChanged:
@@ -136,7 +136,7 @@ extension CustomerCartScreen {
             }
             showError = true
         }
-        
+
         func removeCartProduct(_ cartProduct: CartProduct) {
             customerViewModel.removeCartProduct(cartProduct)
         }
