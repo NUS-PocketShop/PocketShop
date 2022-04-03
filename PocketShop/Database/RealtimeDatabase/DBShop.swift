@@ -7,10 +7,22 @@ class DBShop {
             print("Unexpected error")
             return
         }
+        uploadShop(shop: shop, newId: key, imageData: imageData, ref: ref)
+    }
+
+    func editShop(shop: Shop, imageData: Data?) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shop.id)")
+        uploadShop(shop: shop, newId: nil, imageData: imageData, ref: ref)
+    }
+
+    private func uploadShop(shop: Shop, newId: String?, imageData: Data?, ref: DatabaseReference) {
         var newShop = shop
-        newShop.id = key
-        newShop.soldProducts = []
-        let uploadShop = {
+        if let newId = newId {
+            newShop.id = newId
+            newShop.soldProducts = []
+        }
+
+        let encodeAndUploadShop = {
             let shopSchema = ShopSchema(shop: newShop)
             do {
                 let jsonData = try JSONEncoder().encode(shopSchema)
@@ -26,23 +38,10 @@ class DBShop {
                 if let url = url {
                     newShop.imageURL = url
                 }
-                uploadShop()
+                encodeAndUploadShop()
             }
         }
-        uploadShop()
-    }
-
-    func editShop(shop: Shop) {
-        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shop.id)")
-        let shopSchema = ShopSchema(shop: shop)
-        do {
-
-            let jsonData = try JSONEncoder().encode(shopSchema)
-            let json = try JSONSerialization.jsonObject(with: jsonData)
-            ref.setValue(json)
-        } catch {
-            print(error)
-        }
+        encodeAndUploadShop()
     }
 
     func deleteShop(id: String) {

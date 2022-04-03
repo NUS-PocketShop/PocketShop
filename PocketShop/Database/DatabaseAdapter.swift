@@ -6,7 +6,7 @@ protocol DatabaseAdapter {
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void)
 
     func createShop(shop: Shop, imageData: Data?)
-    func editShop(shop: Shop)
+    func editShop(shop: Shop, imageData: Data?)
     func deleteShop(id: String)
     func openShop(id: String)
     func closeShop(id: String)

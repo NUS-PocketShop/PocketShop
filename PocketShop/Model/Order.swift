@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct Order: Hashable, Identifiable {
     var id: String

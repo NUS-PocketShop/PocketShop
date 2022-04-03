@@ -2,7 +2,8 @@ import SwiftUI
 
 struct ShopProductsView: View {
     @EnvironmentObject var viewModel: VendorViewModel
-    @State var showModal = false
+    @State private var showEditProductModal = false
+    @State private var showEditShopModal = false
     var shop: Shop
 
     var body: some View {
@@ -12,28 +13,49 @@ struct ShopProductsView: View {
                        imageUrl: shop.imageURL)
 
             Spacer()
+
             if shop.soldProducts.isEmpty {
                 Text("This shop has no products... yet!")
             } else {
                 List {
-                    ForEach(shop.soldProducts, id: \.self) { product in
-                        NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
-                                                                            product: product)) {
-                            ProductListView(product: product)
+                    ForEach(shop.categories, id: \.self) { shopCategory in
+                        Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
+                            ForEach(shop.soldProducts, id: \.self) { product in
+                                if product.shopCategory?.title == shopCategory.title {
+                                    NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
+                                                                                        product: product)) {
+                                        ProductListView(product: product)
+                                    }
+                                }
+                            }
+                            .onDelete { positions in
+                                viewModel.deleteProduct(at: positions)
+                            }
                         }
-                    }
-                    .onDelete { positions in
-                        viewModel.deleteProduct(at: positions)
                     }
                 }
             }
-            AddProductButton(showModal: $showModal)
+
+            AddProductButton(showModal: $showEditProductModal)
+
             Spacer()
         }
         .padding()
-        .sheet(isPresented: $showModal) {
+        .toolbar {
+            Button(action: {
+                showEditShopModal = true
+            }, label: {
+                Image(systemName: "square.and.pencil")
+            })
+        }
+        .sheet(isPresented: $showEditProductModal) {
             NavigationView {
-                ShopProductFormView(viewModel: viewModel)
+                ShopProductFormView()
+            }
+        }
+        .sheet(isPresented: $showEditShopModal) {
+            NavigationView {
+                ShopEditFormView(viewModel: viewModel, shop: shop)
             }
         }
     }

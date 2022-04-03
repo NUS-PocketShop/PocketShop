@@ -26,42 +26,19 @@ final class VendorViewModel: ObservableObject {
     }
 
     // MARK: User intents
-    func createShop(name: String,
-                    description: String,
-                    image: UIImage) {
-        guard let vendor = vendor else {
-            // unable to create shop when vendor not initialized
-            return
-        }
-
-        let shopToCreate = Shop(id: "",
-                                name: name,
-                                description: description,
-                                imageURL: "",
-                                isClosed: false,
-                                ownerId: vendor.id,
-                                soldProducts: [],
-                                categories: [])
-
-        DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
+    func createShop(shop: Shop, image: UIImage) {
+        DatabaseInterface.db.createShop(shop: shop, imageData: image.pngData())
     }
 
-    func createProduct(name: String, description: String, price: Double, estimatedPrepTime: Double, image: UIImage) {
+    func editShop(newShop: Shop, image: UIImage) {
+        DatabaseInterface.db.editShop(shop: newShop, imageData: image.pngData())
+    }
+
+    func createProduct(product: Product, image: UIImage) {
         guard let shop = currentShop else {
             print("No current shop!")
             return
         }
-
-        let product = Product(id: "",
-                              name: name,
-                              shopName: shop.name,
-                              shopId: shop.id,
-                              description: description,
-                              price: price,
-                              imageURL: "",
-                              estimatedPrepTime: estimatedPrepTime,
-                              isOutOfStock: false,
-                              options: [])
 
         DatabaseInterface.db.createProduct(shopId: shop.id, product: product, imageData: image.pngData())
     }

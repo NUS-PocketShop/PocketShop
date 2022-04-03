@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ShopProductEditFormView: View {
-    @StateObject var viewModel: VendorViewModel
+    @EnvironmentObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
     var product: Product
 
@@ -10,14 +10,15 @@ struct ShopProductEditFormView: View {
     @State private var description: String = ""
     @State private var prepTime: String = ""
     @State private var image: UIImage?
+    @State private var category: String = ""
 
     init(viewModel: VendorViewModel, product: Product) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
         self.product = product
         self._name = State(initialValue: product.name)
         self._price = State(initialValue: String(product.price))
         self._description = State(initialValue: product.description)
         self._prepTime = State(initialValue: String(product.estimatedPrepTime))
+        self._category = State(initialValue: product.shopCategory?.title ?? "")
     }
 
     var body: some View {
@@ -26,10 +27,8 @@ struct ShopProductEditFormView: View {
                 Text("Edit product")
                     .font(.appTitle)
 
-                UserInputSegment(name: $name,
-                                 price: $price,
-                                 description: $description,
-                                 prepTime: $prepTime)
+                UserInputSegment(name: $name, price: $price, description: $description,
+                                 prepTime: $prepTime, category: $category)
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
@@ -44,9 +43,9 @@ struct ShopProductEditFormView: View {
                     }
                     .padding(.bottom)
 
-                SaveEditedProductButton(viewModel: viewModel, product: product,
+                SaveEditedProductButton(product: product,
                                         name: $name, price: $price, description: $description,
-                                        prepTime: $prepTime, image: $image)
+                                        prepTime: $prepTime, image: $image, category: $category)
             }
             .padding()
         }
@@ -57,7 +56,7 @@ struct ShopProductEditFormView: View {
 }
 
 struct SaveEditedProductButton: View {
-    @StateObject var viewModel: VendorViewModel
+    @EnvironmentObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
     var product: Product
 
@@ -66,6 +65,7 @@ struct SaveEditedProductButton: View {
     @Binding var description: String
     @Binding var prepTime: String
     @Binding var image: UIImage?
+    @Binding var category: String
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -112,6 +112,12 @@ struct SaveEditedProductButton: View {
             return nil
         }
 
+        guard !category.isEmpty else {
+            alertMessage = "Please select a category from the dropdown menu or add a new category to your shop"
+            showAlert = true
+            return nil
+        }
+
         // Create edited Product and save to db
         return Product(id: product.id,
                        name: name,
@@ -122,6 +128,7 @@ struct SaveEditedProductButton: View {
                        imageURL: "",
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
+                       shopCategory: ShopCategory(title: category),
                        options: [])
     }
 }
