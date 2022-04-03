@@ -26,8 +26,8 @@ class DatabaseManager: DatabaseAdapter {
         shops.createShop(shop: shop, imageData: imageData)
     }
 
-    func editShop(shop: Shop) {
-        shops.editShop(shop: shop)
+    func editShop(shop: Shop, imageData: Data?) {
+        shops.editShop(shop: shop, imageData: imageData)
     }
 
     func deleteShop(id: String) {

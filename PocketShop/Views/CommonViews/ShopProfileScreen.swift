@@ -18,6 +18,7 @@ struct ShopProfileScreen: View {
             }
             .padding()
             .buttonStyle(SecondaryButtonStyle())
+            .navigationTitle("Profile/Settings")
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

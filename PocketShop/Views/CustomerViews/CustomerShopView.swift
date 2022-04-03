@@ -38,12 +38,13 @@ struct ShopProductsList: View {
             Text("Menu")
                 .font(.appTitle)
             List {
-                ForEach(viewModel.products.filter({ $0.shopName == shop.name })) { product in
-                    if shop.isClosed {
-                        ProductListView(product: product).environmentObject(viewModel)
-                    } else {
-                        NavigationLink(destination: ProductView(product: product)) {
-                            ProductListView(product: product).environmentObject(viewModel)
+                ForEach(shop.categories, id: \.self) { shopCategory in
+                    Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
+                        ForEach(shop.soldProducts, id: \.self) { product in
+                            if product.shopCategory?.title == shopCategory.title {
+                                ProductPreview(isClosed: shop.isClosed,
+                                               product: product)
+                            }
                         }
                     }
                 }
@@ -59,5 +60,24 @@ struct CustomerShopView_Previews: PreviewProvider {
             shop.name == "Gong Cha"
         })
         CustomerShopView(shop: sampleShop!).environmentObject(viewModel)
+    }
+}
+
+struct ProductPreview: View {
+    
+    @EnvironmentObject var viewModel: CustomerViewModel
+    @State var product: Product
+    var isClosed: Bool
+    
+    var body: some View {
+        VStack {
+            if isClosed {
+                ProductListView(product: product).environmentObject(viewModel)
+            } else {
+                NavigationLink(destination: ProductView(product: product)) {
+                    ProductListView(product: product).environmentObject(viewModel)
+                }
+            }
+        }
     }
 }
