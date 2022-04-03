@@ -94,47 +94,69 @@ struct SaveNewProductButton: View {
 
     var body: some View {
         PSButton(title: "Save") {
-            guard !name.isEmpty else {
-                alertMessage = "Product name cannot be empty!"
-                showAlert = true
-                return
-            }
-
-            guard let inputPrice = Double(price) else {
-                alertMessage = price.isEmpty ? "Product price can't be empty!" : "Product price must be a valid double!"
-                showAlert = true
-                return
-            }
-
-            guard let estimatedPrepTime = Double(prepTime) else {
-                alertMessage = prepTime.isEmpty ? "Product prep time can't be empty!"
-                                                : "Product prep time must be a valid double!"
-                showAlert = true
-                return
-            }
-
-            guard !category.isEmpty else {
-                alertMessage = "Please select a category from the dropdown menu or add a new category to your shop"
-                showAlert = true
-                return
-            }
-
             guard let image = image else {
                 alertMessage = "Missing product image!"
                 showAlert = true
                 return
             }
 
-            // Create Product and save to db
-            viewModel.createProduct(name: name, description: description, price: inputPrice,
-                                    estimatedPrepTime: estimatedPrepTime, image: image, category: category)
+            guard let product = createNewProduct() else {
+                print("Product creation unsuccessful")
+                return
+            }
 
+            // Create Product and save to db
+            viewModel.createProduct(product: product, image: image)
             presentationMode.wrappedValue.dismiss()
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
         }
         .buttonStyle(FillButtonStyle())
+    }
+
+    func createNewProduct() -> Product? {
+        guard let shop = viewModel.currentShop else {
+            print("No current shop!")
+            return nil
+        }
+
+        guard !name.isEmpty else {
+            alertMessage = "Product name cannot be empty!"
+            showAlert = true
+            return nil
+        }
+
+        guard let inputPrice = Double(price) else {
+            alertMessage = price.isEmpty ? "Product price can't be empty!" : "Product price must be a valid double!"
+            showAlert = true
+            return nil
+        }
+
+        guard let estimatedPrepTime = Double(prepTime) else {
+            alertMessage = prepTime.isEmpty ? "Product prep time can't be empty!"
+                                            : "Product prep time must be a valid double!"
+            showAlert = true
+            return nil
+        }
+
+        guard !category.isEmpty else {
+            alertMessage = "Please select a category from the dropdown menu or add a new category to your shop"
+            showAlert = true
+            return nil
+        }
+
+        return Product(id: "",
+                       name: name,
+                       shopName: shop.name,
+                       shopId: shop.id,
+                       description: description,
+                       price: inputPrice,
+                       imageURL: "",
+                       estimatedPrepTime: estimatedPrepTime,
+                       isOutOfStock: false,
+                       shopCategory: ShopCategory(title: category),
+                       options: [])
     }
 
 }

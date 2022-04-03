@@ -22,42 +22,12 @@ struct ShopEditFormView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Edit your shop")
-                .font(.appTitle)
+            Text("Edit your shop").font(.appTitle)
 
             ScrollView(.vertical) {
-                PSTextField(text: $name,
-                            title: "Shop Name",
-                            placeholder: "Shop Name")
+                ShopTextFields(name: $name, address: $address, categories: $categories)
 
-                PSTextField(text: $address,
-                            title: "Shop Address",
-                            placeholder: "Shop Address")
-
-                ForEach(0..<categories.count, id: \.self) { index in
-                    PSTextField(text: $categories[index],
-                                title: "Shop Category \(index + 1)",
-                                placeholder: "Shop Category \(index + 1)")
-                }
-
-                Button(action: {
-                    categories.append("")
-                }, label: {
-                    Text("\(Image(systemName: "plus.circle")) Add new shop category")
-                })
-                    .padding(.vertical)
-
-                PSImagePicker(title: "Shop Image",
-                              image: $image)
-                    .onAppear {
-                        DatabaseManager.sharedDatabaseManager.getShopImage(shopId: shop.id,
-                                                                           completionHandler: { error, imgData in
-                            guard let imgData = imgData, error == nil else {
-                                return
-                            }
-                            image = UIImage(data: imgData)
-                        })
-                    }
+                PSImagePicker(title: "Shop Image", image: $image).onAppear { loadImage() }
             }
             .navigationBarItems(trailing: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
@@ -66,42 +36,16 @@ struct ShopEditFormView: View {
             Spacer()
 
             PSButton(title: "Confirm") {
-                guard !name.isEmpty else {
-                    alertMessage = "Shop name cannot be empty!"
-                    showAlert = true
-                    return
-                }
-
-                guard !address.isEmpty else {
-                    alertMessage = "Shop address cannot be empty!"
-                    showAlert = true
-                    return
-                }
-
                 guard let image = image else {
                     alertMessage = "Missing product image!"
                     showAlert = true
                     return
                 }
 
-                let uniqueCategories = Array(Set(categories.filter { !$0.isEmpty }))
-
-                guard !uniqueCategories.isEmpty else {
-                    alertMessage = "Shop must have at least 1 category!"
-                    showAlert = true
+                guard let newShop = createEditedShop() else {
+                    print("Shop edit unsuccessful")
                     return
                 }
-
-                let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
-
-                let newShop = Shop(id: shop.id,
-                                   name: name,
-                                   description: address,
-                                   imageURL: "",
-                                   isClosed: shop.isClosed,
-                                   ownerId: shop.ownerId,
-                                   soldProducts: shop.soldProducts,
-                                   categories: shopCategories)
 
                 viewModel.editShop(newShop: newShop, image: image)
                 presentationMode.wrappedValue.dismiss()
@@ -112,5 +56,48 @@ struct ShopEditFormView: View {
             .buttonStyle(FillButtonStyle())
         }
         .padding()
+    }
+
+    private func loadImage() {
+        DatabaseManager.sharedDatabaseManager.getShopImage(shopId: shop.id,
+                                                           completionHandler: { error, imgData in
+            guard let imgData = imgData, error == nil else {
+                return
+            }
+            image = UIImage(data: imgData)
+        })
+    }
+
+    private func createEditedShop() -> Shop? {
+        guard !name.isEmpty else {
+            alertMessage = "Shop name cannot be empty!"
+            showAlert = true
+            return nil
+        }
+
+        guard !address.isEmpty else {
+            alertMessage = "Shop address cannot be empty!"
+            showAlert = true
+            return nil
+        }
+
+        let uniqueCategories = Array(Set(categories.filter { !$0.isEmpty }))
+
+        guard !uniqueCategories.isEmpty else {
+            alertMessage = "Shop must have at least 1 category!"
+            showAlert = true
+            return nil
+        }
+
+        let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
+
+        return Shop(id: shop.id,
+                    name: name,
+                    description: address,
+                    imageURL: "",
+                    isClosed: shop.isClosed,
+                    ownerId: shop.ownerId,
+                    soldProducts: shop.soldProducts,
+                    categories: shopCategories)
     }
 }
