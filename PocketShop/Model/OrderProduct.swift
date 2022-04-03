@@ -9,6 +9,8 @@ struct OrderProduct: Hashable, Identifiable {
     var productImageURL: String
     var productOptionChoices: [ProductOptionChoice]
 
+    var shopName: String
+
     // To link back to the shop/product page
     var productId: String
     var shopId: String

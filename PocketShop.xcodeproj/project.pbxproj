@@ -462,18 +462,18 @@
 			children = (
 				02AD420427DF027200F44822 /* CustomerCartScreen.swift */,
 				DF67101827DE5FF6002C5AE0 /* CustomerHomeScreen.swift */,
+				2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */,
 				02AD420927DF028900F44822 /* CustomerProfileScreen.swift */,
 				02AD422227DF1D7200F44822 /* CustomerRootView.swift */,
 				02AD41FC27DF024900F44822 /* CustomerSearchScreen.swift */,
-				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
-				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
-				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
-				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
-				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
-				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
 				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
 				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
-				2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */,
+				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
+				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
+				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
+				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
+				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
+				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
 			);
 			path = CustomerViews;
 			sourceTree = "<group>";

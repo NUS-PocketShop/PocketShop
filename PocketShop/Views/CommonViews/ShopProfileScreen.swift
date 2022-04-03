@@ -8,7 +8,6 @@ struct ShopProfileScreen: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("vendor id: \(viewModel.vendor?.id ?? "")")
                 Spacer()
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {
@@ -18,6 +17,7 @@ struct ShopProfileScreen: View {
             }
             .padding()
             .buttonStyle(SecondaryButtonStyle())
+            .navigationTitle("Profile/Settings")
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
