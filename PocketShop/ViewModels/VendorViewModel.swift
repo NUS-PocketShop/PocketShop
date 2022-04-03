@@ -46,8 +46,8 @@ final class VendorViewModel: ObservableObject {
         DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
     }
 
-    func editShop(newShop: Shop) {
-        DatabaseInterface.db.editShop(shop: newShop)
+    func editShop(newShop: Shop, image: UIImage) {
+        DatabaseInterface.db.editShop(shop: newShop, imageData: image.pngData())
     }
 
     func createProduct(name: String, description: String, price: Double,

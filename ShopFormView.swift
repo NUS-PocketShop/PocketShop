@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ShopFormView: View {
-
+    @Environment(\.presentationMode) var presentationMode
     @State private var name = ""
     @State private var address = ""
     @State private var image: UIImage?
@@ -26,15 +26,35 @@ struct ShopFormView: View {
                 PSImagePicker(title: "Shop Image",
                               image: $image)
             }
+            .navigationBarItems(trailing: Button("Cancel") {
+                presentationMode.wrappedValue.dismiss()
+            })
+
             Spacer()
+            
             PSButton(title: "Confirm") {
-                guard let image = image else {
-                    // error: please select an image
+                guard !name.isEmpty else {
+                    alertMessage = "Shop name cannot be empty!"
+                    showAlert = true
                     return
                 }
+
+                guard !address.isEmpty else {
+                    alertMessage = "Shop address cannot be empty!"
+                    showAlert = true
+                    return
+                }
+
+                guard let image = image else {
+                    alertMessage = "Missing product image!"
+                    showAlert = true
+                    return
+                }
+
                 viewModel.createShop(name: name,
                                      description: address,
                                      image: image)
+                presentationMode.wrappedValue.dismiss()
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))

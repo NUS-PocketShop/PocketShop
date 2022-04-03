@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ShopEditFormView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var name = ""
     @State private var address = ""
     @State private var image: UIImage?
@@ -43,6 +44,9 @@ struct ShopEditFormView: View {
                         })
                     }
             }
+            .navigationBarItems(trailing: Button("Cancel") {
+                presentationMode.wrappedValue.dismiss()
+            })
 
             Spacer()
 
@@ -74,7 +78,8 @@ struct ShopEditFormView: View {
                                    soldProducts: shop.soldProducts,
                                    categories: shop.categories)
 
-                viewModel.editShop(newShop: newShop)
+                viewModel.editShop(newShop: newShop, image: image)
+                presentationMode.wrappedValue.dismiss()
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))

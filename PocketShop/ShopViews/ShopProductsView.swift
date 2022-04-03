@@ -2,7 +2,8 @@ import SwiftUI
 
 struct ShopProductsView: View {
     @EnvironmentObject var viewModel: VendorViewModel
-    @State var showModal = false
+    @State private var showEditProductModal = false
+    @State private var showEditShopModal = false
     var shop: Shop
 
     var body: some View {
@@ -27,13 +28,25 @@ struct ShopProductsView: View {
                     }
                 }
             }
-            AddProductButton(showModal: $showModal)
+            AddProductButton(showModal: $showEditProductModal)
             Spacer()
         }
         .padding()
-        .sheet(isPresented: $showModal) {
+        .toolbar {
+            Button(action: {
+                showEditShopModal = true
+            }, label: {
+                Image(systemName: "square.and.pencil")
+            })
+        }
+        .sheet(isPresented: $showEditProductModal) {
             NavigationView {
                 ShopProductFormView(viewModel: viewModel)
+            }
+        }
+        .sheet(isPresented: $showEditShopModal) {
+            NavigationView {
+                ShopEditFormView(viewModel: viewModel, shop: shop)
             }
         }
     }
