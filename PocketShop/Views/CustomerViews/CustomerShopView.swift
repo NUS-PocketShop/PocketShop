@@ -42,8 +42,8 @@ struct ShopProductsList: View {
                     Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
                         ForEach(shop.soldProducts, id: \.self) { product in
                             if product.shopCategory?.title == shopCategory.title {
-                                ProductPreview(isClosed: shop.isClosed,
-                                               product: product)
+                                ProductPreview(product: product,
+                                               isClosed: shop.isClosed)
                             }
                         }
                     }
@@ -64,11 +64,11 @@ struct CustomerShopView_Previews: PreviewProvider {
 }
 
 struct ProductPreview: View {
-    
+
     @EnvironmentObject var viewModel: CustomerViewModel
     @State var product: Product
     var isClosed: Bool
-    
+
     var body: some View {
         VStack {
             if isClosed {

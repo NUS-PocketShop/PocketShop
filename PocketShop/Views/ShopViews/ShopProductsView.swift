@@ -1,7 +1,17 @@
 import SwiftUI
 
+enum ShopProductsViewActiveSheet: Identifiable {
+    case editShop, addProduct
+
+    var id: Int {
+        hashValue
+    }
+}
+
 struct ShopProductsView: View {
     @EnvironmentObject var viewModel: VendorViewModel
+    @State var activeSheet: ShopProductsViewActiveSheet?
+    @State private var showAddProductModal = false
     @State private var showEditProductModal = false
     @State private var showEditShopModal = false
     var shop: Shop
@@ -13,7 +23,7 @@ struct ShopProductsView: View {
                        imageUrl: shop.imageURL)
 
             Spacer()
-            Text("Shop is currently \(shop.isClosed ? "CLOSED" : "Open")")
+            Text("Shop is currently \(shop.isClosed ? "CLOSED" : "open")")
             Spacer()
             if shop.soldProducts.isEmpty {
                 Text("This shop has no products... yet!")
@@ -36,26 +46,22 @@ struct ShopProductsView: View {
                     }
                 }
             }
-
-            AddProductButton(showModal: $showEditProductModal)
-
+            AddProductButton(activeSheet: $activeSheet)
             Spacer()
         }
         .padding()
         .toolbar {
             Button(action: {
-                showEditShopModal = true
+                activeSheet = .editShop
             }, label: {
                 Image(systemName: "square.and.pencil")
             })
         }
-        .sheet(isPresented: $showEditProductModal) {
-            NavigationView {
+        .sheet(item: $activeSheet) { item in
+            switch item {
+            case .addProduct:
                 ShopProductFormView()
-            }
-        }
-        .sheet(isPresented: $showEditShopModal) {
-            NavigationView {
+            case .editShop:
                 ShopEditFormView(viewModel: viewModel, shop: shop)
             }
         }
@@ -88,11 +94,11 @@ struct ShopHeader: View {
 }
 
 struct AddProductButton: View {
-    @Binding var showModal: Bool
+    @Binding var activeSheet: ShopProductsViewActiveSheet?
 
     var body: some View {
         PSButton(title: "Add item to menu") {
-            showModal = true
+            activeSheet = .addProduct
         }
         .buttonStyle(FillButtonStyle())
         .padding(.horizontal)
