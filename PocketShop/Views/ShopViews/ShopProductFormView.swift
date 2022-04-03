@@ -159,18 +159,20 @@ struct CategoryPickerSection: View {
     @Binding var category: String
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Select Product Category".uppercased())
-                .font(.appSmallCaption)
+        HStack {
+            VStack {
+                Text("Select Product Category".uppercased())
+                    .font(.appSmallCaption)
 
-            Picker("Select a product category", selection: $category) {
-                if let shop = viewModel.currentShop {
-                    ForEach(shop.categories, id: \.self.title) { shopCategory in
-                        Text(shopCategory.title)
+                Picker("Select a product category", selection: $category) {
+                    if let shop = viewModel.currentShop {
+                        ForEach(shop.categories, id: \.self.title) { shopCategory in
+                            Text(shopCategory.title)
+                        }
                     }
                 }
             }
+            Spacer()
         }
-        .frame(maxWidth: Constants.maxWidthIPad)
     }
 }

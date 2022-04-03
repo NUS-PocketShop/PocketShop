@@ -26,13 +26,13 @@ struct CartProductSchema: Codable {
 
     func toCartProduct() -> CartProduct {
         CartProduct(id: self.id,
-                           quantity: self.quantity,
-                           total: self.productPrice * Double(self.quantity),
-                           productName: self.productName,
-                           productPrice: self.productPrice,
-                           productImageURL: self.productImageURL,
-                           productOptionChoices: self.productOptionChoices ?? [],
-                           shopName: self.shopName,
-                           productId: self.productId, shopId: self.shopId)
+                    quantity: self.quantity,
+                    total: self.productPrice * Double(self.quantity),
+                    productName: self.productName,
+                    productPrice: self.productPrice,
+                    productImageURL: self.productImageURL,
+                    productOptionChoices: self.productOptionChoices ?? [],
+                    shopName: self.shopName,
+                    productId: self.productId, shopId: self.shopId)
     }
 }
