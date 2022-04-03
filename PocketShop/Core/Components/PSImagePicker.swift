@@ -13,12 +13,10 @@ struct PSImagePicker: View {
 
             if let image = image {
                 Image(uiImage: image).resizable().scaledToFit()
+                    .frame(height: 150)
             } else {
-                Image(systemName: "photo")
-                   .resizable()
-                   .scaledToFit()
-                   .padding()
-                   .foregroundColor(Color.gray3)
+                Image(systemName: "photo").resizable().scaledToFit().padding().foregroundColor(Color.gray3)
+                    .frame(height: 150)
             }
 
             PSButton(title: "Choose Image") {
