@@ -461,19 +461,19 @@
 			isa = PBXGroup;
 			children = (
 				02AD420427DF027200F44822 /* CustomerCartScreen.swift */,
-				2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */,
 				DF67101827DE5FF6002C5AE0 /* CustomerHomeScreen.swift */,
+				2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */,
 				02AD420927DF028900F44822 /* CustomerProfileScreen.swift */,
 				02AD422227DF1D7200F44822 /* CustomerRootView.swift */,
 				02AD41FC27DF024900F44822 /* CustomerSearchScreen.swift */,
-				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
-				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
-				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
-				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
-				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
-				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
 				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
 				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
+				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
+				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
+				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
+				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
+				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
+				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
 			);
 			path = CustomerViews;
 			sourceTree = "<group>";
@@ -481,15 +481,15 @@
 		DF67101327DE5D90002C5AE0 /* ShopViews */ = {
 			isa = PBXGroup;
 			children = (
-				022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */,
-				022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */,
-				2B02BB0227E74DF00066A192 /* ShopOrderScreen.swift */,
-				DF86A0E427E73DBB00D8423C /* ShopProductsView.swift */,
-				DF86A0E827E7604300D8423C /* ShopProductFormView.swift */,
-				DFEEE72F27E8C7610054B36F /* ShopProductEditFormView.swift */,
-				022EA8F427E71A78003F4E3C /* ShopHomeScreen.swift */,
 				022EA8F927E71DDF003F4E3C /* EditShopDetailsScreen.swift */,
+				022EA8F427E71A78003F4E3C /* ShopHomeScreen.swift */,
 				022EA90827E76279003F4E3C /* ShopInfoView.swift */,
+				2B02BB0227E74DF00066A192 /* ShopOrderScreen.swift */,
+				DFEEE72F27E8C7610054B36F /* ShopProductEditFormView.swift */,
+				DF86A0E827E7604300D8423C /* ShopProductFormView.swift */,
+				DF86A0E427E73DBB00D8423C /* ShopProductsView.swift */,
+				022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */,
+				022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */,
 			);
 			name = ShopViews;
 			path = ../ShopViews;
