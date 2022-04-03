@@ -160,7 +160,7 @@ struct CategoryPickerSection: View {
 
     var body: some View {
         HStack {
-            VStack {
+            VStack(alignment: .leading) {
                 Text("Select Product Category".uppercased())
                     .font(.appSmallCaption)
 
@@ -174,5 +174,6 @@ struct CategoryPickerSection: View {
             }
             Spacer()
         }
+        .frame(maxWidth: Constants.maxWidthIPad)
     }
 }
