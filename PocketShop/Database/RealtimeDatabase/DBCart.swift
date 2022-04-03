@@ -67,6 +67,7 @@ class DBCart {
         }
 
         ref.observe(.childRemoved) { snapshot in
+
             if let value = snapshot.value,
                let cartProductSchema = self.convertCartProductSchema(cartProductJson: value) {
                 let cartProduct = cartProductSchema.toCartProduct()

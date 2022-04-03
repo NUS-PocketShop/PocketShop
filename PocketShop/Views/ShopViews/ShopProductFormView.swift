@@ -61,14 +61,7 @@ struct UserInputSegment: View {
                         title: "Product Description (optional)",
                         placeholder: "Enter product description")
 
-            Text("Select Product Category:")
-            Picker("Select a product category", selection: $category) {
-                if let shop = viewModel.currentShop {
-                    ForEach(shop.categories, id: \.self.title) { shopCategory in
-                        Text(shopCategory.title)
-                    }
-                }
-            }
+            CategoryPickerSection(category: $category)
 
             PSTextField(text: $prepTime,
                         title: "Estimated Prep Time",
@@ -159,4 +152,25 @@ struct SaveNewProductButton: View {
                        options: [])
     }
 
+}
+
+struct CategoryPickerSection: View {
+    @EnvironmentObject var viewModel: VendorViewModel
+    @Binding var category: String
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Select Product Category".uppercased())
+                .font(.appSmallCaption)
+
+            Picker("Select a product category", selection: $category) {
+                if let shop = viewModel.currentShop {
+                    ForEach(shop.categories, id: \.self.title) { shopCategory in
+                        Text(shopCategory.title)
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: Constants.maxWidthIPad)
+    }
 }
