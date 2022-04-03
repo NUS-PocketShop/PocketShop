@@ -9,7 +9,6 @@ struct ShopProfileScreen: View {
         NavigationView {
             VStack {
                 ShopOpenCloseButton()
-                Text("vendor id: \(viewModel.vendor?.id ?? "")")
                 Spacer()
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {

@@ -88,7 +88,15 @@ final class VendorViewModel: ObservableObject {
     }
 
     func toggleShopOpenClose() {
-        print("open/close")
+        guard let shopId = currentShop?.id,
+              let isShopClosed = currentShop?.isClosed else {
+            return
+        }
+        if isShopClosed {
+            DatabaseInterface.db.openShop(id: shopId)
+        } else {
+            DatabaseInterface.db.closeShop(id: shopId)
+        }
     }
 
     func deleteOrder(orderId: String) {

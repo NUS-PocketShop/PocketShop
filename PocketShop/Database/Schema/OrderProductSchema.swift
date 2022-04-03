@@ -7,7 +7,7 @@ struct OrderProductSchema: Codable {
     var productPrice: Double
     var productImageURL: String
     var productOptionChoices: [Int: ProductOptionChoice]? = [:]
-    
+
     var shopName: String
 
     var productId: String

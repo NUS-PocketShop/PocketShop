@@ -12,6 +12,8 @@ struct ShopProductsView: View {
                        imageUrl: shop.imageURL)
 
             Spacer()
+            Text("Shop is currently \(shop.isClosed ? "CLOSED" : "Open")")
+            Spacer()
             if shop.soldProducts.isEmpty {
                 Text("This shop has no products... yet!")
             } else {
