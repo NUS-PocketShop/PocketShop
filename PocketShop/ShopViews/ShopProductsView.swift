@@ -13,22 +13,31 @@ struct ShopProductsView: View {
                        imageUrl: shop.imageURL)
 
             Spacer()
+
             if shop.soldProducts.isEmpty {
                 Text("This shop has no products... yet!")
             } else {
                 List {
-                    ForEach(shop.soldProducts, id: \.self) { product in
-                        NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
-                                                                            product: product)) {
-                            ProductListView(product: product)
+                    ForEach(shop.categories, id: \.self) { shopCategory in
+                        Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
+                            ForEach(shop.soldProducts, id: \.self) { product in
+                                if product.shopCategory?.title == shopCategory.title {
+                                    NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
+                                                                                        product: product)) {
+                                        ProductListView(product: product)
+                                    }
+                                }
+                            }
+                            .onDelete { positions in
+                                viewModel.deleteProduct(at: positions)
+                            }
                         }
-                    }
-                    .onDelete { positions in
-                        viewModel.deleteProduct(at: positions)
                     }
                 }
             }
+
             AddProductButton(showModal: $showEditProductModal)
+
             Spacer()
         }
         .padding()

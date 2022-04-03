@@ -15,16 +15,19 @@ struct CustomerShopView: View {
                 Spacer()
             } else {
                 List {
-                    ForEach(viewModel.products) { product in
-                        if product.shopName == shop.name {
-                            NavigationLink(destination: ProductView(product: product)) {
-                                ProductListView(product: product).environmentObject(viewModel)
+                    ForEach(shop.categories, id: \.self) { shopCategory in
+                        Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
+                            ForEach(shop.soldProducts, id: \.self) { product in
+                                if product.shopCategory?.title == shopCategory.title {
+                                    NavigationLink(destination: ProductView(product: product)) {
+                                        ProductListView(product: product).environmentObject(viewModel)
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-
         }
     }
 }

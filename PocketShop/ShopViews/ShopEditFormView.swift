@@ -85,6 +85,13 @@ struct ShopEditFormView: View {
                 }
 
                 let uniqueCategories = Array(Set(categories.filter { !$0.isEmpty }))
+
+                guard !uniqueCategories.isEmpty else {
+                    alertMessage = "Shop must have at least 1 category!"
+                    showAlert = true
+                    return
+                }
+
                 let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
 
                 let newShop = Shop(id: shop.id,
