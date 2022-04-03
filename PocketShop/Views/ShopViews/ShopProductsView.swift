@@ -18,9 +18,7 @@ struct ShopProductsView: View {
 
     var body: some View {
         VStack {
-            ShopHeader(name: shop.name,
-                       description: shop.description,
-                       imageUrl: shop.imageURL)
+            ShopHeader(name: shop.name, description: shop.description, imageUrl: shop.imageURL)
 
             Spacer()
             Text("Shop is currently \(shop.isClosed ? "CLOSED" : "open")")
