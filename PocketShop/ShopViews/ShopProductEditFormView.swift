@@ -10,6 +10,7 @@ struct ShopProductEditFormView: View {
     @State private var description: String = ""
     @State private var prepTime: String = ""
     @State private var image: UIImage?
+    @State private var category: String = ""
 
     init(viewModel: VendorViewModel, product: Product) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -18,6 +19,7 @@ struct ShopProductEditFormView: View {
         self._price = State(initialValue: String(product.price))
         self._description = State(initialValue: product.description)
         self._prepTime = State(initialValue: String(product.estimatedPrepTime))
+        self._category = State(initialValue: product.shopCategory?.title ?? "")
     }
 
     var body: some View {
@@ -29,7 +31,8 @@ struct ShopProductEditFormView: View {
                 UserInputSegment(name: $name,
                                  price: $price,
                                  description: $description,
-                                 prepTime: $prepTime)
+                                 prepTime: $prepTime,
+                                 category: $category)
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
@@ -46,7 +49,7 @@ struct ShopProductEditFormView: View {
 
                 SaveEditedProductButton(viewModel: viewModel, product: product,
                                         name: $name, price: $price, description: $description,
-                                        prepTime: $prepTime, image: $image)
+                                        prepTime: $prepTime, image: $image, category: $category)
             }
             .padding()
         }
@@ -66,6 +69,7 @@ struct SaveEditedProductButton: View {
     @Binding var description: String
     @Binding var prepTime: String
     @Binding var image: UIImage?
+    @Binding var category: String
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -122,6 +126,7 @@ struct SaveEditedProductButton: View {
                        imageURL: "",
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
+                       shopCategory: ShopCategory(title: category),
                        options: [])
     }
 }

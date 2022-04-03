@@ -9,6 +9,7 @@ struct ShopProductFormView: View {
     @State private var prepTime = ""
     @State private var description = ""
     @State private var image: UIImage?
+    @State private var category = ""
 
     var body: some View {
         ScrollView(.vertical) {
@@ -19,14 +20,15 @@ struct ShopProductFormView: View {
                 UserInputSegment(name: $name,
                                  price: $price,
                                  description: $description,
-                                 prepTime: $prepTime)
+                                 prepTime: $prepTime,
+                                 category: $category)
 
                 PSImagePicker(title: "Product Image", image: $image)
                     .padding(.bottom)
 
-                SaveNewProductButton(viewModel: viewModel, name: $name,
-                                     price: $price, prepTime: $prepTime,
-                                     description: $description, image: $image)
+                SaveNewProductButton(viewModel: viewModel, name: $name, price: $price,
+                                     prepTime: $prepTime, description: $description,
+                                     image: $image, category: $category)
             }.padding()
         }
         .navigationBarItems(trailing: Button("Cancel") {
@@ -40,6 +42,7 @@ struct UserInputSegment: View {
     @Binding var price: String
     @Binding var description: String
     @Binding var prepTime: String
+    @Binding var category: String
 
     var body: some View {
         VStack {
@@ -55,6 +58,10 @@ struct UserInputSegment: View {
             PSTextField(text: $description,
                         title: "Product Description (optional)",
                         placeholder: "Enter product description")
+
+            PSTextField(text: $category,
+                        title: "Product Category (optional)",
+                        placeholder: "Enter product category")
 
             PSTextField(text: $prepTime,
                         title: "Estimated Prep Time",
@@ -73,6 +80,7 @@ struct SaveNewProductButton: View {
     @Binding var prepTime: String
     @Binding var description: String
     @Binding var image: UIImage?
+    @Binding var category: String
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -106,7 +114,7 @@ struct SaveNewProductButton: View {
 
             // Create Product and save to db
             viewModel.createProduct(name: name, description: description, price: inputPrice,
-                                    estimatedPrepTime: estimatedPrepTime, image: image)
+                                    estimatedPrepTime: estimatedPrepTime, image: image, category: category)
 
             presentationMode.wrappedValue.dismiss()
         }

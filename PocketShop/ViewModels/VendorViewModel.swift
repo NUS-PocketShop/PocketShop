@@ -46,7 +46,12 @@ final class VendorViewModel: ObservableObject {
         DatabaseInterface.db.createShop(shop: shopToCreate, imageData: image.pngData())
     }
 
-    func createProduct(name: String, description: String, price: Double, estimatedPrepTime: Double, image: UIImage) {
+    func editShop(newShop: Shop) {
+        DatabaseInterface.db.editShop(shop: newShop)
+    }
+
+    func createProduct(name: String, description: String, price: Double,
+                       estimatedPrepTime: Double, image: UIImage, category: String) {
         guard let shop = currentShop else {
             print("No current shop!")
             return
@@ -61,6 +66,7 @@ final class VendorViewModel: ObservableObject {
                               imageURL: "",
                               estimatedPrepTime: estimatedPrepTime,
                               isOutOfStock: false,
+                              shopCategory: ShopCategory(title: category),
                               options: [])
 
         DatabaseInterface.db.createProduct(shopId: shop.id, product: product, imageData: image.pngData())

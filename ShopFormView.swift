@@ -1,12 +1,15 @@
 import SwiftUI
 
-struct EditShopDetailsScreen: View {
+struct ShopFormView: View {
 
-    @State var name = ""
-    @State var address = ""
-    @State var image: UIImage?
+    @State private var name = ""
+    @State private var address = ""
+    @State private var image: UIImage?
 
     @EnvironmentObject var viewModel: VendorViewModel
+
+    @State private var showAlert = false
+    @State private var alertMessage = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -32,14 +35,12 @@ struct EditShopDetailsScreen: View {
                 viewModel.createShop(name: name,
                                      description: address,
                                      image: image)
-            }.buttonStyle(FillButtonStyle())
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
+            }
+            .buttonStyle(FillButtonStyle())
         }
         .padding()
-    }
-}
-
-struct EditShopDetailsScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        EditShopDetailsScreen()
     }
 }
