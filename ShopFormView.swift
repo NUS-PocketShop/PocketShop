@@ -31,7 +31,7 @@ struct ShopFormView: View {
             })
 
             Spacer()
-            
+
             PSButton(title: "Confirm") {
                 guard !name.isEmpty else {
                     alertMessage = "Shop name cannot be empty!"

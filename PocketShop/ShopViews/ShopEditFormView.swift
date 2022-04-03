@@ -8,6 +8,7 @@ struct ShopEditFormView: View {
 
     @EnvironmentObject var viewModel: VendorViewModel
     var shop: Shop
+    @State private var categories = [String]()
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -16,6 +17,8 @@ struct ShopEditFormView: View {
         self.shop = shop
         self._name = State(initialValue: shop.name)
         self._address = State(initialValue: shop.description)
+        self._categories = State(initialValue: shop.categories.map { $0.title })
+        print("Categories: \(categories)")
     }
 
     var body: some View {
@@ -31,6 +34,19 @@ struct ShopEditFormView: View {
                 PSTextField(text: $address,
                             title: "Shop Address",
                             placeholder: "Shop Address")
+
+                ForEach(0..<categories.count, id: \.self) { index in
+                    PSTextField(text: $categories[index],
+                                title: "Shop Category \(index + 1)",
+                                placeholder: "Shop Category \(index + 1)")
+                }
+
+                Button(action: {
+                    categories.append("")
+                }, label: {
+                    Text("\(Image(systemName: "plus.circle")) Add new shop category")
+                })
+                    .padding(.vertical)
 
                 PSImagePicker(title: "Shop Image",
                               image: $image)
@@ -69,6 +85,9 @@ struct ShopEditFormView: View {
                     return
                 }
 
+                categories = Array(Set(categories.filter { !$0.isEmpty }))
+                let shopCategories = categories.map { ShopCategory(title: $0) }
+
                 let newShop = Shop(id: shop.id,
                                    name: name,
                                    description: address,
@@ -76,7 +95,7 @@ struct ShopEditFormView: View {
                                    isClosed: shop.isClosed,
                                    ownerId: shop.ownerId,
                                    soldProducts: shop.soldProducts,
-                                   categories: shop.categories)
+                                   categories: shopCategories)
 
                 viewModel.editShop(newShop: newShop, image: image)
                 presentationMode.wrappedValue.dismiss()

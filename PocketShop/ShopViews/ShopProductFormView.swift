@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ShopProductFormView: View {
-    @StateObject var viewModel: VendorViewModel
+    @EnvironmentObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
 
     @State private var name = ""
@@ -26,7 +26,7 @@ struct ShopProductFormView: View {
                 PSImagePicker(title: "Product Image", image: $image)
                     .padding(.bottom)
 
-                SaveNewProductButton(viewModel: viewModel, name: $name, price: $price,
+                SaveNewProductButton(name: $name, price: $price,
                                      prepTime: $prepTime, description: $description,
                                      image: $image, category: $category)
             }.padding()
@@ -72,7 +72,7 @@ struct UserInputSegment: View {
 }
 
 struct SaveNewProductButton: View {
-    @StateObject var viewModel: VendorViewModel
+    @EnvironmentObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
 
     @Binding var name: String

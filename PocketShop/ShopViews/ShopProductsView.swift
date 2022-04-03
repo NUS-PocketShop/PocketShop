@@ -41,7 +41,7 @@ struct ShopProductsView: View {
         }
         .sheet(isPresented: $showEditProductModal) {
             NavigationView {
-                ShopProductFormView(viewModel: viewModel)
+                ShopProductFormView()
             }
         }
         .sheet(isPresented: $showEditShopModal) {

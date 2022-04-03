@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ShopProductEditFormView: View {
-    @StateObject var viewModel: VendorViewModel
+    @EnvironmentObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
     var product: Product
 
@@ -13,7 +13,6 @@ struct ShopProductEditFormView: View {
     @State private var category: String = ""
 
     init(viewModel: VendorViewModel, product: Product) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
         self.product = product
         self._name = State(initialValue: product.name)
         self._price = State(initialValue: String(product.price))
@@ -47,7 +46,7 @@ struct ShopProductEditFormView: View {
                     }
                     .padding(.bottom)
 
-                SaveEditedProductButton(viewModel: viewModel, product: product,
+                SaveEditedProductButton(product: product,
                                         name: $name, price: $price, description: $description,
                                         prepTime: $prepTime, image: $image, category: $category)
             }
@@ -60,7 +59,7 @@ struct ShopProductEditFormView: View {
 }
 
 struct SaveEditedProductButton: View {
-    @StateObject var viewModel: VendorViewModel
+    @EnvironmentObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
     var product: Product
 
