@@ -48,35 +48,40 @@ struct CustomerOrderScreen: View {
             CollectionNumberSection(order: order)
             OrderDetailsSection(order: order)
             Spacer()
-
-            VStack {
-                Text(String(format: "$%2.f", order.total))
-                    .font(.appBody)
-                    .bold()
-                    .padding(.bottom, 12)
-
-                Spacer()
-
-                RingView(color: order.ringColor, text: order.status.toString())
-
-                Spacer()
-
-                if order.showCancel {
-                    PSButton(title: "Cancel") {
-                        showCancelConfirmation.toggle()
-                        selectedOrder = order
-                    }
-                    .alert(isPresented: $showCancelConfirmation) {
-                        guard let selectedOrder = self.selectedOrder else {
-                            fatalError("Order does not exist")
-                        }
-                        return getCancelAlertForOrder(selectedOrder)
-                    }
-                    .buttonStyle(FillButtonStyle())
-                }
-            }
-            .frame(minHeight: 128)
+            OrderStatusSection(order: order)
         }
+    }
+    
+    @ViewBuilder
+    func OrderStatusSection(order: OrderViewModel) -> some View {
+        VStack {
+            Text(String(format: "$%2.f", order.total))
+                .font(.appBody)
+                .bold()
+                .padding(.bottom, 12)
+
+            Spacer()
+
+            RingView(color: order.ringColor, text: order.status.toString())
+
+            Spacer()
+
+            if order.showCancel {
+                PSButton(title: "Cancel") {
+                    showCancelConfirmation.toggle()
+                    selectedOrder = order
+                }
+                .alert(isPresented: $showCancelConfirmation) {
+                    guard let selectedOrder = self.selectedOrder else {
+                        fatalError("Order does not exist")
+                    }
+                    return getCancelAlertForOrder(selectedOrder)
+                }
+                .buttonStyle(FillButtonStyle())
+            }
+        }
+        .frame(width: 100)
+        .frame(minHeight: 128)
     }
 
     private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {
@@ -193,7 +198,7 @@ struct OrderDetailsSection: View {
                     VStack(alignment: .leading) {
                         ForEach(choices, id: \.self) { choice in
                             Text("\(choice.description) (+$\(choice.cost, specifier: "%.2f"))")
-                                .font(.appBody)
+                                .font(.appSmallCaption)
                         }
                         .padding(.horizontal, 8)
                     }
