@@ -126,7 +126,7 @@ class DatabaseManager: DatabaseAdapter {
         cart.removeProductFromCart(userId: userId, cartProduct: cartProduct)
     }
 
-    func changeProductQuantity(userId: String, cartProduct: Product, quantity: Int) {
+    func changeProductQuantity(userId: String, cartProduct: CartProduct, quantity: Int) {
         cart.changeProductQuantity(userId: userId, cartProduct: cartProduct, quantity: quantity)
     }
 

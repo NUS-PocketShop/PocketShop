@@ -38,7 +38,7 @@ class DBCart {
         }
     }
 
-    func changeProductQuantity(userId: String, cartProduct: Product, quantity: Int) {
+    func changeProductQuantity(userId: String, cartProduct: CartProduct, quantity: Int) {
         let ref = FirebaseManager.sharedManager.ref.child("carts/\(userId)/\(cartProduct.id)")
         ref.observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() {

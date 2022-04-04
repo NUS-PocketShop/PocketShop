@@ -54,11 +54,19 @@ final class CustomerViewModel: ObservableObject {
         guard let customerId = customer?.id else {
             fatalError("Cannot add product to cart for unknown customer")
         }
-
-        DatabaseInterface.db.addProductToCart(userId: customerId,
-                                              product: product,
-                                              productOptionChoices: choices,
-                                              quantity: quantity)
+        
+        let cartProduct = cart.first(where: { $0.productId == product.id })
+        
+        if let cartProduct = cartProduct {
+            DatabaseInterface.db.changeProductQuantity(userId: customerId,
+                                                       cartProduct: cartProduct,
+                                                       quantity: cartProduct.quantity + quantity)
+        } else {
+            DatabaseInterface.db.addProductToCart(userId: customerId,
+                                                  product: product,
+                                                  productOptionChoices: choices,
+                                                  quantity: quantity)
+        }
     }
 
     func makeOrderFromCart() -> [(CartValidationError, CartProduct)]? {
