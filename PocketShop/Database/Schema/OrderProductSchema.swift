@@ -6,7 +6,7 @@ struct OrderProductSchema: Codable {
     var productName: String
     var productPrice: Double
     var productImageURL: String
-    var productOptionChoices: [Int: ProductOptionChoice]? = [:]
+    var productOptionChoices: [ProductOptionChoice]? = []
 
     var shopName: String
 
@@ -20,19 +20,13 @@ struct OrderProductSchema: Codable {
         self.productName = orderProduct.productName
         self.productPrice = orderProduct.productPrice
         self.productImageURL = orderProduct.productImageURL
+        self.productOptionChoices = orderProduct.productOptionChoices
         self.shopName = orderProduct.shopName
         self.productId = orderProduct.productId
         self.shopId = orderProduct.shopId
-
-        var counter = 0
-        for productOptionChoice in orderProduct.productOptionChoices {
-            self.productOptionChoices?[counter] = productOptionChoice
-            counter += 1
-        }
     }
 
     func toOrderProduct() -> OrderProduct {
-        let productOptionChoices = Array((self.productOptionChoices ?? [:]).values)
         return OrderProduct(id: self.id,
                             quantity: self.quantity,
                             status: self.status,
@@ -40,7 +34,7 @@ struct OrderProductSchema: Codable {
                             productName: self.productName,
                             productPrice: self.productPrice,
                             productImageURL: self.productImageURL,
-                            productOptionChoices: productOptionChoices,
+                            productOptionChoices: self.productOptionChoices ?? [],
                             shopName: self.shopName,
                             productId: self.productId, shopId: self.shopId)
     }
