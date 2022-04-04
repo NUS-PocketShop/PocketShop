@@ -9,6 +9,7 @@ struct ShopProfileScreen: View {
         NavigationView {
             VStack {
                 ShopOpenCloseButton()
+                ShopEditProfileButton()
                 Spacer()
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {
@@ -27,6 +28,28 @@ struct ShopProfileScreen: View {
 struct ShopProfileScreen_Previews: PreviewProvider {
     static var previews: some View {
         ShopProfileScreen(router: MainViewRouter())
+    }
+}
+
+struct ShopEditProfileButton: View {
+    @EnvironmentObject var viewModel: VendorViewModel
+    @State var isEditingShop = false
+
+    var shop: Shop {
+        viewModel.currentShop ?? Shop(id: "default", name: "default",
+                                      description: "default", imageURL: "default",
+                                      isClosed: true, ownerId: "default", soldProducts: [], categories: [])
+    }
+
+    var body: some View {
+        NavigationLink(
+            destination: ShopEditFormView(viewModel: viewModel,
+                                          shop: shop),
+            isActive: $isEditingShop) {
+            PSButton(title: "Edit Shop Details") {
+                isEditingShop = true
+            }
+        }
     }
 }
 

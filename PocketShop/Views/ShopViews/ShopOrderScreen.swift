@@ -45,60 +45,15 @@ struct ShopOrderScreen: View {
     @ViewBuilder
     func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
-            CollectionDetails(order: order)
-
-            ProductInfo(order: order)
-
+            CollectionNumberSection(order: order)
+            OrderDetailsSection(order: order)
             Spacer()
-            
-            TotalAndStatus(order: order)
+            OrderStatusSection(order: order)
         }
     }
     
     @ViewBuilder
-    func CollectionDetails(order: OrderViewModel) -> some View {
-        VStack {
-            Text("COLLECTION NO.")
-                .font(.appBody)
-
-            Spacer()
-
-            Text("\(order.collectionNo)")
-                .font(.appFont(size: 32))
-                .bold()
-
-            Spacer()
-
-            Text("\(order.orderDateString)")
-                .font(.appBody)
-
-            Text("\(order.orderTimeString)")
-                .font(.appBody)
-                .foregroundColor(.gray)
-        }
-        .frame(minWidth: 100)
-    }
-    
-    @ViewBuilder
-    func ProductInfo(order: OrderViewModel) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("\(order.shopName)")
-                .font(.appBody)
-                .bold()
-                .padding(.bottom, 4)
-
-            ForEach(order.orderProducts, id: \.id) { orderProduct in
-                Text("\(orderProduct.quantity) x \(orderProduct.productName)")
-                    .font(.appSmallCaption)
-            }
-
-            Spacer()
-        }
-        .padding(.leading, 8)
-    }
-    
-    @ViewBuilder
-    func TotalAndStatus(order: OrderViewModel) -> some View {
+    func OrderStatusSection(order: OrderViewModel) -> some View {
         VStack {
             Text(String(format: "$%.2f", order.total))
                 .font(.appBody)
