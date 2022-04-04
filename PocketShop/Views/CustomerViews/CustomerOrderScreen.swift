@@ -98,6 +98,8 @@ struct CustomerOrderScreen: View {
                         showCancelConfirmation.toggle()
                         selectedOrder = order
                     }
+                    .buttonStyle(FillButtonStyle())
+                    .frame(height: 64)
                     .alert(isPresented: $showCancelConfirmation) {
                         guard let selectedOrder = self.selectedOrder else {
                             fatalError("Order does not exist")
@@ -105,9 +107,9 @@ struct CustomerOrderScreen: View {
 
                         return getCancelAlertForOrder(selectedOrder)
                     }
-                    .buttonStyle(FillButtonStyle())
                 }
             }
+            .frame(width: 100)
             .frame(minHeight: 128)
         }
     }
