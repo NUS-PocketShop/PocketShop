@@ -45,85 +45,107 @@ struct ShopOrderScreen: View {
     @ViewBuilder
     func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
-            VStack {
-                Text("COLLECTION NO.")
-                    .font(.appBody)
+            CollectionDetails(order: order)
 
-                Spacer()
+            ProductInfo(order: order)
 
-                Text("\(order.collectionNo)")
-                    .font(.appFont(size: 32))
-                    .bold()
-
-                Spacer()
-
-                Text("\(order.orderDateString)")
-                    .font(.appBody)
-
-                Text("\(order.orderTimeString)")
-                    .font(.appBody)
-                    .foregroundColor(.gray)
-            }
-            .frame(minWidth: 100)
-
-            VStack(alignment: .leading, spacing: 0) {
-                Text("\(order.shopName)")
-                    .font(.appBody)
-                    .bold()
-                    .padding(.bottom, 4)
-
-                ForEach(order.orderProducts, id: \.id) { orderProduct in
-                    Text("\(orderProduct.quantity) x \(orderProduct.productName)")
-                        .font(.appSmallCaption)
-                }
-
-                Spacer()
-            }
-            .padding(.leading, 8)
+            Spacer()
+            
+            TotalAndStatus(order: order)
+        }
+    }
+    
+    @ViewBuilder
+    func CollectionDetails(order: OrderViewModel) -> some View {
+        VStack {
+            Text("COLLECTION NO.")
+                .font(.appBody)
 
             Spacer()
 
-            VStack {
-                Text(String(format: "$%.2f", order.total))
-                    .font(.appBody)
-                    .bold()
-                    .padding(.bottom, 12)
+            Text("\(order.collectionNo)")
+                .font(.appFont(size: 32))
+                .bold()
 
-                Spacer()
+            Spacer()
 
-                RingView(color: order.ringColor, text: order.status.toString())
-                    .onTapGesture {
-                        showConfirmation.toggle()
-                        selectedOrder = order
+            Text("\(order.orderDateString)")
+                .font(.appBody)
+
+            Text("\(order.orderTimeString)")
+                .font(.appBody)
+                .foregroundColor(.gray)
+        }
+        .frame(minWidth: 100)
+    }
+    
+    @ViewBuilder
+    func ProductInfo(order: OrderViewModel) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("\(order.shopName)")
+                .font(.appBody)
+                .bold()
+                .padding(.bottom, 4)
+
+            ForEach(order.orderProducts, id: \.id) { orderProduct in
+                Text("\(orderProduct.quantity) x \(orderProduct.productName)")
+                    .font(.appSmallCaption)
+            }
+
+            Spacer()
+        }
+        .padding(.leading, 8)
+    }
+    
+    @ViewBuilder
+    func TotalAndStatus(order: OrderViewModel) -> some View {
+        VStack {
+            Text(String(format: "$%.2f", order.total))
+                .font(.appBody)
+                .bold()
+                .padding(.bottom, 12)
+
+            Spacer()
+
+            InteractableStatusRing(order: order)
+
+            Spacer()
+
+            if order.showCancel {
+                PSButton(title: "Cancel") {
+                    showCancelConfirmation.toggle()
+                    selectedOrder = order
+                }
+                .frame(height: 64)
+                .buttonStyle(FillButtonStyle())
+                .alert(isPresented: $showCancelConfirmation) {
+                    guard let selectedOrder = self.selectedOrder else {
+                        fatalError("Order does not exist")
                     }
-                    .alert(isPresented: $showConfirmation) {
-                        guard let selectedOrder = self.selectedOrder else {
-                            // TODO: show user-friendly error message
-                            fatalError("Order does not exist")
-                        }
 
-                        return getAlertForOrder(selectedOrder)
-                    }
-
-                Spacer()
-
-                if order.showCancel {
-                    PSButton(title: "Cancel") {
-                        showCancelConfirmation.toggle()
-                        selectedOrder = order
-                    }
-                    .alert(isPresented: $showCancelConfirmation) {
-                        guard let selectedOrder = self.selectedOrder else {
-                            fatalError("Order does not exist")
-                        }
-
-                        return getCancelAlertForOrder(selectedOrder)
-                    }
-                    .buttonStyle(FillButtonStyle())
+                    return getCancelAlertForOrder(selectedOrder)
                 }
             }
-            .frame(minHeight: 128)
         }
+        .frame(width: 100)
+        .frame(minHeight: 128)
+    }
+    
+    @ViewBuilder
+    func InteractableStatusRing(order: OrderViewModel) -> some View {
+        RingView(color: order.ringColor, text: order.status.toString())
+            .onTapGesture {
+                showConfirmation.toggle()
+                selectedOrder = order
+            }
+            .alert(isPresented: $showConfirmation) {
+                guard let selectedOrder = self.selectedOrder else {
+                    // TODO: show user-friendly error message
+                    fatalError("Order does not exist")
+                }
+
+                return getAlertForOrder(selectedOrder)
+            }
     }
 
     private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {

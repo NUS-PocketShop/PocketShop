@@ -43,75 +43,90 @@ struct CustomerOrderScreen: View {
     @ViewBuilder
     func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
-            VStack {
-                Text("COLLECTION NO.")
-                    .font(.appBody)
+            CollectionDetails(order: order)
 
-                Spacer()
-
-                Text("\(order.collectionNo)")
-                    .font(.appFont(size: 32))
-                    .bold()
-
-                Spacer()
-
-                Text("\(order.orderDateString)")
-                    .font(.appBody)
-
-                Text("\(order.orderTimeString)")
-                    .font(.appBody)
-                    .foregroundColor(.gray)
-            }
-            .frame(minWidth: 100)
-
-            VStack(alignment: .leading, spacing: 0) {
-                Text("\(order.shopName)")
-                    .font(.appBody)
-                    .bold()
-                    .padding(.bottom, 4)
-
-                ForEach(order.orderProducts, id: \.id) { orderProduct in
-                    Text("\(orderProduct.quantity) x \(orderProduct.productName)")
-                        .font(.appSmallCaption)
-                }
-
-                Spacer()
-            }
-            .padding(.leading, 8)
+            ProductInfo(order: order)
 
             Spacer()
 
-            VStack {
-                Text(String(format: "$%2.f", order.total))
-                    .font(.appBody)
-                    .bold()
-                    .padding(.bottom, 12)
+            TotalAndStatus(order: order)
+        }
+    }
+    
+    @ViewBuilder
+    func CollectionDetails(order: OrderViewModel) -> some View {
+        VStack {
+            Text("COLLECTION NO.")
+                .font(.appBody)
 
-                Spacer()
+            Spacer()
 
-                RingView(color: order.ringColor, text: order.status.toString())
+            Text("\(order.collectionNo)")
+                .font(.appFont(size: 32))
+                .bold()
 
-                Spacer()
+            Spacer()
 
-                if order.showCancel {
-                    PSButton(title: "Cancel") {
-                        showCancelConfirmation.toggle()
-                        selectedOrder = order
+            Text("\(order.orderDateString)")
+                .font(.appBody)
+
+            Text("\(order.orderTimeString)")
+                .font(.appBody)
+                .foregroundColor(.gray)
+        }
+        .frame(minWidth: 100)
+    }
+    
+    @ViewBuilder
+    func ProductInfo(order: OrderViewModel) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("\(order.shopName)")
+                .font(.appBody)
+                .bold()
+                .padding(.bottom, 4)
+
+            ForEach(order.orderProducts, id: \.id) { orderProduct in
+                Text("\(orderProduct.quantity) x \(orderProduct.productName)")
+                    .font(.appSmallCaption)
+            }
+
+            Spacer()
+        }
+        .padding(.leading, 8)
+    }
+    
+    @ViewBuilder
+    func TotalAndStatus(order: OrderViewModel) -> some View {
+        VStack {
+            Text(String(format: "$%2.f", order.total))
+                .font(.appBody)
+                .bold()
+                .padding(.bottom, 12)
+
+            Spacer()
+
+            RingView(color: order.ringColor, text: order.status.toString())
+
+            Spacer()
+
+            if order.showCancel {
+                PSButton(title: "Cancel") {
+                    showCancelConfirmation.toggle()
+                    selectedOrder = order
+                }
+                .buttonStyle(FillButtonStyle())
+                .frame(height: 64)
+                .alert(isPresented: $showCancelConfirmation) {
+                    guard let selectedOrder = self.selectedOrder else {
+                        fatalError("Order does not exist")
                     }
-                    .buttonStyle(FillButtonStyle())
-                    .frame(height: 64)
-                    .alert(isPresented: $showCancelConfirmation) {
-                        guard let selectedOrder = self.selectedOrder else {
-                            fatalError("Order does not exist")
-                        }
 
-                        return getCancelAlertForOrder(selectedOrder)
-                    }
+                    return getCancelAlertForOrder(selectedOrder)
                 }
             }
-            .frame(width: 100)
-            .frame(minHeight: 128)
         }
+        .frame(width: 100)
+        .frame(minHeight: 128)
     }
 
     private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {
