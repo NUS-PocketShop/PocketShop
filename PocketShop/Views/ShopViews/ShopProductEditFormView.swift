@@ -11,6 +11,7 @@ struct ShopProductEditFormView: View {
     @State private var prepTime: String = ""
     @State private var image: UIImage?
     @State private var category: String = ""
+    @State private var options = [ProductOption]()
 
     init(viewModel: VendorViewModel, product: Product) {
         self.product = product
@@ -19,6 +20,7 @@ struct ShopProductEditFormView: View {
         self._description = State(initialValue: product.description)
         self._prepTime = State(initialValue: String(product.estimatedPrepTime))
         self._category = State(initialValue: product.shopCategory?.title ?? "")
+        self._options = State(initialValue: product.options)
     }
 
     var body: some View {
@@ -28,7 +30,7 @@ struct ShopProductEditFormView: View {
                     .font(.appTitle)
 
                 UserInputSegment(name: $name, price: $price, description: $description,
-                                 prepTime: $prepTime, category: $category)
+                                 prepTime: $prepTime, category: $category, options: $options)
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
@@ -44,8 +46,8 @@ struct ShopProductEditFormView: View {
                     .padding(.bottom)
 
                 SaveEditedProductButton(product: product,
-                                        name: $name, price: $price, description: $description,
-                                        prepTime: $prepTime, image: $image, category: $category)
+                                        name: $name, price: $price, description: $description, prepTime: $prepTime,
+                                        image: $image, category: $category, options: $options)
             }
             .padding()
         }
@@ -66,6 +68,7 @@ struct SaveEditedProductButton: View {
     @Binding var prepTime: String
     @Binding var image: UIImage?
     @Binding var category: String
+    @Binding var options: [ProductOption]
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -129,6 +132,6 @@ struct SaveEditedProductButton: View {
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
                        shopCategory: ShopCategory(title: category),
-                       options: [])
+                       options: options)
     }
 }

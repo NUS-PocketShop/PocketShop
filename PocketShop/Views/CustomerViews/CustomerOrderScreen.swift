@@ -18,6 +18,7 @@ struct CustomerOrderScreen: View {
 
                 withAnimation(.easeInOut) {
                     OrderList()
+                        .environmentObject(viewModel)
                 }
             }
             .navigationTitle("My Orders")
@@ -33,7 +34,8 @@ struct CustomerOrderScreen: View {
                     OrderItem(order: order)
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
+                        .padding(.vertical, 12)
+                    Divider()
                 }
             }
         }
@@ -43,42 +45,8 @@ struct CustomerOrderScreen: View {
     @ViewBuilder
     func OrderItem(order: OrderViewModel) -> some View {
         HStack(alignment: .top) {
-            VStack {
-                Text("COLLECTION NO.")
-                    .font(.appBody)
-
-                Spacer()
-
-                Text("\(order.collectionNo)")
-                    .font(.appFont(size: 32))
-                    .bold()
-
-                Spacer()
-
-                Text("\(order.orderDateString)")
-                    .font(.appBody)
-
-                Text("\(order.orderTimeString)")
-                    .font(.appBody)
-                    .foregroundColor(.gray)
-            }
-            .frame(minWidth: 100)
-
-            VStack(alignment: .leading, spacing: 0) {
-                Text("\(order.shopName)")
-                    .font(.appBody)
-                    .bold()
-                    .padding(.bottom, 4)
-
-                ForEach(order.orderProducts, id: \.id) { orderProduct in
-                    Text("\(orderProduct.quantity) x \(orderProduct.productName)")
-                        .font(.appSmallCaption)
-                }
-
-                Spacer()
-            }
-            .padding(.leading, 8)
-
+            CollectionNumberSection(order: order)
+            OrderDetailsSection(order: order)
             Spacer()
 
             VStack {
@@ -102,7 +70,6 @@ struct CustomerOrderScreen: View {
                         guard let selectedOrder = self.selectedOrder else {
                             fatalError("Order does not exist")
                         }
-
                         return getCancelAlertForOrder(selectedOrder)
                     }
                     .buttonStyle(FillButtonStyle())
@@ -116,7 +83,7 @@ struct CustomerOrderScreen: View {
         Alert(title: Text("Confirmation"),
               message: Text("Confirm to cancel order \(order.collectionNo)?"),
               primaryButton: .default(Text("Yes")) {
-                    viewModel.cancelOrder(order: order)
+                viewModel.cancelOrder(order: order)
               },
               secondaryButton: .destructive(Text("No")))
     }
@@ -179,6 +146,63 @@ extension CustomerOrderScreen {
         func cancelOrder(order: OrderViewModel) {
             customerViewModel.deleteOrder(orderId: order.id)
         }
+    }
+}
+
+struct CollectionNumberSection: View {
+    @State var order: OrderViewModel
+
+    var body: some View {
+        VStack {
+            Text("COLLECTION NO.")
+                .font(.appBody)
+
+            Spacer()
+
+            Text("\(order.collectionNo)")
+                .font(.appFont(size: 32))
+                .bold()
+
+            Spacer()
+
+            Text("\(order.orderDateString)")
+                .font(.appBody)
+
+            Text("\(order.orderTimeString)")
+                .font(.appBody)
+                .foregroundColor(.gray)
+        }
+        .frame(minWidth: 100)
+    }
+}
+
+struct OrderDetailsSection: View {
+    @State var order: OrderViewModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("\(order.shopName)")
+                .font(.appBody)
+                .bold()
+                .padding(.bottom, 4)
+
+            ForEach(order.orderProducts, id: \.id) { orderProduct in
+                Text("\(orderProduct.quantity) x \(orderProduct.productName)")
+                    .font(.appSmallCaption)
+                if let choices = orderProduct.productOptionChoices {
+                    VStack(alignment: .leading) {
+                        ForEach(choices, id: \.self) { choice in
+                            Text("\(choice.description) (+$\(choice.cost, specifier: "%.2f"))")
+                                .font(.appBody)
+                        }
+                        .padding(.horizontal, 8)
+                    }
+                }
+            }
+
+            Spacer()
+        }
+        .padding(.leading, 8)
     }
 }
 

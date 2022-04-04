@@ -1,9 +1,9 @@
 import Combine
 import SwiftUI
 
-enum AccountType: String {
-    case customer = "Customer"
-    case vendor = "Vendor"
+enum AccountType: Int {
+    case customer = 0
+    case vendor = 1
 }
 
 final class RegisterViewModel: ObservableObject {
@@ -56,12 +56,8 @@ final class RegisterViewModel: ObservableObject {
         }
     }
 
-    func setAccountType(_ type: String) {
-        if type == "Vendor" {
-            self.accountType = AccountType.vendor
-        } else {
-            self.accountType = AccountType.customer
-        }
+    func setAccountType(_ type: Int) {
+        self.accountType = AccountType(rawValue: type)
     }
 
     // returns true if no errors
