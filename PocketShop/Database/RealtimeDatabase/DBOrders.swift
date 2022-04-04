@@ -16,19 +16,19 @@ class DBOrders {
                 newOrder.collectionNo = colNum
                 collectionNumberRef.setValue(colNum + 1)
             }
+            
+            var orderSchema = OrderSchema(order: newOrder)
+            let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
+            orderSchema.orderProductSchemas = [:]
+            do {
+                let jsonData = try JSONEncoder().encode(orderSchema)
+                let json = try JSONSerialization.jsonObject(with: jsonData)
+                ref.setValue(json)
+            } catch {
+                print(error)
+            }
+            createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
         }
-        
-        var orderSchema = OrderSchema(order: newOrder)
-        let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
-        orderSchema.orderProductSchemas = [:]
-        do {
-            let jsonData = try JSONEncoder().encode(orderSchema)
-            let json = try JSONSerialization.jsonObject(with: jsonData)
-            ref.setValue(json)
-        } catch {
-            print(error)
-        }
-        createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
     }
 
     private func createOrderProducts(orderId: String, orderProductSchemas: [OrderProductSchema]) {
