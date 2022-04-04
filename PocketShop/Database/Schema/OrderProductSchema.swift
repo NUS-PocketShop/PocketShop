@@ -27,15 +27,14 @@ struct OrderProductSchema: Codable {
     }
 
     func toOrderProduct() -> OrderProduct {
-        return OrderProduct(id: self.id,
-                            quantity: self.quantity,
-                            status: self.status,
-                            total: self.productPrice * Double(self.quantity),
-                            productName: self.productName,
-                            productPrice: self.productPrice,
-                            productImageURL: self.productImageURL,
-                            productOptionChoices: self.productOptionChoices ?? [],
-                            shopName: self.shopName,
-                            productId: self.productId, shopId: self.shopId)
+        OrderProduct(id: self.id,
+                     quantity: self.quantity,
+                     status: self.status,
+                     productName: self.productName,
+                     productPrice: self.productPrice,
+                     productImageURL: self.productImageURL,
+                     productOptionChoices: self.productOptionChoices ?? [],
+                     shopName: self.shopName,
+                     productId: self.productId, shopId: self.shopId)
     }
 }

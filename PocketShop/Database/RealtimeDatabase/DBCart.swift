@@ -8,17 +8,9 @@ class DBCart {
             print("Unexpected error")
             return
         }
-        var optionsPrice: Double = 0
-        if let choices = productOptionChoices {
-            optionsPrice = choices.reduce(0, { $0 + $1.cost })
-            print("calculating options price: \(optionsPrice)")
-        }
 
         let newCartProduct = CartProduct(id: key,
                                          quantity: quantity,
-                                         total: calculateProductTotal(price: product.price,
-                                                                      quantity: Double(quantity),
-                                                                      choiceCosts: optionsPrice),
                                          productName: product.name,
                                          productPrice: product.price,
                                          productImageURL: product.imageURL,
@@ -93,11 +85,6 @@ class DBCart {
             print(error)
             return nil
         }
-    }
-
-    private func calculateProductTotal(price: Double, quantity: Double, choiceCosts: Double) -> Double {
-        print("my product total is \(quantity * (price + choiceCosts))")
-        return quantity * (price + choiceCosts)
     }
 
 }

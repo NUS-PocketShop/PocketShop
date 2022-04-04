@@ -27,7 +27,6 @@ struct CartProductSchema: Codable {
     func toCartProduct() -> CartProduct {
         CartProduct(id: self.id,
                     quantity: self.quantity,
-                    total: self.productPrice * Double(self.quantity),
                     productName: self.productName,
                     productPrice: self.productPrice,
                     productImageURL: self.productImageURL,
