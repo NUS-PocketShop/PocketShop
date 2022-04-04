@@ -34,7 +34,8 @@ struct CustomerOrderScreen: View {
                     OrderItem(order: order)
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
+                        .padding(.vertical, 12)
+                    Divider()
                 }
             }
         }
@@ -188,6 +189,15 @@ struct OrderDetailsSection: View {
             ForEach(order.orderProducts, id: \.id) { orderProduct in
                 Text("\(orderProduct.quantity) x \(orderProduct.productName)")
                     .font(.appSmallCaption)
+                if let choices = orderProduct.productOptionChoices {
+                    VStack(alignment: .leading) {
+                        ForEach(choices, id: \.self) { choice in
+                            Text("\(choice.description) (+$\(choice.cost, specifier: "%.2f"))")
+                                .font(.appBody)
+                        }
+                        .padding(.horizontal, 8)
+                    }
+                }
             }
 
             Spacer()

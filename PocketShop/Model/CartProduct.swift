@@ -13,6 +13,7 @@ struct CartProduct: Hashable, Identifiable {
     var productId: String
     var shopId: String
 
+    // total price is (base price + cost of each option) * quantity bought
     var total: Double {
         let optionsPrice = productOptionChoices.reduce(0, { $0 + $1.cost })
         return Double(quantity) * (productPrice + optionsPrice)
