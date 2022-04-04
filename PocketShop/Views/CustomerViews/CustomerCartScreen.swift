@@ -65,6 +65,12 @@ struct CustomerCartScreen: View {
                         .font(.appBody)
                         .padding(.bottom)
 
+                    if !cartProduct.productOptionChoices.isEmpty {
+                        ForEach(cartProduct.productOptionChoices, id: \.self) { choice in
+                            Text("\(choice.description) (+$\(choice.cost))")
+                        }
+                    }
+
                     Text(String(format: "$%.2f", cartProduct.total))
                         .font(.appBody)
                 }

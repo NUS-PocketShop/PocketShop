@@ -6,13 +6,40 @@ struct ProductOrderBar: View {
     var product: Product
 
     var body: some View {
-        HStack {
-            QuantitySelector(quantity: $quantity)
-            PriceAndOrderButton(customerViewModel: _customerViewModel,
-                                product: product,
-                                quantity: $quantity)
+        VStack {
+            ProductOptionsGroup(options: product.options)
+            HStack {
+                QuantitySelector(quantity: $quantity)
+                PriceAndOrderButton(customerViewModel: _customerViewModel,
+                                    product: product,
+                                    quantity: $quantity)
+            }
         }
         .padding(.bottom)
+    }
+}
+
+struct ProductOptionsGroup: View {
+
+    @State var options: [ProductOption]
+
+    var body: some View {
+        if !options.isEmpty {
+            VStack(alignment: .leading) {
+                Text("Additional options").font(.appHeadline)
+                ScrollView(.vertical) {
+                    ForEach(options, id: \.self) { option in
+                        PSRadioButtonGroup(title: option.title,
+                                           options: option.optionChoices.map({ choice in
+                                            "\(choice.description) (+$\(choice.cost))"
+                                           }),
+                                           callback: {o in
+                                            print(o)
+                                           })
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -69,6 +96,6 @@ struct PriceAndOrderButton: View {
     func addToCart() {
         customerViewModel.addProductToCart(product,
                                            quantity: quantity,
-                                           choices: product.optionChoices)
+                                           choices: [])
     }
 }
