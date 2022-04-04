@@ -1,18 +1,27 @@
 import SwiftUI
 
+class CustomerChoices: ObservableObject {
+    @Published var choices = [ProductOptionChoice]()
+}
+
 struct ProductOrderBar: View {
     @EnvironmentObject var customerViewModel: CustomerViewModel
+
     @State var quantity: Int = 1
+//    @State var choices = [ProductOptionChoice]()
+    @StateObject var choices = CustomerChoices()
     var product: Product
 
     var body: some View {
         VStack {
-            ProductOptionsGroup(options: product.options)
+            ProductOptionsGroup(availableOptions: product.options,
+                                selectedOptions: choices)
             HStack {
                 QuantitySelector(quantity: $quantity)
                 PriceAndOrderButton(customerViewModel: _customerViewModel,
                                     product: product,
-                                    quantity: $quantity)
+                                    quantity: $quantity,
+                                    selectedOptions: choices)
             }
         }
         .padding(.bottom)
@@ -21,25 +30,46 @@ struct ProductOrderBar: View {
 
 struct ProductOptionsGroup: View {
 
-    @State var options: [ProductOption]
+    @State var availableOptions: [ProductOption]
+    @ObservedObject var selectedOptions: CustomerChoices
+    @State private var selectedIndices: [Int]
+
+    init(availableOptions: [ProductOption], selectedOptions: CustomerChoices) {
+        self._availableOptions = State(initialValue: availableOptions)
+        self.selectedOptions = selectedOptions
+        self._selectedIndices = State(initialValue: Array(repeating: -1, count: availableOptions.count))
+    }
 
     var body: some View {
-        if !options.isEmpty {
+        if !availableOptions.isEmpty {
             VStack(alignment: .leading) {
                 Text("Additional options").font(.appHeadline)
                 ScrollView(.vertical) {
-                    ForEach(options, id: \.self) { option in
-                        PSRadioButtonGroup(title: option.title,
-                                           options: option.optionChoices.map({ choice in
+                    ForEach(0..<availableOptions.count, id: \.self) { index in
+                        PSRadioButtonGroup(title: availableOptions[index].title,
+                                           options: availableOptions[index].optionChoices.map({ choice in
                                             "\(choice.description) (+$\(choice.cost))"
                                            }),
-                                           callback: {o in
-                                            print(o)
+                                           callback: {selected in
+                                            addToSelection(optionIndex: index, choiceIndex: selected)
                                            })
                     }
                 }
             }
         }
+    }
+
+    func addToSelection(optionIndex: Int, choiceIndex: Int) {
+        // replace the selectedIndices array
+        selectedIndices[optionIndex] = choiceIndex
+
+        // map over selectedIndices to build selectedOptions binding
+        var tempChoices = [ProductOptionChoice]()
+        for i in 0..<selectedIndices.count where selectedIndices[i] != -1 {
+            let choiceIndex = selectedIndices[i]
+            tempChoices.append(availableOptions[i].optionChoices[choiceIndex])
+        }
+        selectedOptions.choices = tempChoices
     }
 }
 
@@ -72,13 +102,17 @@ struct PriceAndOrderButton: View {
     @EnvironmentObject var customerViewModel: CustomerViewModel
     var product: Product
     @Binding var quantity: Int
+    @ObservedObject var selectedOptions: CustomerChoices
+    var price: Double {
+        calculatePrice()
+    }
 
     @State var isShowingAddToCartAlert = false
 
     var body: some View {
         VStack {
             // Price and order button
-            Text(String(format: "Price: $%.2f", product.price * Double(quantity)))
+            Text(String(format: "Price: $%.2f", price))
                 .font(.appHeadline)
             PSButton(title: "Add to Cart") {
                 addToCart()
@@ -93,9 +127,15 @@ struct PriceAndOrderButton: View {
         .padding()
     }
 
+    private func calculatePrice() -> Double {
+        let basic = product.price
+        let choices = selectedOptions.choices.reduce(0) { $0 + $1.cost }
+        return (basic + choices) * Double(quantity)
+    }
+
     func addToCart() {
         customerViewModel.addProductToCart(product,
                                            quantity: quantity,
-                                           choices: [])
+                                           choices: selectedOptions.choices)
     }
 }
