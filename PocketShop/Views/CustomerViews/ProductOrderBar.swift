@@ -8,7 +8,6 @@ struct ProductOrderBar: View {
     @EnvironmentObject var customerViewModel: CustomerViewModel
 
     @State var quantity: Int = 1
-//    @State var choices = [ProductOptionChoice]()
     @StateObject var choices = CustomerChoices()
     var product: Product
 
@@ -16,6 +15,7 @@ struct ProductOrderBar: View {
         VStack {
             ProductOptionsGroup(availableOptions: product.options,
                                 selectedOptions: choices)
+            Spacer()
             HStack {
                 QuantitySelector(quantity: $quantity)
                 PriceAndOrderButton(customerViewModel: _customerViewModel,
