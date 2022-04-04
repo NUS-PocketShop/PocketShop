@@ -11,7 +11,7 @@ class DBOrders {
         newOrder.id = key
         
         let collectionNumberRef = FirebaseManager.sharedManager.ref.child("shops/\(newOrder.shopId)/collectionNumber")
-        collectionNumberRef.observeSingleEvent(of: .value) { snapshot in
+        collectionNumberRef.observeSingleEvent(of: .value) { [self] snapshot in
             if let colNum = snapshot.value as? Int {
                 newOrder.collectionNo = colNum
                 collectionNumberRef.setValue(colNum + 1)
@@ -27,7 +27,7 @@ class DBOrders {
             } catch {
                 print(error)
             }
-            createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
+            self.createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
         }
     }
 
