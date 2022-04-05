@@ -9,14 +9,14 @@ class DBOrders {
         }
         var newOrder = order
         newOrder.id = key
-        
+
         let collectionNumberRef = FirebaseManager.sharedManager.ref.child("shops/\(newOrder.shopId)/collectionNumber")
         collectionNumberRef.observeSingleEvent(of: .value) { [self] snapshot in
             if let colNum = snapshot.value as? Int {
                 newOrder.collectionNo = colNum
                 collectionNumberRef.setValue(colNum + 1)
             }
-            
+
             var orderSchema = OrderSchema(order: newOrder)
             let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
             orderSchema.orderProductSchemas = [:]
