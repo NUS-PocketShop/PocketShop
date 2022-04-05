@@ -51,7 +51,7 @@ struct ShopOrderScreen: View {
             OrderStatusSection(order: order)
         }
     }
-    
+
     @ViewBuilder
     func OrderStatusSection(order: OrderViewModel) -> some View {
         VStack {
@@ -85,7 +85,7 @@ struct ShopOrderScreen: View {
         .frame(width: 100)
         .frame(minHeight: 128)
     }
-    
+
     @ViewBuilder
     func InteractableStatusRing(order: OrderViewModel) -> some View {
         RingView(color: order.ringColor, text: order.status.toString())

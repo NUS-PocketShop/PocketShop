@@ -51,7 +51,7 @@ struct CustomerOrderScreen: View {
             OrderStatusSection(order: order)
         }
     }
-    
+
     @ViewBuilder
     func OrderStatusSection(order: OrderViewModel) -> some View {
         VStack {
