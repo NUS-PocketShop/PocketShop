@@ -59,6 +59,7 @@ struct ShopProductsView: View {
             switch item {
             case .addProduct:
                 ShopProductFormView()
+                    .environmentObject(viewModel)
             case .editShop:
                 ShopEditFormView(viewModel: viewModel, shop: shop)
             }
