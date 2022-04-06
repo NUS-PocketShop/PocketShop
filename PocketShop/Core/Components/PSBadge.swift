@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct PSBadge: View {
+    // adapted from https://stackoverflow.com/questions/58351992
 
     var badgeNumber: Int
 

@@ -99,6 +99,7 @@ struct QuantitySelector: View {
 }
 
 struct PriceAndOrderButton: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var customerViewModel: CustomerViewModel
     var product: Product
     @Binding var quantity: Int
@@ -122,7 +123,10 @@ struct PriceAndOrderButton: View {
         }
         .alert(isPresented: $isShowingAddToCartAlert) {
             Alert(title: Text("Added to cart"),
-                  message: Text("\(product.name) has been added to Cart."))
+                  message: Text("\(product.name) has been added to Cart."),
+                  dismissButton: .default(Text("Ok")) {
+                    presentationMode.wrappedValue.dismiss()
+                  })
         }
         .padding()
     }
