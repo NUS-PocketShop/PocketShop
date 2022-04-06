@@ -12,6 +12,7 @@
 		022EA8C327E4D4C3003F4E3C /* ShopProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */; };
 		022EA8FF27E71FD8003F4E3C /* PSImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */; };
 		022EA90427E731F0003F4E3C /* VendorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA90327E731F0003F4E3C /* VendorViewModel.swift */; };
+		027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027B44EF27FC31A300A544E7 /* PSBadge.swift */; };
 		02AD41C427DEFC9100F44822 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */; };
 		02AD41C527DEFC9100F44822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */; };
 		02AD41C627DEFC9100F44822 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C227DEFC9100F44822 /* Poppins-Bold.ttf */; };
@@ -122,6 +123,7 @@
 		022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopProfileScreen.swift; path = PocketShop/Views/CommonViews/ShopProfileScreen.swift; sourceTree = SOURCE_ROOT; };
 		022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSImagePicker.swift; sourceTree = "<group>"; };
 		022EA90327E731F0003F4E3C /* VendorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorViewModel.swift; sourceTree = "<group>"; };
+		027B44EF27FC31A300A544E7 /* PSBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSBadge.swift; sourceTree = "<group>"; };
 		02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		02AD41C227DEFC9100F44822 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				2B786B4927E33F1600834CA4 /* RingView.swift */,
 				02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */,
 				022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */,
+				027B44EF27FC31A300A544E7 /* PSBadge.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -705,6 +708,7 @@
 				AD15B3A527E59E5600513809 /* OrderSchema.swift in Sources */,
 				02AD423D27DF293A00F44822 /* PSSecureField.swift in Sources */,
 				AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */,
+				027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */,
 				DF86A0DD27E7004700D8423C /* ImageLoader.swift in Sources */,
 				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
