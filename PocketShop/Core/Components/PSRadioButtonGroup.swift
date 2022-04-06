@@ -23,7 +23,13 @@ struct PSRadioButtonGroup: View {
         }.frame(maxWidth: Constants.maxWidthIPad)
     }
 
-    func radioGroupCallback(toSelect: Int) {
+    func radioGroupCallback(tapped: Int) {
+        var toSelect: Int = -1
+        if selectedId == tapped {
+            toSelect = -1
+        } else {
+            toSelect = tapped
+        }
         selectedId = toSelect
         callback(toSelect)
     }
