@@ -4,8 +4,8 @@ struct PSRadioButtonGroup: View {
 
     let title: String
     let options: [String]
-    @State var selectedId: String = ""
-    let callback: (String) -> Void
+    @State var selectedId: Int = -1
+    let callback: (Int) -> Void
 
     var body: some View {
         HStack(spacing: 32) {
@@ -14,6 +14,7 @@ struct PSRadioButtonGroup: View {
             VStack {
                 ForEach(options.indices) { i in
                     PSRadioButton(option: options[i],
+                                  optionId: i,
                                   selectedId: selectedId,
                                   callback: self.radioGroupCallback)
                 }
@@ -22,7 +23,13 @@ struct PSRadioButtonGroup: View {
         }.frame(maxWidth: Constants.maxWidthIPad)
     }
 
-    func radioGroupCallback(toSelect: String) {
+    func radioGroupCallback(tapped: Int) {
+        var toSelect: Int = -1
+        if selectedId == tapped {
+            toSelect = -1
+        } else {
+            toSelect = tapped
+        }
         selectedId = toSelect
         callback(toSelect)
     }
@@ -32,15 +39,16 @@ struct PSRadioButton: View {
     typealias selectionHandler = (String) -> Void
 
     var option: String
-    var selectedId: String
+    var optionId: Int
+    var selectedId: Int
     private var isSelected: Bool {
-        option == selectedId
+        optionId == selectedId
     }
-    let callback: (String) -> Void
+    let callback: (Int) -> Void
 
     var body: some View {
         Button {
-            callback(option)
+            callback(optionId)
         } label: {
             HStack {
                 Circle()

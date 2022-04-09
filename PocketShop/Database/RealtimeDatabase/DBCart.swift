@@ -8,9 +8,9 @@ class DBCart {
             print("Unexpected error")
             return
         }
+
         let newCartProduct = CartProduct(id: key,
                                          quantity: quantity,
-                                         total: product.price * Double(quantity),
                                          productName: product.name,
                                          productPrice: product.price,
                                          productImageURL: product.imageURL,
@@ -38,7 +38,7 @@ class DBCart {
         }
     }
 
-    func changeProductQuantity(userId: String, cartProduct: Product, quantity: Int) {
+    func changeProductQuantity(userId: String, cartProduct: CartProduct, quantity: Int) {
         let ref = FirebaseManager.sharedManager.ref.child("carts/\(userId)/\(cartProduct.id)")
         ref.observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() {

@@ -9,23 +9,25 @@ class DBOrders {
         }
         var newOrder = order
         newOrder.id = key
-        var orderSchema = OrderSchema(order: newOrder)
-        let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
-        orderSchema.orderProductSchemas = [:]
-        do {
-            let jsonData = try JSONEncoder().encode(orderSchema)
-            let json = try JSONSerialization.jsonObject(with: jsonData)
-            ref.setValue(json)
-        } catch {
-            print(error)
-        }
-        createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
 
         let collectionNumberRef = FirebaseManager.sharedManager.ref.child("shops/\(newOrder.shopId)/collectionNumber")
-        collectionNumberRef.observeSingleEvent(of: .value) { snapshot in
+        collectionNumberRef.observeSingleEvent(of: .value) { [self] snapshot in
             if let colNum = snapshot.value as? Int {
+                newOrder.collectionNo = colNum
                 collectionNumberRef.setValue(colNum + 1)
             }
+
+            var orderSchema = OrderSchema(order: newOrder)
+            let orderProductSchemas = orderSchema.orderProductSchemas ?? [:]
+            orderSchema.orderProductSchemas = [:]
+            do {
+                let jsonData = try JSONEncoder().encode(orderSchema)
+                let json = try JSONSerialization.jsonObject(with: jsonData)
+                ref.setValue(json)
+            } catch {
+                print(error)
+            }
+            self.createOrderProducts(orderId: orderSchema.id, orderProductSchemas: Array(orderProductSchemas.values))
         }
     }
 

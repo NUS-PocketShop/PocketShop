@@ -10,6 +10,7 @@ struct ShopProductFormView: View {
     @State private var description = ""
     @State private var image: UIImage?
     @State private var category = ""
+    @State private var options = [ProductOption]()
 
     var body: some View {
         ScrollView(.vertical) {
@@ -21,14 +22,16 @@ struct ShopProductFormView: View {
                                  price: $price,
                                  description: $description,
                                  prepTime: $prepTime,
-                                 category: $category)
+                                 category: $category,
+                                 options: $options)
 
                 PSImagePicker(title: "Product Image", image: $image)
                     .padding(.bottom)
 
                 SaveNewProductButton(name: $name, price: $price,
                                      prepTime: $prepTime, description: $description,
-                                     image: $image, category: $category)
+                                     image: $image, category: $category,
+                                     options: $options)
             }.padding()
         }
         .navigationBarItems(trailing: Button("Cancel") {
@@ -45,6 +48,7 @@ struct UserInputSegment: View {
     @Binding var description: String
     @Binding var prepTime: String
     @Binding var category: String
+    @Binding var options: [ProductOption]
 
     var body: some View {
         VStack {
@@ -67,6 +71,8 @@ struct UserInputSegment: View {
                         title: "Estimated Prep Time",
                         placeholder: "Enter estimated prep time")
                 .keyboardType(.numberPad)
+
+            OptionGroupSection(options: $options)
         }
     }
 }
@@ -81,6 +87,7 @@ struct SaveNewProductButton: View {
     @Binding var description: String
     @Binding var image: UIImage?
     @Binding var category: String
+    @Binding var options: [ProductOption]
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -149,7 +156,7 @@ struct SaveNewProductButton: View {
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
                        shopCategory: ShopCategory(title: category),
-                       options: [])
+                       options: options)
     }
 
 }
@@ -160,7 +167,7 @@ struct CategoryPickerSection: View {
 
     var body: some View {
         HStack {
-            VStack {
+            VStack(alignment: .leading) {
                 Text("Select Product Category".uppercased())
                     .font(.appSmallCaption)
 
@@ -174,5 +181,138 @@ struct CategoryPickerSection: View {
             }
             Spacer()
         }
+        .frame(maxWidth: Constants.maxWidthIPad)
+    }
+}
+
+struct OptionGroupSection: View {
+    @EnvironmentObject var viewModel: VendorViewModel
+    @Binding var options: [ProductOption]
+
+    @State var isOptionGroupModalShown = false
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text("Product Options".uppercased())
+                    .font(.appSmallCaption)
+
+                ForEach(options, id: \.self) { optionGroup in
+                    OptionGroupView(optionGroup: optionGroup)
+                }
+
+                PSButton(title: "Add Option Group") {
+                    isOptionGroupModalShown = true
+                }.buttonStyle(OutlineButtonStyle())
+            }
+            Spacer()
+        }
+        .frame(maxWidth: Constants.maxWidthIPad)
+        .sheet(isPresented: $isOptionGroupModalShown) {
+            OptionGroupCreationForm(options: $options)
+        }
+    }
+}
+
+struct OptionGroupCreationForm: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    @State var title: String = ""
+    @Binding var options: [ProductOption]
+    @State var userOptions = [String]()
+    @State var userPrices = [String]()
+
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Create option group")
+                .font(.appTitle)
+            PSTextField(text: $title,
+                        title: "Option Group Title",
+                        placeholder: "Enter option group title")
+
+            ForEach(0..<userOptions.count, id: \.self) { index in
+                HStack {
+                    PSTextField(text: $userOptions[index],
+                                title: "Option \(index + 1)",
+                                placeholder: "Enter option name")
+                    PSTextField(text: $userPrices[index],
+                                title: "Price",
+                                placeholder: "Enter option price")
+                        .keyboardType(.numberPad)
+                }
+            }
+
+            Button(action: {
+                userOptions.append("")
+                userPrices.append("")
+            }, label: {
+                Text("\(Image(systemName: "plus.circle")) Add option")
+            })
+            .padding(.vertical)
+
+            Spacer()
+            PSButton(title: "Save") {
+                guard !title.isEmpty else {
+                    alertMessage = "Please enter a title for option group!"
+                    showAlert = true
+                    return
+                }
+                guard !userOptions.allSatisfy({ $0.isEmpty }),
+                      !userPrices.allSatisfy({ $0.isEmpty }) else {
+                    alertMessage = "Please enter all options/prices"
+                    showAlert = true
+                    return
+                }
+                options.append(createOptionGroupFrom(title: title,
+                                                     userOptions: userOptions,
+                                                     userPrices: userPrices))
+                presentationMode.wrappedValue.dismiss()
+            }.buttonStyle(FillButtonStyle())
+            PSButton(title: "Cancel") {
+                presentationMode.wrappedValue.dismiss()
+            }.buttonStyle(OutlineButtonStyle())
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
+        }
+        .padding()
+        .frame(maxWidth: Constants.maxWidthIPad)
+    }
+
+    func createOptionGroupFrom(title: String, userOptions: [String], userPrices: [String]) -> ProductOption {
+        var choices = [ProductOptionChoice]()
+        for i in 0..<userOptions.count {
+            choices.append(ProductOptionChoice(description: userOptions[i],
+                                               cost: Double(userPrices[i]) ?? 0))
+        }
+        let option = ProductOption(title: title,
+                                   type: .selectOne,
+                                   optionChoices: choices)
+        return option
+    }
+}
+
+struct OptionGroupView: View {
+
+    @State var optionGroup: ProductOption
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(optionGroup.title)
+                .font(.appHeadline)
+            ForEach(optionGroup.optionChoices, id: \.self) { choice in
+                HStack {
+                    Text("\(choice.description)")
+                        .font(.appBody)
+                    Spacer()
+                    Text("$\(choice.cost, specifier: "%.2f")")
+                        .font(.appCaption)
+                }
+            }
+        }
+        .padding()
     }
 }

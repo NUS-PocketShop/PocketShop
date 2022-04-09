@@ -15,7 +15,7 @@ struct RegisterScreen: View {
                                    errorMessage: $registerViewModel.errorMessage)
                     PSRadioButtonGroup(title: "I am a",
                                        options: ["Customer", "Vendor"],
-                                       selectedId: registerViewModel.accountType?.rawValue ?? "",
+                                       selectedId: registerViewModel.accountType?.rawValue ?? 0,
                                        callback: { option in
                                         registerViewModel.setAccountType(option)
                                      })

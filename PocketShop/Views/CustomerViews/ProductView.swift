@@ -10,7 +10,7 @@ struct ProductView: View {
 
             URLImage(urlString: product.imageURL)
                 .scaledToFit()
-                .frame(width: 200, height: 200) // Might change to relative sizes
+                .frame(width: 150, height: 150) // Might change to relative sizes
 
             Text(product.description)
                 .padding(.vertical)
@@ -19,8 +19,6 @@ struct ProductView: View {
             Text(String(format: "$%.2f", product.price))
                 .font(.appBody)
                 .fontWeight(.semibold)
-
-            Spacer()
 
             ProductOrderBar(product: product)
         }

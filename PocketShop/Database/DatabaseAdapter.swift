@@ -39,6 +39,6 @@ protocol DatabaseAdapter {
 
     func addProductToCart(userId: String, product: Product, productOptionChoices: [ProductOptionChoice]?, quantity: Int)
     func removeProductFromCart(userId: String, cartProduct: CartProduct)
-    func changeProductQuantity(userId: String, cartProduct: Product, quantity: Int)
+    func changeProductQuantity(userId: String, cartProduct: CartProduct, quantity: Int)
     func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void)
 }

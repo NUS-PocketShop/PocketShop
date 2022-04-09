@@ -112,6 +112,6 @@ struct ShopTextFields: View {
         }, label: {
             Text("\(Image(systemName: "plus.circle")) Add new shop category")
         })
-            .padding(.vertical)
+        .padding(.vertical)
     }
 }

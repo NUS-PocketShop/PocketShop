@@ -1,7 +1,6 @@
 struct CartProduct: Hashable, Identifiable {
     var id: String
     var quantity: Int
-    var total: Double
 
     var productName: String
     var productPrice: Double
@@ -14,8 +13,14 @@ struct CartProduct: Hashable, Identifiable {
     var productId: String
     var shopId: String
 
+    // total price is (base price + cost of each option) * quantity bought
+    var total: Double {
+        let optionsPrice = productOptionChoices.reduce(0, { $0 + $1.cost })
+        return Double(quantity) * (productPrice + optionsPrice)
+    }
+
     func toOrderProduct() -> OrderProduct {
-        OrderProduct(id: id, quantity: quantity, status: .pending, total: total,
+        OrderProduct(id: id, quantity: quantity, status: .pending,
                      productName: productName, productPrice: productPrice,
                      productImageURL: productImageURL,
                      productOptionChoices: productOptionChoices, shopName: shopName,
