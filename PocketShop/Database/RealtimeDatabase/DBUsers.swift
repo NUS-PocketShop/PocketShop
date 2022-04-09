@@ -2,7 +2,7 @@ import Firebase
 
 class DBUsers {
     func createCustomer(id: String) {
-        let customer = Customer(id: id)
+        let customer = Customer(id: id, favouriteProductIds: [])
         do {
             let jsonData = try JSONEncoder().encode(customer)
             let json = try JSONSerialization.jsonObject(with: jsonData)

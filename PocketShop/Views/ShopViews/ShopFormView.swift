@@ -79,11 +79,13 @@ struct ShopFormView: View {
         return Shop(id: "",
                     name: name,
                     description: address,
+                    locationId: "", // placeholder
                     imageURL: "",
                     isClosed: false,
                     ownerId: vendor.id,
                     soldProducts: [],
-                    categories: shopCategories)
+                    categories: shopCategories,
+                    tags: []) // placeholder
     }
 }
 

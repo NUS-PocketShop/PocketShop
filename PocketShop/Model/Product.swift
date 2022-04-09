@@ -7,14 +7,13 @@ struct Product: Hashable, Identifiable {
     var estimatedPrepTime: Double
     var isOutOfStock: Bool
     var options: [ProductOption]
-    
+
     var shopId: String
     var shopName: String
     var shopCategory: ShopCategory?
-    
+
     // For combos
-    var subProducts: [Product]
-    
+    var subProductIds: [String]
 
     var optionChoices: [ProductOptionChoice] {
         options.flatMap { $0.optionChoices }

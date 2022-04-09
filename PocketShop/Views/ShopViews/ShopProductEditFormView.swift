@@ -124,14 +124,15 @@ struct SaveEditedProductButton: View {
         // Create edited Product and save to db
         return Product(id: product.id,
                        name: name,
-                       shopName: product.shopName,
-                       shopId: product.shopId,
                        description: description,
                        price: inputPrice,
                        imageURL: "",
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
+                       options: options,
+                       shopId: product.shopId,
+                       shopName: product.shopName,
                        shopCategory: ShopCategory(title: category),
-                       options: options)
+                       subProductIds: [])
     }
 }
