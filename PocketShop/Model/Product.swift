@@ -14,6 +14,10 @@ struct Product: Hashable, Identifiable {
 
     // For combos
     var subProductIds: [String]
+    
+    var isComboMeal: Bool {
+        !subProductIds.isEmpty
+    }
 
     var optionChoices: [ProductOptionChoice] {
         options.flatMap { $0.optionChoices }

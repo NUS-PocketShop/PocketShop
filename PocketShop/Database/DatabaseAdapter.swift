@@ -17,6 +17,9 @@ protocol DatabaseAdapter {
     func createProduct(shopId: String, product: Product, imageData: Data?)
     func editProduct(shopId: String, product: Product, imageData: Data?)
     func deleteProduct(shopId: String, productId: String)
+    func setProductToOutOfStock(shopId: String, productId: String)
+    func setProductToInStock(shopId: String, productId: String)
+    func setAllProductsInShopToInStock(shopId: String)
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
     func observeProductsFromShop(shopId: String,
                                  actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)

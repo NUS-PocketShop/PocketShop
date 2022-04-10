@@ -62,6 +62,18 @@ class DatabaseManager: DatabaseAdapter {
     func deleteProduct(shopId: String, productId: String) {
         products.deleteProduct(shopId: shopId, productId: productId)
     }
+    
+    func setProductToOutOfStock(shopId: String, productId: String) {
+        products.setProductToOutOfStock(shopId: shopId, productId: productId)
+    }
+    
+    func setProductToInStock(shopId: String, productId: String) {
+        products.setProductToInStock(shopId: shopId, productId: productId)
+    }
+    
+    func setAllProductsInShopToInStock(shopId: String) {
+        products.setAllProductsInShopToInStock(shopId: shopId)
+    }
 
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         products.observeAllProducts(actionBlock: actionBlock)
