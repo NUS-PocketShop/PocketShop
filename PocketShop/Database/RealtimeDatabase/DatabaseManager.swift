@@ -21,6 +21,14 @@ class DatabaseManager: DatabaseAdapter {
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         users.getUser(with: id, completionHandler: completionHandler)
     }
+    
+    func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
+        users.setFavoriteProductIds(userId: userId, favoriteProductIds: favoriteProductIds)
+    }
+    
+    func setRewardPoints(userId: String, rewardPoints: Int) {
+        users.setRewardPoints(userId: userId, rewardPoints: rewardPoints)
+    }
 
     func createShop(shop: Shop, imageData: Data?) {
         shops.createShop(shop: shop, imageData: imageData)
@@ -62,15 +70,15 @@ class DatabaseManager: DatabaseAdapter {
     func deleteProduct(shopId: String, productId: String) {
         products.deleteProduct(shopId: shopId, productId: productId)
     }
-    
+
     func setProductToOutOfStock(shopId: String, productId: String) {
         products.setProductToOutOfStock(shopId: shopId, productId: productId)
     }
-    
+
     func setProductToInStock(shopId: String, productId: String) {
         products.setProductToInStock(shopId: shopId, productId: productId)
     }
-    
+
     func setAllProductsInShopToInStock(shopId: String) {
         products.setAllProductsInShopToInStock(shopId: shopId)
     }

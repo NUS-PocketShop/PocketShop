@@ -130,6 +130,7 @@ struct SaveEditedProductButton: View {
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
                        options: options,
+                       tags: [],
                        shopId: product.shopId,
                        shopName: product.shopName,
                        shopCategory: ShopCategory(title: category),

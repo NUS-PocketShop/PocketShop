@@ -8,6 +8,7 @@ struct ProductSchema: Codable {
     var isOutOfStock: Bool
     var shopCategory: ShopCategory?
     var options: [ProductOption]? = []
+    var tags: [ProductTag]? = []
     var subProductIds: [String]? = []
 
     init(product: Product) {
@@ -20,6 +21,7 @@ struct ProductSchema: Codable {
         self.isOutOfStock = product.isOutOfStock
         self.shopCategory = product.shopCategory
         self.options = product.options
+        self.tags = product.tags
         self.subProductIds = product.subProductIds
     }
 
@@ -32,6 +34,7 @@ struct ProductSchema: Codable {
                 estimatedPrepTime: self.estimatedPrepTime,
                 isOutOfStock: self.isOutOfStock,
                 options: self.options ?? [],
+                tags: self.tags ?? [],
                 shopId: shopId,
                 shopName: shopName,
                 shopCategory: self.shopCategory,

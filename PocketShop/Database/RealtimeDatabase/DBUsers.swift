@@ -56,4 +56,20 @@ class DBUsers {
         })
 
     }
+    
+    func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
+        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/favoriteProductIds")
+        do {
+            let jsonData = try JSONEncoder().encode(favoriteProductIds)
+            let json = try JSONSerialization.jsonObject(with: jsonData)
+            ref.setValue(json)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func setRewardPoints(userId: String, rewardPoints: Int) {
+        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/rewardPoints")
+        ref.setValue(rewardPoints)
+    }
 }

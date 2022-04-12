@@ -44,8 +44,7 @@ struct ShopEditProfileButton: View {
                                       isClosed: true,
                                       ownerId: "default",
                                       soldProducts: [],
-                                      categories: [],
-                                      tags: [])
+                                      categories: [])
     }
 
     var body: some View {

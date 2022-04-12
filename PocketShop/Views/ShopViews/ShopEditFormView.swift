@@ -99,7 +99,6 @@ struct ShopEditFormView: View {
                     isClosed: shop.isClosed,
                     ownerId: shop.ownerId,
                     soldProducts: shop.soldProducts,
-                    categories: shopCategories,
-                    tags: []) // placeholder
+                    categories: shopCategories)
     }
 }

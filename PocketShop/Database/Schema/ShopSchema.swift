@@ -9,7 +9,6 @@ struct ShopSchema: Codable {
     var ownerId: String
     var soldProducts: [String: ProductSchema]? = [:]
     var categories: [ShopCategory]? = []
-    var tags: [ShopTag]? = []
 
     init(shop: Shop) {
         self.id = shop.id
@@ -22,7 +21,6 @@ struct ShopSchema: Codable {
         self.ownerId = shop.ownerId
         self.soldProducts = [:]
         self.categories = shop.categories
-        self.tags = shop.tags
         for product in shop.soldProducts {
             self.soldProducts?[product.id] = ProductSchema(product: product)
         }
@@ -45,7 +43,6 @@ struct ShopSchema: Codable {
                     collectionNumber: self.collectionNumber,
                     ownerId: self.ownerId,
                     soldProducts: products,
-                    categories: self.categories ?? [],
-                    tags: self.tags ?? [])
+                    categories: self.categories ?? [])
     }
 }

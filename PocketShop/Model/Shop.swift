@@ -9,13 +9,8 @@ struct Shop: Hashable, Identifiable {
     var ownerId: String
     var soldProducts: [Product]
     var categories: [ShopCategory]
-    var tags: [ShopTag]
 }
 
 struct ShopCategory: Hashable, Codable {
     var title: String
-}
-
-struct ShopTag: Hashable, Codable {
-    var tag: String
 }

@@ -7,6 +7,7 @@ struct Product: Hashable, Identifiable {
     var estimatedPrepTime: Double
     var isOutOfStock: Bool
     var options: [ProductOption]
+    var tags: [ProductTag]
 
     var shopId: String
     var shopName: String
@@ -14,7 +15,7 @@ struct Product: Hashable, Identifiable {
 
     // For combos
     var subProductIds: [String]
-    
+
     var isComboMeal: Bool {
         !subProductIds.isEmpty
     }
@@ -22,4 +23,8 @@ struct Product: Hashable, Identifiable {
     var optionChoices: [ProductOptionChoice] {
         options.flatMap { $0.optionChoices }
     }
+}
+
+struct ProductTag: Hashable, Codable {
+    var tag: String
 }

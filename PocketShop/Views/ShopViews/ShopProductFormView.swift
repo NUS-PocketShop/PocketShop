@@ -154,6 +154,7 @@ struct SaveNewProductButton: View {
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
                        options: options,
+                       tags: [],
                        shopId: shop.id,
                        shopName: shop.name,
                        shopCategory: ShopCategory(title: category),

@@ -84,8 +84,7 @@ struct ShopFormView: View {
                     isClosed: false,
                     ownerId: vendor.id,
                     soldProducts: [],
-                    categories: shopCategories,
-                    tags: []) // placeholder
+                    categories: shopCategories)
     }
 }
 
