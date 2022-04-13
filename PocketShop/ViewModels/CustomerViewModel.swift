@@ -7,6 +7,7 @@ final class CustomerViewModel: ObservableObject {
     @Published var shops: [Shop] = [Shop]()
     @Published var orders: [Order] = [Order]()
     @Published var cart: [CartProduct] = [CartProduct]()
+    @Published var locations: [Location] = [Location]()
     @Published var customer: Customer?
 
     @Published var searchText = ""
@@ -44,6 +45,7 @@ final class CustomerViewModel: ObservableObject {
         }
         observeProducts()
         observeShops()
+        observeLocations()
     }
 
     func deleteOrder(orderId: String) {
@@ -147,6 +149,33 @@ final class CustomerViewModel: ObservableObject {
 
         DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
     }
+    
+    func addProductToFavorites(productId: String) {
+        self.customer?.favouriteProductIds.append(productId)
+        guard let customer = customer else {
+            return
+        }
+        DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
+                                                   favoriteProductIds: customer.favouriteProductIds)
+    }
+    
+    func deleteProductFromFavorites(productId: String) {
+        self.customer?.favouriteProductIds.removeAll(where: {$0 == productId})
+        guard let customer = customer else {
+            return
+        }
+        DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
+                                                   favoriteProductIds: customer.favouriteProductIds)
+    }
+    
+    func addRewardPoints(points: Int) {
+        self.customer?.rewardPoints += points
+        guard let customer = customer else {
+            return
+        }
+        DatabaseInterface.db.setRewardPoints(userId: customer.id,
+                                             rewardPoints: customer.rewardPoints)
+    }
 
     private func observeProducts() {
         DatabaseInterface.db.observeAllProducts { [self] error, allProducts, eventType in
@@ -182,6 +211,26 @@ final class CustomerViewModel: ObservableObject {
                 } else if eventType == .deleted {
                     for shop in allShops {
                         shops.removeAll(where: { $0.id == shop.id })
+                    }
+                }
+            }
+        }
+    }
+    
+    private func observeLocations() {
+        DatabaseInterface.db.observeAllLocations { [self] error, allLocations, eventType in
+            guard resolveErrors(error) else {
+                return
+            }
+            if let allLocations = allLocations, let eventType = eventType {
+                if eventType == .added || eventType == .updated {
+                    for location in allLocations {
+                        locations.removeAll(where: { $0.id == location.id })
+                        locations.append(location)
+                    }
+                } else if eventType == .deleted {
+                    for location in allLocations {
+                        locations.removeAll(where: { $0.id == location.id })
                     }
                 }
             }

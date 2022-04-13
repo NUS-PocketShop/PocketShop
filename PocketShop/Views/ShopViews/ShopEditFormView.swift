@@ -94,6 +94,7 @@ struct ShopEditFormView: View {
         return Shop(id: shop.id,
                     name: name,
                     description: address,
+                    locationId: "", // placeholder
                     imageURL: "",
                     isClosed: shop.isClosed,
                     ownerId: shop.ownerId,

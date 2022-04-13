@@ -52,6 +52,40 @@ class DBProducts {
         }
     }
 
+    func setProductToOutOfStock(shopId: String, productId: String) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts/\(productId)/isOutOfStock")
+        ref.setValue(true)
+    }
+
+    func setProductToInStock(shopId: String, productId: String) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts/\(productId)/isOutOfStock")
+        ref.setValue(false)
+    }
+
+    func setAllProductsInShopToInStock(shopId: String) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts")
+        ref.observeSingleEvent(of: .value) { snapshot in
+            guard let products = snapshot.value as? NSDictionary,
+                  let productIds = products.allKeys as? [String] else {
+                return
+            }
+            for productId in productIds {
+                self.setProductToOutOfStock(shopId: shopId, productId: productId)
+            }
+        }
+    }
+    
+    func setProductTags(shopId: String, productId: String, tags: [ProductTag]) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts/\(productId)/tags")
+        do {
+            let jsonData = try JSONEncoder().encode(tags)
+            let json = try JSONSerialization.jsonObject(with: jsonData)
+            ref.setValue(json)
+        } catch {
+            print(error)
+        }
+    }
+
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/")
         ref.observeSingleEvent(of: .value) { snapshot in

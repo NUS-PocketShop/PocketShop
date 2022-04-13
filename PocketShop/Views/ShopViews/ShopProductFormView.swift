@@ -148,15 +148,17 @@ struct SaveNewProductButton: View {
 
         return Product(id: "",
                        name: name,
-                       shopName: shop.name,
-                       shopId: shop.id,
                        description: description,
                        price: inputPrice,
                        imageURL: "",
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
+                       options: options,
+                       tags: [],
+                       shopId: shop.id,
+                       shopName: shop.name,
                        shopCategory: ShopCategory(title: category),
-                       options: options)
+                       subProductIds: [])
     }
 
 }

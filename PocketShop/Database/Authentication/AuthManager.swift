@@ -13,7 +13,7 @@ class AuthManager: AuthAdapter {
             }
             let id: String = result?.user.uid ?? ""
             if isCustomer {
-                let newCustomer = Customer(id: id)
+                let newCustomer = Customer(id: id, favouriteProductIds: [])
 
                 print("Successfully created customer: \(id)")
                 DatabaseInterface.db.createCustomer(id: id)
@@ -40,7 +40,7 @@ class AuthManager: AuthAdapter {
             DatabaseInterface.db.getUser(with: id) { error, user in
                 if let error = error {
                     if error == .userNotFound {
-                        let newCustomer = Customer(id: id)
+                        let newCustomer = Customer(id: id, favouriteProductIds: [])
                         DatabaseInterface.db.createCustomer(id: id)
                         completionHandler(nil, newCustomer)
                         return

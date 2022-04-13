@@ -2,7 +2,7 @@ import Firebase
 
 class DBUsers {
     func createCustomer(id: String) {
-        let customer = Customer(id: id)
+        let customer = Customer(id: id, favouriteProductIds: [])
         do {
             let jsonData = try JSONEncoder().encode(customer)
             let json = try JSONSerialization.jsonObject(with: jsonData)
@@ -55,5 +55,21 @@ class DBUsers {
             }
         })
 
+    }
+    
+    func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
+        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/favoriteProductIds")
+        do {
+            let jsonData = try JSONEncoder().encode(favoriteProductIds)
+            let json = try JSONSerialization.jsonObject(with: jsonData)
+            ref.setValue(json)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func setRewardPoints(userId: String, rewardPoints: Int) {
+        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/rewardPoints")
+        ref.setValue(rewardPoints)
     }
 }

@@ -9,6 +9,7 @@ class DatabaseManager: DatabaseAdapter {
     let orders = DBOrders()
     let storage = DBStorage()
     let cart = DBCart()
+    let locations = DBLocation()
 
     func createCustomer(id: String) {
         users.createCustomer(id: id)
@@ -20,6 +21,14 @@ class DatabaseManager: DatabaseAdapter {
 
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         users.getUser(with: id, completionHandler: completionHandler)
+    }
+    
+    func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
+        users.setFavoriteProductIds(userId: userId, favoriteProductIds: favoriteProductIds)
+    }
+    
+    func setRewardPoints(userId: String, rewardPoints: Int) {
+        users.setRewardPoints(userId: userId, rewardPoints: rewardPoints)
     }
 
     func createShop(shop: Shop, imageData: Data?) {
@@ -61,6 +70,22 @@ class DatabaseManager: DatabaseAdapter {
 
     func deleteProduct(shopId: String, productId: String) {
         products.deleteProduct(shopId: shopId, productId: productId)
+    }
+
+    func setProductToOutOfStock(shopId: String, productId: String) {
+        products.setProductToOutOfStock(shopId: shopId, productId: productId)
+    }
+
+    func setProductToInStock(shopId: String, productId: String) {
+        products.setProductToInStock(shopId: shopId, productId: productId)
+    }
+
+    func setAllProductsInShopToInStock(shopId: String) {
+        products.setAllProductsInShopToInStock(shopId: shopId)
+    }
+    
+    func setProductTags(shopId: String, productId: String, tags: [ProductTag]) {
+        products.setProductTags(shopId: shopId, productId: productId, tags: tags)
     }
 
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
@@ -132,6 +157,22 @@ class DatabaseManager: DatabaseAdapter {
 
     func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void) {
         cart.observeCart(userId: userId, actionBlock: actionBlock)
+    }
+    
+    func createLocation(location: Location) {
+        locations.createLocation(location: location)
+    }
+    
+    func deleteLocation(id: String) {
+        locations.deleteLocation(id: id)
+    }
+    
+    func editLocation(location: Location) {
+        locations.editLocation(location: location)
+    }
+    
+    func observeAllLocations(actionBlock: @escaping (DatabaseError?, [Location]?, DatabaseEvent?) -> Void) {
+        locations.observeAllLocations(actionBlock: actionBlock)
     }
 
 }
