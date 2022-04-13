@@ -22,6 +22,7 @@ protocol DatabaseAdapter {
     func setProductToOutOfStock(shopId: String, productId: String)
     func setProductToInStock(shopId: String, productId: String)
     func setAllProductsInShopToInStock(shopId: String)
+    func setProductTags(shopId: String, productId: String, tags: [ProductTag])
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
     func observeProductsFromShop(shopId: String,
                                  actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
@@ -46,4 +47,9 @@ protocol DatabaseAdapter {
     func removeProductFromCart(userId: String, cartProduct: CartProduct)
     func changeProductQuantity(userId: String, cartProduct: CartProduct, quantity: Int)
     func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void)
+    
+    func createLocation(location: Location)
+    func deleteLocation(id: String)
+    func editLocation(location: Location)
+    func observeAllLocations(actionBlock: @escaping (DatabaseError?, [Location]?, DatabaseEvent?) -> Void)
 }

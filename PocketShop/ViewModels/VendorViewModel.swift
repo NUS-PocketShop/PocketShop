@@ -7,6 +7,7 @@ final class VendorViewModel: ObservableObject {
     @Published var currentShop: Shop?
     @Published var products: [Product] = [Product]()
     @Published var orders: [Order] = [Order]()
+    @Published var locations: [Location] = [Location]()
 
     var shopName: String {
         currentShop?.name ?? "My Shop"
@@ -21,6 +22,7 @@ final class VendorViewModel: ObservableObject {
             if let vendor = user as? Vendor {
                 self.vendor = vendor
                 initialiseShop(vendor.id)
+                observeLocations()
             }
         }
     }
@@ -63,14 +65,14 @@ final class VendorViewModel: ObservableObject {
         }
         products.remove(atOffsets: positions)
     }
-    
+
     func setProductOutOfStock(product: Product) {
         DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: product.id)
         for otherProduct in products where otherProduct.isComboMeal && otherProduct.subProductIds.contains(product.id) {
             DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: otherProduct.id)
         }
     }
-    
+
     func setProductInStock(product: Product) {
         DatabaseInterface.db.setProductToInStock(shopId: product.shopId, productId: product.id)
         if product.isComboMeal {
@@ -78,6 +80,24 @@ final class VendorViewModel: ObservableObject {
                 DatabaseInterface.db.setProductToInStock(shopId: product.shopId, productId: subProductId)
             }
         }
+    }
+    
+    func setAllProductsToInStock() {
+        if let currentShop = currentShop {
+            DatabaseInterface.db.setAllProductsInShopToInStock(shopId: currentShop.id)
+        }
+    }
+    
+    func addTagToProduct(product: Product, tag: ProductTag) {
+        var oldTags = product.tags
+        oldTags.append(tag)
+        DatabaseInterface.db.setProductTags(shopId: product.shopId, productId: product.id, tags: oldTags)
+    }
+    
+    func deleteTagFromProduct(product: Product, tag: ProductTag) {
+        var oldTags = product.tags
+        oldTags.removeAll(where: {$0 == tag})
+        DatabaseInterface.db.setProductTags(shopId: product.shopId, productId: product.id, tags: oldTags)
     }
 
     func toggleShopOpenClose() {
@@ -167,6 +187,26 @@ final class VendorViewModel: ObservableObject {
                 } else if eventType == .deleted {
                     for order in allOrders {
                         orders.removeAll(where: { $0.id == order.id })
+                    }
+                }
+            }
+        }
+    }
+    
+    private func observeLocations() {
+        DatabaseInterface.db.observeAllLocations { [self] error, allLocations, eventType in
+            guard resolveErrors(error) else {
+                return
+            }
+            if let allLocations = allLocations, let eventType = eventType {
+                if eventType == .added || eventType == .updated {
+                    for location in allLocations {
+                        locations.removeAll(where: { $0.id == location.id })
+                        locations.append(location)
+                    }
+                } else if eventType == .deleted {
+                    for location in allLocations {
+                        locations.removeAll(where: { $0.id == location.id })
                     }
                 }
             }
