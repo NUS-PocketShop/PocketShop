@@ -2,23 +2,63 @@ import SwiftUI
 
 struct ProductsScrollView: View {
     @EnvironmentObject var viewModel: CustomerViewModel
+    var productsToShow: [Product]
+    var title = "Products"
+    var axis: Axis.Set = .horizontal
 
     var body: some View {
         VStack {
-            if !viewModel.productSearchResults.isEmpty {
-                Text("Products")
-                    .font(.appTitle)
-                    .foregroundColor(.gray9)
+            TitleSection(title: title)
+            if productsToShow.isEmpty {
+                EmptySection()
             }
+            if axis == .horizontal {
+                HorizontalScrollSection(products: productsToShow)
+            } else {
+                VerticalScrollSection(products: productsToShow)
+            }
+        }
+    }
+}
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.productSearchResults) { product in
-                        NavigationLink(destination: ProductView(product: product)
-                                        .environmentObject(viewModel)) {
-                            ProductSummaryView(product: product)
-                                .environmentObject(viewModel)
-                        }
+struct ProductsScrollView_Previews: PreviewProvider {
+
+    static var customerVM = CustomerViewModel()
+
+    static var previews: some View {
+        ProductsScrollView(productsToShow: customerVM.productSearchResults)
+            .environmentObject(customerVM)
+    }
+}
+
+private struct TitleSection: View {
+    var title: String
+    var body: some View {
+        Text(title)
+            .font(.appTitle)
+            .foregroundColor(.gray9)
+    }
+}
+
+private struct EmptySection: View {
+    var body: some View {
+        Spacer()
+        Text("There's nothing here ... yet!")
+            .font(.appCaption)
+            .italic()
+        Spacer()
+    }
+}
+
+private struct HorizontalScrollSection: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+    var products: [Product]
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(products) { product in
+                    NavigationLink(destination: ProductDetailView(product: product).environmentObject(viewModel)) {
+                        ProductSummaryView(product: product).environmentObject(viewModel)
                     }
                 }
             }
@@ -26,8 +66,13 @@ struct ProductsScrollView: View {
     }
 }
 
-struct ProductsScrollView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductsScrollView().environmentObject(CustomerViewModel())
+private struct VerticalScrollSection: View {
+    var products: [Product]
+    var body: some View {
+        List {
+            ForEach(products, id: \.self) { product in
+                ProductPreview(product: product)
+            }
+        }
     }
 }

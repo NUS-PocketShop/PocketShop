@@ -23,8 +23,8 @@ class DatabaseManager: DatabaseAdapter {
         users.getUser(with: id, completionHandler: completionHandler)
     }
 
-    func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
-        users.setFavoriteProductIds(userId: userId, favoriteProductIds: favoriteProductIds)
+    func setFavouriteProductIds(userId: String, favouriteProductIds: [String]) {
+        users.setFavouriteProductIds(userId: userId, favouriteProductIds: favouriteProductIds)
     }
 
     func setRewardPoints(userId: String, rewardPoints: Int) {

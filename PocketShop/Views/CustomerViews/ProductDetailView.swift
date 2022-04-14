@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProductView: View {
+struct ProductDetailView: View {
     @EnvironmentObject var viewModel: CustomerViewModel
     var product: Product
 
@@ -19,8 +19,7 @@ struct ProductView: View {
 
             URLImage(urlString: product.imageURL)
                 .scaledToFit()
-                .frame(width: 150, height: 150)
-                .padding(.vertical)
+                .frame(width: 150, height: 150) // Might change to relative sizes
 
             Text(product.description)
                 .padding(.vertical)
@@ -32,12 +31,35 @@ struct ProductView: View {
 
             ProductOrderBar(product: product)
         }
+        .toolbar {
+            FavouritesButton(itemId: product.id)
+        }
     }
 }
 
-struct ProductView_Previews: PreviewProvider {
+struct ProductDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let sampleProduct = CustomerViewModel().products.first!
-        ProductView(product: sampleProduct).environmentObject(CustomerViewModel())
+        ProductDetailView(product: sampleProduct).environmentObject(CustomerViewModel())
+    }
+}
+
+struct FavouritesButton: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+
+    var itemId: String
+
+    var body: some View {
+        Button(action: {
+            viewModel.toggleProductAsFavorites(productId: itemId)
+        }, label: {
+            if viewModel.favourites.contains(where: { $0.id == itemId }) {
+                Image(systemName: "heart.fill")
+                    .foregroundColor(.red7)
+            } else {
+                Image(systemName: "heart")
+                    .foregroundColor(.red7)
+            }
+        })
     }
 }

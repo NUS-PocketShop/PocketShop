@@ -4,7 +4,7 @@ protocol DatabaseAdapter {
     func createCustomer(id: String)
     func createVendor(id: String)
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void)
-    func setFavoriteProductIds(userId: String, favoriteProductIds: [String])
+    func setFavouriteProductIds(userId: String, favouriteProductIds: [String])
     func setRewardPoints(userId: String, rewardPoints: Int)
 
     func createShop(shop: Shop, imageData: Data?)

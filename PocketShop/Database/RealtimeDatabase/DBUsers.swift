@@ -25,36 +25,33 @@ class DBUsers {
     }
 
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
-        FirebaseManager.sharedManager.ref.child("customers/\(id)").observeSingleEvent(of: .value,
-                                                                                      with: { [self] snapshot in
-            if snapshot.exists(), let value = snapshot.value {
-                updateSnapshot(value: value, completionHandler: completionHandler)
-            } else {
-                FirebaseManager.sharedManager.ref.child("vendors/\(id)").observeSingleEvent(of: .value,
-                                                                                            with: { snapshot in
-                    if snapshot.exists(), let value = snapshot.value {
-                        do {
-                            let jsonData = try JSONSerialization.data(withJSONObject: value)
-                            let vendor = try JSONDecoder().decode(Vendor.self, from: jsonData)
-                            completionHandler(nil, vendor)
-                        } catch {
-                            print(error)
-                        }
-                        return
-                    } else {
-                        completionHandler(DatabaseError.userNotFound, nil)
+        let customerRef = FirebaseManager.sharedManager.ref.child("customers/\(id)")
+        let vendorRef = FirebaseManager.sharedManager.ref.child("vendors/\(id)")
+        customerRef.observeSingleEvent(of: .value) { snapshot in
+            if snapshot.exists() {
+                customerRef.observe(.value) { [self] snapshot in
+                    guard let value = snapshot.value else {
                         return
                     }
-                })
+                    updateCustomerSnapshot(value: value, completionHandler: completionHandler)
+                }
+            } else {
+                vendorRef.observeSingleEvent(of: .value) { [self] snapshot in
+                    if snapshot.exists(), let value = snapshot.value {
+                        updateVendorSnapshot(value: value, completionHandler: completionHandler)
+                    } else {
+                        completionHandler(DatabaseError.userNotFound, nil)
+                    }
+                }
             }
-        })
+        }
 
     }
 
-    func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
-        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/favoriteProductIds")
+    func setFavouriteProductIds(userId: String, favouriteProductIds: [String]) {
+        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/favouriteProductIds")
         do {
-            let jsonData = try JSONEncoder().encode(favoriteProductIds)
+            let jsonData = try JSONEncoder().encode(favouriteProductIds)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
@@ -67,12 +64,22 @@ class DBUsers {
         ref.setValue(rewardPoints)
     }
 
-    private func updateSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
+    private func updateCustomerSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: value)
             let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
             let customer = customerSchema.toCustomer()
             completionHandler(nil, customer)
+        } catch {
+            print(error)
+        }
+    }
+
+    private func updateVendorSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: value)
+            let vendor = try JSONDecoder().decode(Vendor.self, from: jsonData)
+            completionHandler(nil, vendor)
         } catch {
             print(error)
         }
