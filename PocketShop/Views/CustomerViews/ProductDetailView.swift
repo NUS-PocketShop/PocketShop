@@ -42,15 +42,14 @@ struct FavouritesButton: View {
 
     var body: some View {
         Button(action: {
-            viewModel.toggleFav(productId: itemId)
+            viewModel.toggleProductAsFavorites(productId: itemId)
         }, label: {
-
             if viewModel.favourites.contains(where: { $0.id == itemId }) {
                 Image(systemName: "heart.fill")
-                    .accentColor(.red7)
+                    .foregroundColor(.red7)
             } else {
                 Image(systemName: "heart")
-                    .accentColor(.red7)
+                    .foregroundColor(.red7)
             }
         })
     }

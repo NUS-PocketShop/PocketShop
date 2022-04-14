@@ -4,7 +4,7 @@ protocol DatabaseAdapter {
     func createCustomer(id: String)
     func createVendor(id: String)
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void)
-    func setFavoriteProductIds(userId: String, favoriteProductIds: [String])
+    func setFavouriteProductIds(userId: String, favouriteProductIds: [String])
     func setRewardPoints(userId: String, rewardPoints: Int)
 
     func createShop(shop: Shop, imageData: Data?)
@@ -30,6 +30,7 @@ protocol DatabaseAdapter {
     func createOrder(order: Order)
     func editOrder(order: Order)
     func deleteOrder(id: String)
+    func cancelOrder(id: String)
     func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
     func observeOrdersFromShop(shopId: String,
                                actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void)
@@ -47,7 +48,7 @@ protocol DatabaseAdapter {
     func removeProductFromCart(userId: String, cartProduct: CartProduct)
     func changeProductQuantity(userId: String, cartProduct: CartProduct, quantity: Int)
     func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void)
-    
+
     func createLocation(location: Location)
     func deleteLocation(id: String)
     func editLocation(location: Location)

@@ -74,7 +74,7 @@ class DBProducts {
             }
         }
     }
-    
+
     func setProductTags(shopId: String, productId: String, tags: [ProductTag]) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/\(shopId)/soldProducts/\(productId)/tags")
         do {

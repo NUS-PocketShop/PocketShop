@@ -134,7 +134,7 @@ extension CustomerOrderScreen {
 
         func setFilterCurrent() {
             filteredOrders = customerViewModel.orders.filter {
-                $0.status != OrderStatus.collected
+                $0.status != OrderStatus.collected && $0.status != OrderStatus.cancelled
             }.map {
                 OrderViewModel(order: $0)
             }
@@ -142,14 +142,14 @@ extension CustomerOrderScreen {
 
         func setFilterHistory() {
             filteredOrders = customerViewModel.orders.filter {
-                $0.status == OrderStatus.collected
+                $0.status == OrderStatus.collected || $0.status == OrderStatus.cancelled
             }.map {
                 OrderViewModel(order: $0)
             }
         }
 
         func cancelOrder(order: OrderViewModel) {
-            customerViewModel.deleteOrder(orderId: order.id)
+            customerViewModel.cancelOrder(orderId: order.id)
         }
     }
 }

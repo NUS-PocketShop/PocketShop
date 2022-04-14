@@ -32,15 +32,26 @@ final class CustomerViewModel: ObservableObject {
         }
     }
 
+    var favourites: [Product] {
+        guard let customer = customer else {
+            return []
+        }
+        return products.filter { customer.favouriteProductIds.contains($0.id) }
+    }
+
     init() {
+        var initializing = true
         DatabaseInterface.auth.getCurrentUser { [self] error, user in
             guard resolveErrors(error) else {
                 return
             }
             if let currentCustomer = user as? Customer {
                 customer = currentCustomer
-                observeOrders(customerId: currentCustomer.id)
-                observeCart(customerId: currentCustomer.id)
+                if initializing {
+                    observeOrders(customerId: currentCustomer.id)
+                    observeCart(customerId: currentCustomer.id)
+                }
+                initializing = false
             }
         }
         observeProducts()
@@ -48,8 +59,8 @@ final class CustomerViewModel: ObservableObject {
         observeLocations()
     }
 
-    func deleteOrder(orderId: String) {
-        DatabaseInterface.db.deleteOrder(id: orderId)
+    func cancelOrder(orderId: String) {
+        DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
     func addProductToCart(_ product: Product, quantity: Int, choices: [ProductOptionChoice]) {
@@ -149,25 +160,33 @@ final class CustomerViewModel: ObservableObject {
 
         DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
     }
-    
+
+    func toggleProductAsFavorites(productId: String) {
+        if favourites.contains(where: { $0.id == productId }) {
+            removeProductFromFavorites(productId: productId)
+        } else {
+            addProductToFavorites(productId: productId)
+        }
+    }
+
     func addProductToFavorites(productId: String) {
         self.customer?.favouriteProductIds.append(productId)
         guard let customer = customer else {
             return
         }
-        DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
-                                                   favoriteProductIds: customer.favouriteProductIds)
+        DatabaseInterface.db.setFavouriteProductIds(userId: customer.id,
+                                                    favouriteProductIds: customer.favouriteProductIds)
     }
-    
-    func deleteProductFromFavorites(productId: String) {
-        self.customer?.favouriteProductIds.removeAll(where: {$0 == productId})
+
+    func removeProductFromFavorites(productId: String) {
+        self.customer?.favouriteProductIds.removeAll(where: { $0 == productId })
         guard let customer = customer else {
             return
         }
-        DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
-                                                   favoriteProductIds: customer.favouriteProductIds)
+        DatabaseInterface.db.setFavouriteProductIds(userId: customer.id,
+                                                   favouriteProductIds: customer.favouriteProductIds)
     }
-    
+
     func addRewardPoints(points: Int) {
         self.customer?.rewardPoints += points
         guard let customer = customer else {
@@ -216,7 +235,7 @@ final class CustomerViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func observeLocations() {
         DatabaseInterface.db.observeAllLocations { [self] error, allLocations, eventType in
             guard resolveErrors(error) else {

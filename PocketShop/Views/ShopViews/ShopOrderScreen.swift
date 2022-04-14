@@ -179,7 +179,7 @@ extension ShopOrderScreen {
 
         func setFilterCurrent() {
             filteredOrders = vendorViewModel.orders.filter { order in
-                order.status != .collected
+                order.status != .collected && order.status != .cancelled
             }.map {
                 OrderViewModel(order: $0)
             }
@@ -187,14 +187,14 @@ extension ShopOrderScreen {
 
         func setFilterHistory() {
             filteredOrders = vendorViewModel.orders.filter { order in
-                order.status == .collected
+                order.status == .collected || order.status == .cancelled
             }.map {
                 OrderViewModel(order: $0)
             }
         }
 
         func cancelOrder(order: OrderViewModel) {
-            vendorViewModel.deleteOrder(orderId: order.id)
+            vendorViewModel.cancelOrder(orderId: order.id)
         }
 
         func setOrderAccept(order: OrderViewModel) {

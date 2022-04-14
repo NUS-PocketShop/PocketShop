@@ -67,14 +67,15 @@ struct ProductPreview: View {
 
     @EnvironmentObject var viewModel: CustomerViewModel
     @State var product: Product
-    var isClosed: Bool
+    var isClosed = false
 
     var body: some View {
         VStack {
             if isClosed {
                 ProductListView(product: product).environmentObject(viewModel)
+                    .opacity(0.5)
             } else {
-                NavigationLink(destination: ProductView(product: product)) {
+                NavigationLink(destination: ProductDetailView(product: product)) {
                     ProductListView(product: product).environmentObject(viewModel)
                 }
             }
