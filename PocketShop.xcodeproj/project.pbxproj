@@ -53,6 +53,7 @@
 		ADAD28F827F4A0F600CDE510 /* DBCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD28F727F4A0F600CDE510 /* DBCart.swift */; };
 		ADAD28FC2801834900CDE510 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD28FB2801834900CDE510 /* Location.swift */; };
 		ADAD28FE2806C1F300CDE510 /* DBLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD28FD2806C1F200CDE510 /* DBLocation.swift */; };
+		ADAD29002807FE4500CDE510 /* CustomerSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD28FF2807FE4500CDE510 /* CustomerSchema.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -167,6 +168,7 @@
 		ADAD28F727F4A0F600CDE510 /* DBCart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBCart.swift; sourceTree = "<group>"; };
 		ADAD28FB2801834900CDE510 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		ADAD28FD2806C1F200CDE510 /* DBLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBLocation.swift; sourceTree = "<group>"; };
+		ADAD28FF2807FE4500CDE510 /* CustomerSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSchema.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 				AD15B39E27E4673400513809 /* ProductSchema.swift */,
 				AD15B3A227E59DF900513809 /* OrderProductSchema.swift */,
 				AD15B3A427E59E5600513809 /* OrderSchema.swift */,
+				ADAD28FF2807FE4500CDE510 /* CustomerSchema.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				DF34150527F9C56400CC945C /* ShopProductFormView.swift in Sources */,
 				AD15B3A527E59E5600513809 /* OrderSchema.swift in Sources */,
 				02AD423D27DF293A00F44822 /* PSSecureField.swift in Sources */,
+				ADAD29002807FE4500CDE510 /* CustomerSchema.swift in Sources */,
 				AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */,
 				027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */,
 				DF86A0DD27E7004700D8423C /* ImageLoader.swift in Sources */,
