@@ -174,8 +174,8 @@ final class CustomerViewModel: ObservableObject {
         guard let customer = customer else {
             return
         }
-        DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
-                                                   favoriteProductIds: customer.favouriteProductIds)
+        DatabaseInterface.db.setFavouriteProductIds(userId: customer.id,
+                                                    favouriteProductIds: customer.favouriteProductIds)
     }
 
     func removeProductFromFavorites(productId: String) {
@@ -183,8 +183,8 @@ final class CustomerViewModel: ObservableObject {
         guard let customer = customer else {
             return
         }
-        DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
-                                                   favoriteProductIds: customer.favouriteProductIds)
+        DatabaseInterface.db.setFavouriteProductIds(userId: customer.id,
+                                                   favouriteProductIds: customer.favouriteProductIds)
     }
 
     func addRewardPoints(points: Int) {

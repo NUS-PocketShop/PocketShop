@@ -37,6 +37,7 @@ class DBUsers {
                         let jsonData = try JSONSerialization.data(withJSONObject: value)
                         let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
                         let customer = customerSchema.toCustomer()
+                        print("Favorites: \(customerSchema.favouriteProductIds)")
                         completionHandler(nil, customer)
                     } catch {
                         print(error)
@@ -64,10 +65,10 @@ class DBUsers {
 
     }
 
-    func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
-        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/favoriteProductIds")
+    func setFavouriteProductIds(userId: String, favouriteProductIds: [String]) {
+        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/favouriteProductIds")
         do {
-            let jsonData = try JSONEncoder().encode(favoriteProductIds)
+            let jsonData = try JSONEncoder().encode(favouriteProductIds)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
