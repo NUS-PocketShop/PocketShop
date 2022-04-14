@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct CustomerHomeScreen: View {
-    @StateObject var viewModel = CustomerViewModel()
+    @EnvironmentObject var viewModel: CustomerViewModel
 
     var body: some View {
         NavigationView {
             ScrollView(.vertical) {
                 PSSearchBarView(searchText: $viewModel.searchText)
-                ProductsScrollView()
+                ProductsScrollView(productsToShow: viewModel.productSearchResults)
                 ShopsScrollView()
             }
             .navigationTitle("Home")

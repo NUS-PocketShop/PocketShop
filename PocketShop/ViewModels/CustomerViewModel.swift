@@ -32,6 +32,13 @@ final class CustomerViewModel: ObservableObject {
         }
     }
 
+    var favourites: [Product] {
+        guard let customer = customer else {
+            return []
+        }
+        return products.filter { customer.favouriteProductIds.contains($0.id) }
+    }
+
     init() {
         DatabaseInterface.auth.getCurrentUser { [self] error, user in
             guard resolveErrors(error) else {
@@ -149,7 +156,15 @@ final class CustomerViewModel: ObservableObject {
 
         DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
     }
-    
+
+    func toggleProductAsFavorites(productId: String) {
+        if favourites.contains(where: { $0.id == productId }) {
+            removeProductFromFavorites(productId: productId)
+        } else {
+            addProductToFavorites(productId: productId)
+        }
+    }
+
     func addProductToFavorites(productId: String) {
         self.customer?.favouriteProductIds.append(productId)
         guard let customer = customer else {
@@ -158,16 +173,16 @@ final class CustomerViewModel: ObservableObject {
         DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
                                                    favoriteProductIds: customer.favouriteProductIds)
     }
-    
-    func deleteProductFromFavorites(productId: String) {
-        self.customer?.favouriteProductIds.removeAll(where: {$0 == productId})
+
+    func removeProductFromFavorites(productId: String) {
+        self.customer?.favouriteProductIds.removeAll(where: { $0 == productId })
         guard let customer = customer else {
             return
         }
         DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
                                                    favoriteProductIds: customer.favouriteProductIds)
     }
-    
+
     func addRewardPoints(points: Int) {
         self.customer?.rewardPoints += points
         guard let customer = customer else {
@@ -216,7 +231,7 @@ final class CustomerViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func observeLocations() {
         DatabaseInterface.db.observeAllLocations { [self] error, allLocations, eventType in
             guard resolveErrors(error) else {

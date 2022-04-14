@@ -22,11 +22,11 @@ class DatabaseManager: DatabaseAdapter {
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         users.getUser(with: id, completionHandler: completionHandler)
     }
-    
+
     func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
         users.setFavoriteProductIds(userId: userId, favoriteProductIds: favoriteProductIds)
     }
-    
+
     func setRewardPoints(userId: String, rewardPoints: Int) {
         users.setRewardPoints(userId: userId, rewardPoints: rewardPoints)
     }
@@ -83,7 +83,7 @@ class DatabaseManager: DatabaseAdapter {
     func setAllProductsInShopToInStock(shopId: String) {
         products.setAllProductsInShopToInStock(shopId: shopId)
     }
-    
+
     func setProductTags(shopId: String, productId: String, tags: [ProductTag]) {
         products.setProductTags(shopId: shopId, productId: productId, tags: tags)
     }
@@ -158,19 +158,19 @@ class DatabaseManager: DatabaseAdapter {
     func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void) {
         cart.observeCart(userId: userId, actionBlock: actionBlock)
     }
-    
+
     func createLocation(location: Location) {
         locations.createLocation(location: location)
     }
-    
+
     func deleteLocation(id: String) {
         locations.deleteLocation(id: id)
     }
-    
+
     func editLocation(location: Location) {
         locations.editLocation(location: location)
     }
-    
+
     func observeAllLocations(actionBlock: @escaping (DatabaseError?, [Location]?, DatabaseEvent?) -> Void) {
         locations.observeAllLocations(actionBlock: actionBlock)
     }

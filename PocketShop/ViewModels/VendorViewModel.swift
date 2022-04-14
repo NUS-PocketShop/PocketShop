@@ -81,22 +81,22 @@ final class VendorViewModel: ObservableObject {
             }
         }
     }
-    
+
     func setAllProductsToInStock() {
         if let currentShop = currentShop {
             DatabaseInterface.db.setAllProductsInShopToInStock(shopId: currentShop.id)
         }
     }
-    
+
     func addTagToProduct(product: Product, tag: ProductTag) {
         var oldTags = product.tags
         oldTags.append(tag)
         DatabaseInterface.db.setProductTags(shopId: product.shopId, productId: product.id, tags: oldTags)
     }
-    
+
     func deleteTagFromProduct(product: Product, tag: ProductTag) {
         var oldTags = product.tags
-        oldTags.removeAll(where: {$0 == tag})
+        oldTags.removeAll(where: { $0 == tag })
         DatabaseInterface.db.setProductTags(shopId: product.shopId, productId: product.id, tags: oldTags)
     }
 
@@ -192,7 +192,7 @@ final class VendorViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func observeLocations() {
         DatabaseInterface.db.observeAllLocations { [self] error, allLocations, eventType in
             guard resolveErrors(error) else {

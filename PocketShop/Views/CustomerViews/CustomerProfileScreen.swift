@@ -2,12 +2,21 @@ import SwiftUI
 
 struct CustomerProfileScreen: View {
 
+    @EnvironmentObject var viewModel: CustomerViewModel
     @State var router: MainViewRouter
     @State var willNavigateOrder = false
+    @State var isViewingFavourites = false
 
     var body: some View {
         NavigationView {
             VStack {
+                NavigationLink(destination: CustomerFavouritesScreen(),
+                               isActive: $isViewingFavourites
+                               ) {
+                    PSButton(title: "View Favourited Products") {
+                        isViewingFavourites = true
+                    }
+                }
                 Spacer()
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {
