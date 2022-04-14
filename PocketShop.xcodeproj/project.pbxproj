@@ -122,8 +122,8 @@
 
 /* Begin PBXFileReference section */
 		022EA8B827E4D437003F4E3C /* ShopViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewRouter.swift; sourceTree = "<group>"; };
-		022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopRootView.swift; path = PocketShop/Views/CommonViews/ShopRootView.swift; sourceTree = SOURCE_ROOT; };
-		022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopProfileScreen.swift; path = PocketShop/Views/CommonViews/ShopProfileScreen.swift; sourceTree = SOURCE_ROOT; };
+		022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopRootView.swift; path = PocketShop/Views/ShopViews/ShopRootView.swift; sourceTree = SOURCE_ROOT; };
+		022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShopProfileScreen.swift; path = PocketShop/Views/ShopViews/ShopProfileScreen.swift; sourceTree = SOURCE_ROOT; };
 		022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSImagePicker.swift; sourceTree = "<group>"; };
 		022EA90327E731F0003F4E3C /* VendorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorViewModel.swift; sourceTree = "<group>"; };
 		027B44EF27FC31A300A544E7 /* PSBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSBadge.swift; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 		02AD420F27DF042500F44822 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DF67101327DE5D90002C5AE0 /* ShopViews */,
+				DF8152E828087D7C00394159 /* ShopViews */,
 				DF67101227DE5D69002C5AE0 /* CustomerViews */,
 				02AD420E27DF041C00F44822 /* CommonViews */,
 			);
@@ -490,7 +490,7 @@
 			path = CustomerViews;
 			sourceTree = "<group>";
 		};
-		DF67101327DE5D90002C5AE0 /* ShopViews */ = {
+		DF8152E828087D7C00394159 /* ShopViews */ = {
 			isa = PBXGroup;
 			children = (
 				022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */,
@@ -503,8 +503,7 @@
 				DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */,
 				DF34150127F9C56300CC945C /* ShopProductsView.swift */,
 			);
-			name = ShopViews;
-			path = ../ShopViews;
+			path = ShopViews;
 			sourceTree = "<group>";
 		};
 		DF86A0D927E6F9BB00D8423C /* Utilities */ = {

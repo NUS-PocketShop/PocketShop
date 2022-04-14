@@ -138,7 +138,7 @@ struct LocationPickerSection: View {
                     .font(.appSmallCaption)
 
                 Picker("Select a product location", selection: $location) {
-                    ForEach(viewModel.locations, id: \.self.id) { location in
+                    ForEach(viewModel.locations, id: \.self.name) { location in
                         Text(location.name)
                     }
                 }

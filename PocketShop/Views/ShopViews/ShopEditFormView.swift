@@ -17,7 +17,7 @@ struct ShopEditFormView: View {
     init(viewModel: VendorViewModel, shop: Shop) {
         self.shop = shop
         self._name = State(initialValue: shop.name)
-        self._location = State(initialValue: shop.description)
+        self._location = State(initialValue: viewModel.getLocationNameFromId(locationId: shop.locationId))
         self._description = State(initialValue: shop.description)
         self._categories = State(initialValue: shop.categories.map { $0.title })
     }
