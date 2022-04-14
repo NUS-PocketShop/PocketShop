@@ -16,7 +16,13 @@ final class CustomerViewModel: ObservableObject {
         if searchText.isEmpty {
             return products
         } else {
-            return products.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            return products.filter {
+                let productNameMatches = $0.name.localizedCaseInsensitiveContains(searchText)
+                let productShopNameMatches = $0.shopName.localizedCaseInsensitiveContains(searchText)
+                let productShopLocationNameMatches = getLocationNameFromShopId(shopId: $0.shopId)
+                    .localizedCaseInsensitiveContains(searchText)
+                return productNameMatches || productShopNameMatches || productShopLocationNameMatches
+            }
         }
     }
 
@@ -25,9 +31,12 @@ final class CustomerViewModel: ObservableObject {
             return shops
         } else {
             return shops.filter { shop in
-                let shopProducts = shop.soldProducts
-                let matchingProducts = shopProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-                return !matchingProducts.isEmpty
+                let shopNameMatches = shop.name.localizedCaseInsensitiveContains(searchText)
+                let matchingProducts = shop.soldProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+                let shopAnyProductNameMatches = !matchingProducts.isEmpty
+                let shopLocationNameMatches = getLocationNameFromId(locationId: shop.locationId)
+                    .localizedCaseInsensitiveContains(searchText)
+                return shopNameMatches || shopAnyProductNameMatches || shopLocationNameMatches
             }
         }
     }
@@ -36,7 +45,21 @@ final class CustomerViewModel: ObservableObject {
         if searchText.isEmpty {
             return locations
         } else {
-            return locations.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            return locations.filter { location in
+                let locationNameMatches = location.name.localizedCaseInsensitiveContains(searchText)
+                let matchingShops = shops.filter {
+                    $0.locationId == location.id && $0.name.localizedCaseInsensitiveContains(searchText)
+                }
+                let locationAnyShopMatches = !matchingShops.isEmpty
+                let shopsWithMatchingProducts = shops.filter { shop in
+                    let matchingShopProducts = shop.soldProducts.filter {
+                        $0.name.localizedCaseInsensitiveContains(searchText)
+                    }
+                    return shop.locationId == location.id && !matchingShopProducts.isEmpty
+                }
+                let locationAnyShopProductNameMatches = !shopsWithMatchingProducts.isEmpty
+                return locationNameMatches || locationAnyShopMatches || locationAnyShopProductNameMatches
+            }
         }
     }
 

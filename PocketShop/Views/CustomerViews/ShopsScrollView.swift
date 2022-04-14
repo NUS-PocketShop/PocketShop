@@ -5,9 +5,11 @@ struct ShopsScrollView: View {
 
     var body: some View {
         VStack {
-            Text("Shops")
-                .font(.appTitle)
-                .foregroundColor(.gray9)
+            if !viewModel.shopSearchResults.isEmpty {
+                Text("Shops")
+                    .font(.appTitle)
+                    .foregroundColor(.gray9)
+            }
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
