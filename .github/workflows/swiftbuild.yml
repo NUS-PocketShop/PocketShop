@@ -1,0 +1,25 @@
+name: Swift Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/swiftlint.yml"
+      - ".swiftlint.yml"
+      - "**/*.swift"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/swiftlint.yml"
+      - ".swiftlint.yml"
+      - "**/*.swift"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build PocketShop
+      run: swift build
+      working-directory: PocketShop
+      
