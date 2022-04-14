@@ -3,8 +3,9 @@ import Firebase
 class DBUsers {
     func createCustomer(id: String) {
         let customer = Customer(id: id, favouriteProductIds: [])
+        let customerSchema = CustomerSchema(customer: customer)
         do {
-            let jsonData = try JSONEncoder().encode(customer)
+            let jsonData = try JSONEncoder().encode(customerSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             FirebaseManager.sharedManager.ref.child("customers/\(customer.id)").setValue(json)
         } catch {
@@ -29,7 +30,8 @@ class DBUsers {
             if snapshot.exists(), let value = snapshot.value {
                 do {
                     let jsonData = try JSONSerialization.data(withJSONObject: value)
-                    let customer = try JSONDecoder().decode(Customer.self, from: jsonData)
+                    let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
+                    let customer = customerSchema.toCustomer()
                     completionHandler(nil, customer)
                 } catch {
                     print(error)
@@ -56,7 +58,7 @@ class DBUsers {
         })
 
     }
-    
+
     func setFavoriteProductIds(userId: String, favoriteProductIds: [String]) {
         let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/favoriteProductIds")
         do {
@@ -67,7 +69,7 @@ class DBUsers {
             print(error)
         }
     }
-    
+
     func setRewardPoints(userId: String, rewardPoints: Int) {
         let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/rewardPoints")
         ref.setValue(rewardPoints)
