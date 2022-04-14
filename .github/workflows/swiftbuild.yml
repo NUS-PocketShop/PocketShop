@@ -12,6 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build PocketShop
-      run: swift build
-      working-directory: PocketShop
-      
+      run: swift build      
