@@ -25,21 +25,26 @@ class DBUsers {
     }
 
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
-        FirebaseManager.sharedManager.ref.child("customers/\(id)").observeSingleEvent(of: .value,
-                                                                                      with: { snapshot in
-            if snapshot.exists(), let value = snapshot.value {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: value)
-                    let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
-                    let customer = customerSchema.toCustomer()
-                    completionHandler(nil, customer)
-                } catch {
-                    print(error)
+        let customerRef = FirebaseManager.sharedManager.ref.child("customers/\(id)")
+        let vendorRef = FirebaseManager.sharedManager.ref.child("vendors/\(id)")
+        customerRef.observeSingleEvent(of: .value) { snapshot in
+            if snapshot.exists() {
+                customerRef.observe(.value) { snapshot in
+                    guard let value = snapshot.value else {
+                        return
+                    }
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: value)
+                        let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
+                        let customer = customerSchema.toCustomer()
+                        completionHandler(nil, customer)
+                    } catch {
+                        print(error)
+                    }
                 }
                 return
             } else {
-                FirebaseManager.sharedManager.ref.child("vendors/\(id)").observeSingleEvent(of: .value,
-                                                                                            with: { snapshot in
+                vendorRef.observeSingleEvent(of: .value) { snapshot in
                     if snapshot.exists(), let value = snapshot.value {
                         do {
                             let jsonData = try JSONSerialization.data(withJSONObject: value)
@@ -53,9 +58,9 @@ class DBUsers {
                         completionHandler(DatabaseError.userNotFound, nil)
                         return
                     }
-                })
+                }
             }
-        })
+        }
 
     }
 

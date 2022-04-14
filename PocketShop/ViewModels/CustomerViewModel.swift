@@ -40,14 +40,18 @@ final class CustomerViewModel: ObservableObject {
     }
 
     init() {
+        var initializing = true
         DatabaseInterface.auth.getCurrentUser { [self] error, user in
             guard resolveErrors(error) else {
                 return
             }
             if let currentCustomer = user as? Customer {
                 customer = currentCustomer
-                observeOrders(customerId: currentCustomer.id)
-                observeCart(customerId: currentCustomer.id)
+                if initializing {
+                    observeOrders(customerId: currentCustomer.id)
+                    observeCart(customerId: currentCustomer.id)
+                }
+                initializing = false
             }
         }
         observeProducts()
