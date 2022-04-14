@@ -81,6 +81,10 @@
 		ADAD9F3027DDEB8900DE0EE7 /* DatabaseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */; };
 		ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F3227DF7C3400DE0EE7 /* DatabaseError.swift */; };
 		ADAD9F3527DFBBF600DE0EE7 /* DatabaseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9F3427DFBBF600DE0EE7 /* DatabaseInterface.swift */; };
+		DF0BA5E528087F3B00D58696 /* LocationsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5E428087F3B00D58696 /* LocationsScrollView.swift */; };
+		DF0BA5E72808805C00D58696 /* LocationSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5E62808805C00D58696 /* LocationSummaryView.swift */; };
+		DF0BA5E92808818200D58696 /* CustomerLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5E82808818200D58696 /* CustomerLocationView.swift */; };
+		DF0BA5EB2808890F00D58696 /* ShopListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5EA2808890F00D58696 /* ShopListView.swift */; };
 		DF34150427F9C56400CC945C /* ShopOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */; };
 		DF34150527F9C56400CC945C /* ShopProductFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */; };
 		DF34150627F9C56400CC945C /* ShopHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */; };
@@ -196,6 +200,10 @@
 		ADAD9F2F27DDEB8900DE0EE7 /* DatabaseAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAdapter.swift; sourceTree = "<group>"; };
 		ADAD9F3227DF7C3400DE0EE7 /* DatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseError.swift; sourceTree = "<group>"; };
 		ADAD9F3427DFBBF600DE0EE7 /* DatabaseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseInterface.swift; sourceTree = "<group>"; };
+		DF0BA5E428087F3B00D58696 /* LocationsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsScrollView.swift; sourceTree = "<group>"; };
+		DF0BA5E62808805C00D58696 /* LocationSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSummaryView.swift; sourceTree = "<group>"; };
+		DF0BA5E82808818200D58696 /* CustomerLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerLocationView.swift; sourceTree = "<group>"; };
+		DF0BA5EA2808890F00D58696 /* ShopListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListView.swift; sourceTree = "<group>"; };
 		DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopOrderScreen.swift; path = PocketShop/Views/ShopViews/ShopOrderScreen.swift; sourceTree = SOURCE_ROOT; };
 		DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductFormView.swift; path = PocketShop/Views/ShopViews/ShopProductFormView.swift; sourceTree = SOURCE_ROOT; };
 		DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopHomeScreen.swift; path = PocketShop/Views/ShopViews/ShopHomeScreen.swift; sourceTree = SOURCE_ROOT; };
@@ -480,12 +488,16 @@
 				02AD41FC27DF024900F44822 /* CustomerSearchScreen.swift */,
 				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
 				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
+				DF0BA5EA2808890F00D58696 /* ShopListView.swift */,
 				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
 				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
 				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
 				DF67101627DE5EE1002C5AE0 /* ProductView.swift */,
 				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
 				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
+				DF0BA5E428087F3B00D58696 /* LocationsScrollView.swift */,
+				DF0BA5E62808805C00D58696 /* LocationSummaryView.swift */,
+				DF0BA5E82808818200D58696 /* CustomerLocationView.swift */,
 			);
 			path = CustomerViews;
 			sourceTree = "<group>";
@@ -698,7 +710,9 @@
 				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
 				DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */,
+				DF0BA5E92808818200D58696 /* CustomerLocationView.swift in Sources */,
 				02AD420A27DF028900F44822 /* CustomerProfileScreen.swift in Sources */,
+				DF0BA5E72808805C00D58696 /* LocationSummaryView.swift in Sources */,
 				02AD41D827DEFCEA00F44822 /* Font+PocketShop.swift in Sources */,
 				ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */,
 				DF67102027DE7A8D002C5AE0 /* ProductSummaryView.swift in Sources */,
@@ -730,6 +744,7 @@
 				DFD49A0927E5134D0067BC32 /* ProductsScrollView.swift in Sources */,
 				022EA8C327E4D4C3003F4E3C /* ShopProfileScreen.swift in Sources */,
 				AD15B3A927E5D2A600513809 /* DBStorage.swift in Sources */,
+				DF0BA5EB2808890F00D58696 /* ShopListView.swift in Sources */,
 				02AD421127DF1BDE00F44822 /* MainViewRouter.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
 				DF67101727DE5EE1002C5AE0 /* ProductView.swift in Sources */,
@@ -747,6 +762,7 @@
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
 				ADAD9F2927DDE68C00DE0EE7 /* DBUsers.swift in Sources */,
 				DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */,
+				DF0BA5E528087F3B00D58696 /* LocationsScrollView.swift in Sources */,
 				022EA90427E731F0003F4E3C /* VendorViewModel.swift in Sources */,
 				AD15B39F27E4673400513809 /* ProductSchema.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,

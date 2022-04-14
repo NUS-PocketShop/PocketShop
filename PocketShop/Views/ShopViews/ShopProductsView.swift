@@ -92,7 +92,7 @@ struct ShopHeader: View {
             Spacer()
             URLImage(urlString: imageUrl)
                 .scaledToFit()
-                .frame(width: 100, height: 100) // Might change to relative sizes
+                .frame(width: 100, height: 100)
         }.padding()
     }
 }

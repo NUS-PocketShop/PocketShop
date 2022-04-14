@@ -8,7 +8,7 @@ struct ShopSummaryView: View {
         VStack {
             URLImage(urlString: shop.imageURL)
                 .scaledToFit()
-                .frame(width: 150, height: 150) // Might change to relative sizes
+                .frame(width: 150, height: 150)
 
             Text(viewModel.getLocationNameFromId(locationId: shop.locationId))
                 .font(.appSubheadline)
@@ -19,6 +19,7 @@ struct ShopSummaryView: View {
                 .foregroundColor(.gray9)
                 .padding(.bottom)
         }
+        .opacity(shop.isClosed ? 0.5 : 1)
         .padding()
     }
 }

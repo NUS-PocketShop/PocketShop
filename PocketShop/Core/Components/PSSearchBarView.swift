@@ -11,7 +11,7 @@ struct PSSearchBarView: View {
                  .foregroundColor(.white)
              HStack {
                  Image(systemName: "magnifyingglass")
-                 TextField("Search for products / shops ...", text: $searchText)
+                 TextField("Search for products / shops / locations ...", text: $searchText)
                     .foregroundColor(.gray9)
              }
              .foregroundColor(.gray6)

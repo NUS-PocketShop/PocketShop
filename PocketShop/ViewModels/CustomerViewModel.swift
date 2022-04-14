@@ -32,6 +32,14 @@ final class CustomerViewModel: ObservableObject {
         }
     }
 
+    var locationSearchResults: [Location] {
+        if searchText.isEmpty {
+            return locations
+        } else {
+            return locations.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+
     init() {
         DatabaseInterface.auth.getCurrentUser { [self] error, user in
             guard resolveErrors(error) else {

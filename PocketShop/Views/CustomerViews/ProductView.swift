@@ -19,7 +19,7 @@ struct ProductView: View {
 
             URLImage(urlString: product.imageURL)
                 .scaledToFit()
-                .frame(width: 150, height: 150) // Might change to relative sizes
+                .frame(width: 150, height: 150)
                 .padding(.vertical)
 
             Text(product.description)

@@ -9,6 +9,7 @@ struct CustomerHomeScreen: View {
                 PSSearchBarView(searchText: $viewModel.searchText)
                 ProductsScrollView()
                 ShopsScrollView()
+                LocationsScrollView()
             }
             .navigationTitle("Home")
             .font(.appHeadline)

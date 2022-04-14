@@ -1,20 +1,20 @@
 import SwiftUI
 
-struct ShopsScrollView: View {
+struct LocationsScrollView: View {
     @EnvironmentObject var viewModel: CustomerViewModel
 
     var body: some View {
         VStack {
-            Text("Shops")
+            Text("Locations")
                 .font(.appTitle)
                 .foregroundColor(.gray9)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.shopSearchResults, id: \.self) { shop in
-                        NavigationLink(destination: CustomerShopView(shop: shop)
+                    ForEach(viewModel.locationSearchResults, id: \.self) { location in
+                        NavigationLink(destination: CustomerLocationView(location: location)
                                         .environmentObject(viewModel)) {
-                            ShopSummaryView(shop: shop)
+                            LocationSummaryView(location: location)
                         }
                     }
                 }
@@ -23,8 +23,8 @@ struct ShopsScrollView: View {
     }
 }
 
-struct ShopsScrollView_Previews: PreviewProvider {
+struct LocationsScrollView_Previews: PreviewProvider {
     static var previews: some View {
-        ShopsScrollView().environmentObject(CustomerViewModel())
+        LocationsScrollView().environmentObject(CustomerViewModel())
     }
 }
