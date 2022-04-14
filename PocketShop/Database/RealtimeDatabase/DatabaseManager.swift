@@ -109,6 +109,10 @@ class DatabaseManager: DatabaseAdapter {
         orders.deleteOrder(id: id)
     }
 
+    func cancelOrder(id: String) {
+        orders.cancelOrder(id: id)
+    }
+
     func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         orders.observeAllOrders(actionBlock: actionBlock)
     }

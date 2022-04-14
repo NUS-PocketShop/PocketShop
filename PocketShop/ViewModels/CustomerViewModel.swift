@@ -59,8 +59,8 @@ final class CustomerViewModel: ObservableObject {
         observeLocations()
     }
 
-    func deleteOrder(orderId: String) {
-        DatabaseInterface.db.deleteOrder(id: orderId)
+    func cancelOrder(orderId: String) {
+        DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
     func addProductToCart(_ product: Product, quantity: Int, choices: [ProductOptionChoice]) {

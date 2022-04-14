@@ -4,6 +4,7 @@ enum OrderStatus: Int, Codable {
     case preparing = 3
     case ready = 4
     case collected = 5
+    case cancelled = 6
 
     func toString() -> String {
         switch self {
@@ -17,6 +18,8 @@ enum OrderStatus: Int, Codable {
             return "READY"
         case .collected:
             return "COLLECTED"
+        case .cancelled:
+            return "CANCELLED"
         }
     }
 }
