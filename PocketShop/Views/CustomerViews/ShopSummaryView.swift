@@ -10,7 +10,7 @@ struct ShopSummaryView: View {
                 .scaledToFit()
                 .frame(width: 150, height: 150)
 
-            Text(viewModel.getLocationNameFromId(locationId: shop.locationId))
+            Text(viewModel.getLocationNameFromLocationId(locationId: shop.locationId))
                 .font(.appSubheadline)
                 .foregroundColor(.gray6)
 

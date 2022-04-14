@@ -9,59 +9,7 @@ final class CustomerViewModel: ObservableObject {
     @Published var cart: [CartProduct] = [CartProduct]()
     @Published var locations: [Location] = [Location]()
     @Published var customer: Customer?
-
     @Published var searchText = ""
-
-    var productSearchResults: [Product] {
-        if searchText.isEmpty {
-            return products
-        } else {
-            return products.filter {
-                let productNameMatches = $0.name.localizedCaseInsensitiveContains(searchText)
-                let productShopNameMatches = $0.shopName.localizedCaseInsensitiveContains(searchText)
-                let productShopLocationNameMatches = getLocationNameFromShopId(shopId: $0.shopId)
-                    .localizedCaseInsensitiveContains(searchText)
-                return productNameMatches || productShopNameMatches || productShopLocationNameMatches
-            }
-        }
-    }
-
-    var shopSearchResults: [Shop] {
-        if searchText.isEmpty {
-            return shops
-        } else {
-            return shops.filter { shop in
-                let shopNameMatches = shop.name.localizedCaseInsensitiveContains(searchText)
-                let matchingProducts = shop.soldProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-                let shopAnyProductNameMatches = !matchingProducts.isEmpty
-                let shopLocationNameMatches = getLocationNameFromId(locationId: shop.locationId)
-                    .localizedCaseInsensitiveContains(searchText)
-                return shopNameMatches || shopAnyProductNameMatches || shopLocationNameMatches
-            }
-        }
-    }
-
-    var locationSearchResults: [Location] {
-        if searchText.isEmpty {
-            return locations
-        } else {
-            return locations.filter { location in
-                let locationNameMatches = location.name.localizedCaseInsensitiveContains(searchText)
-                let matchingShops = shops.filter {
-                    $0.locationId == location.id && $0.name.localizedCaseInsensitiveContains(searchText)
-                }
-                let locationAnyShopMatches = !matchingShops.isEmpty
-                let shopsWithMatchingProducts = shops.filter { shop in
-                    let matchingShopProducts = shop.soldProducts.filter {
-                        $0.name.localizedCaseInsensitiveContains(searchText)
-                    }
-                    return shop.locationId == location.id && !matchingShopProducts.isEmpty
-                }
-                let locationAnyShopProductNameMatches = !shopsWithMatchingProducts.isEmpty
-                return locationNameMatches || locationAnyShopMatches || locationAnyShopProductNameMatches
-            }
-        }
-    }
 
     init() {
         DatabaseInterface.auth.getCurrentUser { [self] error, user in
@@ -91,14 +39,11 @@ final class CustomerViewModel: ObservableObject {
         let cartProduct = cart.first(where: { $0.productId == product.id && $0.productOptionChoices == choices })
 
         if let cartProduct = cartProduct {
-            DatabaseInterface.db.changeProductQuantity(userId: customerId,
-                                                       cartProduct: cartProduct,
+            DatabaseInterface.db.changeProductQuantity(userId: customerId, cartProduct: cartProduct,
                                                        quantity: cartProduct.quantity + quantity)
         } else {
-            DatabaseInterface.db.addProductToCart(userId: customerId,
-                                                  product: product,
-                                                  productOptionChoices: choices,
-                                                  quantity: quantity)
+            DatabaseInterface.db.addProductToCart(userId: customerId, product: product,
+                                                  productOptionChoices: choices, quantity: quantity)
         }
     }
 
@@ -112,9 +57,7 @@ final class CustomerViewModel: ObservableObject {
             fatalError("Cannot make order for unknown customer")
         }
 
-        let orderProducts = cart.map {
-            $0.toOrderProduct()
-        }
+        let orderProducts = cart.map { $0.toOrderProduct() }
 
         let orderProductsGroups = Dictionary(grouping: orderProducts, by: { $0.shopId })
 
@@ -208,7 +151,7 @@ final class CustomerViewModel: ObservableObject {
                                              rewardPoints: customer.rewardPoints)
     }
 
-    func getLocationNameFromId(locationId: String) -> String {
+    func getLocationNameFromLocationId(locationId: String) -> String {
         locations.first(where: { $0.id == locationId })?.name ?? ""
     }
 
@@ -328,5 +271,59 @@ final class CustomerViewModel: ObservableObject {
             return false
         }
         return true
+    }
+}
+
+extension CustomerViewModel {
+    // Computed search results
+    var productSearchResults: [Product] {
+        if searchText.isEmpty {
+            return products
+        } else {
+            return products.filter {
+                let productNameMatches = $0.name.localizedCaseInsensitiveContains(searchText)
+                let productShopNameMatches = $0.shopName.localizedCaseInsensitiveContains(searchText)
+                let productShopLocationNameMatches = getLocationNameFromShopId(shopId: $0.shopId)
+                    .localizedCaseInsensitiveContains(searchText)
+                return productNameMatches || productShopNameMatches || productShopLocationNameMatches
+            }
+        }
+    }
+
+    var shopSearchResults: [Shop] {
+        if searchText.isEmpty {
+            return shops
+        } else {
+            return shops.filter { shop in
+                let shopNameMatches = shop.name.localizedCaseInsensitiveContains(searchText)
+                let matchingProducts = shop.soldProducts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+                let shopAnyProductNameMatches = !matchingProducts.isEmpty
+                let shopLocationNameMatches = getLocationNameFromLocationId(locationId: shop.locationId)
+                    .localizedCaseInsensitiveContains(searchText)
+                return shopNameMatches || shopAnyProductNameMatches || shopLocationNameMatches
+            }
+        }
+    }
+
+    var locationSearchResults: [Location] {
+        if searchText.isEmpty {
+            return locations
+        } else {
+            return locations.filter { location in
+                let locationNameMatches = location.name.localizedCaseInsensitiveContains(searchText)
+                let matchingShops = shops.filter {
+                    $0.locationId == location.id && $0.name.localizedCaseInsensitiveContains(searchText)
+                }
+                let locationAnyShopMatches = !matchingShops.isEmpty
+                let shopsWithMatchingProducts = shops.filter { shop in
+                    let matchingShopProducts = shop.soldProducts.filter {
+                        $0.name.localizedCaseInsensitiveContains(searchText)
+                    }
+                    return shop.locationId == location.id && !matchingShopProducts.isEmpty
+                }
+                let locationAnyShopProductNameMatches = !shopsWithMatchingProducts.isEmpty
+                return locationNameMatches || locationAnyShopMatches || locationAnyShopProductNameMatches
+            }
+        }
     }
 }

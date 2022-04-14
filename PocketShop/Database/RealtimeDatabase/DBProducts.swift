@@ -103,11 +103,12 @@ class DBProducts {
                                  actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         let shopRef = FirebaseManager.sharedManager.ref.child("shops/\(shopId)")
 
-        shopRef.observeSingleEvent(of: .value) { snapshot in
+        shopRef.observeSingleEvent(of: .value) { [self] snapshot in
             guard let shop = snapshot.value as? NSDictionary,
                   var shopName = shop["name"] as? String else {
                 return
             }
+
             shopRef.child("name").observe(.value) { snapshot in
                 if snapshot.key == "name", let newValue = snapshot.value as? String {
                     shopName = newValue
@@ -121,28 +122,35 @@ class DBProducts {
                 }
             }
 
-            shopRef.child("soldProducts").observe(.childAdded) { snapshot in
-                print("added")
-                if let value = snapshot.value,
-                   let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
-                    actionBlock(nil, [product], .added)
-                }
-            }
+            observeSoldProducts(shopRef: shopRef, shopName: shopName, shopId: shopId, actionBlock: actionBlock)
+        }
+    }
 
-            shopRef.child("soldProducts").observe(.childChanged) { snapshot in
-                print("updated")
-                if let value = snapshot.value,
-                   let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
-                    actionBlock(nil, [product], .updated)
-                }
+    private func observeSoldProducts(shopRef: DatabaseReference,
+                                     shopName: String,
+                                     shopId: String,
+                                     actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
+        shopRef.child("soldProducts").observe(.childAdded) { snapshot in
+            print("added")
+            if let value = snapshot.value,
+               let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
+                actionBlock(nil, [product], .added)
             }
+        }
 
-            shopRef.child("soldProducts").observe(.childRemoved) { snapshot in
-                print("deleted")
-                if let value = snapshot.value,
-                   let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
-                    actionBlock(nil, [product], .deleted)
-                }
+        shopRef.child("soldProducts").observe(.childChanged) { snapshot in
+            print("updated")
+            if let value = snapshot.value,
+               let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
+                actionBlock(nil, [product], .updated)
+            }
+        }
+
+        shopRef.child("soldProducts").observe(.childRemoved) { snapshot in
+            print("deleted")
+            if let value = snapshot.value,
+               let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
+                actionBlock(nil, [product], .deleted)
             }
         }
     }

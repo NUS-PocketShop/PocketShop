@@ -26,17 +26,9 @@ class DBUsers {
 
     func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         FirebaseManager.sharedManager.ref.child("customers/\(id)").observeSingleEvent(of: .value,
-                                                                                      with: { snapshot in
+                                                                                      with: { [self] snapshot in
             if snapshot.exists(), let value = snapshot.value {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: value)
-                    let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
-                    let customer = customerSchema.toCustomer()
-                    completionHandler(nil, customer)
-                } catch {
-                    print(error)
-                }
-                return
+                updateSnapshot(value: value, completionHandler: completionHandler)
             } else {
                 FirebaseManager.sharedManager.ref.child("vendors/\(id)").observeSingleEvent(of: .value,
                                                                                             with: { snapshot in
@@ -73,5 +65,16 @@ class DBUsers {
     func setRewardPoints(userId: String, rewardPoints: Int) {
         let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/rewardPoints")
         ref.setValue(rewardPoints)
+    }
+
+    private func updateSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: value)
+            let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
+            let customer = customerSchema.toCustomer()
+            completionHandler(nil, customer)
+        } catch {
+            print(error)
+        }
     }
 }

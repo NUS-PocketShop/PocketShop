@@ -7,7 +7,7 @@ struct CustomerShopView: View {
     var body: some View {
         VStack {
             ShopHeader(name: shop.name,
-                       location: viewModel.getLocationNameFromId(locationId: shop.locationId),
+                       location: viewModel.getLocationNameFromLocationId(locationId: shop.locationId),
                        description: shop.description,
                        imageUrl: shop.imageURL)
             Spacer()
