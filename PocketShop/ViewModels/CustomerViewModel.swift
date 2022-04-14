@@ -48,8 +48,8 @@ final class CustomerViewModel: ObservableObject {
         observeLocations()
     }
 
-    func deleteOrder(orderId: String) {
-        DatabaseInterface.db.deleteOrder(id: orderId)
+    func cancelOrder(orderId: String) {
+        DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
     func addProductToCart(_ product: Product, quantity: Int, choices: [ProductOptionChoice]) {
@@ -149,7 +149,7 @@ final class CustomerViewModel: ObservableObject {
 
         DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
     }
-    
+
     func addProductToFavorites(productId: String) {
         self.customer?.favouriteProductIds.append(productId)
         guard let customer = customer else {
@@ -158,16 +158,16 @@ final class CustomerViewModel: ObservableObject {
         DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
                                                    favoriteProductIds: customer.favouriteProductIds)
     }
-    
+
     func deleteProductFromFavorites(productId: String) {
-        self.customer?.favouriteProductIds.removeAll(where: {$0 == productId})
+        self.customer?.favouriteProductIds.removeAll(where: { $0 == productId })
         guard let customer = customer else {
             return
         }
         DatabaseInterface.db.setFavoriteProductIds(userId: customer.id,
                                                    favoriteProductIds: customer.favouriteProductIds)
     }
-    
+
     func addRewardPoints(points: Int) {
         self.customer?.rewardPoints += points
         guard let customer = customer else {
@@ -216,7 +216,7 @@ final class CustomerViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func observeLocations() {
         DatabaseInterface.db.observeAllLocations { [self] error, allLocations, eventType in
             guard resolveErrors(error) else {
