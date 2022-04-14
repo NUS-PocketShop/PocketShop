@@ -18,7 +18,8 @@ struct ShopProductsView: View {
 
     var body: some View {
         VStack {
-            ShopHeader(name: shop.name, description: shop.description, imageUrl: shop.imageURL)
+            ShopHeader(name: shop.name, location: viewModel.getLocationNameFromId(locationId: shop.locationId),
+                       description: shop.description, imageUrl: shop.imageURL)
 
             Spacer()
             Text("Shop is currently \(shop.isClosed ? "CLOSED" : "open")")
@@ -68,8 +69,8 @@ struct ShopProductsView: View {
 }
 
 struct ShopHeader: View {
-
     var name: String
+    var location: String
     var description: String
     var imageUrl: String
 
@@ -78,6 +79,10 @@ struct ShopHeader: View {
             VStack(alignment: .leading) {
                 Text(name)
                     .font(.appTitle)
+                    .padding(.bottom)
+
+                Text(location)
+                    .font(.appHeadline)
                     .padding(.bottom)
 
                 Text(description)

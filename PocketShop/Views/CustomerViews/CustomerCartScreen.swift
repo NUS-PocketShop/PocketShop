@@ -58,7 +58,7 @@ struct CustomerCartScreen: View {
                     .frame(width: 100, height: 100)
 
                 VStack(alignment: .leading) {
-                    Text("\(cartProduct.shopName)")
+                    Text("\(cartProduct.shopName) (\(viewModel.customerViewModel.getLocationNameFromShopId(shopId: cartProduct.shopId)))")
                         .font(.appBody)
 
                     Text("Qty: \(cartProduct.quantity)")
@@ -102,7 +102,7 @@ struct CustomerCartScreen: View {
 
 extension CustomerCartScreen {
     class ViewModel: ObservableObject {
-        @ObservedObject private var customerViewModel: CustomerViewModel
+        @ObservedObject var customerViewModel: CustomerViewModel
         @Published var cartProducts: [CartProduct] = []
         @Published var showError = false
         @Published var errorMessage = ""

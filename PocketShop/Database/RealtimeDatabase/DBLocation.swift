@@ -17,7 +17,7 @@ class DBLocation {
             print(error)
         }
     }
-    
+
     func deleteLocation(id: String) {
         let ref = FirebaseManager.sharedManager.ref.child("locations/\(id)")
         ref.removeValue { error, _ in
@@ -26,7 +26,7 @@ class DBLocation {
             }
         }
     }
-    
+
     func editLocation(location: Location) {
         let ref = FirebaseManager.sharedManager.ref.child("locations/\(location.id)")
         do {
@@ -37,7 +37,7 @@ class DBLocation {
             print(error)
         }
     }
-    
+
     func observeAllLocations(actionBlock: @escaping (DatabaseError?, [Location]?, DatabaseEvent?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("locations")
 
@@ -54,7 +54,7 @@ class DBLocation {
                 actionBlock(nil, [location], .updated)
             }
         }
-        
+
         ref.observe(.childRemoved) { snapshot in
             print("deleted")
             if let value = snapshot.value, let location = self.convertLocation(locationJson: value) {
@@ -63,7 +63,7 @@ class DBLocation {
         }
 
     }
-    
+
     private func convertLocation(locationJson: Any) -> Location? {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: locationJson)

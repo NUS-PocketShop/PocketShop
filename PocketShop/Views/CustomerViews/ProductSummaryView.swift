@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ProductSummaryView: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
     var product: Product
 
     var body: some View {
@@ -10,6 +11,10 @@ struct ProductSummaryView: View {
                 .frame(width: 150, height: 150) // Might change to relative sizes
 
             Text(product.shopName)
+                .font(.appSubheadline)
+                .foregroundColor(.gray6)
+
+            Text("(\(viewModel.getLocationNameFromProduct(product: product)))")
                 .font(.appSubheadline)
                 .foregroundColor(.gray6)
 

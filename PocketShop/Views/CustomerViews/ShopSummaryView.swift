@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ShopSummaryView: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
     var shop: Shop
 
     var body: some View {
@@ -9,7 +10,7 @@ struct ShopSummaryView: View {
                 .scaledToFit()
                 .frame(width: 150, height: 150) // Might change to relative sizes
 
-            Text(shop.description)
+            Text(viewModel.getLocationNameFromId(locationId: shop.locationId))
                 .font(.appSubheadline)
                 .foregroundColor(.gray6)
 
