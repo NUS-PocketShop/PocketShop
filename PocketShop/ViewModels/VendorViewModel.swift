@@ -112,8 +112,8 @@ final class VendorViewModel: ObservableObject {
         }
     }
 
-    func deleteOrder(orderId: String) {
-        DatabaseInterface.db.deleteOrder(id: orderId)
+    func cancelOrder(orderId: String) {
+        DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
     func setOrderAccept(orderId: String) {

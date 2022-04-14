@@ -74,6 +74,11 @@ class DBOrders {
         }
     }
 
+    func cancelOrder(id: String) {
+        let ref = FirebaseManager.sharedManager.ref.child("orders/\(id)/status")
+        ref.setValue(OrderStatus.cancelled.rawValue)
+    }
+
     func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         let orderRef = FirebaseManager.sharedManager.ref.child("orders")
 

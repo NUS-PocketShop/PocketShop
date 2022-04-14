@@ -38,7 +38,7 @@ struct OrderViewModel {
 
     var ringColor: Color {
         switch status {
-        case .pending, .accepted, .preparing:
+        case .pending, .accepted, .preparing, .cancelled:
             return .gray6
         case .ready, .collected:
             return .success
