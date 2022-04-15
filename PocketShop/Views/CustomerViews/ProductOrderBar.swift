@@ -2,14 +2,36 @@ import SwiftUI
 
 class CustomerChoices: ObservableObject {
     @Published var choices = [ProductOptionChoice]()
+    
+    init() {}
+    
+    init(choices: [ProductOptionChoice]) {
+        self.choices = choices
+    }
 }
 
 struct ProductOrderBar: View {
     @EnvironmentObject var customerViewModel: CustomerViewModel
 
     @State var quantity: Int = 1
-    @StateObject var choices = CustomerChoices()
+    @ObservedObject var choices = CustomerChoices()
     var product: Product
+    var cartProduct: CartProduct?
+    
+    init(product: Product) {
+        self.product = product
+    }
+    
+    init(product: Product, cartProduct: CartProduct?) {
+        self.product = product
+        self.cartProduct = cartProduct
+        
+        // If it has cartProduct, then we "edit cart" instead of "add to cart"
+        if let cartProduct = cartProduct {
+            self._quantity = State(initialValue: cartProduct.quantity)
+            self.choices = CustomerChoices(choices: cartProduct.productOptionChoices)
+        }
+    }
 
     var body: some View {
         VStack {
@@ -20,6 +42,7 @@ struct ProductOrderBar: View {
                 QuantitySelector(quantity: $quantity)
                 PriceAndOrderButton(customerViewModel: _customerViewModel,
                                     product: product,
+                                    cartProduct: cartProduct,
                                     quantity: $quantity,
                                     selectedOptions: choices)
             }
@@ -37,7 +60,24 @@ struct ProductOptionsGroup: View {
     init(availableOptions: [ProductOption], selectedOptions: CustomerChoices) {
         self._availableOptions = State(initialValue: availableOptions)
         self.selectedOptions = selectedOptions
-        self._selectedIndices = State(initialValue: Array(repeating: -1, count: availableOptions.count))
+
+        // Initializes the chosen index if there is selectedOptions
+        var tempIndices = Array(repeating: -1, count: availableOptions.count)
+
+        for i in 0..<availableOptions.count {
+            let availableOption = availableOptions[i]
+            
+            for j in 0..<availableOption.optionChoices.count {
+                let optionChoice = availableOption.optionChoices[j]
+                
+                if selectedOptions.choices.contains(optionChoice) {
+                    tempIndices[i] = j
+                }
+            }
+        }
+
+
+        self._selectedIndices = State(initialValue: tempIndices)
     }
 
     var body: some View {
@@ -50,6 +90,7 @@ struct ProductOptionsGroup: View {
                                            options: availableOptions[index].optionChoices.map({ choice in
                                             "\(choice.description) (+$\(choice.cost))"
                                            }),
+                                           selectedId: selectedIndices[index],
                                            callback: {selected in
                                             addToSelection(optionIndex: index, choiceIndex: selected)
                                            })
@@ -70,6 +111,7 @@ struct ProductOptionsGroup: View {
             tempChoices.append(availableOptions[i].optionChoices[choiceIndex])
         }
         selectedOptions.choices = tempChoices
+        
     }
 }
 
@@ -102,31 +144,37 @@ struct PriceAndOrderButton: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var customerViewModel: CustomerViewModel
     var product: Product
+    var cartProduct: CartProduct?
     @Binding var quantity: Int
     @ObservedObject var selectedOptions: CustomerChoices
     var price: Double {
         calculatePrice()
     }
 
-    @State var isShowingAddToCartAlert = false
+    @State var isShowingAlert = false
 
     var body: some View {
         VStack {
             // Price and order button
             Text(String(format: "Price: $%.2f", price))
                 .font(.appHeadline)
-            PSButton(title: "Add to Cart") {
-                addToCart()
-                isShowingAddToCartAlert = true
+            
+            if cartProduct == nil {
+                PSButton(title: "Add to Cart") {
+                    addToCart()
+                    isShowingAlert = true
+                }
+                .buttonStyle(FillButtonStyle())
+            } else {
+                PSButton(title: "Edit Cart Product") {
+                    editCartProduct()
+                    isShowingAlert = true
+                }
+                .buttonStyle(FillButtonStyle())
             }
-            .buttonStyle(FillButtonStyle())
         }
-        .alert(isPresented: $isShowingAddToCartAlert) {
-            Alert(title: Text("Added to cart"),
-                  message: Text("\(product.name) has been added to Cart."),
-                  dismissButton: .default(Text("Ok")) {
-                    presentationMode.wrappedValue.dismiss()
-                  })
+        .alert(isPresented: $isShowingAlert) {
+            getAlert()
         }
         .padding()
     }
@@ -141,5 +189,40 @@ struct PriceAndOrderButton: View {
         customerViewModel.addProductToCart(product,
                                            quantity: quantity,
                                            choices: selectedOptions.choices)
+    }
+    
+    func editCartProduct() {
+        guard let cartProduct = cartProduct else {
+            return
+        }
+
+        customerViewModel.editCartProduct(cartProduct,
+                                          product: product,
+                                          quantity: quantity,
+                                          choices: selectedOptions.choices)
+    }
+    
+    private func getAlert() -> Alert {
+        if cartProduct == nil {
+            return getAddToCartAlert()
+        } else {
+            return getEditCartProductAlert()
+        }
+    }
+    
+    private func getAddToCartAlert() -> Alert {
+        Alert(title: Text("Added to cart"),
+              message: Text("\(product.name) has been added to Cart."),
+              dismissButton: .default(Text("Ok")) {
+                presentationMode.wrappedValue.dismiss()
+              })
+    }
+    
+    private func getEditCartProductAlert() -> Alert {
+        Alert(title: Text("Edited cart product"),
+              message: Text("\(product.name) has been edited in your Cart."),
+              dismissButton: .default(Text("Ok")) {
+                presentationMode.wrappedValue.dismiss()
+              })
     }
 }

@@ -3,6 +3,16 @@ import SwiftUI
 struct ProductDetailView: View {
     @EnvironmentObject var viewModel: CustomerViewModel
     var product: Product
+    var cartProduct: CartProduct?
+    
+    init(product: Product) {
+        self.product = product
+    }
+    
+    init(product: Product, cartProduct: CartProduct) {
+        self.product = product
+        self.cartProduct = cartProduct
+    }
 
     var body: some View {
         VStack {
@@ -29,7 +39,7 @@ struct ProductDetailView: View {
                 .font(.appBody)
                 .fontWeight(.semibold)
 
-            ProductOrderBar(product: product)
+            ProductOrderBar(product: product, cartProduct: cartProduct)
         }
         .toolbar {
             FavouritesButton(itemId: product.id)

@@ -60,7 +60,7 @@ struct CustomerCartScreen: View {
 
                 Spacer()
 
-                TrashCartItemButton(cartProduct: cartProduct)
+                TrashAndEditCartItemButton(cartProduct: cartProduct)
             }
         }
         .padding()
@@ -95,12 +95,23 @@ struct CartItemDescription: View {
     }
 }
 
-struct TrashCartItemButton: View {
+struct TrashAndEditCartItemButton: View {
     @EnvironmentObject var viewModel: CustomerViewModel
     var cartProduct: CartProduct
     @State private var showConfirmDelete = false
+    @State private var navigateToProductDetail = false
 
     var body: some View {
+        NavigationLink(destination:
+                        ProductDetailView(product: viewModel.getProductFor(cartProduct: cartProduct),
+                                          cartProduct: cartProduct),
+                        isActive: $navigateToProductDetail) {
+            PSButton(title: "Edit") {
+                navigateToProductDetail.toggle()
+            }
+        }
+        .frame(width: 100)
+        
         Image(systemName: "trash")
             .resizable()
             .frame(width: 24, height: 24)
