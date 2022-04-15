@@ -33,7 +33,7 @@ struct OrderViewModel {
     }
 
     var isHistory: Bool {
-        status == .collected
+        status == .collected || status == .cancelled
     }
 
     var ringColor: Color {
@@ -47,6 +47,21 @@ struct OrderViewModel {
 
     var showCancel: Bool {
         status == .pending
+    }
+
+    var buttonText: String {
+        switch status {
+        case .pending:
+            return "Accept"
+        case .accepted:
+            return "Prepare"
+        case .preparing:
+            return "Ready"
+        case .ready:
+            return "Collected"
+        default:
+            return ""
+        }
     }
 
     private let dateFormatter = DateFormatter()

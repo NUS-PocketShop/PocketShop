@@ -19,7 +19,7 @@ struct CustomerCartScreen: View {
                             .bold()
 
                         PSButton(title: "Order") {
-                            viewModel.makeOrder()
+                            viewModel.confirmOrder()
                         }
                         .buttonStyle(FillButtonStyle())
                     }
@@ -30,11 +30,35 @@ struct CustomerCartScreen: View {
             .padding()
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .alert(isPresented: $viewModel.showError) {
-            Alert(title: Text("Oops"),
-                  message: Text("\(viewModel.errorMessage)"),
-                  dismissButton: .default(Text("OK")))
+        .alert(isPresented: $viewModel.showAlert) {
+            switch viewModel.activeAlert {
+            case .showEmptyCart:
+                return emptyCartAlert()
+            case .showConfirmOrder:
+                return makeOrderAlert()
+            case .showError:
+                return errorAlert()
+            }
         }
+    }
+
+    private func emptyCartAlert() -> Alert {
+        Alert(title: Text("Unable to Order"),
+              message: Text("Unable to make order since your cart is empty"),
+              dismissButton: .default(Text("OK")))
+    }
+
+    private func makeOrderAlert() -> Alert {
+        Alert(title: Text("Confirm Order"),
+              message: Text("Confirm to order items in cart?"),
+              primaryButton: .default(Text("Confirm")) { viewModel.makeOrder() },
+              secondaryButton: .destructive(Text("Cancel")))
+    }
+
+    private func errorAlert() -> Alert {
+        Alert(title: Text("Oops"),
+              message: Text("\(viewModel.errorMessage)"),
+              dismissButton: .default(Text("OK")))
     }
 
     @ViewBuilder
@@ -60,7 +84,7 @@ struct CustomerCartScreen: View {
 
                 Spacer()
 
-                TrashCartItemButton(cartProduct: cartProduct)
+                TrashAndEditCartItemButton(cartProduct: cartProduct)
             }
         }
         .padding()
@@ -95,12 +119,23 @@ struct CartItemDescription: View {
     }
 }
 
-struct TrashCartItemButton: View {
+struct TrashAndEditCartItemButton: View {
     @EnvironmentObject var viewModel: CustomerViewModel
     var cartProduct: CartProduct
     @State private var showConfirmDelete = false
+    @State private var navigateToProductDetail = false
 
     var body: some View {
+        NavigationLink(destination:
+                        ProductDetailView(product: viewModel.getProductFor(cartProduct: cartProduct),
+                                          cartProduct: cartProduct),
+                        isActive: $navigateToProductDetail) {
+            PSButton(title: "Edit") {
+                navigateToProductDetail.toggle()
+            }
+        }
+        .frame(width: 100)
+
         Image(systemName: "trash")
             .resizable()
             .frame(width: 24, height: 24)
@@ -121,10 +156,15 @@ struct TrashCartItemButton: View {
 }
 
 extension CustomerCartScreen {
+    enum ActiveAlert {
+        case showError, showEmptyCart, showConfirmOrder
+    }
+
     class ViewModel: ObservableObject {
         @ObservedObject var customerViewModel: CustomerViewModel
         @Published var cartProducts: [CartProduct] = []
-        @Published var showError = false
+        @Published var showAlert = false
+        @Published var activeAlert: ActiveAlert = .showError
         @Published var errorMessage = ""
 
         var total: Double {
@@ -136,6 +176,16 @@ extension CustomerCartScreen {
         init(customerViewModel: CustomerViewModel) {
             self.customerViewModel = customerViewModel
             self.cartProducts = customerViewModel.cart
+        }
+
+        func confirmOrder() {
+            if cartProducts.isEmpty {
+                activeAlert = .showEmptyCart
+            } else {
+                activeAlert = .showConfirmOrder
+            }
+
+            showAlert.toggle()
         }
 
         func makeOrder() {
@@ -161,7 +211,9 @@ extension CustomerCartScreen {
             case .shopClosed:
                 errorMessage = "Unable to order \(cartProduct.productName) since \(cartProduct.shopName) is closed :("
             }
-            showError = true
+
+            activeAlert = .showError
+            showAlert.toggle()
         }
 
         func removeCartProduct(_ cartProduct: CartProduct) {

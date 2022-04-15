@@ -62,9 +62,13 @@ struct ShopOrderScreen: View {
 
             Spacer()
 
-            InteractableStatusRing(order: order)
+            StatusRing(order: order)
 
             Spacer()
+
+            if !order.isHistory {
+                ToggleOrderStatusButton(order: order)
+            }
 
             if order.showCancel {
                 PSButton(title: "Cancel") {
@@ -87,20 +91,25 @@ struct ShopOrderScreen: View {
     }
 
     @ViewBuilder
-    func InteractableStatusRing(order: OrderViewModel) -> some View {
-        RingView(color: order.ringColor, text: order.status.toString())
-            .onTapGesture {
-                showConfirmation.toggle()
-                selectedOrder = order
+    func ToggleOrderStatusButton(order: OrderViewModel) -> some View {
+        PSButton(title: order.buttonText) {
+            showConfirmation.toggle()
+            selectedOrder = order
+        }
+        .frame(height: 64)
+        .buttonStyle(FillButtonStyle())
+        .alert(isPresented: $showConfirmation) {
+            guard let selectedOrder = self.selectedOrder else {
+                fatalError("Order does not exist")
             }
-            .alert(isPresented: $showConfirmation) {
-                guard let selectedOrder = self.selectedOrder else {
-                    // TODO: show user-friendly error message
-                    fatalError("Order does not exist")
-                }
 
-                return getAlertForOrder(selectedOrder)
-            }
+            return getAlertForOrder(selectedOrder)
+        }
+    }
+
+    @ViewBuilder
+    func StatusRing(order: OrderViewModel) -> some View {
+        RingView(color: order.ringColor, text: order.status.toString())
     }
 
     private func getCancelAlertForOrder(_ order: OrderViewModel) -> Alert {
@@ -180,6 +189,8 @@ extension ShopOrderScreen {
         func setFilterCurrent() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status != .collected && order.status != .cancelled
+            }.sorted {
+                $0.date < $1.date
             }.map {
                 OrderViewModel(order: $0)
             }
@@ -188,6 +199,8 @@ extension ShopOrderScreen {
         func setFilterHistory() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status == .collected || order.status == .cancelled
+            }.sorted {
+                $0.date > $1.date
             }.map {
                 OrderViewModel(order: $0)
             }
