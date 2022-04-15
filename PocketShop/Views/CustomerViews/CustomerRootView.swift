@@ -23,25 +23,18 @@ struct CustomerRootView: View {
             ZStack(alignment: .bottomLeading) {
                 TabView(selection: $viewRouter.currentPage) {
                     CustomerHomeScreen()
-                        .tabItem {
-                            TabItemView(tabItem: tabData[0])
-                        }.tag(CustomerViewRouter.Page.home)
+                        .tabItem { TabItemView(tabItem: tabData[0]) }
+                        .tag(CustomerViewRouter.Page.home)
 
                     CustomerCartScreen(viewModel: .init(customerViewModel: customerViewModel))
-                        .tabItem {
-                            TabItemView(tabItem: tabData[1])
-                        }
+                        .tabItem { TabItemView(tabItem: tabData[1]) }
                         .tag(CustomerViewRouter.Page.cart)
 
                     CustomerOrderScreen(viewModel: .init(customerViewModel: customerViewModel))
-                        .tabItem {
-                            TabItemView(tabItem: tabData[2])
-                        }.tag(CustomerViewRouter.Page.search)
+                        .tabItem { TabItemView(tabItem: tabData[2]) }.tag(CustomerViewRouter.Page.search)
 
                     CustomerProfileScreen(router: router)
-                        .tabItem {
-                            TabItemView(tabItem: tabData[3])
-                        }.tag(CustomerViewRouter.Page.profile)
+                        .tabItem { TabItemView(tabItem: tabData[3]) }.tag(CustomerViewRouter.Page.profile)
                 }
 
                 PSBadge(badgeNumber: itemsInCart)

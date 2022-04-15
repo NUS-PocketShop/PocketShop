@@ -231,21 +231,12 @@ struct OptionGroupCreationForm: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Create option group")
                 .font(.appTitle)
+
             PSTextField(text: $title,
                         title: "Option Group Title",
                         placeholder: "Enter option group title")
 
-            ForEach(0..<userOptions.count, id: \.self) { index in
-                HStack {
-                    PSTextField(text: $userOptions[index],
-                                title: "Option \(index + 1)",
-                                placeholder: "Enter option name")
-                    PSTextField(text: $userPrices[index],
-                                title: "Price",
-                                placeholder: "Enter option price")
-                        .keyboardType(.numberPad)
-                }
-            }
+            OptionFields(userOptions: $userOptions, userPrices: $userPrices)
 
             Button(action: {
                 userOptions.append("")
@@ -256,23 +247,10 @@ struct OptionGroupCreationForm: View {
             .padding(.vertical)
 
             Spacer()
-            PSButton(title: "Save") {
-                guard !title.isEmpty else {
-                    alertMessage = "Please enter a title for option group!"
-                    showAlert = true
-                    return
-                }
-                guard !userOptions.allSatisfy({ $0.isEmpty }),
-                      !userPrices.allSatisfy({ $0.isEmpty }) else {
-                    alertMessage = "Please enter all options/prices"
-                    showAlert = true
-                    return
-                }
-                options.append(createOptionGroupFrom(title: title,
-                                                     userOptions: userOptions,
-                                                     userPrices: userPrices))
-                presentationMode.wrappedValue.dismiss()
-            }.buttonStyle(FillButtonStyle())
+
+            SaveOptionGroupButton(title: $title, options: $options, userOptions: $userOptions,
+                                  userPrices: $userPrices, showAlert: $showAlert, alertMessage: $alertMessage)
+
             PSButton(title: "Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }.buttonStyle(OutlineButtonStyle())
@@ -282,6 +260,57 @@ struct OptionGroupCreationForm: View {
         }
         .padding()
         .frame(maxWidth: Constants.maxWidthIPad)
+    }
+}
+
+struct OptionFields: View {
+    @Binding var userOptions: [String]
+    @Binding var userPrices: [String]
+
+    var body: some View {
+        ForEach(0..<userOptions.count, id: \.self) { index in
+            HStack {
+                PSTextField(text: $userOptions[index],
+                            title: "Option \(index + 1)",
+                            placeholder: "Enter option name")
+                PSTextField(text: $userPrices[index],
+                            title: "Price",
+                            placeholder: "Enter option price")
+                    .keyboardType(.numberPad)
+            }
+        }
+    }
+}
+
+struct SaveOptionGroupButton: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    @Binding var title: String
+    @Binding var options: [ProductOption]
+    @Binding var userOptions: [String]
+    @Binding var userPrices: [String]
+
+    @Binding var showAlert: Bool
+    @Binding var alertMessage: String
+
+    var body: some View {
+        PSButton(title: "Save") {
+            guard !title.isEmpty else {
+                alertMessage = "Please enter a title for option group!"
+                showAlert = true
+                return
+            }
+            guard !userOptions.allSatisfy({ $0.isEmpty }),
+                  !userPrices.allSatisfy({ $0.isEmpty }) else {
+                alertMessage = "Please enter all options/prices"
+                showAlert = true
+                return
+            }
+            options.append(createOptionGroupFrom(title: title,
+                                                 userOptions: userOptions,
+                                                 userPrices: userPrices))
+            presentationMode.wrappedValue.dismiss()
+        }.buttonStyle(FillButtonStyle())
     }
 
     func createOptionGroupFrom(title: String, userOptions: [String], userPrices: [String]) -> ProductOption {

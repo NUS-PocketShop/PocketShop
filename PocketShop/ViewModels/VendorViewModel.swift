@@ -128,28 +128,12 @@ final class VendorViewModel: ObservableObject {
         setOrderStatus(orderId: orderId, status: .collected)
     }
 
-    private func setOrderStatus(orderId: String, status: OrderStatus) {
-        let filteredOrder = self.orders.filter { order in
-            order.id == orderId
-        }
+    func getLocationIdFromName(locationName: String) -> String {
+        locations.first(where: { $0.name == locationName })?.id ?? ""
+    }
 
-        guard filteredOrder.count == 1 else {
-            fatalError("The order id \(orderId) does not appear in order")
-        }
-
-        let order = filteredOrder[0]
-
-        let editedOrder = Order(id: order.id,
-                                orderProducts: order.orderProducts,
-                                status: status,
-                                customerId: order.customerId,
-                                shopId: order.shopId,
-                                shopName: order.shopName,
-                                date: order.date,
-                                collectionNo: order.collectionNo,
-                                total: order.total)
-
-        DatabaseInterface.db.editOrder(order: editedOrder)
+    func getLocationNameFromId(locationId: String) -> String {
+        locations.first(where: { $0.id == locationId })?.name ?? ""
     }
 
     // MARK: Private functions
@@ -191,6 +175,30 @@ final class VendorViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    private func setOrderStatus(orderId: String, status: OrderStatus) {
+        let filteredOrder = self.orders.filter { order in
+            order.id == orderId
+        }
+
+        guard filteredOrder.count == 1 else {
+            fatalError("The order id \(orderId) does not appear in order")
+        }
+
+        let order = filteredOrder[0]
+
+        let editedOrder = Order(id: order.id,
+                                orderProducts: order.orderProducts,
+                                status: status,
+                                customerId: order.customerId,
+                                shopId: order.shopId,
+                                shopName: order.shopName,
+                                date: order.date,
+                                collectionNo: order.collectionNo,
+                                total: order.total)
+
+        DatabaseInterface.db.editOrder(order: editedOrder)
     }
 
     private func observeLocations() {

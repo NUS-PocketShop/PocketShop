@@ -29,35 +29,18 @@ class DBUsers {
         let vendorRef = FirebaseManager.sharedManager.ref.child("vendors/\(id)")
         customerRef.observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() {
-                customerRef.observe(.value) { snapshot in
+                customerRef.observe(.value) { [self] snapshot in
                     guard let value = snapshot.value else {
                         return
                     }
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: value)
-                        let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
-                        let customer = customerSchema.toCustomer()
-                        print("Favorites: \(customerSchema.favouriteProductIds)")
-                        completionHandler(nil, customer)
-                    } catch {
-                        print(error)
-                    }
+                    updateCustomerSnapshot(value: value, completionHandler: completionHandler)
                 }
-                return
             } else {
-                vendorRef.observeSingleEvent(of: .value) { snapshot in
+                vendorRef.observeSingleEvent(of: .value) { [self] snapshot in
                     if snapshot.exists(), let value = snapshot.value {
-                        do {
-                            let jsonData = try JSONSerialization.data(withJSONObject: value)
-                            let vendor = try JSONDecoder().decode(Vendor.self, from: jsonData)
-                            completionHandler(nil, vendor)
-                        } catch {
-                            print(error)
-                        }
-                        return
+                        updateVendorSnapshot(value: value, completionHandler: completionHandler)
                     } else {
                         completionHandler(DatabaseError.userNotFound, nil)
-                        return
                     }
                 }
             }
@@ -79,5 +62,26 @@ class DBUsers {
     func setRewardPoints(userId: String, rewardPoints: Int) {
         let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/rewardPoints")
         ref.setValue(rewardPoints)
+    }
+
+    private func updateCustomerSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: value)
+            let customerSchema = try JSONDecoder().decode(CustomerSchema.self, from: jsonData)
+            let customer = customerSchema.toCustomer()
+            completionHandler(nil, customer)
+        } catch {
+            print(error)
+        }
+    }
+
+    private func updateVendorSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: value)
+            let vendor = try JSONDecoder().decode(Vendor.self, from: jsonData)
+            completionHandler(nil, vendor)
+        } catch {
+            print(error)
+        }
     }
 }

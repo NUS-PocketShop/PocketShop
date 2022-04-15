@@ -1,15 +1,16 @@
 import SwiftUI
 
 struct ShopSummaryView: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
     var shop: Shop
 
     var body: some View {
         VStack {
             URLImage(urlString: shop.imageURL)
                 .scaledToFit()
-                .frame(width: 150, height: 150) // Might change to relative sizes
+                .frame(width: 150, height: 150)
 
-            Text(shop.description)
+            Text(viewModel.getLocationNameFromLocationId(locationId: shop.locationId))
                 .font(.appSubheadline)
                 .foregroundColor(.gray6)
 
@@ -18,6 +19,7 @@ struct ShopSummaryView: View {
                 .foregroundColor(.gray9)
                 .padding(.bottom)
         }
+        .opacity(shop.isClosed ? 0.5 : 1)
         .padding()
     }
 }

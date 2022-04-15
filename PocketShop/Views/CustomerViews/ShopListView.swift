@@ -1,23 +1,23 @@
 import SwiftUI
 
-struct ProductListView: View {
-    var product: Product
+struct ShopListView: View {
+    var shop: Shop
 
     var body: some View {
         HStack {
-            URLImage(urlString: product.imageURL)
+            URLImage(urlString: shop.imageURL)
                 .scaledToFit()
                 .frame(width: 100, height: 100)
                 .padding([.top, .leading, .bottom])
 
             VStack(alignment: .leading) {
-                Text(product.name)
-                    .font(.appButton)
+                Text(shop.name)
+                    .font(.appHeadline)
                     .foregroundColor(Color.black)
                     .padding([.leading, .bottom])
 
-                Text(String(format: "$%.2f", product.price))
-                    .font(.appButton)
+                Text(shop.description)
+                    .font(.appCaption)
                     .foregroundColor(Color.black)
                     .padding(.leading)
             }
@@ -25,9 +25,10 @@ struct ProductListView: View {
     }
 }
 
-struct ProductListView_Previews: PreviewProvider {
+struct ShopListView_Previews: PreviewProvider {
     static var previews: some View {
-        let sampleProduct = CustomerViewModel().products.first!
-        ProductListView(product: sampleProduct)
+        let viewModel = CustomerViewModel()
+        let sampleShop = viewModel.shops.first!
+        ShopListView(shop: sampleShop).environmentObject(viewModel)
     }
 }

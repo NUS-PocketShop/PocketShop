@@ -3,7 +3,8 @@ import SwiftUI
 struct ShopFormView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var name = ""
-    @State private var address = ""
+    @State private var location = ""
+    @State private var description = ""
     @State private var image: UIImage?
     @State private var categories = [String]()
 
@@ -17,7 +18,7 @@ struct ShopFormView: View {
             Text("Create your shop").font(.appTitle)
 
             ScrollView(.vertical) {
-                ShopTextFields(name: $name, address: $address, categories: $categories)
+                ShopTextFields(name: $name, location: $location, description: $description, categories: $categories)
                 PSImagePicker(title: "Shop Image", image: $image)
             }
             .navigationBarItems(trailing: Button("Cancel") {
@@ -60,8 +61,14 @@ struct ShopFormView: View {
             return nil
         }
 
-        guard !address.isEmpty else {
-            alertMessage = "Shop address cannot be empty!"
+        guard !description.isEmpty else {
+            alertMessage = "Shop description cannot be empty!"
+            showAlert = true
+            return nil
+        }
+
+        guard !location.isEmpty else {
+            alertMessage = "Shop location cannot be empty!"
             showAlert = true
             return nil
         }
@@ -78,8 +85,8 @@ struct ShopFormView: View {
 
         return Shop(id: "",
                     name: name,
-                    description: address,
-                    locationId: "", // placeholder
+                    description: description,
+                    locationId: viewModel.getLocationIdFromName(locationName: location),
                     imageURL: "",
                     isClosed: false,
                     ownerId: vendor.id,
@@ -90,7 +97,8 @@ struct ShopFormView: View {
 
 struct ShopTextFields: View {
     @Binding var name: String
-    @Binding var address: String
+    @Binding var location: String
+    @Binding var description: String
     @Binding var categories: [String]
 
     var body: some View {
@@ -98,9 +106,11 @@ struct ShopTextFields: View {
                     title: "Shop Name",
                     placeholder: "Shop Name")
 
-        PSTextField(text: $address,
-                    title: "Shop Address",
-                    placeholder: "Shop Address")
+        LocationPickerSection(location: $location)
+
+        PSTextField(text: $description,
+                    title: "Shop Description",
+                    placeholder: "Shop Description")
 
         ForEach(0..<categories.count, id: \.self) { index in
             PSTextField(text: $categories[index],
@@ -114,5 +124,27 @@ struct ShopTextFields: View {
             Text("\(Image(systemName: "plus.circle")) Add new shop category")
         })
         .padding(.vertical)
+    }
+}
+
+struct LocationPickerSection: View {
+    @EnvironmentObject var viewModel: VendorViewModel
+    @Binding var location: String
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text("Product Location".uppercased())
+                    .font(.appSmallCaption)
+
+                Picker("Select a product location", selection: $location) {
+                    ForEach(viewModel.locations, id: \.self.name) { location in
+                        Text(location.name)
+                    }
+                }
+            }
+            Spacer()
+        }
+        .frame(maxWidth: Constants.maxWidthIPad)
     }
 }

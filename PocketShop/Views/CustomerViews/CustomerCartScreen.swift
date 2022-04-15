@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CustomerCartScreen: View {
     @ObservedObject private(set) var viewModel: ViewModel
-    @State private var showConfirmDelete = false
 
     var body: some View {
         NavigationView {
@@ -57,52 +56,73 @@ struct CustomerCartScreen: View {
                     .scaledToFit()
                     .frame(width: 100, height: 100)
 
-                VStack(alignment: .leading) {
-                    Text("\(cartProduct.shopName)")
-                        .font(.appBody)
-
-                    Text("Qty: \(cartProduct.quantity)")
-                        .font(.appBody)
-                        .padding(.bottom)
-
-                    if !cartProduct.productOptionChoices.isEmpty {
-                        ForEach(cartProduct.productOptionChoices, id: \.self) { choice in
-                            Text("\(choice.description) (+$\(choice.cost, specifier: "%.2f"))")
-                                .font(.appBody)
-                        }
-                    }
-
-                    Text(String(format: "$%.2f", cartProduct.total))
-                        .font(.appBody)
-                }
+                CartItemDescription(cartProduct: cartProduct)
 
                 Spacer()
 
-                Image(systemName: "trash")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.red)
-                    .padding(.trailing)
-                    .onTapGesture {
-                        self.showConfirmDelete.toggle()
-                    }
-                    .alert(isPresented: $showConfirmDelete) {
-                        Alert(title: Text("Confirmation"),
-                              message: Text("Confirm to remove \(cartProduct.productName) from cart?"),
-                              primaryButton: .destructive(Text("Yes")) {
-                                    viewModel.removeCartProduct(cartProduct)
-                              },
-                              secondaryButton: .default(Text("No")))
-                    }
+                TrashCartItemButton(cartProduct: cartProduct)
             }
         }
         .padding()
     }
 }
 
+struct CartItemDescription: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+    var cartProduct: CartProduct
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("""
+                 \(cartProduct.shopName) (\(viewModel.getLocationNameFromShopId(shopId: cartProduct.shopId)))
+                 """)
+                .font(.appBody)
+
+            Text("Qty: \(cartProduct.quantity)")
+                .font(.appBody)
+                .padding(.bottom)
+
+            if !cartProduct.productOptionChoices.isEmpty {
+                ForEach(cartProduct.productOptionChoices, id: \.self) { choice in
+                    Text("\(choice.description) (+$\(choice.cost, specifier: "%.2f"))")
+                        .font(.appBody)
+                }
+            }
+
+            Text(String(format: "$%.2f", cartProduct.total))
+                .font(.appBody)
+        }
+    }
+}
+
+struct TrashCartItemButton: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+    var cartProduct: CartProduct
+    @State private var showConfirmDelete = false
+
+    var body: some View {
+        Image(systemName: "trash")
+            .resizable()
+            .frame(width: 24, height: 24)
+            .foregroundColor(.red)
+            .padding(.trailing)
+            .onTapGesture {
+                self.showConfirmDelete.toggle()
+            }
+            .alert(isPresented: $showConfirmDelete) {
+                Alert(title: Text("Confirmation"),
+                      message: Text("Confirm to remove \(cartProduct.productName) from cart?"),
+                      primaryButton: .destructive(Text("Yes")) {
+                            viewModel.removeCartProduct(cartProduct)
+                      },
+                      secondaryButton: .default(Text("No")))
+            }
+    }
+}
+
 extension CustomerCartScreen {
     class ViewModel: ObservableObject {
-        @ObservedObject private var customerViewModel: CustomerViewModel
+        @ObservedObject var customerViewModel: CustomerViewModel
         @Published var cartProducts: [CartProduct] = []
         @Published var showError = false
         @Published var errorMessage = ""

@@ -3,7 +3,8 @@ import SwiftUI
 struct ShopEditFormView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var name = ""
-    @State private var address = ""
+    @State private var location = ""
+    @State private var description = ""
     @State private var image: UIImage?
     @State private var categories = [String]()
 
@@ -16,7 +17,8 @@ struct ShopEditFormView: View {
     init(viewModel: VendorViewModel, shop: Shop) {
         self.shop = shop
         self._name = State(initialValue: shop.name)
-        self._address = State(initialValue: shop.description)
+        self._location = State(initialValue: viewModel.getLocationNameFromId(locationId: shop.locationId))
+        self._description = State(initialValue: shop.description)
         self._categories = State(initialValue: shop.categories.map { $0.title })
     }
 
@@ -25,7 +27,7 @@ struct ShopEditFormView: View {
             Text("Edit your shop").font(.appTitle)
 
             ScrollView(.vertical) {
-                ShopTextFields(name: $name, address: $address, categories: $categories)
+                ShopTextFields(name: $name, location: $location, description: $description, categories: $categories)
 
                 PSImagePicker(title: "Shop Image", image: $image).onAppear { loadImage() }
             }
@@ -75,8 +77,14 @@ struct ShopEditFormView: View {
             return nil
         }
 
-        guard !address.isEmpty else {
-            alertMessage = "Shop address cannot be empty!"
+        guard !description.isEmpty else {
+            alertMessage = "Shop description cannot be empty!"
+            showAlert = true
+            return nil
+        }
+
+        guard !location.isEmpty else {
+            alertMessage = "Shop location cannot be empty!"
             showAlert = true
             return nil
         }
@@ -93,8 +101,8 @@ struct ShopEditFormView: View {
 
         return Shop(id: shop.id,
                     name: name,
-                    description: address,
-                    locationId: "", // placeholder
+                    description: description,
+                    locationId: viewModel.getLocationIdFromName(locationName: location),
                     imageURL: "",
                     isClosed: shop.isClosed,
                     ownerId: shop.ownerId,
