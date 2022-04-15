@@ -111,7 +111,7 @@ struct TrashAndEditCartItemButton: View {
             }
         }
         .frame(width: 100)
-        
+
         Image(systemName: "trash")
             .resizable()
             .frame(width: 24, height: 24)

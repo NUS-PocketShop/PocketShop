@@ -4,11 +4,11 @@ struct ProductDetailView: View {
     @EnvironmentObject var viewModel: CustomerViewModel
     var product: Product
     var cartProduct: CartProduct?
-    
+
     init(product: Product) {
         self.product = product
     }
-    
+
     init(product: Product, cartProduct: CartProduct) {
         self.product = product
         self.cartProduct = cartProduct

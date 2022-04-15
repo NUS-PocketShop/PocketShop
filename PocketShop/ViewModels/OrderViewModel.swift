@@ -48,7 +48,7 @@ struct OrderViewModel {
     var showCancel: Bool {
         status == .pending
     }
-    
+
     var buttonText: String {
         switch status {
         case .pending:

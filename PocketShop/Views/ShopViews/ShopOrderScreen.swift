@@ -65,8 +65,8 @@ struct ShopOrderScreen: View {
             StatusRing(order: order)
 
             Spacer()
-            
-            if (!order.isHistory) {
+
+            if !order.isHistory {
                 ToggleOrderStatusButton(order: order)
             }
 
@@ -89,7 +89,7 @@ struct ShopOrderScreen: View {
         .frame(width: 100)
         .frame(minHeight: 128)
     }
-    
+
     @ViewBuilder
     func ToggleOrderStatusButton(order: OrderViewModel) -> some View {
         PSButton(title: order.buttonText) {
@@ -102,7 +102,7 @@ struct ShopOrderScreen: View {
             guard let selectedOrder = self.selectedOrder else {
                 fatalError("Order does not exist")
             }
-            
+
             return getAlertForOrder(selectedOrder)
         }
     }
@@ -189,6 +189,8 @@ extension ShopOrderScreen {
         func setFilterCurrent() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status != .collected && order.status != .cancelled
+            }.sorted {
+                $0.date < $1.date
             }.map {
                 OrderViewModel(order: $0)
             }
@@ -197,6 +199,8 @@ extension ShopOrderScreen {
         func setFilterHistory() {
             filteredOrders = vendorViewModel.orders.filter { order in
                 order.status == .collected || order.status == .cancelled
+            }.sorted {
+                $0.date > $1.date
             }.map {
                 OrderViewModel(order: $0)
             }

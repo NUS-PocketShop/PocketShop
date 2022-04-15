@@ -2,9 +2,9 @@ import SwiftUI
 
 class CustomerChoices: ObservableObject {
     @Published var choices = [ProductOptionChoice]()
-    
+
     init() {}
-    
+
     init(choices: [ProductOptionChoice]) {
         self.choices = choices
     }
@@ -17,15 +17,15 @@ struct ProductOrderBar: View {
     @ObservedObject var choices = CustomerChoices()
     var product: Product
     var cartProduct: CartProduct?
-    
+
     init(product: Product) {
         self.product = product
     }
-    
+
     init(product: Product, cartProduct: CartProduct?) {
         self.product = product
         self.cartProduct = cartProduct
-        
+
         // If it has cartProduct, then we "edit cart" instead of "add to cart"
         if let cartProduct = cartProduct {
             self._quantity = State(initialValue: cartProduct.quantity)
@@ -66,16 +66,15 @@ struct ProductOptionsGroup: View {
 
         for i in 0..<availableOptions.count {
             let availableOption = availableOptions[i]
-            
+
             for j in 0..<availableOption.optionChoices.count {
                 let optionChoice = availableOption.optionChoices[j]
-                
+
                 if selectedOptions.choices.contains(optionChoice) {
                     tempIndices[i] = j
                 }
             }
         }
-
 
         self._selectedIndices = State(initialValue: tempIndices)
     }
@@ -111,7 +110,7 @@ struct ProductOptionsGroup: View {
             tempChoices.append(availableOptions[i].optionChoices[choiceIndex])
         }
         selectedOptions.choices = tempChoices
-        
+
     }
 }
 
@@ -158,7 +157,7 @@ struct PriceAndOrderButton: View {
             // Price and order button
             Text(String(format: "Price: $%.2f", price))
                 .font(.appHeadline)
-            
+
             if cartProduct == nil {
                 PSButton(title: "Add to Cart") {
                     addToCart()
@@ -190,7 +189,7 @@ struct PriceAndOrderButton: View {
                                            quantity: quantity,
                                            choices: selectedOptions.choices)
     }
-    
+
     func editCartProduct() {
         guard let cartProduct = cartProduct else {
             return
@@ -201,7 +200,7 @@ struct PriceAndOrderButton: View {
                                           quantity: quantity,
                                           choices: selectedOptions.choices)
     }
-    
+
     private func getAlert() -> Alert {
         if cartProduct == nil {
             return getAddToCartAlert()
@@ -209,7 +208,7 @@ struct PriceAndOrderButton: View {
             return getEditCartProductAlert()
         }
     }
-    
+
     private func getAddToCartAlert() -> Alert {
         Alert(title: Text("Added to cart"),
               message: Text("\(product.name) has been added to Cart."),
@@ -217,7 +216,7 @@ struct PriceAndOrderButton: View {
                 presentationMode.wrappedValue.dismiss()
               })
     }
-    
+
     private func getEditCartProductAlert() -> Alert {
         Alert(title: Text("Edited cart product"),
               message: Text("\(product.name) has been edited in your Cart."),

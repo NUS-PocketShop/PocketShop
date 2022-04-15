@@ -34,12 +34,12 @@ final class CustomerViewModel: ObservableObject {
     func cancelOrder(orderId: String) {
         DatabaseInterface.db.cancelOrder(id: orderId)
     }
-    
+
     func getProductFor(cartProduct: CartProduct) -> Product {
         guard let product = products.first(where: { $0.id == cartProduct.productId }) else {
             fatalError("No product \(cartProduct.productId) exists!")
         }
-        
+
         return product
     }
 
@@ -58,14 +58,15 @@ final class CustomerViewModel: ObservableObject {
                                                   productOptionChoices: choices, quantity: quantity)
         }
     }
-    
+
     func editCartProduct(_ cartProduct: CartProduct, product: Product, quantity: Int, choices: [ProductOptionChoice]) {
         guard let customerId = self.customer?.id else {
             fatalError("No customer")
         }
-        
+
         DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
-        DatabaseInterface.db.addProductToCart(userId: customerId, product: product, productOptionChoices: choices, quantity: quantity)
+        DatabaseInterface.db.addProductToCart(userId: customerId, product: product,
+                                              productOptionChoices: choices, quantity: quantity)
     }
 
     func makeOrderFromCart() -> [(CartValidationError, CartProduct)]? {
