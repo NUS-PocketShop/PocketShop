@@ -87,6 +87,7 @@
 		DF0BA5E92808818200D58696 /* CustomerLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5E82808818200D58696 /* CustomerLocationView.swift */; };
 		DF0BA5EB2808890F00D58696 /* ShopListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5EA2808890F00D58696 /* ShopListView.swift */; };
 		DF0BA5EF2808BFFD00D58696 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5EE2808BFFD00D58696 /* ProductDetailView.swift */; };
+		DF0BA5F12809862D00D58696 /* ShopProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5F02809862D00D58696 /* ShopProductListView.swift */; };
 		DF34150427F9C56400CC945C /* ShopOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */; };
 		DF34150527F9C56400CC945C /* ShopProductFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */; };
 		DF34150627F9C56400CC945C /* ShopHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */; };
@@ -207,6 +208,7 @@
 		DF0BA5E82808818200D58696 /* CustomerLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerLocationView.swift; sourceTree = "<group>"; };
 		DF0BA5EA2808890F00D58696 /* ShopListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListView.swift; sourceTree = "<group>"; };
 		DF0BA5EE2808BFFD00D58696 /* ProductDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		DF0BA5F02809862D00D58696 /* ShopProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopProductListView.swift; sourceTree = "<group>"; };
 		DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopOrderScreen.swift; path = PocketShop/Views/ShopViews/ShopOrderScreen.swift; sourceTree = SOURCE_ROOT; };
 		DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductFormView.swift; path = PocketShop/Views/ShopViews/ShopProductFormView.swift; sourceTree = SOURCE_ROOT; };
 		DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopHomeScreen.swift; path = PocketShop/Views/ShopViews/ShopHomeScreen.swift; sourceTree = SOURCE_ROOT; };
@@ -517,6 +519,7 @@
 				DF34150227F9C56400CC945C /* ShopProductEditFormView.swift */,
 				DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */,
 				DF34150127F9C56300CC945C /* ShopProductsView.swift */,
+				DF0BA5F02809862D00D58696 /* ShopProductListView.swift */,
 			);
 			path = ShopViews;
 			sourceTree = "<group>";
@@ -777,6 +780,7 @@
 				02AD41DD27DEFD0B00F44822 /* Constants.swift in Sources */,
 				022EA8B927E4D437003F4E3C /* ShopViewRouter.swift in Sources */,
 				02AD421E27DF1D3100F44822 /* CustomerViewRouter.swift in Sources */,
+				DF0BA5F12809862D00D58696 /* ShopProductListView.swift in Sources */,
 				DF34150827F9C56400CC945C /* ShopProductsView.swift in Sources */,
 				ADAD28F827F4A0F600CDE510 /* DBCart.swift in Sources */,
 				DF0BA5EF2808BFFD00D58696 /* ProductDetailView.swift in Sources */,

@@ -61,9 +61,9 @@ struct ProductPreview: View {
 
     var body: some View {
         VStack {
-            if isClosed {
+            if isClosed || product.isOutOfStock {
                 ProductListView(product: product).environmentObject(viewModel)
-                    .opacity(0.5)
+                    .opacity(isClosed ? 0.5 : 1)
             } else {
                 NavigationLink(destination: ProductDetailView(product: product)) {
                     ProductListView(product: product).environmentObject(viewModel)

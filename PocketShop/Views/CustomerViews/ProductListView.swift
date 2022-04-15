@@ -22,6 +22,7 @@ struct ProductListView: View {
                     .padding(.leading)
             }
         }
+        .opacity(product.isOutOfStock ? 0.5 : 1)
     }
 }
 

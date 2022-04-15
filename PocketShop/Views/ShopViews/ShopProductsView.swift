@@ -34,7 +34,7 @@ struct ShopProductsView: View {
                                 if product.shopCategory?.title == shopCategory.title {
                                     NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
                                                                                         product: product)) {
-                                        ProductListView(product: product)
+                                        ShopProductListView(product: product)
                                     }
                                 }
                             }

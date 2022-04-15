@@ -66,14 +66,22 @@ final class VendorViewModel: ObservableObject {
         products.remove(atOffsets: positions)
     }
 
-    func setProductOutOfStock(product: Product) {
+    func toggleProductStockStatus(product: Product) {
+        if product.isOutOfStock {
+            setProductInStock(product: product)
+        } else {
+            setProductOutOfStock(product: product)
+        }
+    }
+
+    private func setProductOutOfStock(product: Product) {
         DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: product.id)
         for otherProduct in products where otherProduct.isComboMeal && otherProduct.subProductIds.contains(product.id) {
             DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: otherProduct.id)
         }
     }
 
-    func setProductInStock(product: Product) {
+    private func setProductInStock(product: Product) {
         DatabaseInterface.db.setProductToInStock(shopId: product.shopId, productId: product.id)
         if product.isComboMeal {
             for subProductId in product.subProductIds {
