@@ -1,6 +1,6 @@
 # PocketShop
 <img src="https://user-images.githubusercontent.com/35778042/161794190-73c1f692-a910-4d41-8834-260c4e82f712.png" width="100" height="100" />
-<img src="https://github.com/NUS-PocketShop/PocketShop/actions/workflows/swiftlint.yml/badge.svg" />
+<img src="https://github.com/NUS-PocketShop/PocketShop/workflows/SwiftLint/badge.svg" />
 PocketShop is an e-commerce platform developed on iOS that aims to connect physical shops to customers. 
 
 ## Shop
