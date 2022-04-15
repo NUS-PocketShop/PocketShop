@@ -46,7 +46,22 @@ struct OrderViewModel {
     }
 
     var showCancel: Bool {
-        status == .pending
+        status == .pending || status == .cancelled
+    }
+    
+    var buttonText: String {
+        switch status {
+        case .pending:
+            return "Accept"
+        case .accepted:
+            return "Prepare"
+        case .preparing:
+            return "Ready"
+        case .ready:
+            return "Collected"
+        default:
+            return ""
+        }
     }
 
     private let dateFormatter = DateFormatter()
