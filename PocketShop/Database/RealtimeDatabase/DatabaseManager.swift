@@ -129,7 +129,8 @@ class DatabaseManager: DatabaseAdapter {
 
     func uploadProductImage(productId: ID, imageData: Data,
                             completionHandler: @escaping (DatabaseError?, String?) -> Void) {
-        storage.uploadProductImage(productId: productId.strVal, imageData: imageData, completionHandler: completionHandler)
+        storage.uploadProductImage(productId: productId.strVal,
+                                   imageData: imageData, completionHandler: completionHandler)
     }
 
     func getProductImage(productId: ID, completionHandler: @escaping (DatabaseError?, Data?) -> Void) {

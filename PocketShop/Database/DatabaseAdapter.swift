@@ -24,7 +24,8 @@ protocol DatabaseAdapter {
     func setAllProductsInShopToInStock(shopId: ID)
     func setProductTags(shopId: ID, productId: ID, tags: [ProductTag])
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
-    func observeProductsFromShop(shopId: ID, actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
+    func observeProductsFromShop(shopId: ID,
+                                 actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
 
     func createOrder(order: Order)
     func editOrder(order: Order)
