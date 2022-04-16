@@ -10,6 +10,7 @@ class DatabaseManager: DatabaseAdapter {
     let storage = DBStorage()
     let cart = DBCart()
     let locations = DBLocation()
+    let coupons = DBCoupons()
 
     func createCustomer(id: ID) {
         users.createCustomer(id: id.strVal)
@@ -29,6 +30,14 @@ class DatabaseManager: DatabaseAdapter {
 
     func setRewardPoints(userId: ID, rewardPoints: Int) {
         users.setRewardPoints(userId: userId.strVal, rewardPoints: rewardPoints)
+    }
+
+    func setCoupons(userId: ID, coupons: [ID: Int]) {
+        var couponIds: [String: Int] = [:]
+        for key in coupons.keys {
+            couponIds[key.strVal] = coupons[key]
+        }
+        users.setCoupons(userId: userId.strVal, coupons: couponIds)
     }
 
     func createShop(shop: Shop, imageData: Data?) {
@@ -178,6 +187,22 @@ class DatabaseManager: DatabaseAdapter {
 
     func observeAllLocations(actionBlock: @escaping (DatabaseError?, [Location]?, DatabaseEvent?) -> Void) {
         locations.observeAllLocations(actionBlock: actionBlock)
+    }
+
+    func createCoupon(coupon: Coupon) {
+        coupons.createCoupon(coupon: coupon)
+    }
+
+    func deleteCoupon(id: ID) {
+        coupons.deleteCoupon(id: id.strVal)
+    }
+
+    func editCoupon(coupon: Coupon) {
+        coupons.editCoupon(coupon: coupon)
+    }
+
+    func observeAllCoupons(actionBlock: @escaping (DatabaseError?, [Coupon]?, DatabaseEvent?) -> Void) {
+        coupons.observeAllCoupons(actionBlock: actionBlock)
     }
 
 }
