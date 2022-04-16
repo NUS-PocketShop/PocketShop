@@ -42,21 +42,18 @@ class DBLocation {
         let ref = FirebaseManager.sharedManager.ref.child("locations")
 
         ref.observe(.childAdded) { snapshot in
-            print("added")
             if let value = snapshot.value, let location = self.convertLocation(locationJson: value) {
                 actionBlock(nil, [location], .added)
             }
         }
 
         ref.observe(.childChanged) { snapshot in
-            print("updated")
             if let value = snapshot.value, let location = self.convertLocation(locationJson: value) {
                 actionBlock(nil, [location], .updated)
             }
         }
 
         ref.observe(.childRemoved) { snapshot in
-            print("deleted")
             if let value = snapshot.value, let location = self.convertLocation(locationJson: value) {
                 actionBlock(nil, [location], .deleted)
             }

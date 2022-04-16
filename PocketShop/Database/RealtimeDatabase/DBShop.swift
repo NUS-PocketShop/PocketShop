@@ -66,19 +66,16 @@ class DBShop {
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/")
         ref.observe(.childAdded) { snapshot in
-            print("added")
             if let value = snapshot.value, let shop = self.convertShop(shopJson: value) {
                 actionBlock(nil, [shop], .added)
             }
         }
         ref.observe(.childChanged) { snapshot in
-            print("updated")
             if let value = snapshot.value, let shop = self.convertShop(shopJson: value) {
                 actionBlock(nil, [shop], .updated)
             }
         }
         ref.observe(.childRemoved) { snapshot in
-            print("deleted")
             if let value = snapshot.value, let shop = self.convertShop(shopJson: value) {
                 actionBlock(nil, [shop], .deleted)
             }

@@ -83,20 +83,17 @@ class DBOrders {
         let orderRef = FirebaseManager.sharedManager.ref.child("orders")
 
         orderRef.observe(.childAdded) { snapshot in
-            print("added")
             if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
                 actionBlock(nil, [order], .added)
             }
         }
 
         orderRef.observe(.childChanged) { snapshot in
-            print("updated")
             if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
                 actionBlock(nil, [order], .updated)
             }
         }
         orderRef.observe(.childRemoved) { snapshot in
-            print("deleted")
             if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
                 actionBlock(nil, [order], .deleted)
             }

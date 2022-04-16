@@ -131,7 +131,6 @@ class DBProducts {
                                      shopId: String,
                                      actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         shopRef.child("soldProducts").observe(.childAdded) { snapshot in
-            print("added")
             if let value = snapshot.value,
                let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
                 actionBlock(nil, [product], .added)
@@ -139,7 +138,6 @@ class DBProducts {
         }
 
         shopRef.child("soldProducts").observe(.childChanged) { snapshot in
-            print("updated")
             if let value = snapshot.value,
                let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
                 actionBlock(nil, [product], .updated)
@@ -147,7 +145,6 @@ class DBProducts {
         }
 
         shopRef.child("soldProducts").observe(.childRemoved) { snapshot in
-            print("deleted")
             if let value = snapshot.value,
                let product = self.convertProduct(productJson: value, shopId: shopId, shopName: shopName) {
                 actionBlock(nil, [product], .deleted)
