@@ -2,7 +2,7 @@ import Firebase
 
 class DBStorage {
     let imageRef = FirebaseManager.sharedManager.storageRef.child("images")
-    let MAX_FILE_SIZE: Int64 = 5 * 1_024 * 1_024 // 5MB
+    static let MAX_FILE_SIZE: Int64 = 5 * 1_024 * 1_024 // 5MB
 
     var imageCache = [String: Data]()
 
@@ -32,7 +32,7 @@ class DBStorage {
             return
         }
         let ref = imageRef.child(fileName)
-        ref.getData(maxSize: MAX_FILE_SIZE) { data, error in
+        ref.getData(maxSize: DBStorage.MAX_FILE_SIZE) { data, error in
             if error != nil {
                 completionHandler(.fileCouldNotBeDownloaded, nil)
                 return
