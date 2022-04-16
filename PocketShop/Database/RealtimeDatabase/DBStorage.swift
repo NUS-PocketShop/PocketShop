@@ -4,6 +4,8 @@ class DBStorage {
     let imageRef = FirebaseManager.sharedManager.storageRef.child("images")
     let MAX_FILE_SIZE: Int64 = 5 * 1_024 * 1_024 // 5MB
 
+    var imageCache = [String: Data]()
+
     private func uploadImage(data: Data, fileName: String,
                              completionHandler: @escaping (DatabaseError?, String?) -> Void) {
         let ref = imageRef.child(fileName)
@@ -24,12 +26,18 @@ class DBStorage {
     }
 
     private func downloadImage(fileName: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void) {
+        if let cachedImageData = imageCache[fileName] {
+            print("image retrieved from cache")
+            completionHandler(nil, cachedImageData)
+            return
+        }
         let ref = imageRef.child(fileName)
         ref.getData(maxSize: MAX_FILE_SIZE) { data, error in
             if error != nil {
                 completionHandler(.fileCouldNotBeDownloaded, nil)
                 return
             }
+            self.imageCache[fileName] = data
             completionHandler(nil, data)
         }
     }
