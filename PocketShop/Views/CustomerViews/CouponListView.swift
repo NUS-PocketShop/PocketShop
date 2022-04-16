@@ -5,17 +5,27 @@ struct CouponListView: View {
     @ObservedObject var cartViewModel: CustomerCartScreen.ViewModel
 
     var body: some View {
-        ScrollView(.vertical) {
-            VStack(alignment: .leading) {
-                ForEach(cartViewModel.customerCoupons, id: \.self) { coupon in
-                    couponItem(coupon: coupon, quantity: cartViewModel.customerCouponCount(coupon))
-                        .opacity(cartViewModel.canApplyCoupon(coupon) ? 1.0 : 0.5)
-                    Divider()
+        NavigationView {
+            Group {
+                if cartViewModel.customerCoupons.isEmpty {
+                    Text("You don't have any coupons right now")
+                        .font(.title)
+                } else {
+                    ScrollView(.vertical) {
+                        VStack(alignment: .leading) {
+                            ForEach(cartViewModel.customerCoupons, id: \.self) { coupon in
+                                couponItem(coupon: coupon, quantity: cartViewModel.customerCouponCount(coupon))
+                                    .opacity(cartViewModel.canApplyCoupon(coupon) ? 1.0 : 0.5)
+                                Divider()
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
+            .padding()
+            .navigationTitle("Your Coupons")
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
     }
 
     @ViewBuilder

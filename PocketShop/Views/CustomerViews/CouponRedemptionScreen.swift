@@ -24,7 +24,6 @@ struct CouponRedemptionScreen: View {
             .padding()
             .navigationTitle("Coupon Redemption")
         }
-
         .alert(isPresented: $showAlert) {
             switch activeAlert {
             case .success:

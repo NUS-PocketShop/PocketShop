@@ -350,7 +350,7 @@ extension CustomerViewModel {
         }
 
         return coupons.filter { coupon in
-            customer.couponIds[coupon.id] != nil
+            customer.couponIds[coupon.id] != nil && customer.couponIds[coupon.id] != 0
         }
     }
 }
