@@ -18,7 +18,7 @@ struct CustomerProfileScreen: View {
                     }
                 }
 
-                NavigationLink(destination: CouponRedemptionView(),
+                NavigationLink(destination: CouponRedemptionScreen(),
                                isActive: $isViewingCoupons) {
                     PSButton(title: "Redeem Coupons") {
                         isViewingCoupons = true
