@@ -95,6 +95,7 @@
 		DF0BA5EB2808890F00D58696 /* ShopListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5EA2808890F00D58696 /* ShopListView.swift */; };
 		DF0BA5EF2808BFFD00D58696 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5EE2808BFFD00D58696 /* ProductDetailView.swift */; };
 		DF0BA5F12809862D00D58696 /* ShopProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5F02809862D00D58696 /* ShopProductListView.swift */; };
+		DF0BA5F3280AB7BF00D58696 /* PSMultiLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BA5F2280AB7BF00D58696 /* PSMultiLineTextField.swift */; };
 		DF34150427F9C56400CC945C /* ShopOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */; };
 		DF34150527F9C56400CC945C /* ShopProductFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */; };
 		DF34150627F9C56400CC945C /* ShopHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */; };
@@ -223,6 +224,7 @@
 		DF0BA5EA2808890F00D58696 /* ShopListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListView.swift; sourceTree = "<group>"; };
 		DF0BA5EE2808BFFD00D58696 /* ProductDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		DF0BA5F02809862D00D58696 /* ShopProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopProductListView.swift; sourceTree = "<group>"; };
+		DF0BA5F2280AB7BF00D58696 /* PSMultiLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSMultiLineTextField.swift; sourceTree = "<group>"; };
 		DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopOrderScreen.swift; path = PocketShop/Views/ShopViews/ShopOrderScreen.swift; sourceTree = SOURCE_ROOT; };
 		DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductFormView.swift; path = PocketShop/Views/ShopViews/ShopProductFormView.swift; sourceTree = SOURCE_ROOT; };
 		DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopHomeScreen.swift; path = PocketShop/Views/ShopViews/ShopHomeScreen.swift; sourceTree = SOURCE_ROOT; };
@@ -353,6 +355,7 @@
 			children = (
 				DF67101D27DE769E002C5AE0 /* PSSearchBarView.swift */,
 				02AD423427DF28FD00F44822 /* PSTextField.swift */,
+				DF0BA5F2280AB7BF00D58696 /* PSMultiLineTextField.swift */,
 				02AD423C27DF293A00F44822 /* PSSecureField.swift */,
 				02AD424127DF294C00F44822 /* PSButton.swift */,
 				2B786B4927E33F1600834CA4 /* RingView.swift */,
@@ -782,6 +785,7 @@
 				AD15B3A127E46C9E00513809 /* DBProducts.swift in Sources */,
 				02AD422C27DF1FC700F44822 /* LoginViewModel.swift in Sources */,
 				ADAD9F2527DDDDD700DE0EE7 /* AuthError.swift in Sources */,
+				DF0BA5F3280AB7BF00D58696 /* PSMultiLineTextField.swift in Sources */,
 				02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */,
 				ADAD28FC2801834900CDE510 /* Location.swift in Sources */,
 				ADAD28F627F4A0D400CDE510 /* CartProductSchema.swift in Sources */,
