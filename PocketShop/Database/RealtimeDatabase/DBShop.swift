@@ -18,7 +18,7 @@ class DBShop {
     private func uploadShop(shop: Shop, newId: String?, imageData: Data?, ref: DatabaseReference) {
         var newShop = shop
         if let newId = newId {
-            newShop.id = newId
+            newShop.id = ID(strVal: newId)
             newShop.soldProducts = []
         }
 
@@ -88,7 +88,7 @@ class DBShop {
             var newShops = [Shop]()
             if let shops = shops {
                 newShops = shops.filter {
-                    $0.ownerId == ownerId
+                    $0.ownerId.strVal == ownerId
                 }
             }
             actionBlock(nil, newShops, eventType)

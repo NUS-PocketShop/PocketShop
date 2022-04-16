@@ -1,5 +1,5 @@
 struct Product: Hashable, Identifiable {
-    var id: String
+    var id: ID
     var name: String
     var description: String
     var price: Double
@@ -9,12 +9,12 @@ struct Product: Hashable, Identifiable {
     var options: [ProductOption]
     var tags: [ProductTag]
 
-    var shopId: String
+    var shopId: ID
     var shopName: String
     var shopCategory: ShopCategory?
 
     // For combos
-    var subProductIds: [String]
+    var subProductIds: [ID]
 
     var isComboMeal: Bool {
         !subProductIds.isEmpty

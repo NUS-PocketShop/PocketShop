@@ -1,3 +1,3 @@
 struct Vendor: User, Codable {
-    var id: String
+    var id: ID
 }

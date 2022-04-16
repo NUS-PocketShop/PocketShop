@@ -1,3 +1,3 @@
 protocol User {
-    var id: String { get set }
+    var id: ID { get set }
 }

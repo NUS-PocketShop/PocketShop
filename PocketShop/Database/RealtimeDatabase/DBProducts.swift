@@ -18,7 +18,7 @@ class DBProducts {
     private func uploadProduct(product: Product, newId: String?, imageData: Data?, ref: DatabaseReference) {
         var newProduct = product
         if let newId = newId {
-            newProduct.id = newId
+            newProduct.id = ID(strVal: newId)
         }
         let encodeAndUploadProduct = {
             let productSchema = ProductSchema(product: newProduct)

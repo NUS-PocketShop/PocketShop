@@ -57,7 +57,7 @@ struct ProductDetailView_Previews: PreviewProvider {
 struct FavouritesButton: View {
     @EnvironmentObject var viewModel: CustomerViewModel
 
-    var itemId: String
+    var itemId: ID
 
     var body: some View {
         Button(action: {

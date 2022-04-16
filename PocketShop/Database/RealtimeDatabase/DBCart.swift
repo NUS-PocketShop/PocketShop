@@ -9,7 +9,7 @@ class DBCart {
             return
         }
 
-        let newCartProduct = CartProduct(id: key,
+        let newCartProduct = CartProduct(id: ID(strVal: key),
                                          quantity: quantity,
                                          productName: product.name,
                                          productPrice: product.price,

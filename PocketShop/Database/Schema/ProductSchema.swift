@@ -12,7 +12,7 @@ struct ProductSchema: Codable {
     var subProductIds: [String]? = []
 
     init(product: Product) {
-        self.id = product.id
+        self.id = product.id.strVal
         self.name = product.name
         self.description = product.description
         self.price = product.price
@@ -22,11 +22,11 @@ struct ProductSchema: Codable {
         self.shopCategory = product.shopCategory
         self.options = product.options
         self.tags = product.tags
-        self.subProductIds = product.subProductIds
+        self.subProductIds = product.subProductIds.map({ $0.strVal })
     }
 
     func toProduct(shopId: String, shopName: String) -> Product {
-        Product(id: self.id,
+        Product(id: ID(strVal: self.id),
                 name: self.name,
                 description: self.description,
                 price: self.price,
@@ -35,9 +35,9 @@ struct ProductSchema: Codable {
                 isOutOfStock: self.isOutOfStock,
                 options: self.options ?? [],
                 tags: self.tags ?? [],
-                shopId: shopId,
+                shopId: ID(strVal: shopId),
                 shopName: shopName,
                 shopCategory: self.shopCategory,
-                subProductIds: self.subProductIds ?? [])
+                subProductIds: (self.subProductIds ?? []).map({ ID(strVal: $0) }))
     }
 }

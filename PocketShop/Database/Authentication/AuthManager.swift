@@ -11,9 +11,9 @@ class AuthManager: AuthAdapter {
                 completionHandler(self.getAuthError(errorCode: errCode), nil)
                 return
             }
-            let id: String = result?.user.uid ?? ""
+            let id = ID(strVal: result?.user.uid ?? "")
             if isCustomer {
-                let newCustomer = Customer(id: id, favouriteProductIds: [])
+                let newCustomer = Customer(id: id)
 
                 print("Successfully created customer: \(id)")
                 DatabaseInterface.db.createCustomer(id: id)
@@ -36,7 +36,7 @@ class AuthManager: AuthAdapter {
                 completionHandler(self.getAuthError(errorCode: errCode), nil)
                 return
             }
-            let id: String = result?.user.uid ?? ""
+            let id = ID(strVal: result?.user.uid ?? "")
             DatabaseInterface.db.getUser(with: id) { error, user in
                 if let error = error {
                     if error == .userNotFound {
@@ -69,7 +69,7 @@ class AuthManager: AuthAdapter {
             completionHandler(.userNotFound, nil)
             return
         }
-        DatabaseInterface.db.getUser(with: currentFBUser.uid) { error, user in
+        DatabaseInterface.db.getUser(with: ID(strVal: currentFBUser.uid)) { error, user in
             if let error = error {
                 if error == .userNotFound {
                     completionHandler(.userNotFound, nil)

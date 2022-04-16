@@ -36,13 +36,13 @@ struct ShopEditProfileButton: View {
     @State var isEditingShop = false
 
     var shop: Shop {
-        viewModel.currentShop ?? Shop(id: "default",
+        viewModel.currentShop ?? Shop(id: ID(strVal: "default"),
                                       name: "default",
                                       description: "default",
-                                      locationId: "default",
+                                      locationId: ID(strVal: "default"),
                                       imageURL: "default",
                                       isClosed: true,
-                                      ownerId: "default",
+                                      ownerId: ID(strVal: "default"),
                                       soldProducts: [],
                                       categories: [])
     }

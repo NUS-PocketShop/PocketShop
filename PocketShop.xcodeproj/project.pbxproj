@@ -55,6 +55,9 @@
 		ADAD28FC2801834900CDE510 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD28FB2801834900CDE510 /* Location.swift */; };
 		ADAD28FE2806C1F300CDE510 /* DBLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD28FD2806C1F200CDE510 /* DBLocation.swift */; };
 		ADAD29002807FE4500CDE510 /* CustomerSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD28FF2807FE4500CDE510 /* CustomerSchema.swift */; };
+		ADAD2902280A890600CDE510 /* ID.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2901280A890600CDE510 /* ID.swift */; };
+		ADAD2904280A8A5300CDE510 /* LocationSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2903280A8A5300CDE510 /* LocationSchema.swift */; };
+		ADAD2906280A8ABF00CDE510 /* VendorSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2905280A8ABF00CDE510 /* VendorSchema.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -176,6 +179,9 @@
 		ADAD28FB2801834900CDE510 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		ADAD28FD2806C1F200CDE510 /* DBLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBLocation.swift; sourceTree = "<group>"; };
 		ADAD28FF2807FE4500CDE510 /* CustomerSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSchema.swift; sourceTree = "<group>"; };
+		ADAD2901280A890600CDE510 /* ID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ID.swift; sourceTree = "<group>"; };
+		ADAD2903280A8A5300CDE510 /* LocationSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSchema.swift; sourceTree = "<group>"; };
+		ADAD2905280A8ABF00CDE510 /* VendorSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorSchema.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -357,6 +363,8 @@
 				AD15B3A227E59DF900513809 /* OrderProductSchema.swift */,
 				AD15B3A427E59E5600513809 /* OrderSchema.swift */,
 				ADAD28FF2807FE4500CDE510 /* CustomerSchema.swift */,
+				ADAD2903280A8A5300CDE510 /* LocationSchema.swift */,
+				ADAD2905280A8ABF00CDE510 /* VendorSchema.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";
@@ -437,6 +445,7 @@
 				ADAD9F0D27DA413B00DE0EE7 /* OrderProduct.swift */,
 				ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */,
 				AD15B39927E3968B00513809 /* User.swift */,
+				ADAD2901280A890600CDE510 /* ID.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -743,6 +752,7 @@
 				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
 				ADAD28F427F4A0BB00CDE510 /* ProductOption.swift in Sources */,
+				ADAD2904280A8A5300CDE510 /* LocationSchema.swift in Sources */,
 				DF34150727F9C56400CC945C /* ShopFormView.swift in Sources */,
 				DF67101E27DE769E002C5AE0 /* PSSearchBarView.swift in Sources */,
 				AD15B3A327E59DF900513809 /* OrderProductSchema.swift in Sources */,
@@ -753,6 +763,7 @@
 				AD15B3A927E5D2A600513809 /* DBStorage.swift in Sources */,
 				DF0BA5EB2808890F00D58696 /* ShopListView.swift in Sources */,
 				02AD421127DF1BDE00F44822 /* MainViewRouter.swift in Sources */,
+				ADAD2902280A890600CDE510 /* ID.swift in Sources */,
 				ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */,
 				AD15B3A127E46C9E00513809 /* DBProducts.swift in Sources */,
 				02AD422C27DF1FC700F44822 /* LoginViewModel.swift in Sources */,
@@ -779,6 +790,7 @@
 				ADAD28FE2806C1F300CDE510 /* DBLocation.swift in Sources */,
 				02AD41DD27DEFD0B00F44822 /* Constants.swift in Sources */,
 				022EA8B927E4D437003F4E3C /* ShopViewRouter.swift in Sources */,
+				ADAD2906280A8ABF00CDE510 /* VendorSchema.swift in Sources */,
 				02AD421E27DF1D3100F44822 /* CustomerViewRouter.swift in Sources */,
 				DF0BA5F12809862D00D58696 /* ShopProductListView.swift in Sources */,
 				DF34150827F9C56400CC945C /* ShopProductsView.swift in Sources */,

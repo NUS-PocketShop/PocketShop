@@ -10,11 +10,11 @@ struct OrderSchema: Codable {
     var collectionNo: Int
 
     init(order: Order) {
-        self.id = order.id
+        self.id = order.id.strVal
         self.orderProductSchemas = [:]
         self.status = order.status
-        self.customerId = order.customerId
-        self.shopId = order.shopId
+        self.customerId = order.customerId.strVal
+        self.shopId = order.shopId.strVal
         self.shopName = order.shopName
         self.date = order.date
         self.collectionNo = order.collectionNo
@@ -35,8 +35,14 @@ struct OrderSchema: Codable {
                 total += orderProduct.total
             }
         }
-        return Order(id: self.id, orderProducts: orderProducts,
-                     status: self.status, customerId: self.customerId, shopId: self.shopId, shopName: self.shopName,
-                     date: self.date, collectionNo: self.collectionNo, total: total)
+        return Order(id: ID(strVal: self.id),
+                     orderProducts: orderProducts,
+                     status: self.status,
+                     customerId: ID(strVal: self.customerId),
+                     shopId: ID(strVal: self.shopId),
+                     shopName: self.shopName,
+                     date: self.date,
+                     collectionNo: self.collectionNo,
+                     total: total)
     }
 }

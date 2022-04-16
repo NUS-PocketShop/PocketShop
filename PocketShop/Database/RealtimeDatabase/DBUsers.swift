@@ -2,7 +2,7 @@ import Firebase
 
 class DBUsers {
     func createCustomer(id: String) {
-        let customer = Customer(id: id, favouriteProductIds: [])
+        let customer = Customer(id: ID(strVal: id))
         let customerSchema = CustomerSchema(customer: customer)
         do {
             let jsonData = try JSONEncoder().encode(customerSchema)
@@ -14,9 +14,10 @@ class DBUsers {
     }
 
     func createVendor(id: String) {
-        let vendor = Vendor(id: id)
+        let vendor = Vendor(id: ID(strVal: id))
+        let vendorSchema = VendorSchema(vendor: vendor)
         do {
-            let jsonData = try JSONEncoder().encode(vendor)
+            let jsonData = try JSONEncoder().encode(vendorSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             FirebaseManager.sharedManager.ref.child("vendors/\(vendor.id)").setValue(json)
         } catch {
@@ -78,7 +79,8 @@ class DBUsers {
     private func updateVendorSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: value)
-            let vendor = try JSONDecoder().decode(Vendor.self, from: jsonData)
+            let vendorSchema = try JSONDecoder().decode(VendorSchema.self, from: jsonData)
+            let vendor = vendorSchema.toVendor()
             completionHandler(nil, vendor)
         } catch {
             print(error)
