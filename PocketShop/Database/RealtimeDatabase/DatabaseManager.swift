@@ -11,24 +11,24 @@ class DatabaseManager: DatabaseAdapter {
     let cart = DBCart()
     let locations = DBLocation()
 
-    func createCustomer(id: String) {
-        users.createCustomer(id: id)
+    func createCustomer(id: ID) {
+        users.createCustomer(id: id.strVal)
     }
 
-    func createVendor(id: String) {
-        users.createVendor(id: id)
+    func createVendor(id: ID) {
+        users.createVendor(id: id.strVal)
     }
 
-    func getUser(with id: String, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
-        users.getUser(with: id, completionHandler: completionHandler)
+    func getUser(with id: ID, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
+        users.getUser(with: id.strVal, completionHandler: completionHandler)
     }
 
-    func setFavouriteProductIds(userId: String, favouriteProductIds: [String]) {
-        users.setFavouriteProductIds(userId: userId, favouriteProductIds: favouriteProductIds)
+    func setFavouriteProductIds(userId: ID, favouriteProductIds: [ID]) {
+        users.setFavouriteProductIds(userId: userId.strVal, favouriteProductIds: favouriteProductIds.map({ $0.strVal }))
     }
 
-    func setRewardPoints(userId: String, rewardPoints: Int) {
-        users.setRewardPoints(userId: userId, rewardPoints: rewardPoints)
+    func setRewardPoints(userId: ID, rewardPoints: Int) {
+        users.setRewardPoints(userId: userId.strVal, rewardPoints: rewardPoints)
     }
 
     func createShop(shop: Shop, imageData: Data?) {
@@ -39,62 +39,62 @@ class DatabaseManager: DatabaseAdapter {
         shops.editShop(shop: shop, imageData: imageData)
     }
 
-    func deleteShop(id: String) {
-        shops.deleteShop(id: id)
+    func deleteShop(id: ID) {
+        shops.deleteShop(id: id.strVal)
     }
 
-    func openShop(id: String) {
-        shops.openShop(id: id)
+    func openShop(id: ID) {
+        shops.openShop(id: id.strVal)
     }
 
-    func closeShop(id: String) {
-        shops.closeShop(id: id)
+    func closeShop(id: ID) {
+        shops.closeShop(id: id.strVal)
     }
 
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         shops.observeAllShops(actionBlock: actionBlock)
     }
 
-    func observeShopsByOwner(ownerId: String,
+    func observeShopsByOwner(ownerId: ID,
                              actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
-        shops.observeShopsByOwner(ownerId: ownerId, actionBlock: actionBlock)
+        shops.observeShopsByOwner(ownerId: ownerId.strVal, actionBlock: actionBlock)
     }
 
-    func createProduct(shopId: String, product: Product, imageData: Data?) {
-        products.createProduct(shopId: shopId, product: product, imageData: imageData)
+    func createProduct(shopId: ID, product: Product, imageData: Data?) {
+        products.createProduct(shopId: shopId.strVal, product: product, imageData: imageData)
     }
 
-    func editProduct(shopId: String, product: Product, imageData: Data?) {
-        products.editProduct(shopId: shopId, product: product, imageData: imageData)
+    func editProduct(shopId: ID, product: Product, imageData: Data?) {
+        products.editProduct(shopId: shopId.strVal, product: product, imageData: imageData)
     }
 
-    func deleteProduct(shopId: String, productId: String) {
-        products.deleteProduct(shopId: shopId, productId: productId)
+    func deleteProduct(shopId: ID, productId: ID) {
+        products.deleteProduct(shopId: shopId.strVal, productId: productId.strVal)
     }
 
-    func setProductToOutOfStock(shopId: String, productId: String) {
-        products.setProductToOutOfStock(shopId: shopId, productId: productId)
+    func setProductToOutOfStock(shopId: ID, productId: ID) {
+        products.setProductToOutOfStock(shopId: shopId.strVal, productId: productId.strVal)
     }
 
-    func setProductToInStock(shopId: String, productId: String) {
-        products.setProductToInStock(shopId: shopId, productId: productId)
+    func setProductToInStock(shopId: ID, productId: ID) {
+        products.setProductToInStock(shopId: shopId.strVal, productId: productId.strVal)
     }
 
-    func setAllProductsInShopToInStock(shopId: String) {
-        products.setAllProductsInShopToInStock(shopId: shopId)
+    func setAllProductsInShopToInStock(shopId: ID) {
+        products.setAllProductsInShopToInStock(shopId: shopId.strVal)
     }
 
-    func setProductTags(shopId: String, productId: String, tags: [ProductTag]) {
-        products.setProductTags(shopId: shopId, productId: productId, tags: tags)
+    func setProductTags(shopId: ID, productId: ID, tags: [ProductTag]) {
+        products.setProductTags(shopId: shopId.strVal, productId: productId.strVal, tags: tags)
     }
 
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         products.observeAllProducts(actionBlock: actionBlock)
     }
 
-    func observeProductsFromShop(shopId: String,
+    func observeProductsFromShop(shopId: ID,
                                  actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
-        products.observeProductsFromShop(shopId: shopId, actionBlock: actionBlock)
+        products.observeProductsFromShop(shopId: shopId.strVal, actionBlock: actionBlock)
     }
 
     func createOrder(order: Order) {
@@ -105,70 +105,71 @@ class DatabaseManager: DatabaseAdapter {
         orders.editOrder(order: order)
     }
 
-    func deleteOrder(id: String) {
-        orders.deleteOrder(id: id)
+    func deleteOrder(id: ID) {
+        orders.deleteOrder(id: id.strVal)
     }
 
-    func cancelOrder(id: String) {
-        orders.cancelOrder(id: id)
+    func cancelOrder(id: ID) {
+        orders.cancelOrder(id: id.strVal)
     }
 
     func observeAllOrders(actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         orders.observeAllOrders(actionBlock: actionBlock)
     }
 
-    func observeOrdersFromShop(shopId: String,
+    func observeOrdersFromShop(shopId: ID,
                                actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
-        orders.observeOrdersFromShop(shopId: shopId, actionBlock: actionBlock)
+        orders.observeOrdersFromShop(shopId: shopId.strVal, actionBlock: actionBlock)
     }
 
-    func observeOrdersFromCustomer(customerId: String,
+    func observeOrdersFromCustomer(customerId: ID,
                                    actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
-        orders.observeOrdersFromCustomer(customerId: customerId, actionBlock: actionBlock)
+        orders.observeOrdersFromCustomer(customerId: customerId.strVal, actionBlock: actionBlock)
     }
 
-    func uploadProductImage(productId: String, imageData: Data,
+    func uploadProductImage(productId: ID, imageData: Data,
                             completionHandler: @escaping (DatabaseError?, String?) -> Void) {
-        storage.uploadProductImage(productId: productId, imageData: imageData, completionHandler: completionHandler)
+        storage.uploadProductImage(productId: productId.strVal,
+                                   imageData: imageData, completionHandler: completionHandler)
     }
 
-    func getProductImage(productId: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void) {
-        storage.getProductImage(productId: productId, completionHandler: completionHandler)
+    func getProductImage(productId: ID, completionHandler: @escaping (DatabaseError?, Data?) -> Void) {
+        storage.getProductImage(productId: productId.strVal, completionHandler: completionHandler)
     }
 
-    func uploadShopImage(shopId: String, imageData: Data,
+    func uploadShopImage(shopId: ID, imageData: Data,
                          completionHandler: @escaping (DatabaseError?, String?) -> Void) {
-        storage.uploadShopImage(shopId: shopId, imageData: imageData, completionHandler: completionHandler)
+        storage.uploadShopImage(shopId: shopId.strVal, imageData: imageData, completionHandler: completionHandler)
     }
 
-    func getShopImage(shopId: String, completionHandler: @escaping (DatabaseError?, Data?) -> Void) {
-        storage.getShopImage(shopId: shopId, completionHandler: completionHandler)
+    func getShopImage(shopId: ID, completionHandler: @escaping (DatabaseError?, Data?) -> Void) {
+        storage.getShopImage(shopId: shopId.strVal, completionHandler: completionHandler)
     }
 
-    func addProductToCart(userId: String, product: Product,
+    func addProductToCart(userId: ID, product: Product,
                           productOptionChoices: [ProductOptionChoice]?, quantity: Int) {
-        cart.addProductToCart(userId: userId, product: product,
+        cart.addProductToCart(userId: userId.strVal, product: product,
                               productOptionChoices: productOptionChoices, quantity: quantity)
     }
 
-    func removeProductFromCart(userId: String, cartProduct: CartProduct) {
-        cart.removeProductFromCart(userId: userId, cartProduct: cartProduct)
+    func removeProductFromCart(userId: ID, cartProduct: CartProduct) {
+        cart.removeProductFromCart(userId: userId.strVal, cartProduct: cartProduct)
     }
 
-    func changeProductQuantity(userId: String, cartProduct: CartProduct, quantity: Int) {
-        cart.changeProductQuantity(userId: userId, cartProduct: cartProduct, quantity: quantity)
+    func changeProductQuantity(userId: ID, cartProduct: CartProduct, quantity: Int) {
+        cart.changeProductQuantity(userId: userId.strVal, cartProduct: cartProduct, quantity: quantity)
     }
 
-    func observeCart(userId: String, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void) {
-        cart.observeCart(userId: userId, actionBlock: actionBlock)
+    func observeCart(userId: ID, actionBlock: @escaping (DatabaseError?, [CartProduct]?, DatabaseEvent?) -> Void) {
+        cart.observeCart(userId: userId.strVal, actionBlock: actionBlock)
     }
 
     func createLocation(location: Location) {
         locations.createLocation(location: location)
     }
 
-    func deleteLocation(id: String) {
-        locations.deleteLocation(id: id)
+    func deleteLocation(id: ID) {
+        locations.deleteLocation(id: id.strVal)
     }
 
     func editLocation(location: Location) {

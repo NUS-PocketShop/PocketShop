@@ -31,7 +31,7 @@ final class CustomerViewModel: ObservableObject {
         observeLocations()
     }
 
-    func cancelOrder(orderId: String) {
+    func cancelOrder(orderId: ID) {
         DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
@@ -84,7 +84,7 @@ final class CustomerViewModel: ObservableObject {
         let orderProductsGroups = Dictionary(grouping: orderProducts, by: { $0.shopId })
 
         for (shopId, orderProducts) in orderProductsGroups {
-            let order = Order(id: "dummyId", orderProducts: orderProducts,
+            let order = Order(id: ID(strVal: "dummyId"), orderProducts: orderProducts,
                               status: .pending, customerId: customerId, shopId: shopId,
                               shopName: orderProducts[0].shopName, date: Date(), collectionNo: 0, total: 0)
             DatabaseInterface.db.createOrder(order: order)
@@ -146,7 +146,7 @@ final class CustomerViewModel: ObservableObject {
         DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
     }
 
-    func toggleProductAsFavorites(productId: String) {
+    func toggleProductAsFavorites(productId: ID) {
         if favourites.contains(where: { $0.id == productId }) {
             removeProductFromFavorites(productId: productId)
         } else {
@@ -154,7 +154,7 @@ final class CustomerViewModel: ObservableObject {
         }
     }
 
-    func addProductToFavorites(productId: String) {
+    func addProductToFavorites(productId: ID) {
         self.customer?.favouriteProductIds.append(productId)
         guard let customer = customer else {
             return
@@ -163,7 +163,7 @@ final class CustomerViewModel: ObservableObject {
                                                     favouriteProductIds: customer.favouriteProductIds)
     }
 
-    func removeProductFromFavorites(productId: String) {
+    func removeProductFromFavorites(productId: ID) {
         self.customer?.favouriteProductIds.removeAll(where: { $0 == productId })
         guard let customer = customer else {
             return
@@ -181,7 +181,7 @@ final class CustomerViewModel: ObservableObject {
                                              rewardPoints: customer.rewardPoints)
     }
 
-    func getLocationNameFromLocationId(locationId: String) -> String {
+    func getLocationNameFromLocationId(locationId: ID) -> String {
         locations.first(where: { $0.id == locationId })?.name ?? ""
     }
 
@@ -190,7 +190,7 @@ final class CustomerViewModel: ObservableObject {
         return locations.first(where: { $0.id == shop?.locationId })?.name ?? ""
     }
 
-    func getLocationNameFromShopId(shopId: String) -> String {
+    func getLocationNameFromShopId(shopId: ID) -> String {
         let shop = shops.first(where: { $0.id == shopId })
         return locations.first(where: { $0.id == shop?.locationId })?.name ?? ""
     }
@@ -255,7 +255,7 @@ final class CustomerViewModel: ObservableObject {
         }
     }
 
-    private func observeOrders(customerId: String) {
+    private func observeOrders(customerId: ID) {
         DatabaseInterface.db.observeOrdersFromCustomer(customerId: customerId) { [self] error, allOrders, eventType in
             guard resolveErrors(error) else {
                 return
@@ -275,7 +275,7 @@ final class CustomerViewModel: ObservableObject {
         }
     }
 
-    private func observeCart(customerId: String) {
+    private func observeCart(customerId: ID) {
         DatabaseInterface.db.observeCart(userId: customerId) { [self] error, cartProducts, eventType in
             guard resolveErrors(error) else {
                 return
