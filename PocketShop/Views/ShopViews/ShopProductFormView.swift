@@ -319,30 +319,36 @@ private struct ComboBuilderSection: View {
 
     @EnvironmentObject var viewModel: VendorViewModel
     @Binding var comboIds: [ID]
-
     @State var isComboBuilderModalShown = false
-    @State var selectedProducts = Set<Product>()
+
+    var selectedProducts: Binding<Set<Product>> {
+        Binding(
+            get: {
+                Set(comboIds.map { comboId in
+                       viewModel.products.first(where: { $0.id == comboId })!
+                })
+            },
+            set: { comboIds = Array($0.map { $0.id }) }
+        )
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Choose Combo Products".uppercased())
                 .font(.appSmallCaption)
 
-            if !selectedProducts.isEmpty {
-                Text("\(selectedProducts.map { $0.name }.joined(separator: ", "))")
+            if !selectedProducts.wrappedValue.isEmpty {
+                Text("\(selectedProducts.wrappedValue.map { $0.name }.joined(separator: ", "))")
             }
 
-            PSButton(title: "\(selectedProducts.isEmpty ? "Create" : "Edit") Combo") {
+            PSButton(title: "\(selectedProducts.wrappedValue.isEmpty ? "Create" : "Edit") Combo") {
                 isComboBuilderModalShown = true
             }.buttonStyle(OutlineButtonStyle())
         }
         .frame(maxWidth: Constants.maxWidthIPad)
         .sheet(isPresented: $isComboBuilderModalShown) {
-            ComboCreationForm(selectedProducts: $selectedProducts,
+            ComboCreationForm(selectedProducts: selectedProducts,
                               selectableProducts: viewModel.products.filter({ !$0.isComboMeal }))
-                .onChange(of: selectedProducts) { selected in
-                    comboIds = Array(selected).map({ $0.id })
-                }
         }
     }
 }
