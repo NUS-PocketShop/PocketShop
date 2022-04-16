@@ -12,6 +12,7 @@ struct ShopProductEditFormView: View {
     @State private var image: UIImage?
     @State private var category: String = ""
     @State private var options = [ProductOption]()
+    @State private var tags = [String]()
 
     init(viewModel: VendorViewModel, product: Product) {
         self.product = product
@@ -21,6 +22,7 @@ struct ShopProductEditFormView: View {
         self._prepTime = State(initialValue: String(product.estimatedPrepTime))
         self._category = State(initialValue: product.shopCategory?.title ?? "")
         self._options = State(initialValue: product.options)
+        self._tags = State(initialValue: product.tags.map { $0.tag })
     }
 
     var body: some View {
@@ -29,8 +31,8 @@ struct ShopProductEditFormView: View {
                 Text("Edit product")
                     .font(.appTitle)
 
-                UserInputSegment(name: $name, price: $price, description: $description,
-                                 prepTime: $prepTime, category: $category, options: $options)
+                UserInputSegment(name: $name, price: $price, description: $description, prepTime: $prepTime,
+                                 category: $category, options: $options, tags: $tags)
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
@@ -47,7 +49,7 @@ struct ShopProductEditFormView: View {
 
                 SaveEditedProductButton(product: product,
                                         name: $name, price: $price, description: $description, prepTime: $prepTime,
-                                        image: $image, category: $category, options: $options)
+                                        image: $image, category: $category, options: $options, tags: $tags)
             }
             .padding()
         }
@@ -69,6 +71,7 @@ struct SaveEditedProductButton: View {
     @Binding var image: UIImage?
     @Binding var category: String
     @Binding var options: [ProductOption]
+    @Binding var tags: [String]
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -121,6 +124,8 @@ struct SaveEditedProductButton: View {
             return nil
         }
 
+        let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
+
         // Create edited Product and save to db
         return Product(id: product.id,
                        name: name,
@@ -130,7 +135,7 @@ struct SaveEditedProductButton: View {
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
                        options: options,
-                       tags: [],
+                       tags: uniqueTags,
                        shopId: product.shopId,
                        shopName: product.shopName,
                        shopCategory: ShopCategory(title: category),

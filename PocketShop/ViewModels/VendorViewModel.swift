@@ -74,22 +74,6 @@ final class VendorViewModel: ObservableObject {
         }
     }
 
-    private func setProductOutOfStock(product: Product) {
-        DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: product.id)
-        for otherProduct in products where otherProduct.isComboMeal && otherProduct.subProductIds.contains(product.id) {
-            DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: otherProduct.id)
-        }
-    }
-
-    private func setProductInStock(product: Product) {
-        DatabaseInterface.db.setProductToInStock(shopId: product.shopId, productId: product.id)
-        if product.isComboMeal {
-            for subProductId in product.subProductIds {
-                DatabaseInterface.db.setProductToInStock(shopId: product.shopId, productId: subProductId)
-            }
-        }
-    }
-
     func setAllProductsToInStock() {
         if let currentShop = currentShop {
             DatabaseInterface.db.setAllProductsInShopToInStock(shopId: currentShop.id)
@@ -207,6 +191,22 @@ final class VendorViewModel: ObservableObject {
                                 total: order.total)
 
         DatabaseInterface.db.editOrder(order: editedOrder)
+    }
+
+    private func setProductOutOfStock(product: Product) {
+        DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: product.id)
+        for otherProduct in products where otherProduct.isComboMeal && otherProduct.subProductIds.contains(product.id) {
+            DatabaseInterface.db.setProductToOutOfStock(shopId: product.shopId, productId: otherProduct.id)
+        }
+    }
+
+    private func setProductInStock(product: Product) {
+        DatabaseInterface.db.setProductToInStock(shopId: product.shopId, productId: product.id)
+        if product.isComboMeal {
+            for subProductId in product.subProductIds {
+                DatabaseInterface.db.setProductToInStock(shopId: product.shopId, productId: subProductId)
+            }
+        }
     }
 
     private func observeLocations() {

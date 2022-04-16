@@ -11,6 +11,7 @@ struct ShopProductFormView: View {
     @State private var image: UIImage?
     @State private var category = ""
     @State private var options = [ProductOption]()
+    @State private var tags = [String]()
 
     var body: some View {
         ScrollView(.vertical) {
@@ -23,7 +24,8 @@ struct ShopProductFormView: View {
                                  description: $description,
                                  prepTime: $prepTime,
                                  category: $category,
-                                 options: $options)
+                                 options: $options,
+                                 tags: $tags)
 
                 PSImagePicker(title: "Product Image", image: $image)
                     .padding(.bottom)
@@ -31,7 +33,7 @@ struct ShopProductFormView: View {
                 SaveNewProductButton(name: $name, price: $price,
                                      prepTime: $prepTime, description: $description,
                                      image: $image, category: $category,
-                                     options: $options)
+                                     options: $options, tags: $tags)
             }.padding()
         }
         .navigationBarItems(trailing: Button("Cancel") {
@@ -49,6 +51,7 @@ struct UserInputSegment: View {
     @Binding var prepTime: String
     @Binding var category: String
     @Binding var options: [ProductOption]
+    @Binding var tags: [String]
 
     var body: some View {
         VStack {
@@ -73,6 +76,8 @@ struct UserInputSegment: View {
                 .keyboardType(.numberPad)
 
             OptionGroupSection(options: $options)
+
+            TagsInputField(tags: $tags)
         }
     }
 }
@@ -88,6 +93,7 @@ struct SaveNewProductButton: View {
     @Binding var image: UIImage?
     @Binding var category: String
     @Binding var options: [ProductOption]
+    @Binding var tags: [String]
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -146,6 +152,8 @@ struct SaveNewProductButton: View {
             return nil
         }
 
+        let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
+
         return Product(id: "",
                        name: name,
                        description: description,
@@ -154,13 +162,35 @@ struct SaveNewProductButton: View {
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
                        options: options,
-                       tags: [],
+                       tags: uniqueTags,
                        shopId: shop.id,
                        shopName: shop.name,
                        shopCategory: ShopCategory(title: category),
                        subProductIds: [])
     }
 
+}
+
+struct TagsInputField: View {
+    @Binding var tags: [String]
+
+    var body: some View {
+        Text("PRODUCT TAGS (OPTIONAL)")
+            .font(.appSmallCaption)
+
+        ForEach(0..<tags.count, id: \.self) { index in
+            PSTextField(text: $tags[index],
+                        title: "Product Tag \(index + 1)",
+                        placeholder: "Product Tag \(index + 1)")
+        }
+
+        Button(action: {
+            tags.append("")
+        }, label: {
+            Text("\(Image(systemName: "plus.circle")) Add new product tag")
+        })
+        .padding(.vertical)
+    }
 }
 
 struct CategoryPickerSection: View {
