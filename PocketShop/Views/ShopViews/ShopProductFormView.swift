@@ -10,12 +10,14 @@ struct ShopProductFormView: View {
     @State private var description = ""
     @State private var image: UIImage?
     @State private var category = ""
+    @State private var comboComponents = [String]()
+    @State private var isCombo = true
     @State private var options = [ProductOption]()
 
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Add new product")
+                Text("Add new \(isCombo ? "Combo" : "Product")")
                     .font(.appTitle)
 
                 UserInputSegment(name: $name,
@@ -23,9 +25,11 @@ struct ShopProductFormView: View {
                                  description: $description,
                                  prepTime: $prepTime,
                                  category: $category,
-                                 options: $options)
+                                 options: $options,
+                                 isCombo: $isCombo,
+                                 comboComponents: $comboComponents)
 
-                PSImagePicker(title: "Product Image", image: $image)
+                PSImagePicker(title: "\(isCombo ? "Combo" : "Product") Image", image: $image)
                     .padding(.bottom)
 
                 SaveNewProductButton(name: $name, price: $price,
@@ -49,35 +53,40 @@ struct UserInputSegment: View {
     @Binding var prepTime: String
     @Binding var category: String
     @Binding var options: [ProductOption]
+    @Binding var isCombo: Bool
+    @Binding var comboComponents: [String]
+
+    private var productType: String {
+        isCombo ? "Combo" : "Product"
+    }
 
     var body: some View {
         VStack {
-            PSTextField(text: $name,
-                        title: "Product Name",
-                        placeholder: "Enter product name")
+            Toggle("Creating a Combo", isOn: $isCombo)
+                .font(.appCaption)
+                .padding()
+                .frame(maxWidth: Constants.maxWidthIPad)
 
-            PSTextField(text: $price,
-                        title: "Product Price",
-                        placeholder: "Enter product price")
-                .keyboardType(.numberPad)
+            BasicProductInfoSection(name: $name,
+                                    price: $price,
+                                    description: $description,
+                                    prepTime: $prepTime,
+                                    productType: productType)
 
-            PSTextField(text: $description,
-                        title: "Product Description (optional)",
-                        placeholder: "Enter product description")
+            CategoryPickerSection(category: $category,
+                                  title: "Select \(productType) Category")
 
-            CategoryPickerSection(category: $category)
+            if isCombo {
+                ComboBuilderSection()
+            }
 
-            PSTextField(text: $prepTime,
-                        title: "Estimated Prep Time",
-                        placeholder: "Enter estimated prep time")
-                .keyboardType(.numberPad)
-
-            OptionGroupSection(options: $options)
+            OptionGroupSection(options: $options,
+                               productType: productType)
         }
     }
 }
 
-struct SaveNewProductButton: View {
+private struct SaveNewProductButton: View {
     @EnvironmentObject var viewModel: VendorViewModel
     @Environment(\.presentationMode) var presentationMode
 
@@ -160,26 +169,61 @@ struct SaveNewProductButton: View {
                        shopCategory: ShopCategory(title: category),
                        subProductIds: [])
     }
-
 }
 
+// MARK: Form Element #1 (Basic info)
+private struct BasicProductInfoSection: View {
+    @Binding var name: String
+    @Binding var price: String
+    @Binding var description: String
+    @Binding var prepTime: String
+    var productType: String
+
+    var body: some View {
+        VStack {
+            PSTextField(text: $name,
+                        title: "\(productType) Name",
+                        placeholder: "Enter a name")
+
+            PSTextField(text: $price,
+                        title: "\(productType) Price",
+                        placeholder: "Enter a price")
+                .keyboardType(.numberPad)
+
+            PSTextField(text: $description,
+                        title: "\(productType) Description (optional)",
+                        placeholder: "Enter a description")
+
+            PSTextField(text: $prepTime,
+                        title: "Estimated Prep Time",
+                        placeholder: "Enter estimated prep time")
+                .keyboardType(.numberPad)
+        }
+    }
+}
+
+// MARK: Form Element #2 (Category Selection)
 struct CategoryPickerSection: View {
     @EnvironmentObject var viewModel: VendorViewModel
     @Binding var category: String
 
+    var title: String
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Select Product Category".uppercased())
+                Text("\(title)".uppercased())
                     .font(.appSmallCaption)
 
-                Picker("Select a product category", selection: $category) {
+                Picker("\(category.isEmpty ? "Tap to Select" : category)", selection: $category) {
                     if let shop = viewModel.currentShop {
                         ForEach(shop.categories, id: \.self.title) { shopCategory in
                             Text(shopCategory.title)
                         }
                     }
                 }
+                .padding(.vertical)
+                .pickerStyle(MenuPickerStyle())
             }
             Spacer()
         }
@@ -187,16 +231,19 @@ struct CategoryPickerSection: View {
     }
 }
 
-struct OptionGroupSection: View {
+// MARK: Form Element #3 (Option Group Section)
+private struct OptionGroupSection: View {
     @EnvironmentObject var viewModel: VendorViewModel
     @Binding var options: [ProductOption]
+
+    var productType: String
 
     @State var isOptionGroupModalShown = false
 
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Product Options".uppercased())
+                Text("\(productType) Options".uppercased())
                     .font(.appSmallCaption)
 
                 ForEach(options, id: \.self) { optionGroup in
@@ -216,118 +263,7 @@ struct OptionGroupSection: View {
     }
 }
 
-struct OptionGroupCreationForm: View {
-    @Environment(\.presentationMode) var presentationMode
-
-    @State var title: String = ""
-    @Binding var options: [ProductOption]
-    @State var userOptions = [String]()
-    @State var userPrices = [String]()
-
-    @State private var showAlert = false
-    @State private var alertMessage = ""
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Create option group")
-                .font(.appTitle)
-
-            PSTextField(text: $title,
-                        title: "Option Group Title",
-                        placeholder: "Enter option group title")
-
-            OptionFields(userOptions: $userOptions, userPrices: $userPrices)
-
-            Button(action: {
-                userOptions.append("")
-                userPrices.append("")
-            }, label: {
-                Text("\(Image(systemName: "plus.circle")) Add option")
-            })
-            .padding(.vertical)
-
-            Spacer()
-
-            SaveOptionGroupButton(title: $title, options: $options, userOptions: $userOptions,
-                                  userPrices: $userPrices, showAlert: $showAlert, alertMessage: $alertMessage)
-
-            PSButton(title: "Cancel") {
-                presentationMode.wrappedValue.dismiss()
-            }.buttonStyle(OutlineButtonStyle())
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
-        }
-        .padding()
-        .frame(maxWidth: Constants.maxWidthIPad)
-    }
-}
-
-struct OptionFields: View {
-    @Binding var userOptions: [String]
-    @Binding var userPrices: [String]
-
-    var body: some View {
-        ForEach(0..<userOptions.count, id: \.self) { index in
-            HStack {
-                PSTextField(text: $userOptions[index],
-                            title: "Option \(index + 1)",
-                            placeholder: "Enter option name")
-                PSTextField(text: $userPrices[index],
-                            title: "Price",
-                            placeholder: "Enter option price")
-                    .keyboardType(.numberPad)
-            }
-        }
-    }
-}
-
-struct SaveOptionGroupButton: View {
-    @Environment(\.presentationMode) var presentationMode
-
-    @Binding var title: String
-    @Binding var options: [ProductOption]
-    @Binding var userOptions: [String]
-    @Binding var userPrices: [String]
-
-    @Binding var showAlert: Bool
-    @Binding var alertMessage: String
-
-    var body: some View {
-        PSButton(title: "Save") {
-            guard !title.isEmpty else {
-                alertMessage = "Please enter a title for option group!"
-                showAlert = true
-                return
-            }
-            guard !userOptions.allSatisfy({ $0.isEmpty }),
-                  !userPrices.allSatisfy({ $0.isEmpty }) else {
-                alertMessage = "Please enter all options/prices"
-                showAlert = true
-                return
-            }
-            options.append(createOptionGroupFrom(title: title,
-                                                 userOptions: userOptions,
-                                                 userPrices: userPrices))
-            presentationMode.wrappedValue.dismiss()
-        }.buttonStyle(FillButtonStyle())
-    }
-
-    func createOptionGroupFrom(title: String, userOptions: [String], userPrices: [String]) -> ProductOption {
-        var choices = [ProductOptionChoice]()
-        for i in 0..<userOptions.count {
-            choices.append(ProductOptionChoice(description: userOptions[i],
-                                               cost: Double(userPrices[i]) ?? 0))
-        }
-        let option = ProductOption(title: title,
-                                   type: .selectOne,
-                                   optionChoices: choices)
-        return option
-    }
-}
-
-struct OptionGroupView: View {
-
+private struct OptionGroupView: View {
     @State var optionGroup: ProductOption
 
     var body: some View {
@@ -345,5 +281,36 @@ struct OptionGroupView: View {
             }
         }
         .padding()
+    }
+}
+
+// MARK: Form Element #4 (Option Group Section)
+private struct ComboBuilderSection: View {
+    @EnvironmentObject var viewModel: VendorViewModel
+
+    var body: some View {
+
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Choose Combo Products".uppercased())
+                .font(.appSmallCaption)
+
+            if let shop = viewModel.currentShop {
+                List {
+                    ForEach(shop.soldProducts.filter({ !$0.isComboMeal }), id: \.self.id) { product in
+                        Text("\(product.name)")
+                        /// The idea is to make a Multiple Selection List, as seen in
+                        /// https://stackoverflow.com/questions/57022615/
+                    }
+                }
+                Text("Number of products that are not combos: \(shop.soldProducts.filter({ !$0.isComboMeal }).count)")
+
+                Button("Debug") {
+                    shop.soldProducts.filter { !$0.isComboMeal }.map({ product in
+                        print("pr name: \(product.name)")
+                    })
+                }.buttonStyle(OutlineButtonStyle())
+            }
+        }
+        .frame(maxWidth: Constants.maxWidthIPad)
     }
 }

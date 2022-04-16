@@ -13,6 +13,7 @@
 		022EA8FF27E71FD8003F4E3C /* PSImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */; };
 		022EA90427E731F0003F4E3C /* VendorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA90327E731F0003F4E3C /* VendorViewModel.swift */; };
 		022F3AAD280859A000390DE5 /* CustomerFavouritesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */; };
+		022F3AC5280AB87000390DE5 /* OptionGroupCreationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */; };
 		027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027B44EF27FC31A300A544E7 /* PSBadge.swift */; };
 		02AD41C427DEFC9100F44822 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */; };
 		02AD41C527DEFC9100F44822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */; };
@@ -136,6 +137,7 @@
 		022EA8FE27E71FD8003F4E3C /* PSImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSImagePicker.swift; sourceTree = "<group>"; };
 		022EA90327E731F0003F4E3C /* VendorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorViewModel.swift; sourceTree = "<group>"; };
 		022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerFavouritesScreen.swift; sourceTree = "<group>"; };
+		022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupCreationForm.swift; sourceTree = "<group>"; };
 		027B44EF27FC31A300A544E7 /* PSBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSBadge.swift; sourceTree = "<group>"; };
 		02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
@@ -264,6 +266,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		022F3AC3280AB83E00390DE5 /* Product Form Components */ = {
+			isa = PBXGroup;
+			children = (
+				022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */,
+			);
+			path = "Product Form Components";
+			sourceTree = "<group>";
+		};
 		02AD41BD27DEFB6500F44822 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -519,6 +529,7 @@
 		DF8152E828087D7C00394159 /* ShopViews */ = {
 			isa = PBXGroup;
 			children = (
+				022F3AC3280AB83E00390DE5 /* Product Form Components */,
 				022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */,
 				022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */,
 				DF34150327F9C56400CC945C /* ShopEditFormView.swift */,
@@ -725,6 +736,7 @@
 				AD15B39827E36E9B00513809 /* DBShop.swift in Sources */,
 				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
+				022F3AC5280AB87000390DE5 /* OptionGroupCreationForm.swift in Sources */,
 				DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */,
 				DF0BA5E92808818200D58696 /* CustomerLocationView.swift in Sources */,
 				02AD420A27DF028900F44822 /* CustomerProfileScreen.swift in Sources */,
