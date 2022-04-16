@@ -136,7 +136,7 @@ private struct SaveNewProductButton: View {
 
     func createNewProduct() -> Product? {
         guard let shop = viewModel.currentShop else {
-            print("No current shop!")
+            print("FATAL ERROR: No current shop in ShopProductFormView!")
             return nil
         }
 
@@ -182,17 +182,10 @@ private struct SaveNewProductButton: View {
         let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
 
         return Product(id: ID(strVal: "default"),
-                       name: name,
-                       description: description,
-                       price: inputPrice,
-                       imageURL: "",
-                       estimatedPrepTime: estimatedPrepTime,
-                       isOutOfStock: false,
-                       options: options,
-                       tags: uniqueTags,
-                       shopId: shop.id,
-                       shopName: shop.name,
-                       shopCategory: ShopCategory(title: category),
+                       name: name, description: description, price: inputPrice,
+                       imageURL: "", estimatedPrepTime: estimatedPrepTime, isOutOfStock: false,
+                       options: options, tags: uniqueTags,
+                       shopId: shop.id, shopName: shop.name, shopCategory: ShopCategory(title: category),
                        subProductIds: comboComponents)
     }
 }
