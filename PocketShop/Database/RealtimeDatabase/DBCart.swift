@@ -9,7 +9,7 @@ class DBCart {
             return
         }
 
-        let newCartProduct = CartProduct(id: key,
+        let newCartProduct = CartProduct(id: ID(strVal: key),
                                          quantity: quantity,
                                          productName: product.name,
                                          productPrice: product.price,
@@ -67,7 +67,6 @@ class DBCart {
         }
 
         ref.observe(.childRemoved) { snapshot in
-
             if let value = snapshot.value,
                let cartProductSchema = self.convertCartProductSchema(cartProductJson: value) {
                 let cartProduct = cartProductSchema.toCartProduct()

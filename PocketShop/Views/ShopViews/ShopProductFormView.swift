@@ -156,7 +156,7 @@ struct SaveNewProductButton: View {
 
         let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
 
-        return Product(id: "",
+        return Product(id: ID(strVal: "default"),
                        name: name,
                        description: description,
                        price: inputPrice,

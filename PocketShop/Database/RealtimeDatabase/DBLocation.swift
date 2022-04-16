@@ -7,10 +7,10 @@ class DBLocation {
             print("Unexpected error")
             return
         }
-        var newLocation = location
-        newLocation.id = key
+        var locationSchema = LocationSchema(location: location)
+        locationSchema.id = key
         do {
-            let jsonData = try JSONEncoder().encode(newLocation)
+            let jsonData = try JSONEncoder().encode(locationSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
@@ -29,8 +29,9 @@ class DBLocation {
 
     func editLocation(location: Location) {
         let ref = FirebaseManager.sharedManager.ref.child("locations/\(location.id)")
+        let locationSchema = LocationSchema(location: location)
         do {
-            let jsonData = try JSONEncoder().encode(location)
+            let jsonData = try JSONEncoder().encode(locationSchema)
             let json = try JSONSerialization.jsonObject(with: jsonData)
             ref.setValue(json)
         } catch {
@@ -42,21 +43,18 @@ class DBLocation {
         let ref = FirebaseManager.sharedManager.ref.child("locations")
 
         ref.observe(.childAdded) { snapshot in
-            print("added")
             if let value = snapshot.value, let location = self.convertLocation(locationJson: value) {
                 actionBlock(nil, [location], .added)
             }
         }
 
         ref.observe(.childChanged) { snapshot in
-            print("updated")
             if let value = snapshot.value, let location = self.convertLocation(locationJson: value) {
                 actionBlock(nil, [location], .updated)
             }
         }
 
         ref.observe(.childRemoved) { snapshot in
-            print("deleted")
             if let value = snapshot.value, let location = self.convertLocation(locationJson: value) {
                 actionBlock(nil, [location], .deleted)
             }
@@ -67,7 +65,8 @@ class DBLocation {
     private func convertLocation(locationJson: Any) -> Location? {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: locationJson)
-            let location = try JSONDecoder().decode(Location.self, from: jsonData)
+            let locationSchema = try JSONDecoder().decode(LocationSchema.self, from: jsonData)
+            let location = locationSchema.toLocation()
             return location
         } catch {
             print(error)

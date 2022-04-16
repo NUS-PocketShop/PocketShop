@@ -1,5 +1,6 @@
 struct Customer: User, Codable {
-    var id: String
-    var favouriteProductIds: [String] = []
+    var id: ID
+    var favouriteProductIds: [ID] = []
     var rewardPoints: Int = 0
+    var couponIds: [ID: Int] = [:]
 }

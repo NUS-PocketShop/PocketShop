@@ -8,13 +8,16 @@ struct OrderSchema: Codable {
     var shopName: String
     var date: Date
     var collectionNo: Int
+    var couponId: String?
+    var couponType: CouponType?
+    var couponAmount: Double?
 
     init(order: Order) {
-        self.id = order.id
+        self.id = order.id.strVal
         self.orderProductSchemas = [:]
         self.status = order.status
-        self.customerId = order.customerId
-        self.shopId = order.shopId
+        self.customerId = order.customerId.strVal
+        self.shopId = order.shopId.strVal
         self.shopName = order.shopName
         self.date = order.date
         self.collectionNo = order.collectionNo
@@ -23,6 +26,9 @@ struct OrderSchema: Codable {
             self.orderProductSchemas?[String(counter)] = OrderProductSchema(orderProduct: orderProduct)
             counter += 1
         }
+        self.couponId = order.couponId?.strVal
+        self.couponType = order.couponType
+        self.couponAmount = order.couponAmount
     }
 
     func toOrder() -> Order {
@@ -35,8 +41,26 @@ struct OrderSchema: Codable {
                 total += orderProduct.total
             }
         }
-        return Order(id: self.id, orderProducts: orderProducts,
-                     status: self.status, customerId: self.customerId, shopId: self.shopId, shopName: self.shopName,
-                     date: self.date, collectionNo: self.collectionNo, total: total)
+        if self.couponType == .flat, let couponAmount = self.couponAmount {
+            total -= couponAmount
+        } else if self.couponType == .multiplicative, let couponAmount = self.couponAmount {
+            total *= couponAmount
+        }
+        var couponId: ID?
+        if let couponIdStr = self.couponId {
+            couponId = ID(strVal: couponIdStr)
+        }
+        return Order(id: ID(strVal: self.id),
+                     orderProducts: orderProducts,
+                     status: self.status,
+                     customerId: ID(strVal: self.customerId),
+                     shopId: ID(strVal: self.shopId),
+                     shopName: self.shopName,
+                     date: self.date,
+                     collectionNo: self.collectionNo,
+                     couponId: couponId,
+                     couponType: self.couponType,
+                     couponAmount: self.couponAmount,
+                     total: total)
     }
 }

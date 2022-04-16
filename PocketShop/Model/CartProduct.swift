@@ -1,5 +1,5 @@
 struct CartProduct: Hashable, Identifiable {
-    var id: String
+    var id: ID
     var quantity: Int
 
     var productName: String
@@ -10,8 +10,8 @@ struct CartProduct: Hashable, Identifiable {
     var shopName: String
 
     // To link back to the shop/product page
-    var productId: String
-    var shopId: String
+    var productId: ID
+    var shopId: ID
 
     // total price is (base price + cost of each option) * quantity bought
     var total: Double {

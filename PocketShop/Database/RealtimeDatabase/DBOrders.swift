@@ -8,7 +8,7 @@ class DBOrders {
             return
         }
         var newOrder = order
-        newOrder.id = key
+        newOrder.id = ID(strVal: key)
 
         let collectionNumberRef = FirebaseManager.sharedManager.ref.child("shops/\(newOrder.shopId)/collectionNumber")
         collectionNumberRef.observeSingleEvent(of: .value) { [self] snapshot in
@@ -83,20 +83,17 @@ class DBOrders {
         let orderRef = FirebaseManager.sharedManager.ref.child("orders")
 
         orderRef.observe(.childAdded) { snapshot in
-            print("added")
             if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
                 actionBlock(nil, [order], .added)
             }
         }
 
         orderRef.observe(.childChanged) { snapshot in
-            print("updated")
             if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
                 actionBlock(nil, [order], .updated)
             }
         }
         orderRef.observe(.childRemoved) { snapshot in
-            print("deleted")
             if let value = snapshot.value, let order = self.convertOrder(orderJson: value) {
                 actionBlock(nil, [order], .deleted)
             }
@@ -107,7 +104,7 @@ class DBOrders {
     func observeOrdersFromShop(shopId: String,
                                actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         observeAllOrders { error, orders, eventType in
-            let newOrders = orders?.filter { $0.shopId == shopId }
+            let newOrders = orders?.filter { $0.shopId.strVal == shopId }
             actionBlock(error, newOrders, eventType)
         }
     }
@@ -115,7 +112,7 @@ class DBOrders {
     func observeOrdersFromCustomer(customerId: String,
                                    actionBlock: @escaping (DatabaseError?, [Order]?, DatabaseEvent?) -> Void) {
         observeAllOrders { error, orders, eventType in
-            let newOrders = orders?.filter { $0.customerId == customerId }
+            let newOrders = orders?.filter { $0.customerId.strVal == customerId }
             actionBlock(error, newOrders, eventType)
         }
     }

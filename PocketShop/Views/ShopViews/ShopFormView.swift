@@ -83,7 +83,7 @@ struct ShopFormView: View {
 
         let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
 
-        return Shop(id: "",
+        return Shop(id: ID(strVal: "default"),
                     name: name,
                     description: description,
                     locationId: viewModel.getLocationIdFromName(locationName: location),
