@@ -87,33 +87,33 @@ final class CustomerViewModel: ObservableObject {
 
         // If it does not has coupon, we can see it as if it has applied coupon
         var hasAppliedCoupon: Bool = coupon == nil ? true : false
-        
+
         let maximumTotal = orderProductsGroups.reduce(0) { maxTotal, cartDict in
             max(maxTotal, getTotalPrice(orderProducts: cartDict.value))
         }
-        
+
         var totalPaid: Double = 0
         for (shopId, orderProducts) in orderProductsGroups {
             var order = Order(id: ID(strVal: "dummyId"), orderProducts: orderProducts,
                               status: .pending, customerId: customerId, shopId: shopId,
                               shopName: orderProducts[0].shopName, date: Date(), collectionNo: 0)
-            
+
             if !hasAppliedCoupon,
                 maximumTotal == getTotalPrice(orderProducts: orderProducts),
                 let coupon = coupon {
-                
+
                 order.couponType = coupon.couponType
                 order.couponAmount = coupon.amount
                 order.couponId = coupon.id
-                
+
                 useCoupon(couponId: coupon.id)
                 hasAppliedCoupon = true
             }
-            
+
             totalPaid += order.total
             DatabaseInterface.db.createOrder(order: order)
         }
-        
+
         changeRewardPoints(points: Int(totalPaid))
 
         for cartProduct in cart {
@@ -122,27 +122,27 @@ final class CustomerViewModel: ObservableObject {
 
         return nil
     }
-    
+
     func getTotalPrice(orderProducts: [OrderProduct]) -> Double {
         orderProducts.reduce(0) { result, orderProduct in
             result + orderProduct.total
         }
     }
-    
+
     func getTotalPrice(cartProducts: [CartProduct]) -> Double {
         cartProducts.reduce(0) { result, cartProduct in
             result + cartProduct.total
         }
     }
-    
+
     func getValidCoupons(total: Double) -> [Coupon] {
-        return customerCoupons.filter { coupon in
+        customerCoupons.filter { coupon in
             coupon.minimumOrder <= total
         }
     }
-    
+
     func customerCouponCount(_ coupon: Coupon) -> Int {
-        return customer?.couponIds[coupon.id] ?? 0
+        customer?.couponIds[coupon.id] ?? 0
     }
 
     private func validateCart() -> [(CartValidationError, CartProduct)]? {
@@ -248,11 +248,11 @@ final class CustomerViewModel: ObservableObject {
               let customer = customer else {
             return
         }
-        
+
         guard customer.rewardPoints >= coupon.rewardPointCost else {
             throw CouponValidationError.notEnoughRewardsPoint
         }
-        
+
         changeRewardPoints(points: -coupon.rewardPointCost)
         changeCouponQuantity(coupon: coupon, quantity: 1)
     }
@@ -261,7 +261,7 @@ final class CustomerViewModel: ObservableObject {
         guard let coupon = coupons.first(where: { $0.id == couponId }) else {
             return
         }
-        
+
         changeCouponQuantity(coupon: coupon, quantity: -1)
     }
 
@@ -343,12 +343,12 @@ extension CustomerViewModel {
         }
         return products.filter { customer.favouriteProductIds.contains($0.id) }
     }
-    
+
     var customerCoupons: [Coupon] {
         guard let customer = customer else {
             return []
         }
-        
+
         return coupons.filter { coupon in
             customer.couponIds[coupon.id] != nil
         }

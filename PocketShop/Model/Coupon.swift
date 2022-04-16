@@ -5,7 +5,7 @@ struct Coupon: Hashable {
     var amount: Double
     var minimumOrder: Double
     var rewardPointCost: Int
-    
+
     func apply(total: Double) -> Double {
         switch couponType {
         case .flat:
@@ -14,7 +14,7 @@ struct Coupon: Hashable {
             return total * amount
         }
     }
-    
+
     func calculateSavedValue(total: Double) -> Double {
         switch couponType {
         case .flat:

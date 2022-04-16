@@ -24,11 +24,11 @@ struct CouponListView: View {
             VStack(alignment: .leading) {
                 Text("\(coupon.description)")
                     .font(.appHeadline)
-                
+
                 getDiscountText(coupon: coupon)
-                
+
                 Text("Minimum order: $\(String(format: "%.2f", coupon.minimumOrder))")
-                
+
                 Text("Coupons left: \(quantity)")
                     .font(.subheadline)
                     .padding(.top)
@@ -48,7 +48,7 @@ struct CouponListView: View {
         }
         .padding()
     }
-    
+
     func getDiscountText(coupon: Coupon) -> Text {
         switch coupon.couponType {
         case .flat:

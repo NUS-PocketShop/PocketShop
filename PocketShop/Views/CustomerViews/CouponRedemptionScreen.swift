@@ -10,7 +10,7 @@ struct CouponRedemptionScreen: View {
             Text("You have \(customerViewModel.customer?.rewardPoints ?? 0) rewards point(s)")
                 .font(.appHeadline)
                 .padding()
-            
+
             ScrollView(.vertical) {
                 VStack(alignment: .leading) {
                     ForEach(customerViewModel.coupons, id: \.self) { coupon in
@@ -24,7 +24,7 @@ struct CouponRedemptionScreen: View {
             .padding()
             .navigationTitle("Coupon Redemption")
         }
-        
+
         .alert(isPresented: $showAlert) {
             switch activeAlert {
             case .success:
@@ -34,22 +34,22 @@ struct CouponRedemptionScreen: View {
             }
         }
     }
-    
+
     @ViewBuilder
     func CouponItem(coupon: Coupon, quantity: Int) -> some View {
         HStack {
             VStack(alignment: .leading) {
                 Text("\(coupon.description)")
                     .font(.appHeadline)
-                
+
                 getDiscountText(coupon: coupon)
-                
+
                 Text("Minimum order: $\(String(format: "%.2f", coupon.minimumOrder))")
                     .font(.appBody)
-                
+
                 Text("Rewards Points Needed: \(coupon.rewardPointCost)")
                     .font(.appBody)
-                
+
                 Text("Coupons left: \(quantity)")
                     .font(.subheadline)
                     .padding(.top)
@@ -58,20 +58,24 @@ struct CouponRedemptionScreen: View {
             Spacer()
 
             PSButton(title: "Redeem Coupon") {
-                do {
-                    try customerViewModel.buyCoupon(couponId: coupon.id)
-                    activeAlert = .success
-                } catch CouponValidationError.notEnoughRewardsPoint {
-                    activeAlert = .fail
-                } catch {
-                    fatalError("Unknown error occurred")
-                }
-                showAlert.toggle()
+                handleRedeem(coupon: coupon)
             }
         }
         .padding()
     }
-    
+
+    private func handleRedeem(coupon: Coupon) {
+        do {
+            try customerViewModel.buyCoupon(couponId: coupon.id)
+            activeAlert = .success
+        } catch CouponValidationError.notEnoughRewardsPoint {
+            activeAlert = .fail
+        } catch {
+            fatalError("Unknown error occurred")
+        }
+        showAlert.toggle()
+    }
+
     func getDiscountText(coupon: Coupon) -> Text {
         switch coupon.couponType {
         case .flat:
@@ -80,13 +84,13 @@ struct CouponRedemptionScreen: View {
             return Text("\(String(format: "%.0f", (1 - coupon.amount) * 100))% off")
         }
     }
-    
+
     private func redeemSuccessAlert() -> Alert {
         Alert(title: Text("Coupon Redeemed"),
               message: Text("Coupon Redeemed Successfully"),
               dismissButton: .default(Text("OK")))
     }
-    
+
     private func insufficientPointsAlert() -> Alert {
         Alert(title: Text("Cannot Redeem Coupon"),
               message: Text("You do not have enough rewards point to redeem the selected coupon"),

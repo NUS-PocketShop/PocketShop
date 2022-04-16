@@ -33,14 +33,14 @@ struct OrderSchema: Codable {
 
     func toOrder() -> Order {
         var orderProducts = [OrderProduct]()
-        
+
         if let orderProductSchemas = self.orderProductSchemas {
             for orderProductSchema in orderProductSchemas.values {
                 let orderProduct = orderProductSchema.toOrderProduct()
                 orderProducts.append(orderProduct)
             }
         }
-        
+
         var couponId: ID?
         if let couponIdStr = self.couponId {
             couponId = ID(strVal: couponIdStr)
