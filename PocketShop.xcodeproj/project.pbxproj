@@ -61,6 +61,7 @@
 		ADAD2909280AAA7900CDE510 /* Coupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2908280AAA7900CDE510 /* Coupon.swift */; };
 		ADAD290B280AAD7700CDE510 /* CouponSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD290A280AAD7700CDE510 /* CouponSchema.swift */; };
 		ADAD290D280AAE5B00CDE510 /* DBCoupons.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD290C280AAE5B00CDE510 /* DBCoupons.swift */; };
+		ADAD290F280ABB7C00CDE510 /* CustomerViewModel+Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD290E280ABB7C00CDE510 /* CustomerViewModel+Observers.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -188,6 +189,7 @@
 		ADAD2908280AAA7900CDE510 /* Coupon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coupon.swift; sourceTree = "<group>"; };
 		ADAD290A280AAD7700CDE510 /* CouponSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponSchema.swift; sourceTree = "<group>"; };
 		ADAD290C280AAE5B00CDE510 /* DBCoupons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCoupons.swift; sourceTree = "<group>"; };
+		ADAD290E280ABB7C00CDE510 /* CustomerViewModel+Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomerViewModel+Observers.swift"; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 				02AD422B27DF1FC700F44822 /* LoginViewModel.swift */,
 				02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */,
 				2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */,
+				ADAD290E280ABB7C00CDE510 /* CustomerViewModel+Observers.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -757,6 +760,7 @@
 				ADAD29002807FE4500CDE510 /* CustomerSchema.swift in Sources */,
 				AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */,
 				ADAD2909280AAA7900CDE510 /* Coupon.swift in Sources */,
+				ADAD290F280ABB7C00CDE510 /* CustomerViewModel+Observers.swift in Sources */,
 				027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */,
 				DF86A0DD27E7004700D8423C /* ImageLoader.swift in Sources */,
 				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
