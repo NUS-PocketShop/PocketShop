@@ -10,8 +10,8 @@ struct ShopProductFormView: View {
     @State private var description = ""
     @State private var image: UIImage?
     @State private var category = ""
-    @State private var comboComponents = [String]()
-    @State private var isCombo = true
+    @State private var comboComponents = [ID]()
+    @State private var isCombo = false
     @State private var options = [ProductOption]()
     @State private var tags = [String]()
 
@@ -21,24 +21,22 @@ struct ShopProductFormView: View {
                 Text("Add new \(isCombo ? "Combo" : "Product")")
                     .font(.appTitle)
 
-                UserInputSegment(name: $name,
-                                 price: $price,
-                                 description: $description,
-                                 prepTime: $prepTime,
-                                 category: $category,
-                                 options: $options,
-                                 isCombo: $isCombo,
-                                 comboComponents: $comboComponents)
-                                 tags: $tags)
+                UserInputSegment(name: $name, price: $price, description: $description,
+                                 prepTime: $prepTime, category: $category, options: $options,
+                                 isCombo: $isCombo, comboComponents: $comboComponents, tags: $tags,
+                                 isEditing: false)
 
                 PSImagePicker(title: "\(isCombo ? "Combo" : "Product") Image", image: $image)
                     .padding(.bottom)
 
                 SaveNewProductButton(name: $name, price: $price,
                                      prepTime: $prepTime, description: $description,
-                                     image: $image, category: $category,
-                                     options: $options, tags: $tags)
-            }.padding()
+                                     image: $image, category: $category, options: $options,
+                                     isCombo: $isCombo, comboComponents: $comboComponents,
+                                     tags: $tags)
+            }
+            .padding()
+            .frame(maxWidth: Constants.maxWidthIPad)
         }
         .navigationBarItems(trailing: Button("Cancel") {
             presentationMode.wrappedValue.dismiss()
@@ -56,19 +54,21 @@ struct UserInputSegment: View {
     @Binding var category: String
     @Binding var options: [ProductOption]
     @Binding var isCombo: Bool
-    @Binding var comboComponents: [String]
+    @Binding var comboComponents: [ID]
     @Binding var tags: [String]
+
+    var isEditing: Bool
 
     private var productType: String {
         isCombo ? "Combo" : "Product"
     }
 
     var body: some View {
-        VStack {
-            Toggle("Creating a Combo", isOn: $isCombo)
-                .font(.appCaption)
-                .padding()
-                .frame(maxWidth: Constants.maxWidthIPad)
+        VStack(alignment: .leading) {
+            if !isEditing {
+                Toggle("Creating a Combo", isOn: $isCombo)
+                    .font(.appCaption)
+            }
 
             BasicProductInfoSection(name: $name,
                                     price: $price,
@@ -80,7 +80,7 @@ struct UserInputSegment: View {
                                   title: "Select \(productType) Category")
 
             if isCombo {
-                ComboBuilderSection()
+                ComboBuilderSection(comboIds: $comboComponents)
             }
 
             OptionGroupSection(options: $options,
@@ -104,6 +104,8 @@ private struct SaveNewProductButton: View {
     @Binding var image: UIImage?
     @Binding var category: String
     @Binding var options: [ProductOption]
+    @Binding var isCombo: Bool
+    @Binding var comboComponents: [ID]
     @Binding var tags: [String]
 
     @State private var showAlert = false
@@ -163,6 +165,14 @@ private struct SaveNewProductButton: View {
             return nil
         }
 
+        if !isCombo {
+            comboComponents = []
+        } else if comboComponents.isEmpty {
+            alertMessage = "Please select at least 1 product for this combo!"
+            showAlert = true
+            return nil
+        }
+
         if let imageData = image?.pngData(), imageData.count > DBStorage.MAX_FILE_SIZE {
             alertMessage = "Uploaded image size must be less than 5MB"
             showAlert = true
@@ -183,7 +193,7 @@ private struct SaveNewProductButton: View {
                        shopId: shop.id,
                        shopName: shop.name,
                        shopCategory: ShopCategory(title: category),
-                       subProductIds: [])
+                       subProductIds: comboComponents)
     }
 }
 
@@ -262,8 +272,16 @@ private struct OptionGroupSection: View {
                 Text("\(productType) Options".uppercased())
                     .font(.appSmallCaption)
 
-                ForEach(options, id: \.self) { optionGroup in
-                    OptionGroupView(optionGroup: optionGroup)
+                ForEach(0..<options.count, id: \.self) { index in
+                    HStack {
+                        OptionGroupView(optionGroup: options[index])
+                        Button(action: {
+                            options.remove(at: index)
+                        }, label: {
+                            Image(systemName: "minus.circle")
+                                .foregroundColor(Color.red7)
+                        })
+                    }
                 }
 
                 PSButton(title: "Add Option Group") {
@@ -283,50 +301,55 @@ private struct OptionGroupView: View {
     @State var optionGroup: ProductOption
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(optionGroup.title)
-                .font(.appHeadline)
-            ForEach(optionGroup.optionChoices, id: \.self) { choice in
-                HStack {
-                    Text("\(choice.description)")
-                        .font(.appBody)
-                    Spacer()
-                    Text("$\(choice.cost, specifier: "%.2f")")
-                        .font(.appCaption)
+        HStack {
+            VStack(alignment: .leading) {
+                Text(optionGroup.title)
+                    .font(.appHeadline)
+                ForEach(optionGroup.optionChoices, id: \.self) { choice in
+                    HStack {
+                        Text("\(choice.description)")
+                            .font(.appBody)
+                        Spacer()
+                        Text("$\(choice.cost, specifier: "%.2f")")
+                            .font(.appCaption)
+                    }
                 }
             }
+            Spacer()
         }
         .padding()
     }
 }
 
-// MARK: Form Element #4 (Option Group Section)
+// MARK: Form Element #4 (Combo Builder Section)
 private struct ComboBuilderSection: View {
+
     @EnvironmentObject var viewModel: VendorViewModel
+    @Binding var comboIds: [ID]
+
+    @State var isComboBuilderModalShown = false
+    @State var selectedProducts = Set<Product>()
 
     var body: some View {
-
         VStack(alignment: .leading, spacing: 12) {
             Text("Choose Combo Products".uppercased())
                 .font(.appSmallCaption)
 
-            if let shop = viewModel.currentShop {
-                List {
-                    ForEach(shop.soldProducts.filter({ !$0.isComboMeal }), id: \.self.id) { product in
-                        Text("\(product.name)")
-                        /// The idea is to make a Multiple Selection List, as seen in
-                        /// https://stackoverflow.com/questions/57022615/
-                    }
-                }
-                Text("Number of products that are not combos: \(shop.soldProducts.filter({ !$0.isComboMeal }).count)")
-
-                Button("Debug") {
-                    shop.soldProducts.filter { !$0.isComboMeal }.map({ product in
-                        print("pr name: \(product.name)")
-                    })
-                }.buttonStyle(OutlineButtonStyle())
+            if !selectedProducts.isEmpty {
+                Text("\(selectedProducts.map { $0.name }.joined(separator: ", "))")
             }
+
+            PSButton(title: "\(selectedProducts.isEmpty ? "Create" : "Edit") Combo") {
+                isComboBuilderModalShown = true
+            }.buttonStyle(OutlineButtonStyle())
         }
         .frame(maxWidth: Constants.maxWidthIPad)
+        .sheet(isPresented: $isComboBuilderModalShown) {
+            ComboCreationForm(selectedProducts: $selectedProducts,
+                              selectableProducts: viewModel.products.filter({ !$0.isComboMeal }))
+                .onChange(of: selectedProducts) { selected in
+                    comboIds = Array(selected).map({ $0.id })
+                }
+        }
     }
 }

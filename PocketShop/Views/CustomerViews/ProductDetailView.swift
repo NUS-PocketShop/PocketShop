@@ -16,24 +16,22 @@ struct ProductDetailView: View {
 
     var body: some View {
         VStack {
-            Text(product.name)
-                .font(.appTitle)
-
-            Text(product.shopName)
-                .font(.appHeadline)
-                .foregroundColor(.gray6)
-
-            Text("(\(viewModel.getLocationNameFromProduct(product: product)))")
-                .font(.appHeadline)
-                .foregroundColor(.gray6)
+            NameLocationSection(product: product)
 
             URLImage(urlString: product.imageURL)
                 .scaledToFit()
                 .frame(width: 150, height: 150) // Might change to relative sizes
 
             Text(product.description)
-                .padding(.vertical)
                 .font(.appBody)
+                .padding(.vertical)
+
+            if product.isComboMeal {
+                Text("""
+                    Combo meal of: \(product.subProductIds.map({ $0.description })
+                                        .joined(separator: ", "))
+                    """)
+            }
 
             Text(String(format: "$%.2f", product.price))
                 .font(.appBody)
@@ -54,7 +52,27 @@ struct ProductDetailView_Previews: PreviewProvider {
     }
 }
 
-struct FavouritesButton: View {
+private struct NameLocationSection: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+    var product: Product
+
+    var location: String {
+        "\(product.shopName) (\(viewModel.getLocationNameFromProduct(product: product)))"
+    }
+
+    var body: some View {
+        VStack {
+            Text("\(product.isComboMeal ? "[COMBO] " : "")\(product.name)")
+                .font(.appTitle)
+
+            Text(location)
+                .font(.appHeadline)
+                .foregroundColor(.gray6)
+        }
+    }
+}
+
+private struct FavouritesButton: View {
     @EnvironmentObject var viewModel: CustomerViewModel
 
     var itemId: ID

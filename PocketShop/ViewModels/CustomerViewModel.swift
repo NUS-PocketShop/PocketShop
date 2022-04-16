@@ -197,6 +197,11 @@ final class CustomerViewModel: ObservableObject {
         return locations.first(where: { $0.id == shop?.locationId })?.name ?? ""
     }
 
+    func getProductFromProductId(productId: ID) -> Product? {
+        let product = products.first(where: { $0.id == productId })
+        return product
+    }
+
     func buyCoupon(couponId: ID) {
         guard let coupon = coupons.first(where: { $0.id == couponId }) else {
             return

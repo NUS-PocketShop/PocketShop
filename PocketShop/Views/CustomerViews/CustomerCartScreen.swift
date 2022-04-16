@@ -6,18 +6,11 @@ struct CustomerCartScreen: View {
     var body: some View {
         NavigationView {
             VStack {
-                ScrollView(.vertical) {
-                    CartList()
-                }
-
+                CartList()
                 HStack {
                     Spacer()
-
                     VStack {
-                        Text(String(format: "Total: %.2f", viewModel.total))
-                            .font(.appHeadline)
-                            .bold()
-
+                        Text(String(format: "Total: $%.2f", viewModel.total))
                         PSButton(title: "Order") {
                             viewModel.confirmOrder()
                         }
@@ -39,6 +32,7 @@ struct CustomerCartScreen: View {
             case .showError:
                 return errorAlert()
             }
+
         }
     }
 
@@ -56,15 +50,17 @@ struct CustomerCartScreen: View {
     }
 
     private func errorAlert() -> Alert {
-        Alert(title: Text("Oops"),
+        Alert(title: Text("Error"),
               message: Text("\(viewModel.errorMessage)"),
               dismissButton: .default(Text("OK")))
     }
 
     @ViewBuilder
     func CartList() -> some View {
-        ForEach(viewModel.cartProducts, id: \.self) { cartProduct in
-            CartItem(cartProduct: cartProduct)
+        ScrollView(.vertical) {
+            ForEach(viewModel.cartProducts, id: \.self) { cartProduct in
+                CartItem(cartProduct: cartProduct)
+            }
         }
     }
 
@@ -81,9 +77,7 @@ struct CustomerCartScreen: View {
                     .frame(width: 100, height: 100)
 
                 CartItemDescription(cartProduct: cartProduct)
-
                 Spacer()
-
                 TrashAndEditCartItemButton(cartProduct: cartProduct)
             }
         }
@@ -146,7 +140,7 @@ struct TrashAndEditCartItemButton: View {
             }
             .alert(isPresented: $showConfirmDelete) {
                 Alert(title: Text("Confirmation"),
-                      message: Text("Confirm to remove \(cartProduct.productName) from cart?"),
+                      message: Text("Remove \(cartProduct.productName) from cart?"),
                       primaryButton: .destructive(Text("Yes")) {
                             viewModel.removeCartProduct(cartProduct)
                       },
@@ -184,7 +178,6 @@ extension CustomerCartScreen {
             } else {
                 activeAlert = .showConfirmOrder
             }
-
             showAlert.toggle()
         }
 
@@ -211,7 +204,6 @@ extension CustomerCartScreen {
             case .shopClosed:
                 errorMessage = "Unable to order \(cartProduct.productName) since \(cartProduct.shopName) is closed :("
             }
-
             activeAlert = .showError
             showAlert.toggle()
         }

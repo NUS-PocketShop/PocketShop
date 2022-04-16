@@ -14,6 +14,7 @@
 		022EA90427E731F0003F4E3C /* VendorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022EA90327E731F0003F4E3C /* VendorViewModel.swift */; };
 		022F3AAD280859A000390DE5 /* CustomerFavouritesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */; };
 		022F3AC5280AB87000390DE5 /* OptionGroupCreationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */; };
+		022F3AD9280B120100390DE5 /* ComboCreationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AD8280B120100390DE5 /* ComboCreationForm.swift */; };
 		027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027B44EF27FC31A300A544E7 /* PSBadge.swift */; };
 		02AD41C427DEFC9100F44822 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */; };
 		02AD41C527DEFC9100F44822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */; };
@@ -143,6 +144,7 @@
 		022EA90327E731F0003F4E3C /* VendorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorViewModel.swift; sourceTree = "<group>"; };
 		022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerFavouritesScreen.swift; sourceTree = "<group>"; };
 		022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupCreationForm.swift; sourceTree = "<group>"; };
+		022F3AD8280B120100390DE5 /* ComboCreationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboCreationForm.swift; sourceTree = "<group>"; };
 		027B44EF27FC31A300A544E7 /* PSBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSBadge.swift; sourceTree = "<group>"; };
 		02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */,
+				022F3AD8280B120100390DE5 /* ComboCreationForm.swift */,
 			);
 			path = "Product Form Components";
 			sourceTree = "<group>";
@@ -733,6 +736,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADAD28F327F4A0BB00CDE510 /* CartProduct.swift in Sources */,
+				022F3AD9280B120100390DE5 /* ComboCreationForm.swift in Sources */,
 				ADAD9F1E27DCCC9D00DE0EE7 /* AuthManager.swift in Sources */,
 				DFD49A0B27E513F50067BC32 /* ShopsScrollView.swift in Sources */,
 				2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */,

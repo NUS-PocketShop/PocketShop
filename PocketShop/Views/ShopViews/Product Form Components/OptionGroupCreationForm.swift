@@ -44,6 +44,7 @@ struct OptionGroupCreationForm: View {
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
         }
+        .navigationBarHidden(true)
         .padding()
         .frame(maxWidth: Constants.maxWidthIPad)
     }

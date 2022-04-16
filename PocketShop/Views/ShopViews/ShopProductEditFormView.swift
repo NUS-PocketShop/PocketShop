@@ -12,7 +12,7 @@ struct ShopProductEditFormView: View {
     @State private var image: UIImage?
     @State private var category: String = ""
     @State private var isCombo = false
-    @State private var comboComponents = [String]()
+    @State private var comboComponents = [ID]()
     @State private var options = [ProductOption]()
     @State private var tags = [String]()
 
@@ -24,6 +24,7 @@ struct ShopProductEditFormView: View {
         self._prepTime = State(initialValue: String(product.estimatedPrepTime))
         self._category = State(initialValue: product.shopCategory?.title ?? "")
         self._isCombo = State(initialValue: product.isComboMeal)
+        self._comboComponents = State(initialValue: product.subProductIds)
         self._options = State(initialValue: product.options)
         self._tags = State(initialValue: product.tags.map { $0.tag })
     }
@@ -36,7 +37,8 @@ struct ShopProductEditFormView: View {
 
                 UserInputSegment(name: $name, price: $price, description: $description,
                                  prepTime: $prepTime, category: $category, options: $options,
-                                 isCombo: $isCombo, comboComponents: $comboComponents, tags: $tags)
+                                 isCombo: $isCombo, comboComponents: $comboComponents, tags: $tags,
+                                 isEditing: true)
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
