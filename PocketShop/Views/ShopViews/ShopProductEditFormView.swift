@@ -124,6 +124,12 @@ struct SaveEditedProductButton: View {
             return nil
         }
 
+        if let imageData = image?.pngData(), imageData.count > DBStorage.MAX_FILE_SIZE {
+            alertMessage = "Uploaded image size must be less than 5MB"
+            showAlert = true
+            return nil
+        }
+
         let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
 
         // Create edited Product and save to db

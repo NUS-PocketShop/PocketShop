@@ -14,7 +14,6 @@ final class VendorViewModel: ObservableObject {
     }
 
     init() {
-        print("initializing vendor view model")
         DatabaseInterface.auth.getCurrentUser { [self] error, user in
             guard resolveErrors(error) else {
                 return
