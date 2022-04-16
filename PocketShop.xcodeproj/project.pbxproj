@@ -35,6 +35,8 @@
 		02AD424727DF2D8200F44822 /* RegisterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424627DF2D8200F44822 /* RegisterScreen.swift */; };
 		02AD424C27DF2FB800F44822 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */; };
 		02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */; };
+		2B4AA4C3280AB50E00F61438 /* CouponListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4AA4C2280AB50E00F61438 /* CouponListView.swift */; };
+		2B4AA4C5280ABDE000F61438 /* CouponRedemptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4AA4C4280ABDE000F61438 /* CouponRedemptionView.swift */; };
 		2B54157D27F5AD0400B9C758 /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */; };
 		2B63EB8A27E23269008D5747 /* CustomerOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */; };
 		2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B786B4927E33F1600834CA4 /* RingView.swift */; };
@@ -159,6 +161,8 @@
 		02AD424627DF2D8200F44822 /* RegisterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreen.swift; sourceTree = "<group>"; };
 		02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		02AD425E27E07F2800F44822 /* PSRadioButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSRadioButtonGroup.swift; sourceTree = "<group>"; };
+		2B4AA4C2280AB50E00F61438 /* CouponListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponListView.swift; sourceTree = "<group>"; };
+		2B4AA4C4280ABDE000F61438 /* CouponRedemptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponRedemptionView.swift; sourceTree = "<group>"; };
 		2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
 		2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrderScreen.swift; sourceTree = "<group>"; };
 		2B786B4927E33F1600834CA4 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
@@ -512,6 +516,8 @@
 				DF0BA5E62808805C00D58696 /* LocationSummaryView.swift */,
 				DF0BA5E82808818200D58696 /* CustomerLocationView.swift */,
 				022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */,
+				2B4AA4C2280AB50E00F61438 /* CouponListView.swift */,
+				2B4AA4C4280ABDE000F61438 /* CouponRedemptionView.swift */,
 			);
 			path = CustomerViews;
 			sourceTree = "<group>";
@@ -729,6 +735,7 @@
 				DF0BA5E92808818200D58696 /* CustomerLocationView.swift in Sources */,
 				02AD420A27DF028900F44822 /* CustomerProfileScreen.swift in Sources */,
 				DF0BA5E72808805C00D58696 /* LocationSummaryView.swift in Sources */,
+				2B4AA4C5280ABDE000F61438 /* CouponRedemptionView.swift in Sources */,
 				02AD41D827DEFCEA00F44822 /* Font+PocketShop.swift in Sources */,
 				ADAD9F2027DCCD7100DE0EE7 /* FirebaseManager.swift in Sources */,
 				DF67102027DE7A8D002C5AE0 /* ProductSummaryView.swift in Sources */,
@@ -761,6 +768,7 @@
 				DFD49A0927E5134D0067BC32 /* ProductsScrollView.swift in Sources */,
 				022EA8C327E4D4C3003F4E3C /* ShopProfileScreen.swift in Sources */,
 				AD15B3A927E5D2A600513809 /* DBStorage.swift in Sources */,
+				2B4AA4C3280AB50E00F61438 /* CouponListView.swift in Sources */,
 				DF0BA5EB2808890F00D58696 /* ShopListView.swift in Sources */,
 				02AD421127DF1BDE00F44822 /* MainViewRouter.swift in Sources */,
 				ADAD2902280A890600CDE510 /* ID.swift in Sources */,

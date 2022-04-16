@@ -10,21 +10,7 @@ struct CustomerCartScreen: View {
                     CartList()
                 }
 
-                HStack {
-                    Spacer()
-
-                    VStack {
-                        Text(String(format: "Total: %.2f", viewModel.total))
-                            .font(.appHeadline)
-                            .bold()
-
-                        PSButton(title: "Order") {
-                            viewModel.confirmOrder()
-                        }
-                        .buttonStyle(FillButtonStyle())
-                    }
-                    .frame(width: 150)
-                }
+                Footer()
             }
             .navigationTitle("My Cart")
             .padding()
@@ -40,25 +26,9 @@ struct CustomerCartScreen: View {
                 return errorAlert()
             }
         }
-    }
-
-    private func emptyCartAlert() -> Alert {
-        Alert(title: Text("Unable to Order"),
-              message: Text("Unable to make order since your cart is empty"),
-              dismissButton: .default(Text("OK")))
-    }
-
-    private func makeOrderAlert() -> Alert {
-        Alert(title: Text("Confirm Order"),
-              message: Text("Confirm to order items in cart?"),
-              primaryButton: .default(Text("Confirm")) { viewModel.makeOrder() },
-              secondaryButton: .destructive(Text("Cancel")))
-    }
-
-    private func errorAlert() -> Alert {
-        Alert(title: Text("Oops"),
-              message: Text("\(viewModel.errorMessage)"),
-              dismissButton: .default(Text("OK")))
+        .sheet(isPresented: $viewModel.showModal) {
+            CouponListView()
+        }
     }
 
     @ViewBuilder
@@ -88,6 +58,67 @@ struct CustomerCartScreen: View {
             }
         }
         .padding()
+    }
+
+    @ViewBuilder
+    func Footer() -> some View {
+        HStack {
+            ApplyCouponSection()
+                .frame(height: 200)
+
+            Spacer()
+
+            OrderButtonSection()
+                .frame(height: 200)
+        }
+    }
+
+    @ViewBuilder
+    func ApplyCouponSection() -> some View {
+        VStack {
+            Spacer()
+            PSButton(title: "Apply Coupon") {
+                viewModel.showCoupons()
+            }
+            .buttonStyle(FillButtonStyle())
+        }
+        .frame(width: 150)
+    }
+
+    @ViewBuilder
+    func OrderButtonSection() -> some View {
+        VStack {
+            Spacer()
+
+            Text(String(format: "Total: %.2f", viewModel.total))
+                .font(.appHeadline)
+                .bold()
+
+            PSButton(title: "Order") {
+                viewModel.confirmOrder()
+            }
+            .buttonStyle(FillButtonStyle())
+        }
+        .frame(width: 150)
+    }
+
+    private func emptyCartAlert() -> Alert {
+        Alert(title: Text("Unable to Order"),
+              message: Text("Unable to make order since your cart is empty"),
+              dismissButton: .default(Text("OK")))
+    }
+
+    private func makeOrderAlert() -> Alert {
+        Alert(title: Text("Confirm Order"),
+              message: Text("Confirm to order items in cart?"),
+              primaryButton: .default(Text("Confirm")) { viewModel.makeOrder() },
+              secondaryButton: .destructive(Text("Cancel")))
+    }
+
+    private func errorAlert() -> Alert {
+        Alert(title: Text("Oops"),
+              message: Text("\(viewModel.errorMessage)"),
+              dismissButton: .default(Text("OK")))
     }
 }
 
@@ -164,6 +195,7 @@ extension CustomerCartScreen {
         @ObservedObject var customerViewModel: CustomerViewModel
         @Published var cartProducts: [CartProduct] = []
         @Published var showAlert = false
+        @Published var showModal = false
         @Published var activeAlert: ActiveAlert = .showError
         @Published var errorMessage = ""
 
@@ -214,6 +246,10 @@ extension CustomerCartScreen {
 
             activeAlert = .showError
             showAlert.toggle()
+        }
+
+        func showCoupons() {
+            showModal.toggle()
         }
 
         func removeCartProduct(_ cartProduct: CartProduct) {
