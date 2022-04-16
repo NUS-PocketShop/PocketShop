@@ -112,18 +112,9 @@ struct ShopTextFields: View {
                     title: "Shop Description",
                     placeholder: "Shop Description")
 
-        ForEach(0..<categories.count, id: \.self) { index in
-            PSTextField(text: $categories[index],
-                        title: "Shop Category \(index + 1)",
-                        placeholder: "Shop Category \(index + 1)")
-        }
-
-        Button(action: {
-            categories.append("")
-        }, label: {
-            Text("\(Image(systemName: "plus.circle")) Add new shop category")
-        })
-        .padding(.vertical)
+        PSMultiLineTextField(groupTitle: "Shop Categories",
+                             fieldTitle: "Shop Category",
+                             fields: $categories)
     }
 }
 

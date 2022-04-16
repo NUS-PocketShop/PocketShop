@@ -77,7 +77,9 @@ struct UserInputSegment: View {
 
             OptionGroupSection(options: $options)
 
-            TagsInputField(tags: $tags)
+            PSMultiLineTextField(groupTitle: "Product Tags (Optional)",
+                                 fieldTitle: "Product Tag",
+                                 fields: $tags)
         }
     }
 }
@@ -169,28 +171,6 @@ struct SaveNewProductButton: View {
                        subProductIds: [])
     }
 
-}
-
-struct TagsInputField: View {
-    @Binding var tags: [String]
-
-    var body: some View {
-        Text("PRODUCT TAGS (OPTIONAL)")
-            .font(.appSmallCaption)
-
-        ForEach(0..<tags.count, id: \.self) { index in
-            PSTextField(text: $tags[index],
-                        title: "Product Tag \(index + 1)",
-                        placeholder: "Product Tag \(index + 1)")
-        }
-
-        Button(action: {
-            tags.append("")
-        }, label: {
-            Text("\(Image(systemName: "plus.circle")) Add new product tag")
-        })
-        .padding(.vertical)
-    }
 }
 
 struct CategoryPickerSection: View {

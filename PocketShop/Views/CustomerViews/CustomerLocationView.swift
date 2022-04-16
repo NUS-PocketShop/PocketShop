@@ -71,13 +71,9 @@ struct ShopPreview: View {
 
     var body: some View {
         VStack {
-            if shop.isClosed {
+            NavigationLink(destination: CustomerShopView(shop: shop)) {
                 ShopListView(shop: shop).environmentObject(viewModel)
-                    .opacity(0.5)
-            } else {
-                NavigationLink(destination: CustomerShopView(shop: shop)) {
-                    ShopListView(shop: shop).environmentObject(viewModel)
-                }
+                    .opacity(shop.isClosed ? 0.5 : 1)
             }
         }
     }
