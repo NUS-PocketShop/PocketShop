@@ -6,6 +6,7 @@ protocol DatabaseAdapter {
     func getUser(with id: ID, completionHandler: @escaping (DatabaseError?, User?) -> Void)
     func setFavouriteProductIds(userId: ID, favouriteProductIds: [ID])
     func setRewardPoints(userId: ID, rewardPoints: Int)
+    func setCoupons(userId: ID, coupons: [ID: Int])
 
     func createShop(shop: Shop, imageData: Data?)
     func editShop(shop: Shop, imageData: Data?)
@@ -53,4 +54,9 @@ protocol DatabaseAdapter {
     func deleteLocation(id: ID)
     func editLocation(location: Location)
     func observeAllLocations(actionBlock: @escaping (DatabaseError?, [Location]?, DatabaseEvent?) -> Void)
+
+    func createCoupon(coupon: Coupon)
+    func deleteCoupon(id: ID)
+    func editCoupon(coupon: Coupon)
+    func observeAllCoupons(actionBlock: @escaping (DatabaseError?, [Coupon]?, DatabaseEvent?) -> Void)
 }
