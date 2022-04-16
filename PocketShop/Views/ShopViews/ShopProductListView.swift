@@ -18,8 +18,8 @@ struct ToggleProductStockStatusButton: View {
 
     var body: some View {
         Text(product.isOutOfStock
-             ? "In Stock \(Image(systemName: "checkmark"))"
-             : "Out of Stock \(Image(systemName: "nosign"))")
+             ? "Set In Stock \(Image(systemName: "checkmark"))"
+             : "Set Out of Stock \(Image(systemName: "nosign"))")
             .foregroundColor(Color.accent)
             .font(.appCaption)
             .padding()
