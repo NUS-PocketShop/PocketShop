@@ -13,6 +13,7 @@ struct ShopProductFormView: View {
     @State private var comboComponents = [String]()
     @State private var isCombo = true
     @State private var options = [ProductOption]()
+    @State private var tags = [String]()
 
     var body: some View {
         ScrollView(.vertical) {
@@ -28,6 +29,7 @@ struct ShopProductFormView: View {
                                  options: $options,
                                  isCombo: $isCombo,
                                  comboComponents: $comboComponents)
+                                 tags: $tags)
 
                 PSImagePicker(title: "\(isCombo ? "Combo" : "Product") Image", image: $image)
                     .padding(.bottom)
@@ -35,7 +37,7 @@ struct ShopProductFormView: View {
                 SaveNewProductButton(name: $name, price: $price,
                                      prepTime: $prepTime, description: $description,
                                      image: $image, category: $category,
-                                     options: $options)
+                                     options: $options, tags: $tags)
             }.padding()
         }
         .navigationBarItems(trailing: Button("Cancel") {
@@ -55,6 +57,7 @@ struct UserInputSegment: View {
     @Binding var options: [ProductOption]
     @Binding var isCombo: Bool
     @Binding var comboComponents: [String]
+    @Binding var tags: [String]
 
     private var productType: String {
         isCombo ? "Combo" : "Product"
@@ -82,6 +85,10 @@ struct UserInputSegment: View {
 
             OptionGroupSection(options: $options,
                                productType: productType)
+
+            PSMultiLineTextField(groupTitle: "Product Tags (Optional)",
+                                 fieldTitle: "Product Tag",
+                                 fields: $tags)
         }
     }
 }
@@ -97,6 +104,7 @@ private struct SaveNewProductButton: View {
     @Binding var image: UIImage?
     @Binding var category: String
     @Binding var options: [ProductOption]
+    @Binding var tags: [String]
 
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -155,6 +163,8 @@ private struct SaveNewProductButton: View {
             return nil
         }
 
+        let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
+
         return Product(id: ID(strVal: "default"),
                        name: name,
                        description: description,
@@ -163,7 +173,7 @@ private struct SaveNewProductButton: View {
                        estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false,
                        options: options,
-                       tags: [],
+                       tags: uniqueTags,
                        shopId: shop.id,
                        shopName: shop.name,
                        shopCategory: ShopCategory(title: category),

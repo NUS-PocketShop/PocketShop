@@ -65,6 +65,11 @@ class DBUsers {
         ref.setValue(rewardPoints)
     }
 
+    func setCoupons(userId: String, coupons: [String: Int]) {
+        let ref = FirebaseManager.sharedManager.ref.child("customers/\(userId)/couponIds")
+        ref.setValue(coupons)
+    }
+
     private func updateCustomerSnapshot(value: Any, completionHandler: @escaping (DatabaseError?, User?) -> Void) {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: value)

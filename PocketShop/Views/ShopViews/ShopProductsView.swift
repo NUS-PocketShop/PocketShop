@@ -22,28 +22,12 @@ struct ShopProductsView: View {
                        description: shop.description, imageUrl: shop.imageURL)
 
             Spacer()
-            Text("Shop is currently \(shop.isClosed ? "CLOSED" : "open")")
+            ShopOperatingStatusSection(shop: shop)
             Spacer()
             if shop.soldProducts.isEmpty {
                 Text("This shop has no products... yet!")
             } else {
-                List {
-                    ForEach(shop.categories, id: \.self) { shopCategory in
-                        Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
-                            ForEach(shop.soldProducts, id: \.self) { product in
-                                if product.shopCategory?.title == shopCategory.title {
-                                    NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
-                                                                                        product: product)) {
-                                        ShopProductListView(product: product)
-                                    }
-                                }
-                            }
-                            .onDelete { positions in
-                                viewModel.deleteProduct(at: positions)
-                            }
-                        }
-                    }
-                }
+                ShopItemsList(shop: shop)
             }
             AddProductButton(activeSheet: $activeSheet)
             Spacer()
@@ -106,5 +90,42 @@ struct AddProductButton: View {
         }
         .buttonStyle(FillButtonStyle())
         .padding(.horizontal)
+    }
+}
+
+private struct ShopOperatingStatusSection: View {
+    var shop: Shop
+
+    var body: some View {
+        HStack {
+            Text("Shop is currently \(shop.isClosed ? "closed" : "open").")
+            ShopOpenCloseButton()
+        }
+    }
+}
+
+private struct ShopItemsList: View {
+    @EnvironmentObject var viewModel: VendorViewModel
+
+    var shop: Shop
+
+    var body: some View {
+        List {
+            ForEach(shop.categories, id: \.self) { shopCategory in
+                Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
+                    ForEach(shop.soldProducts, id: \.self) { product in
+                        if product.shopCategory?.title == shopCategory.title {
+                            NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
+                                                                                product: product)) {
+                                ShopProductListView(product: product)
+                            }
+                        }
+                    }
+                    .onDelete { positions in
+                        viewModel.deleteProduct(at: positions)
+                    }
+                }
+            }
+        }
     }
 }

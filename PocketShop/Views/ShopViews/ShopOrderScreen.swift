@@ -11,7 +11,9 @@ struct ShopOrderScreen: View {
         NavigationView {
             VStack {
                 Picker("Selected View", selection: $viewModel.tabSelection) {
-                    Text("Current").tag(TabView.current)
+                    Text("Incoming").tag(TabView.current)
+                    Text("Preparing").tag(TabView.preparing)
+                    Text("Ready").tag(TabView.ready)
                     Text("History").tag(TabView.history)
                 }
                 .pickerStyle(SegmentedPickerStyle())
@@ -36,6 +38,7 @@ struct ShopOrderScreen: View {
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
+                    Divider()
                 }
             }
         }
@@ -155,6 +158,8 @@ struct ShopOrderScreen: View {
 extension ShopOrderScreen {
     enum TabView: String {
         case current
+        case preparing
+        case ready
         case history
     }
 }
@@ -181,6 +186,10 @@ extension ShopOrderScreen {
             switch tabSelection {
             case .current:
                 setFilterCurrent()
+            case .preparing:
+                setFilterPreparing()
+            case .ready:
+                setFilterReady()
             case .history:
                 setFilterHistory()
             }
@@ -188,9 +197,29 @@ extension ShopOrderScreen {
 
         func setFilterCurrent() {
             filteredOrders = vendorViewModel.orders.filter { order in
-                order.status != .collected && order.status != .cancelled
+                order.status == .pending
             }.sorted {
                 $0.date < $1.date
+            }.map {
+                OrderViewModel(order: $0)
+            }
+        }
+
+        func setFilterPreparing() {
+            filteredOrders = vendorViewModel.orders.filter { order in
+                order.status == .preparing || order.status == .accepted
+            }.sorted {
+                $0.date > $1.date
+            }.map {
+                OrderViewModel(order: $0)
+            }
+        }
+
+        func setFilterReady() {
+            filteredOrders = vendorViewModel.orders.filter { order in
+                order.status == .ready
+            }.sorted {
+                $0.date > $1.date
             }.map {
                 OrderViewModel(order: $0)
             }
