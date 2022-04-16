@@ -14,7 +14,7 @@ struct OrderProductSchema: Codable {
     var shopId: String
 
     init(orderProduct: OrderProduct) {
-        self.id = orderProduct.id
+        self.id = orderProduct.id.strVal
         self.quantity = orderProduct.quantity
         self.status = orderProduct.status
         self.productName = orderProduct.productName
@@ -22,12 +22,12 @@ struct OrderProductSchema: Codable {
         self.productImageURL = orderProduct.productImageURL
         self.productOptionChoices = orderProduct.productOptionChoices
         self.shopName = orderProduct.shopName
-        self.productId = orderProduct.productId
-        self.shopId = orderProduct.shopId
+        self.productId = orderProduct.productId.strVal
+        self.shopId = orderProduct.shopId.strVal
     }
 
     func toOrderProduct() -> OrderProduct {
-        OrderProduct(id: self.id,
+        OrderProduct(id: ID(strVal: self.id),
                      quantity: self.quantity,
                      status: self.status,
                      productName: self.productName,
@@ -35,6 +35,7 @@ struct OrderProductSchema: Codable {
                      productImageURL: self.productImageURL,
                      productOptionChoices: self.productOptionChoices ?? [],
                      shopName: self.shopName,
-                     productId: self.productId, shopId: self.shopId)
+                     productId: ID(strVal: self.productId),
+                     shopId: ID(strVal: self.shopId))
     }
 }

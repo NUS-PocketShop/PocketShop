@@ -120,32 +120,32 @@ final class VendorViewModel: ObservableObject {
         }
     }
 
-    func cancelOrder(orderId: String) {
+    func cancelOrder(orderId: ID) {
         DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
-    func setOrderAccept(orderId: String) {
+    func setOrderAccept(orderId: ID) {
         setOrderStatus(orderId: orderId, status: .accepted)
     }
 
-    func setOrderReady(orderId: String) {
+    func setOrderReady(orderId: ID) {
         setOrderStatus(orderId: orderId, status: .ready)
     }
 
-    func setOrderCollected(orderId: String) {
+    func setOrderCollected(orderId: ID) {
         setOrderStatus(orderId: orderId, status: .collected)
     }
 
-    func getLocationIdFromName(locationName: String) -> String {
-        locations.first(where: { $0.name == locationName })?.id ?? ""
+    func getLocationIdFromName(locationName: String) -> ID {
+        locations.first(where: { $0.name == locationName })?.id ?? ID(strVal: "")
     }
 
-    func getLocationNameFromId(locationId: String) -> String {
+    func getLocationNameFromId(locationId: ID) -> String {
         locations.first(where: { $0.id == locationId })?.name ?? ""
     }
 
     // MARK: Private functions
-    private func initialiseShop(_ vendorId: String) {
+    private func initialiseShop(_ vendorId: ID) {
         DatabaseInterface.db.observeShopsByOwner(ownerId: vendorId) { [self] error, allShops, eventType in
             guard resolveErrors(error) else {
                 return
@@ -165,7 +165,7 @@ final class VendorViewModel: ObservableObject {
         }
     }
 
-    private func getOrders(_ shopId: String) {
+    private func getOrders(_ shopId: ID) {
         DatabaseInterface.db.observeOrdersFromShop(shopId: shopId) { [self] error, allOrders, eventType in
             guard resolveErrors(error) else {
                 return
@@ -185,7 +185,7 @@ final class VendorViewModel: ObservableObject {
         }
     }
 
-    private func setOrderStatus(orderId: String, status: OrderStatus) {
+    private func setOrderStatus(orderId: ID, status: OrderStatus) {
         let filteredOrder = self.orders.filter { order in
             order.id == orderId
         }

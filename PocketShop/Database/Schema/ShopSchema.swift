@@ -11,18 +11,18 @@ struct ShopSchema: Codable {
     var categories: [ShopCategory]? = []
 
     init(shop: Shop) {
-        self.id = shop.id
+        self.id = shop.id.strVal
         self.name = shop.name
         self.description = shop.description
-        self.locationId = shop.locationId
+        self.locationId = shop.locationId.strVal
         self.imageURL = shop.imageURL
         self.isClosed = shop.isClosed
         self.collectionNumber = shop.collectionNumber
-        self.ownerId = shop.ownerId
+        self.ownerId = shop.ownerId.strVal
         self.soldProducts = [:]
         self.categories = shop.categories
         for product in shop.soldProducts {
-            self.soldProducts?[product.id] = ProductSchema(product: product)
+            self.soldProducts?[product.id.strVal] = ProductSchema(product: product)
         }
     }
 
@@ -34,14 +34,14 @@ struct ShopSchema: Codable {
             }
         }
 
-        return Shop(id: self.id,
+        return Shop(id: ID(strVal: self.id),
                     name: self.name,
                     description: self.description,
-                    locationId: self.locationId,
+                    locationId: ID(strVal: self.locationId),
                     imageURL: self.imageURL,
                     isClosed: self.isClosed,
                     collectionNumber: self.collectionNumber,
-                    ownerId: self.ownerId,
+                    ownerId: ID(strVal: self.ownerId),
                     soldProducts: products,
                     categories: self.categories ?? [])
     }

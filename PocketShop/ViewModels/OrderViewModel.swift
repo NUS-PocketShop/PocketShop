@@ -4,7 +4,7 @@ import SwiftUI
 struct OrderViewModel {
     private let model: Order
 
-    var id: String {
+    var id: ID {
         model.id
     }
 

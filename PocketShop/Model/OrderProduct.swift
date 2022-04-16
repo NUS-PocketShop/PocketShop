@@ -1,5 +1,5 @@
 struct OrderProduct: Hashable, Identifiable {
-    var id: String
+    var id: ID
     var quantity: Int
     var status: OrderStatus
 
@@ -16,6 +16,6 @@ struct OrderProduct: Hashable, Identifiable {
     var shopName: String
 
     // To link back to the shop/product page
-    var productId: String
-    var shopId: String
+    var productId: ID
+    var shopId: ID
 }

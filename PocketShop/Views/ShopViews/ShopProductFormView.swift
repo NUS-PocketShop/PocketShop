@@ -146,7 +146,7 @@ struct SaveNewProductButton: View {
             return nil
         }
 
-        return Product(id: "",
+        return Product(id: ID(strVal: "default"),
                        name: name,
                        description: description,
                        price: inputPrice,
