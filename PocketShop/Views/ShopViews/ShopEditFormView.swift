@@ -97,6 +97,12 @@ struct ShopEditFormView: View {
             return nil
         }
 
+        if let imageData = image?.pngData(), imageData.count > DBStorage.MAX_FILE_SIZE {
+            alertMessage = "Uploaded image size must be less than 5MB"
+            showAlert = true
+            return nil
+        }
+
         let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
 
         return Shop(id: shop.id,
