@@ -55,7 +55,7 @@ struct CustomerOrderScreen: View {
     @ViewBuilder
     func OrderStatusSection(order: OrderViewModel) -> some View {
         VStack {
-            Text(String(format: "$%2.f", order.total))
+            Text(String(format: "$%.2f", order.total))
                 .font(.appBody)
                 .bold()
                 .padding(.bottom, 12)

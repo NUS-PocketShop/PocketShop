@@ -92,10 +92,11 @@ final class CustomerViewModel: ObservableObject {
             max(maxTotal, getTotalPrice(orderProducts: cartDict.value))
         }
         
+        var totalPaid: Double = 0
         for (shopId, orderProducts) in orderProductsGroups {
             var order = Order(id: ID(strVal: "dummyId"), orderProducts: orderProducts,
                               status: .pending, customerId: customerId, shopId: shopId,
-                              shopName: orderProducts[0].shopName, date: Date(), collectionNo: 0, total: 0)
+                              shopName: orderProducts[0].shopName, date: Date(), collectionNo: 0)
             
             if !hasAppliedCoupon,
                 maximumTotal == getTotalPrice(orderProducts: orderProducts),
@@ -105,11 +106,15 @@ final class CustomerViewModel: ObservableObject {
                 order.couponAmount = coupon.amount
                 order.couponId = coupon.id
                 
+                useCoupon(couponId: coupon.id)
                 hasAppliedCoupon = true
             }
             
+            totalPaid += order.total
             DatabaseInterface.db.createOrder(order: order)
         }
+        
+        changeRewardPoints(points: Int(totalPaid))
 
         for cartProduct in cart {
             DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)

@@ -203,8 +203,7 @@ final class VendorViewModel: ObservableObject {
                                 shopId: order.shopId,
                                 shopName: order.shopName,
                                 date: order.date,
-                                collectionNo: order.collectionNo,
-                                total: order.total)
+                                collectionNo: order.collectionNo)
 
         DatabaseInterface.db.editOrder(order: editedOrder)
     }
