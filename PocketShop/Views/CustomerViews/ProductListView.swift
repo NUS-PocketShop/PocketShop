@@ -20,6 +20,10 @@ struct ProductListView: View {
                     .font(.appButton)
                     .foregroundColor(Color.black)
                     .padding(.leading)
+
+                Text(String("Item \(product.isOutOfStock ? "out of stock" : "in stock")"))
+                    .font(.appButton)
+                    .padding(.leading)
             }
         }
         .opacity(product.isOutOfStock ? 0.5 : 1)
