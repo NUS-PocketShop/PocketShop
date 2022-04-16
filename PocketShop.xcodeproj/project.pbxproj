@@ -58,6 +58,9 @@
 		ADAD2902280A890600CDE510 /* ID.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2901280A890600CDE510 /* ID.swift */; };
 		ADAD2904280A8A5300CDE510 /* LocationSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2903280A8A5300CDE510 /* LocationSchema.swift */; };
 		ADAD2906280A8ABF00CDE510 /* VendorSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2905280A8ABF00CDE510 /* VendorSchema.swift */; };
+		ADAD2909280AAA7900CDE510 /* Coupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD2908280AAA7900CDE510 /* Coupon.swift */; };
+		ADAD290B280AAD7700CDE510 /* CouponSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD290A280AAD7700CDE510 /* CouponSchema.swift */; };
+		ADAD290D280AAE5B00CDE510 /* DBCoupons.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD290C280AAE5B00CDE510 /* DBCoupons.swift */; };
 		ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */; };
 		ADAD9EDB27D88C5B00DE0EE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */; };
 		ADAD9EDD27D88C5C00DE0EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */; };
@@ -182,6 +185,9 @@
 		ADAD2901280A890600CDE510 /* ID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ID.swift; sourceTree = "<group>"; };
 		ADAD2903280A8A5300CDE510 /* LocationSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSchema.swift; sourceTree = "<group>"; };
 		ADAD2905280A8ABF00CDE510 /* VendorSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorSchema.swift; sourceTree = "<group>"; };
+		ADAD2908280AAA7900CDE510 /* Coupon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coupon.swift; sourceTree = "<group>"; };
+		ADAD290A280AAD7700CDE510 /* CouponSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponSchema.swift; sourceTree = "<group>"; };
+		ADAD290C280AAE5B00CDE510 /* DBCoupons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCoupons.swift; sourceTree = "<group>"; };
 		ADAD9ED527D88C5B00DE0EE7 /* PocketShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAD9ED827D88C5B00DE0EE7 /* PocketShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopApp.swift; sourceTree = "<group>"; };
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -365,6 +371,7 @@
 				ADAD28FF2807FE4500CDE510 /* CustomerSchema.swift */,
 				ADAD2903280A8A5300CDE510 /* LocationSchema.swift */,
 				ADAD2905280A8ABF00CDE510 /* VendorSchema.swift */,
+				ADAD290A280AAD7700CDE510 /* CouponSchema.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";
@@ -446,6 +453,7 @@
 				ADAD9F2A27DDE7B400DE0EE7 /* Vendor.swift */,
 				AD15B39927E3968B00513809 /* User.swift */,
 				ADAD2901280A890600CDE510 /* ID.swift */,
+				ADAD2908280AAA7900CDE510 /* Coupon.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -486,6 +494,7 @@
 				AD15B3A827E5D2A600513809 /* DBStorage.swift */,
 				AD7A9C0827EF03C80069B70C /* DatabaseEvent.swift */,
 				ADAD28FD2806C1F200CDE510 /* DBLocation.swift */,
+				ADAD290C280AAE5B00CDE510 /* DBCoupons.swift */,
 			);
 			path = RealtimeDatabase;
 			sourceTree = "<group>";
@@ -747,6 +756,7 @@
 				02AD423D27DF293A00F44822 /* PSSecureField.swift in Sources */,
 				ADAD29002807FE4500CDE510 /* CustomerSchema.swift in Sources */,
 				AD15B39D27E465BD00513809 /* ShopSchema.swift in Sources */,
+				ADAD2909280AAA7900CDE510 /* Coupon.swift in Sources */,
 				027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */,
 				DF86A0DD27E7004700D8423C /* ImageLoader.swift in Sources */,
 				ADAD9F3327DF7C3400DE0EE7 /* DatabaseError.swift in Sources */,
@@ -771,12 +781,14 @@
 				02AD425F27E07F2800F44822 /* PSRadioButtonGroup.swift in Sources */,
 				ADAD28FC2801834900CDE510 /* Location.swift in Sources */,
 				ADAD28F627F4A0D400CDE510 /* CartProductSchema.swift in Sources */,
+				ADAD290B280AAD7700CDE510 /* CouponSchema.swift in Sources */,
 				ADAD9F2327DDDB3600DE0EE7 /* AuthAdapter.swift in Sources */,
 				DF86A0DF27E70C7B00D8423C /* URLImage.swift in Sources */,
 				DF86A0E127E7324000D8423C /* ProductOrderBar.swift in Sources */,
 				022EA8BE27E4D47A003F4E3C /* ShopRootView.swift in Sources */,
 				02AD41D027DEFCCE00F44822 /* Color+PocketShop.swift in Sources */,
 				ADAD9F0827DA3C6200DE0EE7 /* Product.swift in Sources */,
+				ADAD290D280AAE5B00CDE510 /* DBCoupons.swift in Sources */,
 				ADAD9F2927DDE68C00DE0EE7 /* DBUsers.swift in Sources */,
 				DF67101B27DE6179002C5AE0 /* CustomerViewModel.swift in Sources */,
 				DF0BA5E528087F3B00D58696 /* LocationsScrollView.swift in Sources */,

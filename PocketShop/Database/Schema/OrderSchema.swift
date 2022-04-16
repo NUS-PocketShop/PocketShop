@@ -8,6 +8,9 @@ struct OrderSchema: Codable {
     var shopName: String
     var date: Date
     var collectionNo: Int
+    var couponId: String?
+    var couponType: CouponType?
+    var couponAmount: Double?
 
     init(order: Order) {
         self.id = order.id.strVal
@@ -23,6 +26,9 @@ struct OrderSchema: Codable {
             self.orderProductSchemas?[String(counter)] = OrderProductSchema(orderProduct: orderProduct)
             counter += 1
         }
+        self.couponId = order.couponId?.strVal
+        self.couponType = order.couponType
+        self.couponAmount = order.couponAmount
     }
 
     func toOrder() -> Order {
@@ -35,6 +41,15 @@ struct OrderSchema: Codable {
                 total += orderProduct.total
             }
         }
+        if self.couponType == .flat, let couponAmount = self.couponAmount {
+            total -= couponAmount
+        } else if self.couponType == .multiplicative, let couponAmount = self.couponAmount {
+            total *= couponAmount
+        }
+        var couponId: ID?
+        if let couponIdStr = self.couponId {
+            couponId = ID(strVal: couponIdStr)
+        }
         return Order(id: ID(strVal: self.id),
                      orderProducts: orderProducts,
                      status: self.status,
@@ -43,6 +58,9 @@ struct OrderSchema: Codable {
                      shopName: self.shopName,
                      date: self.date,
                      collectionNo: self.collectionNo,
+                     couponId: couponId,
+                     couponType: self.couponType,
+                     couponAmount: self.couponAmount,
                      total: total)
     }
 }

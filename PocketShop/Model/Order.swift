@@ -9,5 +9,8 @@ struct Order: Hashable, Identifiable {
     var shopName: String
     var date: Date
     var collectionNo: Int
+    var couponId: ID?
+    var couponType: CouponType?
+    var couponAmount: Double?
     var total: Double
 }

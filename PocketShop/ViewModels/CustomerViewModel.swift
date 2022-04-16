@@ -8,6 +8,7 @@ final class CustomerViewModel: ObservableObject {
     @Published var orders: [Order] = [Order]()
     @Published var cart: [CartProduct] = [CartProduct]()
     @Published var locations: [Location] = [Location]()
+    @Published var coupons: [Coupon] = [Coupon]()
     @Published var customer: Customer?
     @Published var searchText = ""
 
@@ -29,6 +30,7 @@ final class CustomerViewModel: ObservableObject {
         observeProducts()
         observeShops()
         observeLocations()
+        observeCoupons()
     }
 
     func cancelOrder(orderId: ID) {
@@ -172,7 +174,7 @@ final class CustomerViewModel: ObservableObject {
                                                     favouriteProductIds: customer.favouriteProductIds)
     }
 
-    func addRewardPoints(points: Int) {
+    func changeRewardPoints(points: Int) {
         self.customer?.rewardPoints += points
         guard let customer = customer else {
             return
@@ -193,6 +195,39 @@ final class CustomerViewModel: ObservableObject {
     func getLocationNameFromShopId(shopId: ID) -> String {
         let shop = shops.first(where: { $0.id == shopId })
         return locations.first(where: { $0.id == shop?.locationId })?.name ?? ""
+    }
+
+    func buyCoupon(couponId: ID) {
+        guard let coupon = coupons.first(where: { $0.id == couponId }) else {
+            return
+        }
+        changeRewardPoints(points: -coupon.rewardPointCost)
+        changeCouponQuantity(coupon: coupon, quantity: 1)
+    }
+
+    func useCoupon(couponId: ID) {
+        guard let coupon = coupons.first(where: { $0.id == couponId }) else {
+            return
+        }
+        changeCouponQuantity(coupon: coupon, quantity: -1)
+    }
+
+    private func changeCouponQuantity(coupon: Coupon, quantity: Int) {
+        guard let customer = self.customer else {
+            return
+        }
+        var customerCoupons = customer.couponIds
+        if let currentCouponCount = customerCoupons[coupon.id] {
+            customerCoupons[coupon.id] = currentCouponCount + quantity
+        } else {
+            customerCoupons[coupon.id] = quantity
+        }
+
+        if quantity < 0 {
+            customerCoupons[coupon.id] = 0
+        }
+
+        DatabaseInterface.db.setCoupons(userId: customer.id, coupons: customerCoupons)
     }
 
     private func observeProducts() {
@@ -249,6 +284,26 @@ final class CustomerViewModel: ObservableObject {
                 } else if eventType == .deleted {
                     for location in allLocations {
                         locations.removeAll(where: { $0.id == location.id })
+                    }
+                }
+            }
+        }
+    }
+
+    private func observeCoupons() {
+        DatabaseInterface.db.observeAllCoupons { [self] error, allCoupons, eventType in
+            guard resolveErrors(error) else {
+                return
+            }
+            if let allCoupons = allCoupons, let eventType = eventType {
+                if eventType == .added || eventType == .updated {
+                    for coupon in allCoupons {
+                        coupons.removeAll(where: { $0.id == coupon.id })
+                        coupons.append(coupon)
+                    }
+                } else if eventType == .deleted {
+                    for coupon in allCoupons {
+                        coupons.removeAll(where: { $0.id == coupon.id })
                     }
                 }
             }
