@@ -41,7 +41,7 @@ struct CouponRedemptionScreen: View {
                 Text("\(coupon.description)")
                     .font(.appHeadline)
 
-                getDiscountText(coupon: coupon)
+                DiscountTextView(coupon: coupon)
 
                 Text("Minimum order: $\(String(format: "%.2f", coupon.minimumOrder))")
                     .font(.appBody)
@@ -73,15 +73,6 @@ struct CouponRedemptionScreen: View {
             fatalError("Unknown error occurred")
         }
         showAlert.toggle()
-    }
-
-    func getDiscountText(coupon: Coupon) -> Text {
-        switch coupon.couponType {
-        case .flat:
-            return Text("$\(String(format: "%.2f", coupon.amount)) off")
-        case .multiplicative:
-            return Text("\(String(format: "%.0f", (1 - coupon.amount) * 100))% off")
-        }
     }
 
     private func redeemSuccessAlert() -> Alert {
