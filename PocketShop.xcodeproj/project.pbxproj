@@ -15,6 +15,10 @@
 		022F3AAD280859A000390DE5 /* CustomerFavouritesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */; };
 		022F3AC5280AB87000390DE5 /* OptionGroupCreationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */; };
 		022F3AD9280B120100390DE5 /* ComboCreationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AD8280B120100390DE5 /* ComboCreationForm.swift */; };
+		022F3AF5280C34EC00390DE5 /* CustomerViewModel+CartManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AF4280C34EC00390DE5 /* CustomerViewModel+CartManagement.swift */; };
+		022F3AF8280C359F00390DE5 /* CustomerViewModel+Favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AF7280C359F00390DE5 /* CustomerViewModel+Favorites.swift */; };
+		022F3AFD280C35DD00390DE5 /* CustomerViewModel+Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AFC280C35DD00390DE5 /* CustomerViewModel+Rewards.swift */; };
+		022F3B00280C39A400390DE5 /* VendorViewModel+Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F3AFF280C39A400390DE5 /* VendorViewModel+Inventory.swift */; };
 		027B44F027FC31A300A544E7 /* PSBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027B44EF27FC31A300A544E7 /* PSBadge.swift */; };
 		02AD41C427DEFC9100F44822 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */; };
 		02AD41C527DEFC9100F44822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */; };
@@ -128,6 +132,10 @@
 		022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerFavouritesScreen.swift; sourceTree = "<group>"; };
 		022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupCreationForm.swift; sourceTree = "<group>"; };
 		022F3AD8280B120100390DE5 /* ComboCreationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboCreationForm.swift; sourceTree = "<group>"; };
+		022F3AF4280C34EC00390DE5 /* CustomerViewModel+CartManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomerViewModel+CartManagement.swift"; sourceTree = "<group>"; };
+		022F3AF7280C359F00390DE5 /* CustomerViewModel+Favorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomerViewModel+Favorites.swift"; sourceTree = "<group>"; };
+		022F3AFC280C35DD00390DE5 /* CustomerViewModel+Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomerViewModel+Rewards.swift"; sourceTree = "<group>"; };
+		022F3AFF280C39A400390DE5 /* VendorViewModel+Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VendorViewModel+Inventory.swift"; sourceTree = "<group>"; };
 		027B44EF27FC31A300A544E7 /* PSBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSBadge.swift; sourceTree = "<group>"; };
 		02AD41C027DEFC9100F44822 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		02AD41C127DEFC9100F44822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
@@ -268,6 +276,81 @@
 			path = "Shop Forms";
 			sourceTree = "<group>";
 		};
+		022F3AEE280C340900390DE5 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				02AD422B27DF1FC700F44822 /* LoginViewModel.swift */,
+				02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		022F3AF0280C342200390DE5 /* Ordering */ = {
+			isa = PBXGroup;
+			children = (
+				2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */,
+			);
+			path = Ordering;
+			sourceTree = "<group>";
+		};
+		022F3AF1280C342A00390DE5 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */,
+				ADAD290E280ABB7C00CDE510 /* CustomerViewModel+Observers.swift */,
+				022F3AF4280C34EC00390DE5 /* CustomerViewModel+CartManagement.swift */,
+				022F3AF7280C359F00390DE5 /* CustomerViewModel+Favorites.swift */,
+				022F3AFC280C35DD00390DE5 /* CustomerViewModel+Rewards.swift */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
+		022F3AF2280C343400390DE5 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				022EA90327E731F0003F4E3C /* VendorViewModel.swift */,
+				022F3AFF280C39A400390DE5 /* VendorViewModel+Inventory.swift */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		022F3B02280C3F2F00390DE5 /* FrontPage */ = {
+			isa = PBXGroup;
+			children = (
+				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
+				DF0BA5EA2808890F00D58696 /* ShopListView.swift */,
+				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
+				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
+				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
+				DF0BA5E428087F3B00D58696 /* LocationsScrollView.swift */,
+				DF0BA5E62808805C00D58696 /* LocationSummaryView.swift */,
+				DF0BA5E82808818200D58696 /* CustomerLocationView.swift */,
+				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
+				DF0BA5EE2808BFFD00D58696 /* ProductDetailView.swift */,
+				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
+			);
+			path = FrontPage;
+			sourceTree = "<group>";
+		};
+		022F3B03280C3F3E00390DE5 /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
+				2B4AA4C2280AB50E00F61438 /* CouponListView.swift */,
+				2B4AA4C4280ABDE000F61438 /* CouponRedemptionScreen.swift */,
+				2B686125280BE94200B81D7A /* DiscountTextView.swift */,
+			);
+			path = Cart;
+			sourceTree = "<group>";
+		};
+		022F3B06280C3FBD00390DE5 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 		02AD41BD27DEFB6500F44822 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,12 +417,10 @@
 		02AD422A27DF1FB700F44822 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */,
-				022EA90327E731F0003F4E3C /* VendorViewModel.swift */,
-				02AD422B27DF1FC700F44822 /* LoginViewModel.swift */,
-				02AD424B27DF2FB800F44822 /* RegisterViewModel.swift */,
-				2B54157C27F5AD0400B9C758 /* OrderViewModel.swift */,
-				ADAD290E280ABB7C00CDE510 /* CustomerViewModel+Observers.swift */,
+				022F3AF2280C343400390DE5 /* Vendor */,
+				022F3AF1280C342A00390DE5 /* Customer */,
+				022F3AF0280C342200390DE5 /* Ordering */,
+				022F3AEE280C340900390DE5 /* Common */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -500,28 +581,15 @@
 		DF67101227DE5D69002C5AE0 /* CustomerViews */ = {
 			isa = PBXGroup;
 			children = (
+				022F3B06280C3FBD00390DE5 /* Favorites */,
+				022F3B03280C3F3E00390DE5 /* Cart */,
+				022F3B02280C3F2F00390DE5 /* FrontPage */,
 				02AD420427DF027200F44822 /* CustomerCartScreen.swift */,
 				DF67101827DE5FF6002C5AE0 /* CustomerHomeScreen.swift */,
 				2B63EB8927E23269008D5747 /* CustomerOrderScreen.swift */,
 				02AD420927DF028900F44822 /* CustomerProfileScreen.swift */,
 				02AD422227DF1D7200F44822 /* CustomerRootView.swift */,
 				02AD41FC27DF024900F44822 /* CustomerSearchScreen.swift */,
-				DFD49A0227E4B9010067BC32 /* CustomerShopView.swift */,
-				DFD49A0427E4E87B0067BC32 /* ProductListView.swift */,
-				DF0BA5EA2808890F00D58696 /* ShopListView.swift */,
-				DF86A0E027E7324000D8423C /* ProductOrderBar.swift */,
-				DFD49A0827E5134D0067BC32 /* ProductsScrollView.swift */,
-				DF67101F27DE7A8D002C5AE0 /* ProductSummaryView.swift */,
-				DF0BA5EE2808BFFD00D58696 /* ProductDetailView.swift */,
-				DFD49A0A27E513F50067BC32 /* ShopsScrollView.swift */,
-				DFD49A0627E4F1880067BC32 /* ShopSummaryView.swift */,
-				DF0BA5E428087F3B00D58696 /* LocationsScrollView.swift */,
-				DF0BA5E62808805C00D58696 /* LocationSummaryView.swift */,
-				DF0BA5E82808818200D58696 /* CustomerLocationView.swift */,
-				022F3AAC280859A000390DE5 /* CustomerFavouritesScreen.swift */,
-				2B4AA4C2280AB50E00F61438 /* CouponListView.swift */,
-				2B4AA4C4280ABDE000F61438 /* CouponRedemptionScreen.swift */,
-				2B686125280BE94200B81D7A /* DiscountTextView.swift */,
 			);
 			path = CustomerViews;
 			sourceTree = "<group>";
@@ -656,6 +724,7 @@
 			files = (
 				ADAD28F327F4A0BB00CDE510 /* CartProduct.swift in Sources */,
 				022F3AD9280B120100390DE5 /* ComboCreationForm.swift in Sources */,
+				022F3AFD280C35DD00390DE5 /* CustomerViewModel+Rewards.swift in Sources */,
 				ADAD9F1E27DCCC9D00DE0EE7 /* AuthManager.swift in Sources */,
 				DFD49A0B27E513F50067BC32 /* ShopsScrollView.swift in Sources */,
 				2B786B4A27E33F1600834CA4 /* RingView.swift in Sources */,
@@ -664,6 +733,7 @@
 				02AD421927DF1CFF00F44822 /* LoginScreen.swift in Sources */,
 				DF34150A27F9C56400CC945C /* ShopEditFormView.swift in Sources */,
 				DFD49A0727E4F1880067BC32 /* ShopSummaryView.swift in Sources */,
+				022F3AF8280C359F00390DE5 /* CustomerViewModel+Favorites.swift in Sources */,
 				022F3AAD280859A000390DE5 /* CustomerFavouritesScreen.swift in Sources */,
 				02AD41FD27DF024A00F44822 /* CustomerSearchScreen.swift in Sources */,
 				DFD49A0327E4B9010067BC32 /* CustomerShopView.swift in Sources */,
@@ -673,6 +743,7 @@
 				ADAD9F3527DFBBF600DE0EE7 /* DatabaseInterface.swift in Sources */,
 				AD15B39827E36E9B00513809 /* DBShop.swift in Sources */,
 				ADAD9F2D27DDEB2100DE0EE7 /* DatabaseManager.swift in Sources */,
+				022F3B00280C39A400390DE5 /* VendorViewModel+Inventory.swift in Sources */,
 				ADAD9F0A27DA3F2D00DE0EE7 /* Order.swift in Sources */,
 				022F3AC5280AB87000390DE5 /* OptionGroupCreationForm.swift in Sources */,
 				DFD49A0527E4E87B0067BC32 /* ProductListView.swift in Sources */,
@@ -740,6 +811,7 @@
 				022EA90427E731F0003F4E3C /* VendorViewModel.swift in Sources */,
 				AD15B39F27E4673400513809 /* ProductSchema.swift in Sources */,
 				ADAD9ED927D88C5B00DE0EE7 /* PocketShopApp.swift in Sources */,
+				022F3AF5280C34EC00390DE5 /* CustomerViewModel+CartManagement.swift in Sources */,
 				ADAD9F0C27DA3FDA00DE0EE7 /* OrderStatus.swift in Sources */,
 				ADAD9F0627DA39AA00DE0EE7 /* Shop.swift in Sources */,
 				02AD424227DF294C00F44822 /* PSButton.swift in Sources */,

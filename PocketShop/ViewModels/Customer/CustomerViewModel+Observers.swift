@@ -1,3 +1,4 @@
+/// Observe any changes to customer from the DB side
 extension CustomerViewModel {
     func observeProducts() {
         DatabaseInterface.db.observeAllProducts { [self] error, allProducts, eventType in
