@@ -31,7 +31,7 @@ struct AddShopDetailsView: View {
             Text("Your shop is not created yet! Tap the '+' button to get started")
                 .font(.appBody)
             NavigationLink(
-                destination: ShopFormView(),
+                destination: ShopCreationFormView(),
                 isActive: $isAddingShop) {
                 PSButton(title: "+") {
                     isAddingShop = true

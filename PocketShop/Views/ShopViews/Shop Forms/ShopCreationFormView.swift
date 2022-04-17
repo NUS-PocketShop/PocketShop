@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ShopFormView: View {
+struct ShopCreationFormView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var name = ""
     @State private var location = ""
@@ -19,12 +19,12 @@ struct ShopFormView: View {
 
             ScrollView(.vertical) {
                 ShopTextFields(name: $name, location: $location, description: $description, categories: $categories)
+
                 PSImagePicker(title: "Shop Image", image: $image)
             }
             .navigationBarItems(trailing: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             })
-
             Spacer()
 
             PSButton(title: "Confirm") {
@@ -33,20 +33,18 @@ struct ShopFormView: View {
                     showAlert = true
                     return
                 }
-
                 guard let shop = createNewShop() else {
-                    print("Shop creation unsuccessful")
+                    print("FATAL ERROR: Shop creation unsuccessful")
                     return
                 }
-
                 viewModel.createShop(shop: shop, image: image)
                 presentationMode.wrappedValue.dismiss()
-            }
+            }.buttonStyle(FillButtonStyle())
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
-            }.buttonStyle(FillButtonStyle())
+            }
         }
-        .padding()
+        .frame(maxWidth: Constants.maxWidthIPad)
     }
 
     func createNewShop() -> Shop? {
@@ -108,19 +106,23 @@ struct ShopTextFields: View {
     @Binding var categories: [String]
 
     var body: some View {
-        PSTextField(text: $name,
-                    title: "Shop Name",
-                    placeholder: "Shop Name")
+        VStack(alignment: .leading) {
+            PSTextField(text: $name,
+                        title: "Shop Name",
+                        placeholder: "Shop Name")
 
-        LocationPickerSection(location: $location)
+            LocationPickerSection(location: $location)
+                .padding(.vertical)
 
-        PSTextField(text: $description,
-                    title: "Shop Description",
-                    placeholder: "Shop Description")
+            PSTextField(text: $description,
+                        title: "Shop Description",
+                        placeholder: "Shop Description")
 
-        PSMultiLineTextField(groupTitle: "Shop Categories",
-                             fieldTitle: "Shop Category",
-                             fields: $categories)
+            PSMultiLineTextField(groupTitle: "Shop Categories",
+                                 fieldTitle: "Shop Category",
+                                 fields: $categories)
+                .padding(.vertical)
+        }
     }
 }
 
@@ -131,14 +133,15 @@ struct LocationPickerSection: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Product Location".uppercased())
+                Text("Shop Location".uppercased())
                     .font(.appSmallCaption)
 
-                Picker("Select a product location", selection: $location) {
+                Picker("\(location.isEmpty ? "Select a shop location" : location)", selection: $location) {
                     ForEach(viewModel.locations, id: \.self.name) { location in
                         Text(location.name)
                     }
                 }
+                .pickerStyle(MenuPickerStyle())
             }
             Spacer()
         }

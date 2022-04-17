@@ -21,16 +21,6 @@ struct ProductsScrollView: View {
     }
 }
 
-struct ProductsScrollView_Previews: PreviewProvider {
-
-    static var customerVM = CustomerViewModel()
-
-    static var previews: some View {
-        ProductsScrollView(productsToShow: customerVM.productSearchResults)
-            .environmentObject(customerVM)
-    }
-}
-
 private struct TitleSection: View {
     var title: String
     var body: some View {
@@ -76,5 +66,14 @@ private struct VerticalScrollSection: View {
                 ProductPreview(product: product)
             }
         }
+    }
+}
+
+// MARK: Preview
+struct ProductsScrollView_Previews: PreviewProvider {
+    static var customerVM = CustomerViewModel()
+    static var previews: some View {
+        ProductsScrollView(productsToShow: customerVM.productSearchResults)
+            .environmentObject(customerVM)
     }
 }
