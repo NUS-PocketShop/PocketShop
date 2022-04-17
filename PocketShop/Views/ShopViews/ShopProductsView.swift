@@ -18,8 +18,16 @@ struct ShopProductsView: View {
 
     var body: some View {
         VStack {
-            ShopHeader(name: shop.name, location: viewModel.getLocationNameFromId(locationId: shop.locationId),
-                       description: shop.description, imageUrl: shop.imageURL)
+            HStack {
+                ShopHeader(name: shop.name, location: viewModel.getLocationNameFromId(locationId: shop.locationId),
+                           description: shop.description, imageUrl: shop.imageURL)
+
+                Button(action: {
+                    activeSheet = .editShop
+                }, label: {
+                    Image(systemName: "square.and.pencil")
+                })
+            }
 
             Spacer()
             ShopOperatingStatusSection(shop: shop)
@@ -35,12 +43,6 @@ struct ShopProductsView: View {
         .padding()
         .toolbar {
             EditButton()
-
-            Button(action: {
-                activeSheet = .editShop
-            }, label: {
-                Image(systemName: "square.and.pencil")
-            })
         }
         .sheet(item: $activeSheet) { item in
             switch item {

@@ -105,15 +105,6 @@ final class VendorViewModel: ObservableObject {
         DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
-    func moveCategories(source: IndexSet, destination: Int) {
-        guard let currentShop = currentShop else {
-            return
-        }
-        var categories = currentShop.categories
-        categories.move(fromOffsets: source, toOffset: destination)
-        DatabaseInterface.db.setShopCategories(id: currentShop.id, categories: categories)
-    }
-
     func moveProducts(category: ShopCategory, source: IndexSet, destination: Int) {
         guard let currentShop = currentShop else {
             return
@@ -127,30 +118,14 @@ final class VendorViewModel: ObservableObject {
         }
     }
 
-    func getOrderedCategoryProducts(category: ShopCategory) -> [Product] {
-        guard let currentShop = currentShop else {
+    func getOrderedCategoryProducts(category: ShopCategory?) -> [Product] {
+        guard let currentShop = currentShop, let category = category else {
             return []
         }
         let products = currentShop.soldProducts
         let orderedProducts = products.filter { $0.shopCategory?.title == category.title }
                                       .sorted { $0.categoryOrderingIndex < $1.categoryOrderingIndex }
         return orderedProducts
-    }
-
-    func setCategoryOrderIndex(category: ShopCategory, index: Int) {
-        guard let currentShop = currentShop else {
-            return
-        }
-        var categories = currentShop.categories
-        var newCategory = category
-        newCategory.categoryOrderingIndex = index
-        categories.removeAll { $0 == category }
-        categories.append(newCategory)
-        DatabaseInterface.db.setShopCategories(id: currentShop.id, categories: categories)
-    }
-
-    func setProductOrderIndex(product: Product, index: Int) {
-        DatabaseInterface.db.setProductOrderingIndex(shopId: product.shopId, productId: product.id, index: index)
     }
 
     func setOrderAccept(orderId: ID) {

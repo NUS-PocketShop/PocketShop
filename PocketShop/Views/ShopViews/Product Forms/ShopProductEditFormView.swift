@@ -107,6 +107,11 @@ struct SaveEditedProductButton: View {
     }
 
     func createEditedProduct() -> Product? {
+        guard let shop = viewModel.currentShop else {
+            print("FATAL ERROR: No current shop in ShopProductEditFormView!")
+            return nil
+        }
+
         guard !name.isEmpty else {
             alertMessage = "Product name cannot be empty!"
             showAlert = true
@@ -147,13 +152,14 @@ struct SaveEditedProductButton: View {
         }
 
         let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
+        let shopCategory = shop.categories.first(where: { $0.title == category })
 
         // Create edited Product and save to db
         return Product(id: product.id, name: name, description: description,
                        price: inputPrice, imageURL: "", estimatedPrepTime: estimatedPrepTime,
                        isOutOfStock: false, options: options, tags: uniqueTags,
                        shopId: product.shopId, shopName: product.shopName,
-                       shopCategory: ShopCategory(title: category),
+                       shopCategory: shopCategory,
                        categoryOrderingIndex: product.categoryOrderingIndex,
                        subProductIds: comboComponents)
     }

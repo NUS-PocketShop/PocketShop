@@ -88,6 +88,12 @@ struct ShopEditFormView: View {
 
         let uniqueCategories = Array(Set(categories.filter { !$0.isEmpty }))
 
+        guard uniqueCategories.count == categories.count else {
+            alertMessage = "Shop category cannot be blank or repeated!"
+            showAlert = true
+            return nil
+        }
+
         guard !uniqueCategories.isEmpty else {
             alertMessage = "Shop must have at least 1 category!"
             showAlert = true
@@ -100,7 +106,7 @@ struct ShopEditFormView: View {
             return nil
         }
 
-        let shopCategories = uniqueCategories.map { ShopCategory(title: $0) }
+        let shopCategories = categories.enumerated().map { ShopCategory(title: $1, categoryOrderingIndex: $0) }
 
         return Shop(id: shop.id,
                     name: name,
