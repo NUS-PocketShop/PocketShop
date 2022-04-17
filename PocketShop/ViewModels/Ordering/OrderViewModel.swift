@@ -54,7 +54,7 @@ struct OrderViewModel {
         case .pending:
             return "Accept"
         case .accepted:
-            return "Ready"
+            return "Preparing"
         case .preparing:
             return "Ready"
         case .ready:
