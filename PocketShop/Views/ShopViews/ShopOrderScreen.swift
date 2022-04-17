@@ -134,7 +134,7 @@ struct ShopOrderScreen: View {
                 },
                 secondaryButton: .destructive(Text("Cancel")))
         }
-        
+
         if order.status == .accepted {
             return Alert(
                 title: Text("Confirmation"),
@@ -251,7 +251,7 @@ extension ShopOrderScreen {
         func setOrderAccept(order: OrderViewModel) {
             vendorViewModel.setOrderAccept(orderId: order.id)
         }
-        
+
         func setOrderPreparing(order: OrderViewModel) {
             vendorViewModel.setOrderPreparing(orderId: order.id)
         }
