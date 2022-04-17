@@ -11,6 +11,8 @@ struct ShopProductEditFormView: View {
     @State private var prepTime: String = ""
     @State private var image: UIImage?
     @State private var category: String = ""
+    @State private var isCombo = false
+    @State private var comboComponents = [ID]()
     @State private var options = [ProductOption]()
     @State private var tags = [String]()
 
@@ -21,6 +23,8 @@ struct ShopProductEditFormView: View {
         self._description = State(initialValue: product.description)
         self._prepTime = State(initialValue: String(product.estimatedPrepTime))
         self._category = State(initialValue: product.shopCategory?.title ?? "")
+        self._isCombo = State(initialValue: product.isComboMeal)
+        self._comboComponents = State(initialValue: product.subProductIds)
         self._options = State(initialValue: product.options)
         self._tags = State(initialValue: product.tags.map { $0.tag })
     }
@@ -32,7 +36,8 @@ struct ShopProductEditFormView: View {
                     .font(.appTitle)
 
                 UserInputSegment(name: $name, price: $price, description: $description, prepTime: $prepTime,
-                                 category: $category, options: $options, tags: $tags)
+                                 category: $category, options: $options, isCombo: $isCombo,
+                                 comboComponents: $comboComponents, tags: $tags, isEditing: true)
 
                 PSImagePicker(title: "Product Image",
                               image: $image)
@@ -47,9 +52,10 @@ struct ShopProductEditFormView: View {
                     }
                     .padding(.bottom)
 
-                SaveEditedProductButton(product: product,
-                                        name: $name, price: $price, description: $description, prepTime: $prepTime,
-                                        image: $image, category: $category, options: $options, tags: $tags)
+                SaveEditedProductButton(product: product, name: $name, price: $price,
+                                        prepTime: $prepTime, description: $description, image: $image,
+                                        category: $category, options: $options,
+                                        isCombo: $isCombo, comboComponents: $comboComponents, tags: $tags)
             }
             .padding()
         }
@@ -66,11 +72,13 @@ struct SaveEditedProductButton: View {
 
     @Binding var name: String
     @Binding var price: String
-    @Binding var description: String
     @Binding var prepTime: String
+    @Binding var description: String
     @Binding var image: UIImage?
     @Binding var category: String
     @Binding var options: [ProductOption]
+    @Binding var isCombo: Bool
+    @Binding var comboComponents: [ID]
     @Binding var tags: [String]
 
     @State private var showAlert = false
@@ -124,6 +132,14 @@ struct SaveEditedProductButton: View {
             return nil
         }
 
+        if !isCombo {
+            comboComponents = []
+        } else if comboComponents.isEmpty {
+            alertMessage = "Please select at least 1 product for this combo!"
+            showAlert = true
+            return nil
+        }
+
         if let imageData = image?.pngData(), imageData.count > DBStorage.MAX_FILE_SIZE {
             alertMessage = "Uploaded image size must be less than 5MB"
             showAlert = true
@@ -133,19 +149,12 @@ struct SaveEditedProductButton: View {
         let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
 
         // Create edited Product and save to db
-        return Product(id: product.id,
-                       name: name,
-                       description: description,
-                       price: inputPrice,
-                       imageURL: "",
-                       estimatedPrepTime: estimatedPrepTime,
-                       isOutOfStock: false,
-                       options: options,
-                       tags: uniqueTags,
-                       shopId: product.shopId,
-                       shopName: product.shopName,
+        return Product(id: product.id, name: name, description: description,
+                       price: inputPrice, imageURL: "", estimatedPrepTime: estimatedPrepTime,
+                       isOutOfStock: false, options: options, tags: uniqueTags,
+                       shopId: product.shopId, shopName: product.shopName,
                        shopCategory: ShopCategory(title: category),
                        categoryOrderingIndex: product.categoryOrderingIndex,
-                       subProductIds: [])
+                       subProductIds: comboComponents)
     }
 }

@@ -6,30 +6,31 @@ struct PSMultiLineTextField: View {
     @Binding var fields: [String]
 
     var body: some View {
-        Text(groupTitle.uppercased())
-            .font(.appSmallCaption)
+        VStack(alignment: .leading, spacing: 12) {
+            Text(groupTitle.uppercased())
+                .font(.appSmallCaption)
 
-        ForEach(0..<fields.count, id: \.self) { index in
-            HStack {
-                PSTextField(text: Binding(get: { fields[index] },
-                                          set: { fields[index] = $0 }),
-                            title: "\(fieldTitle) \(index + 1)",
-                            placeholder: "\(fieldTitle) \(index + 1)")
+            ForEach(0..<fields.count, id: \.self) { index in
+                HStack {
+                    PSTextField(text: Binding(get: { fields[index] },
+                                              set: { fields[index] = $0 }),
+                                title: "\(fieldTitle) \(index + 1)",
+                                placeholder: "\(fieldTitle) \(index + 1)")
 
-                Button(action: {
-                    fields.remove(at: index)
-                }, label: {
-                    Image(systemName: "minus.circle")
-                        .foregroundColor(Color.red7)
-                }).padding(.top)
+                    Button(action: {
+                        fields.remove(at: index)
+                    }, label: {
+                        Image(systemName: "minus.circle")
+                            .foregroundColor(Color.red7)
+                    }).padding(.top)
+                }
             }
-        }
 
-        Button(action: {
-            fields.append("")
-        }, label: {
-            Text("\(Image(systemName: "plus.circle")) Add new \(fieldTitle.lowercased())")
-        })
-        .padding(.vertical)
+            Button(action: {
+                fields.append("")
+            }, label: {
+                Text("\(Image(systemName: "plus.circle")) Add new \(fieldTitle.lowercased())")
+            })
+        }
     }
 }

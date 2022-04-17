@@ -87,7 +87,7 @@ struct AddProductButton: View {
     @Binding var activeSheet: ShopProductsViewActiveSheet?
 
     var body: some View {
-        PSButton(title: "Add item to menu") {
+        PSButton(title: "Add item/combo to menu") {
             activeSheet = .addProduct
         }
         .buttonStyle(FillButtonStyle())

@@ -15,7 +15,7 @@ struct LoginScreen: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 12) {
-                HeadlineSection(title: "Login to PocketShop")
+                HeadlineSection(title: "Welcome to PocketShop")
                 LoginFields(email: $loginViewModel.email,
                             password: $loginViewModel.password,
                             errorMessage: $loginViewModel.errorMessage)

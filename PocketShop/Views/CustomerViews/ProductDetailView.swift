@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ProductDetailView: View {
-    @EnvironmentObject var viewModel: CustomerViewModel
     var product: Product
     var cartProduct: CartProduct?
 
@@ -16,28 +15,13 @@ struct ProductDetailView: View {
 
     var body: some View {
         VStack {
-            Text(product.name)
-                .font(.appTitle)
-
-            Text(product.shopName)
-                .font(.appHeadline)
-                .foregroundColor(.gray6)
-
-            Text("(\(viewModel.getLocationNameFromProduct(product: product)))")
-                .font(.appHeadline)
-                .foregroundColor(.gray6)
+            NameLocationSection(product: product)
 
             URLImage(urlString: product.imageURL)
                 .scaledToFit()
                 .frame(width: 150, height: 150) // Might change to relative sizes
 
-            Text(product.description)
-                .padding(.vertical)
-                .font(.appBody)
-
-            Text(String(format: "$%.2f", product.price))
-                .font(.appBody)
-                .fontWeight(.semibold)
+            DescriptionSection(product: product)
 
             ProductOrderBar(product: product, cartProduct: cartProduct)
         }
@@ -47,14 +31,27 @@ struct ProductDetailView: View {
     }
 }
 
-struct ProductDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        let sampleProduct = CustomerViewModel().products.first!
-        ProductDetailView(product: sampleProduct).environmentObject(CustomerViewModel())
+private struct NameLocationSection: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+    var product: Product
+
+    var location: String {
+        "\(product.shopName) (\(viewModel.getLocationNameFromProduct(product: product)))"
+    }
+
+    var body: some View {
+        VStack {
+            Text(product.name)
+                .font(.appTitle)
+
+            Text(location)
+                .font(.appHeadline)
+                .foregroundColor(.gray6)
+        }
     }
 }
 
-struct FavouritesButton: View {
+private struct FavouritesButton: View {
     @EnvironmentObject var viewModel: CustomerViewModel
 
     var itemId: ID
@@ -65,11 +62,42 @@ struct FavouritesButton: View {
         }, label: {
             if viewModel.favourites.contains(where: { $0.id == itemId }) {
                 Image(systemName: "heart.fill")
-                    .foregroundColor(.red7)
             } else {
                 Image(systemName: "heart")
-                    .foregroundColor(.red7)
             }
         })
+    }
+}
+
+private struct DescriptionSection: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+
+    var product: Product
+    @State var subproducts: [Product] = []
+
+    var body: some View {
+        VStack {
+            Text(product.description)
+                .font(.appBody)
+
+            if product.isComboMeal {
+                Text("Combo consists of: \(subproducts.map({ $0.name }).joined(separator: ", "))")
+                    .font(.appBody)
+            }
+        }.onAppear {
+            subproducts = product.subProductIds.compactMap {
+                    viewModel.getProductFromProductId(productId: $0)
+            }
+        }
+        .padding(.vertical)
+    }
+
+}
+
+// MARK: Preview
+struct ProductDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        let sampleProduct = CustomerViewModel().products.first!
+        ProductDetailView(product: sampleProduct).environmentObject(CustomerViewModel())
     }
 }

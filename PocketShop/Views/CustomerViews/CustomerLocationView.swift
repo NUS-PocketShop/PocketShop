@@ -79,6 +79,7 @@ struct ShopPreview: View {
     }
 }
 
+// MARK: Preview
 struct CustomerLocationView_Previews: PreviewProvider {
     static var previews: some View {
         let sampleLocation = CustomerViewModel().locations.first!

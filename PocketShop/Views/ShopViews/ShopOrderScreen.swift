@@ -24,7 +24,7 @@ struct ShopOrderScreen: View {
                     OrderList()
                 }
             }
-            .navigationTitle("My Orders")
+            .navigationTitle("All Orders")
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
