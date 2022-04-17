@@ -24,6 +24,7 @@ struct ShopHomeScreen_Previews: PreviewProvider {
 }
 
 struct AddShopDetailsView: View {
+    @EnvironmentObject var viewModel: VendorViewModel
     @State private var isAddingShop = false
 
     var body: some View {
@@ -31,7 +32,8 @@ struct AddShopDetailsView: View {
             Text("Your shop is not created yet! Tap the '+' button to get started")
                 .font(.appBody)
             NavigationLink(
-                destination: ShopCreationFormView(),
+                destination: ShopCreationFormView()
+                    .environmentObject(viewModel),
                 isActive: $isAddingShop) {
                 PSButton(title: "+") {
                     isAddingShop = true

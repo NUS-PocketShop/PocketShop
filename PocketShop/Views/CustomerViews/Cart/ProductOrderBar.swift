@@ -151,6 +151,7 @@ struct PriceAndOrderButton: View {
     }
 
     @State var isShowingAlert = false
+    @State var isInClosedShop = false
 
     var body: some View {
         VStack {
@@ -164,16 +165,23 @@ struct PriceAndOrderButton: View {
                     isShowingAlert = true
                 }
                 .buttonStyle(FillButtonStyle())
+                .disabled(isInClosedShop)
+                .opacity(isInClosedShop ? 0.5 : 1)
             } else {
                 PSButton(title: "Edit Cart Product") {
                     editCartProduct()
                     isShowingAlert = true
                 }
                 .buttonStyle(FillButtonStyle())
+                .disabled(isInClosedShop)
+                .opacity(isInClosedShop ? 0.5 : 1)
             }
         }
         .alert(isPresented: $isShowingAlert) {
             getAlert()
+        }
+        .onAppear {
+            isInClosedShop = checkShopStatus()
         }
         .padding()
     }
@@ -182,6 +190,10 @@ struct PriceAndOrderButton: View {
         let basic = product.price
         let choices = selectedOptions.choices.reduce(0) { $0 + $1.cost }
         return (basic + choices) * Double(quantity)
+    }
+
+    private func checkShopStatus() -> Bool {
+        customerViewModel.shops.first(where: { $0.id == product.shopId })?.isClosed ?? true
     }
 
     func addToCart() {

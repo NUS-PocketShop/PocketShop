@@ -51,6 +51,7 @@ struct ShopProductsView: View {
                     .environmentObject(viewModel)
             case .editShop:
                 ShopEditFormView(viewModel: viewModel, shop: shop)
+                    .environmentObject(viewModel)
             }
         }
     }
