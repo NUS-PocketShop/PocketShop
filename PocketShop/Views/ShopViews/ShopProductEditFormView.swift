@@ -145,6 +145,7 @@ struct SaveEditedProductButton: View {
                        shopId: product.shopId,
                        shopName: product.shopName,
                        shopCategory: ShopCategory(title: category),
+                       categoryOrderingIndex: 0,
                        subProductIds: [])
     }
 }

@@ -13,4 +13,5 @@ struct Shop: Hashable, Identifiable {
 
 struct ShopCategory: Hashable, Codable {
     var title: String
+    var categoryOrderingIndex: Int? = 0
 }

@@ -86,6 +86,12 @@ class DBProducts {
         }
     }
 
+    func setProductOrderingIndex(shopId: String, productId: String, index: Int) {
+        let ref = FirebaseManager.sharedManager.ref
+            .child("shops/\(shopId)/soldProducts/\(productId)/categoryOrderingIndex")
+        ref.setValue(index)
+    }
+
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/")
         ref.observeSingleEvent(of: .value) { snapshot in

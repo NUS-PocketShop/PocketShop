@@ -9,6 +9,7 @@ struct ProductSchema: Codable {
     var shopCategory: ShopCategory?
     var options: [ProductOption]? = []
     var tags: [ProductTag]? = []
+    var categoryOrderingIndex: Int? = 0
     var subProductIds: [String]? = []
 
     init(product: Product) {
@@ -22,6 +23,7 @@ struct ProductSchema: Codable {
         self.shopCategory = product.shopCategory
         self.options = product.options
         self.tags = product.tags
+        self.categoryOrderingIndex = product.categoryOrderingIndex
         self.subProductIds = product.subProductIds.map({ $0.strVal })
     }
 
@@ -38,6 +40,7 @@ struct ProductSchema: Codable {
                 shopId: ID(strVal: shopId),
                 shopName: shopName,
                 shopCategory: self.shopCategory,
+                categoryOrderingIndex: self.categoryOrderingIndex ?? 0,
                 subProductIds: (self.subProductIds ?? []).map({ ID(strVal: $0) }))
     }
 }

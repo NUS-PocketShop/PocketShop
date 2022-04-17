@@ -107,6 +107,22 @@ final class VendorViewModel: ObservableObject {
         DatabaseInterface.db.cancelOrder(id: orderId)
     }
 
+    func setCategoryOrderIndex(category: ShopCategory, index: Int) {
+        guard let currentShop = currentShop else {
+            return
+        }
+        var categories = currentShop.categories
+        var newCategory = category
+        newCategory.categoryOrderingIndex = index
+        categories.removeAll { $0 == category }
+        categories.append(newCategory)
+        DatabaseInterface.db.setShopCategories(id: currentShop.id, categories: categories)
+    }
+
+    func setProductOrderIndex(product: Product, index: Int) {
+        DatabaseInterface.db.setProductOrderingIndex(shopId: product.shopId, productId: product.id, index: index)
+    }
+
     func setOrderAccept(orderId: ID) {
         setOrderStatus(orderId: orderId, status: .accepted)
     }

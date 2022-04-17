@@ -63,6 +63,17 @@ class DBShop {
         ref.setValue(true)
     }
 
+    func setShopCategories(id: String, categories: [ShopCategory]) {
+        let ref = FirebaseManager.sharedManager.ref.child("shops/\(id)/categories")
+        do {
+            let jsonData = try JSONEncoder().encode(categories)
+            let json = try JSONSerialization.jsonObject(with: jsonData)
+            ref.setValue(json)
+        } catch {
+            print(error)
+        }
+    }
+
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         let ref = FirebaseManager.sharedManager.ref.child("shops/")
         ref.observe(.childAdded) { snapshot in
