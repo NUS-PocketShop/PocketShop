@@ -6,23 +6,33 @@ struct CustomerProfileScreen: View {
     @State var router: MainViewRouter
     @State var willNavigateOrder = false
     @State var isViewingFavourites = false
+    @State var isViewingCoupons = false
 
     var body: some View {
         NavigationView {
             VStack {
                 NavigationLink(destination: CustomerFavouritesScreen(),
-                               isActive: $isViewingFavourites
-                               ) {
+                               isActive: $isViewingFavourites) {
                     PSButton(title: "View Favourited Products") {
                         isViewingFavourites = true
                     }
                 }
+
+                NavigationLink(destination: CouponRedemptionScreen(),
+                               isActive: $isViewingCoupons) {
+                    PSButton(title: "Redeem Coupons") {
+                        isViewingCoupons = true
+                    }
+                }
+
                 Spacer()
+
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {
                     signOut()
                 }
                 .buttonStyle(FillButtonStyle())
+
             }
             .padding()
             .buttonStyle(SecondaryButtonStyle())

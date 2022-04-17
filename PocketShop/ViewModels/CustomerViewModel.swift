@@ -71,7 +71,7 @@ final class CustomerViewModel: ObservableObject {
                                               productOptionChoices: choices, quantity: quantity)
     }
 
-    func makeOrderFromCart() -> [(CartValidationError, CartProduct)]? {
+    func makeOrderFromCart(with coupon: Coupon?) -> [(CartValidationError, CartProduct)]? {
         let cartErrors = self.validateCart()
         guard cartErrors == nil else {
             return cartErrors
@@ -85,18 +85,64 @@ final class CustomerViewModel: ObservableObject {
 
         let orderProductsGroups = Dictionary(grouping: orderProducts, by: { $0.shopId })
 
+        // If it does not has coupon, we can see it as if it has applied coupon
+        var hasAppliedCoupon: Bool = coupon == nil
+
+        let maximumTotal = orderProductsGroups.reduce(0) { maxTotal, cartDict in
+            max(maxTotal, getTotalPrice(orderProducts: cartDict.value))
+        }
+
+        var totalPaid: Double = 0
         for (shopId, orderProducts) in orderProductsGroups {
-            let order = Order(id: ID(strVal: "dummyId"), orderProducts: orderProducts,
+            var order = Order(id: ID(strVal: "dummyId"), orderProducts: orderProducts,
                               status: .pending, customerId: customerId, shopId: shopId,
-                              shopName: orderProducts[0].shopName, date: Date(), collectionNo: 0, total: 0)
+                              shopName: orderProducts[0].shopName, date: Date(), collectionNo: 0)
+
+            if !hasAppliedCoupon,
+                maximumTotal == getTotalPrice(orderProducts: orderProducts),
+                let coupon = coupon {
+
+                order.couponType = coupon.couponType
+                order.couponAmount = coupon.amount
+                order.couponId = coupon.id
+
+                useCoupon(couponId: coupon.id)
+                hasAppliedCoupon = true
+            }
+
+            totalPaid += order.total
             DatabaseInterface.db.createOrder(order: order)
         }
+
+        changeRewardPoints(points: Int(totalPaid))
 
         for cartProduct in cart {
             DatabaseInterface.db.removeProductFromCart(userId: customerId, cartProduct: cartProduct)
         }
 
         return nil
+    }
+
+    func getTotalPrice(orderProducts: [OrderProduct]) -> Double {
+        orderProducts.reduce(0) { result, orderProduct in
+            result + orderProduct.total
+        }
+    }
+
+    func getTotalPrice(cartProducts: [CartProduct]) -> Double {
+        cartProducts.reduce(0) { result, cartProduct in
+            result + cartProduct.total
+        }
+    }
+
+    func getValidCoupons(total: Double) -> [Coupon] {
+        customerCoupons.filter { coupon in
+            coupon.minimumOrder <= total
+        }
+    }
+
+    func customerCouponCount(_ coupon: Coupon) -> Int {
+        customer?.couponIds[coupon.id] ?? 0
     }
 
     private func validateCart() -> [(CartValidationError, CartProduct)]? {
@@ -202,10 +248,16 @@ final class CustomerViewModel: ObservableObject {
         return product
     }
 
-    func buyCoupon(couponId: ID) {
-        guard let coupon = coupons.first(where: { $0.id == couponId }) else {
+    func buyCoupon(couponId: ID) throws {
+        guard let coupon = coupons.first(where: { $0.id == couponId }),
+              let customer = customer else {
             return
         }
+
+        guard customer.rewardPoints >= coupon.rewardPointCost else {
+            throw CouponValidationError.notEnoughRewardsPoint
+        }
+
         changeRewardPoints(points: -coupon.rewardPointCost)
         changeCouponQuantity(coupon: coupon, quantity: 1)
     }
@@ -214,6 +266,7 @@ final class CustomerViewModel: ObservableObject {
         guard let coupon = coupons.first(where: { $0.id == couponId }) else {
             return
         }
+
         changeCouponQuantity(coupon: coupon, quantity: -1)
     }
 
@@ -299,5 +352,15 @@ extension CustomerViewModel {
             return []
         }
         return products.filter { customer.favouriteProductIds.contains($0.id) }
+    }
+
+    var customerCoupons: [Coupon] {
+        guard let customer = customer else {
+            return []
+        }
+
+        return coupons.filter { coupon in
+            customer.couponIds[coupon.id] != nil && customer.couponIds[coupon.id] != 0
+        }
     }
 }

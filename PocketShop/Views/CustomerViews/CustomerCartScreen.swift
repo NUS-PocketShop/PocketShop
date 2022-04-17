@@ -7,17 +7,7 @@ struct CustomerCartScreen: View {
         NavigationView {
             VStack {
                 CartList()
-                HStack {
-                    Spacer()
-                    VStack {
-                        Text(String(format: "Total: $%.2f", viewModel.total))
-                        PSButton(title: "Order") {
-                            viewModel.confirmOrder()
-                        }
-                        .buttonStyle(FillButtonStyle())
-                    }
-                    .frame(width: 150)
-                }
+                Footer()
             }
             .navigationTitle("My Cart")
             .padding()
@@ -34,25 +24,9 @@ struct CustomerCartScreen: View {
             }
 
         }
-    }
-
-    private func emptyCartAlert() -> Alert {
-        Alert(title: Text("Unable to Order"),
-              message: Text("Unable to make order since your cart is empty"),
-              dismissButton: .default(Text("OK")))
-    }
-
-    private func makeOrderAlert() -> Alert {
-        Alert(title: Text("Confirm Order"),
-              message: Text("Confirm to order items in cart?"),
-              primaryButton: .default(Text("Confirm")) { viewModel.makeOrder() },
-              secondaryButton: .destructive(Text("Cancel")))
-    }
-
-    private func errorAlert() -> Alert {
-        Alert(title: Text("Error"),
-              message: Text("\(viewModel.errorMessage)"),
-              dismissButton: .default(Text("OK")))
+        .sheet(isPresented: $viewModel.showModal) {
+            CouponListView(cartViewModel: viewModel)
+        }
     }
 
     @ViewBuilder
@@ -82,6 +56,79 @@ struct CustomerCartScreen: View {
             }
         }
         .padding()
+    }
+
+    @ViewBuilder
+    func Footer() -> some View {
+        HStack {
+            ApplyCouponSection()
+                .frame(height: 200)
+
+            Spacer()
+
+            OrderButtonSection()
+                .frame(height: 200)
+        }
+    }
+
+    @ViewBuilder
+    func ApplyCouponSection() -> some View {
+        VStack {
+            Spacer()
+
+            Text("\(viewModel.selectedCoupon?.description ?? "No coupon selected")")
+                .font(.appHeadline)
+                .bold()
+
+            PSButton(title: "Apply Coupon") {
+                viewModel.showCoupons()
+            }
+            .buttonStyle(FillButtonStyle())
+            .frame(width: 150)
+        }
+        .frame(width: 200)
+    }
+
+    @ViewBuilder
+    func OrderButtonSection() -> some View {
+        VStack {
+            Spacer()
+
+            Text(String(format: "Total: $%.2f", viewModel.total))
+                .font(.appHeadline)
+                .bold()
+
+            if viewModel.selectedCoupon != nil {
+                Text(String(format: "Saved: $%.2f", viewModel.saved))
+                    .font(.appHeadline)
+                    .bold()
+            }
+
+            PSButton(title: "Order") {
+                viewModel.confirmOrder()
+            }
+            .buttonStyle(FillButtonStyle())
+        }
+        .frame(width: 150)
+    }
+
+    private func emptyCartAlert() -> Alert {
+        Alert(title: Text("Unable to Order"),
+              message: Text("Unable to make order since your cart is empty"),
+              dismissButton: .default(Text("OK")))
+    }
+
+    private func makeOrderAlert() -> Alert {
+        Alert(title: Text("Confirm Order"),
+              message: Text("Confirm to order items in cart?"),
+              primaryButton: .default(Text("Confirm")) { viewModel.makeOrder() },
+              secondaryButton: .destructive(Text("Cancel")))
+    }
+
+    private func errorAlert() -> Alert {
+        Alert(title: Text("Oops"),
+              message: Text("\(viewModel.errorMessage)"),
+              dismissButton: .default(Text("OK")))
     }
 }
 
@@ -156,15 +203,50 @@ extension CustomerCartScreen {
 
     class ViewModel: ObservableObject {
         @ObservedObject var customerViewModel: CustomerViewModel
-        @Published var cartProducts: [CartProduct] = []
+        @Published var cartProducts: [CartProduct] = [] {
+            didSet {
+                selectedCoupon = nil
+            }
+        }
         @Published var showAlert = false
+        @Published var showModal = false
         @Published var activeAlert: ActiveAlert = .showError
         @Published var errorMessage = ""
+        @Published var selectedCoupon: Coupon?
 
-        var total: Double {
+        var cartProductsByShop: [ID: [CartProduct]] {
+            Dictionary(grouping: cartProducts, by: { $0.shopId })
+        }
+
+        var getMaximumCostFromOneShop: Double {
+            cartProductsByShop.reduce(0) { result, cartDict in
+                max(result, getTotalPrice(cartProducts: cartDict.value))
+            }
+        }
+
+        var customerCoupons: [Coupon] {
+            customerViewModel.customerCoupons.sorted {
+                selectedCoupon == $0 || selectedCoupon != $1 ||
+                canApplyCoupon($0) || !canApplyCoupon($1)
+            }
+        }
+
+        var totalBeforeDiscount: Double {
             cartProducts.reduce(0) { result, cartProduct in
                 result + cartProduct.total
             }
+        }
+
+        private func getTotalPrice(cartProducts: [CartProduct]) -> Double {
+            customerViewModel.getTotalPrice(cartProducts: cartProducts)
+        }
+
+        var saved: Double {
+            selectedCoupon?.calculateSavedValue(total: getMaximumCostFromOneShop) ?? 0
+        }
+
+        var total: Double {
+            totalBeforeDiscount - saved
         }
 
         init(customerViewModel: CustomerViewModel) {
@@ -182,7 +264,11 @@ extension CustomerCartScreen {
         }
 
         func makeOrder() {
-            let invalidCartProducts = customerViewModel.makeOrderFromCart()
+            guard checkSelectedCoupon() else {
+                return
+            }
+
+            let invalidCartProducts = customerViewModel.makeOrderFromCart(with: selectedCoupon)
 
             guard invalidCartProducts == nil else {
                 let invalidCartProducts = invalidCartProducts!
@@ -190,6 +276,38 @@ extension CustomerCartScreen {
                 showError(cartProduct: invalidCartProducts[0].1, error: invalidCartProducts[0].0)
                 return
             }
+        }
+
+        func customerCouponCount(_ coupon: Coupon) -> Int {
+            customerViewModel.customerCouponCount(coupon)
+        }
+
+        func canApplyCoupon(_ coupon: Coupon) -> Bool {
+            coupon.minimumOrder <= getMaximumCostFromOneShop
+        }
+
+        func applyCoupon(coupon: Coupon) {
+            selectedCoupon = coupon
+        }
+
+        func deselectCoupon() {
+            selectedCoupon = nil
+        }
+
+        private func checkSelectedCoupon() -> Bool {
+            guard let selectedCoupon = selectedCoupon else {
+                return true
+            }
+
+            if !canApplyCoupon(selectedCoupon) {
+                activeAlert = .showError
+                errorMessage = "You are trying to apply invalid coupon. Try again"
+                self.selectedCoupon = nil
+                showAlert.toggle()
+                return false
+            }
+
+            return true
         }
 
         func showError(cartProduct: CartProduct, error: CartValidationError) {
@@ -208,6 +326,10 @@ extension CustomerCartScreen {
             showAlert.toggle()
         }
 
+        func showCoupons() {
+            showModal.toggle()
+        }
+
         func removeCartProduct(_ cartProduct: CartProduct) {
             customerViewModel.removeCartProduct(cartProduct)
         }
@@ -216,6 +338,6 @@ extension CustomerCartScreen {
 
 struct CustomerCartScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerCartScreen(viewModel: .init(customerViewModel: CustomerViewModel()))
+        CustomerCartScreen(viewModel: .init(customerViewModel: .init()))
     }
 }
