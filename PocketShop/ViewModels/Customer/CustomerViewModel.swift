@@ -75,17 +75,23 @@ final class CustomerViewModel: ObservableObject {
 extension CustomerViewModel {
     // Computed properties
     var productSearchResults: [Product] {
+        let defaultSearchResults = products.filter { product in
+            let shopIsNotClosed = !(shops.first(where: { $0.id == product.shopId })?.isClosed ?? true)
+            return !product.isOutOfStock && shopIsNotClosed
+        }
         if searchText.isEmpty {
-            return products
+            return defaultSearchResults
         } else {
-            return products.filter {
-                let productNameMatches = $0.name.localizedCaseInsensitiveContains(searchText)
-                let productTagMatches = $0.tags.contains(where: { $0.tag.localizedCaseInsensitiveContains(searchText) })
-                let productShopNameMatches = $0.shopName.localizedCaseInsensitiveContains(searchText)
-                let productShopLocationNameMatches = getLocationNameFromShopId(shopId: $0.shopId)
+            return defaultSearchResults.filter { product in
+                let productNameMatches = product.name.localizedCaseInsensitiveContains(searchText)
+                let productTagMatches = product.tags.contains(where: {
+                    $0.tag.localizedCaseInsensitiveContains(searchText)
+                })
+                let productShopNameMatches = product.shopName.localizedCaseInsensitiveContains(searchText)
+                let productShopLocationNameMatches = getLocationNameFromShopId(shopId: product.shopId)
                     .localizedCaseInsensitiveContains(searchText)
-                return productNameMatches || productTagMatches
-                || productShopNameMatches || productShopLocationNameMatches
+                return (productNameMatches || productTagMatches
+                        || productShopNameMatches || productShopLocationNameMatches)
             }
         }
     }
