@@ -194,9 +194,6 @@
 		ADAD9EDA27D88C5B00DE0EE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADAD9EDC27D88C5C00DE0EE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADAD9EDF27D88C5C00DE0EE7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		ADAD9EE927D88C5D00DE0EE7 /* PocketShopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopTests.swift; sourceTree = "<group>"; };
-		ADAD9EF327D88C5D00DE0EE7 /* PocketShopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopUITests.swift; sourceTree = "<group>"; };
-		ADAD9EF527D88C5D00DE0EE7 /* PocketShopUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketShopUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ADAD9F0327DA391800DE0EE7 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		ADAD9F0527DA39AA00DE0EE7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		ADAD9F0727DA3C6200DE0EE7 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -461,8 +458,6 @@
 			isa = PBXGroup;
 			children = (
 				ADAD9ED727D88C5B00DE0EE7 /* PocketShop */,
-				ADAD9EE827D88C5D00DE0EE7 /* PocketShopTests */,
-				ADAD9EF227D88C5D00DE0EE7 /* PocketShopUITests */,
 				ADAD9ED627D88C5B00DE0EE7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -498,23 +493,6 @@
 				ADAD9EDF27D88C5C00DE0EE7 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		ADAD9EE827D88C5D00DE0EE7 /* PocketShopTests */ = {
-			isa = PBXGroup;
-			children = (
-				ADAD9EE927D88C5D00DE0EE7 /* PocketShopTests.swift */,
-			);
-			path = PocketShopTests;
-			sourceTree = "<group>";
-		};
-		ADAD9EF227D88C5D00DE0EE7 /* PocketShopUITests */ = {
-			isa = PBXGroup;
-			children = (
-				ADAD9EF327D88C5D00DE0EE7 /* PocketShopUITests.swift */,
-				ADAD9EF527D88C5D00DE0EE7 /* PocketShopUITestsLaunchTests.swift */,
-			);
-			path = PocketShopUITests;
 			sourceTree = "<group>";
 		};
 		ADAD9F0227DA34DD00DE0EE7 /* Model */ = {

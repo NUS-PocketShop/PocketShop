@@ -135,6 +135,8 @@ extension CustomerOrderScreen {
         func setFilterCurrent() {
             filteredOrders = customerViewModel.orders.filter {
                 $0.status != OrderStatus.collected && $0.status != OrderStatus.cancelled
+            }.sorted {
+                $0.date > $1.date
             }.map {
                 OrderViewModel(order: $0)
             }
@@ -143,6 +145,8 @@ extension CustomerOrderScreen {
         func setFilterHistory() {
             filteredOrders = customerViewModel.orders.filter {
                 $0.status == OrderStatus.collected || $0.status == OrderStatus.cancelled
+            }.sorted {
+                $0.date > $1.date
             }.map {
                 OrderViewModel(order: $0)
             }
