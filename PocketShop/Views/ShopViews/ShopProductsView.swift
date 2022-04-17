@@ -34,6 +34,8 @@ struct ShopProductsView: View {
         }
         .padding()
         .toolbar {
+            EditButton()
+
             Button(action: {
                 activeSheet = .editShop
             }, label: {
@@ -113,16 +115,17 @@ private struct ShopItemsList: View {
         List {
             ForEach(shop.categories, id: \.self) { shopCategory in
                 Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
-                    ForEach(shop.soldProducts, id: \.self) { product in
-                        if product.shopCategory?.title == shopCategory.title {
-                            NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
-                                                                                product: product)) {
-                                ShopProductListView(product: product)
-                            }
+                    ForEach(viewModel.getOrderedCategoryProducts(category: shopCategory), id: \.self) { product in
+                        NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
+                                                                            product: product)) {
+                            ShopProductListView(product: product)
                         }
                     }
                     .onDelete { positions in
-                        viewModel.deleteProduct(at: positions)
+                        viewModel.deleteProduct(category: shopCategory, at: positions)
+                    }
+                    .onMove { indexSet, index in
+                        viewModel.moveProducts(category: shopCategory, source: indexSet, destination: index)
                     }
                 }
             }

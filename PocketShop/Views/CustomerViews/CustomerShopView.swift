@@ -41,11 +41,9 @@ struct ShopProductsList: View {
             List {
                 ForEach(shop.categories, id: \.self) { shopCategory in
                     Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
-                        ForEach(shop.soldProducts, id: \.self) { product in
-                            if product.shopCategory?.title == shopCategory.title {
-                                ProductPreview(product: product,
-                                               isClosed: shop.isClosed)
-                            }
+                        ForEach(viewModel.getOrderedCategoryProducts(shop: shop, category: shopCategory),
+                                id: \.self) { product in
+                            ProductPreview(product: product, isClosed: shop.isClosed)
                         }
                     }
                 }

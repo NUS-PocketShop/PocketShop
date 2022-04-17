@@ -45,6 +45,12 @@ final class CustomerViewModel: ObservableObject {
         return product
     }
 
+    func getOrderedCategoryProducts(shop: Shop, category: ShopCategory) -> [Product] {
+        let products = shop.soldProducts
+        return products.filter { $0.shopCategory?.title == category.title }
+                       .sorted { $0.categoryOrderingIndex < $1.categoryOrderingIndex }
+    }
+
     func addProductToCart(_ product: Product, quantity: Int, choices: [ProductOptionChoice]) {
         guard let customerId = customer?.id else {
             fatalError("Cannot add product to cart for unknown customer")

@@ -161,6 +161,8 @@ struct SaveNewProductButton: View {
         }
 
         let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
+        let category = ShopCategory(title: category)
+        let categoryOrderingIndex = viewModel.getOrderedCategoryProducts(category: category).count
 
         return Product(id: ID(strVal: "default"),
                        name: name,
@@ -173,8 +175,8 @@ struct SaveNewProductButton: View {
                        tags: uniqueTags,
                        shopId: shop.id,
                        shopName: shop.name,
-                       shopCategory: ShopCategory(title: category),
-                       categoryOrderingIndex: 0,
+                       shopCategory: category,
+                       categoryOrderingIndex: categoryOrderingIndex,
                        subProductIds: [])
     }
 
