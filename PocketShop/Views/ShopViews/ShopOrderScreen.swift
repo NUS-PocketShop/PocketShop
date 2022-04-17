@@ -138,6 +138,16 @@ struct ShopOrderScreen: View {
         if order.status == .accepted {
             return Alert(
                 title: Text("Confirmation"),
+                message: Text("Confirm to prepare order \(order.collectionNo)?"),
+                primaryButton: .default(Text("Confirm")) {
+                    viewModel.setOrderPreparing(order: order)
+                },
+                secondaryButton: .destructive(Text("Cancel")))
+        }
+
+        if order.status == .preparing {
+            return Alert(
+                title: Text("Confirmation"),
                 message: Text("Confirm that order \(order.collectionNo) is ready?"),
                 primaryButton: .default(Text("Confirm")) {
                     viewModel.setOrderReady(order: order)
@@ -170,7 +180,7 @@ extension ShopOrderScreen {
         @ObservedObject private var vendorViewModel: VendorViewModel
         @Published var filteredOrders: [OrderViewModel] = []
 
-        @Published var tabSelection: TabView {
+        @Published var tabSelection: TabView = .current {
             didSet {
                 updateFilter()
             }
@@ -178,7 +188,6 @@ extension ShopOrderScreen {
 
         init(vendorViewModel: VendorViewModel) {
             self.vendorViewModel = vendorViewModel
-            self.tabSelection = .current
             updateFilter()
         }
 
@@ -241,6 +250,10 @@ extension ShopOrderScreen {
 
         func setOrderAccept(order: OrderViewModel) {
             vendorViewModel.setOrderAccept(orderId: order.id)
+        }
+
+        func setOrderPreparing(order: OrderViewModel) {
+            vendorViewModel.setOrderPreparing(orderId: order.id)
         }
 
         func setOrderReady(order: OrderViewModel) {

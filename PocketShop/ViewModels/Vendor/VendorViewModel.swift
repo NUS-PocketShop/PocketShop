@@ -65,6 +65,10 @@ final class VendorViewModel: ObservableObject {
         setOrderStatus(orderId: orderId, status: .accepted)
     }
 
+    func setOrderPreparing(orderId: ID) {
+        setOrderStatus(orderId: orderId, status: .preparing)
+    }
+
     func setOrderReady(orderId: ID) {
         setOrderStatus(orderId: orderId, status: .ready)
     }
