@@ -34,8 +34,6 @@ struct ShopEditFormView: View {
             .navigationBarItems(trailing: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             })
-            .navigationBarTitleDisplayMode(.inline)
-
             Spacer()
 
             PSButton(title: "Confirm") {
@@ -44,19 +42,16 @@ struct ShopEditFormView: View {
                     showAlert = true
                     return
                 }
-
                 guard let newShop = createEditedShop() else {
-                    print("Shop edit unsuccessful")
+                    print("FATAL ERROR: Shop editing unsuccessful")
                     return
                 }
-
                 viewModel.editShop(newShop: newShop, image: image)
                 presentationMode.wrappedValue.dismiss()
-            }
+            }.buttonStyle(FillButtonStyle())
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
             }
-            .buttonStyle(FillButtonStyle())
         }
         .padding()
         .frame(maxWidth: Constants.maxWidthIPad)

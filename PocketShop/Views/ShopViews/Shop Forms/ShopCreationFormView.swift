@@ -19,13 +19,12 @@ struct ShopCreationFormView: View {
 
             ScrollView(.vertical) {
                 ShopTextFields(name: $name, location: $location, description: $description, categories: $categories)
+
                 PSImagePicker(title: "Shop Image", image: $image)
             }
             .navigationBarItems(trailing: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             })
-            .frame(maxWidth: Constants.maxWidthIPad)
-
             Spacer()
 
             PSButton(title: "Confirm") {
@@ -35,19 +34,17 @@ struct ShopCreationFormView: View {
                     return
                 }
                 guard let shop = createNewShop() else {
-                    print("Shop creation unsuccessful")
+                    print("FATAL ERROR: Shop creation unsuccessful")
                     return
                 }
-
                 viewModel.createShop(shop: shop, image: image)
                 presentationMode.wrappedValue.dismiss()
-            }
+            }.buttonStyle(FillButtonStyle())
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")))
-            }.buttonStyle(FillButtonStyle())
-            .padding()
-            .frame(maxWidth: Constants.maxWidthIPad)
+            }
         }
+        .frame(maxWidth: Constants.maxWidthIPad)
     }
 
     func createNewShop() -> Shop? {
