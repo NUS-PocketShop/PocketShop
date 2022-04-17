@@ -109,21 +109,23 @@ struct ShopTextFields: View {
     @Binding var categories: [String]
 
     var body: some View {
-        PSTextField(text: $name,
-                    title: "Shop Name",
-                    placeholder: "Shop Name")
+        VStack(alignment: .leading) {
+            PSTextField(text: $name,
+                        title: "Shop Name",
+                        placeholder: "Shop Name")
 
-        LocationPickerSection(location: $location)
-            .padding(.vertical)
+            LocationPickerSection(location: $location)
+                .padding(.vertical)
 
-        PSTextField(text: $description,
-                    title: "Shop Description",
-                    placeholder: "Shop Description")
+            PSTextField(text: $description,
+                        title: "Shop Description",
+                        placeholder: "Shop Description")
 
-        PSMultiLineTextField(groupTitle: "Shop Categories",
-                             fieldTitle: "Shop Category",
-                             fields: $categories)
-            .padding(.vertical)
+            PSMultiLineTextField(groupTitle: "Shop Categories",
+                                 fieldTitle: "Shop Category",
+                                 fields: $categories)
+                .padding(.vertical)
+        }
     }
 }
 

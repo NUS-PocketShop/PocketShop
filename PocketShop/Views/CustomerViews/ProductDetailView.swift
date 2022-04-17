@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ProductDetailView: View {
-    @EnvironmentObject var viewModel: CustomerViewModel
     var product: Product
     var cartProduct: CartProduct?
 
@@ -22,33 +21,13 @@ struct ProductDetailView: View {
                 .scaledToFit()
                 .frame(width: 150, height: 150) // Might change to relative sizes
 
-            Text(product.description)
-                .font(.appBody)
-                .padding(.vertical)
-
-            if product.isComboMeal {
-                Text("""
-                    Combo meal of: \(product.subProductIds.map({ $0.description })
-                                        .joined(separator: ", "))
-                    """)
-            }
-
-            Text(String(format: "$%.2f", product.price))
-                .font(.appBody)
-                .fontWeight(.semibold)
+            DescriptionSection(product: product)
 
             ProductOrderBar(product: product, cartProduct: cartProduct)
         }
         .toolbar {
             FavouritesButton(itemId: product.id)
         }
-    }
-}
-
-struct ProductDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        let sampleProduct = CustomerViewModel().products.first!
-        ProductDetailView(product: sampleProduct).environmentObject(CustomerViewModel())
     }
 }
 
@@ -62,7 +41,7 @@ private struct NameLocationSection: View {
 
     var body: some View {
         VStack {
-            Text("\(product.isComboMeal ? "[COMBO] " : "")\(product.name)")
+            Text(product.name)
                 .font(.appTitle)
 
             Text(location)
@@ -83,11 +62,42 @@ private struct FavouritesButton: View {
         }, label: {
             if viewModel.favourites.contains(where: { $0.id == itemId }) {
                 Image(systemName: "heart.fill")
-                    .foregroundColor(.red7)
             } else {
                 Image(systemName: "heart")
-                    .foregroundColor(.red7)
             }
         })
+    }
+}
+
+private struct DescriptionSection: View {
+    @EnvironmentObject var viewModel: CustomerViewModel
+
+    var product: Product
+    @State var subproducts: [Product] = []
+
+    var body: some View {
+        VStack {
+            Text(product.description)
+                .font(.appBody)
+
+            if product.isComboMeal {
+                Text("Combo consists of: \(subproducts.map({ $0.name }).joined(separator: ", "))")
+                    .font(.appBody)
+            }
+        }.onAppear {
+            subproducts = product.subProductIds.compactMap {
+                    viewModel.getProductFromProductId(productId: $0)
+            }
+        }
+        .padding(.vertical)
+    }
+
+}
+
+// MARK: Preview
+struct ProductDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        let sampleProduct = CustomerViewModel().products.first!
+        ProductDetailView(product: sampleProduct).environmentObject(CustomerViewModel())
     }
 }

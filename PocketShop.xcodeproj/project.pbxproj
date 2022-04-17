@@ -101,7 +101,7 @@
 		DF34150427F9C56400CC945C /* ShopOrderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */; };
 		DF34150527F9C56400CC945C /* ShopProductFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */; };
 		DF34150627F9C56400CC945C /* ShopHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */; };
-		DF34150727F9C56400CC945C /* ShopFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34150027F9C56300CC945C /* ShopFormView.swift */; };
+		DF34150727F9C56400CC945C /* ShopCreationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34150027F9C56300CC945C /* ShopCreationFormView.swift */; };
 		DF34150827F9C56400CC945C /* ShopProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34150127F9C56300CC945C /* ShopProductsView.swift */; };
 		DF34150927F9C56400CC945C /* ShopProductEditFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34150227F9C56400CC945C /* ShopProductEditFormView.swift */; };
 		DF34150A27F9C56400CC945C /* ShopEditFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF34150327F9C56400CC945C /* ShopEditFormView.swift */; };
@@ -230,12 +230,12 @@
 		DF0BA5F02809862D00D58696 /* ShopProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopProductListView.swift; sourceTree = "<group>"; };
 		DF0BA5F2280AB7BF00D58696 /* PSMultiLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSMultiLineTextField.swift; sourceTree = "<group>"; };
 		DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopOrderScreen.swift; path = PocketShop/Views/ShopViews/ShopOrderScreen.swift; sourceTree = SOURCE_ROOT; };
-		DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductFormView.swift; path = PocketShop/Views/ShopViews/ShopProductFormView.swift; sourceTree = SOURCE_ROOT; };
+		DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductFormView.swift; path = "PocketShop/Views/ShopViews/Product Forms/ShopProductFormView.swift"; sourceTree = SOURCE_ROOT; };
 		DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopHomeScreen.swift; path = PocketShop/Views/ShopViews/ShopHomeScreen.swift; sourceTree = SOURCE_ROOT; };
-		DF34150027F9C56300CC945C /* ShopFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopFormView.swift; path = PocketShop/Views/ShopViews/ShopFormView.swift; sourceTree = SOURCE_ROOT; };
+		DF34150027F9C56300CC945C /* ShopCreationFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopCreationFormView.swift; path = "PocketShop/Views/ShopViews/Shop Forms/ShopCreationFormView.swift"; sourceTree = SOURCE_ROOT; };
 		DF34150127F9C56300CC945C /* ShopProductsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductsView.swift; path = PocketShop/Views/ShopViews/ShopProductsView.swift; sourceTree = SOURCE_ROOT; };
-		DF34150227F9C56400CC945C /* ShopProductEditFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductEditFormView.swift; path = PocketShop/Views/ShopViews/ShopProductEditFormView.swift; sourceTree = SOURCE_ROOT; };
-		DF34150327F9C56400CC945C /* ShopEditFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopEditFormView.swift; path = PocketShop/Views/ShopViews/ShopEditFormView.swift; sourceTree = SOURCE_ROOT; };
+		DF34150227F9C56400CC945C /* ShopProductEditFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopProductEditFormView.swift; path = "PocketShop/Views/ShopViews/Product Forms/ShopProductEditFormView.swift"; sourceTree = SOURCE_ROOT; };
+		DF34150327F9C56400CC945C /* ShopEditFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopEditFormView.swift; path = "PocketShop/Views/ShopViews/Shop Forms/ShopEditFormView.swift"; sourceTree = SOURCE_ROOT; };
 		DF67101827DE5FF6002C5AE0 /* CustomerHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerHomeScreen.swift; sourceTree = "<group>"; };
 		DF67101A27DE6179002C5AE0 /* CustomerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewModel.swift; sourceTree = "<group>"; };
 		DF67101D27DE769E002C5AE0 /* PSSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSSearchBarView.swift; sourceTree = "<group>"; };
@@ -278,13 +278,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		022F3AC3280AB83E00390DE5 /* Product Form Components */ = {
+		022F3AC3280AB83E00390DE5 /* Product Forms */ = {
 			isa = PBXGroup;
 			children = (
+				DF34150227F9C56400CC945C /* ShopProductEditFormView.swift */,
+				DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */,
 				022F3AC4280AB87000390DE5 /* OptionGroupCreationForm.swift */,
 				022F3AD8280B120100390DE5 /* ComboCreationForm.swift */,
 			);
-			path = "Product Form Components";
+			path = "Product Forms";
+			sourceTree = "<group>";
+		};
+		022F3AE9280C05F400390DE5 /* Shop Forms */ = {
+			isa = PBXGroup;
+			children = (
+				DF34150327F9C56400CC945C /* ShopEditFormView.swift */,
+				DF34150027F9C56300CC945C /* ShopCreationFormView.swift */,
+			);
+			path = "Shop Forms";
 			sourceTree = "<group>";
 		};
 		02AD41BD27DEFB6500F44822 /* Core */ = {
@@ -547,15 +558,12 @@
 		DF8152E828087D7C00394159 /* ShopViews */ = {
 			isa = PBXGroup;
 			children = (
-				022F3AC3280AB83E00390DE5 /* Product Form Components */,
+				022F3AE9280C05F400390DE5 /* Shop Forms */,
+				022F3AC3280AB83E00390DE5 /* Product Forms */,
 				022EA8BD27E4D47A003F4E3C /* ShopRootView.swift */,
 				022EA8C227E4D4C3003F4E3C /* ShopProfileScreen.swift */,
-				DF34150327F9C56400CC945C /* ShopEditFormView.swift */,
-				DF34150027F9C56300CC945C /* ShopFormView.swift */,
 				DF3414FF27F9C56300CC945C /* ShopHomeScreen.swift */,
 				DF3414FD27F9C56300CC945C /* ShopOrderScreen.swift */,
-				DF34150227F9C56400CC945C /* ShopProductEditFormView.swift */,
-				DF3414FE27F9C56300CC945C /* ShopProductFormView.swift */,
 				DF34150127F9C56300CC945C /* ShopProductsView.swift */,
 				DF0BA5F02809862D00D58696 /* ShopProductListView.swift */,
 			);
@@ -786,7 +794,7 @@
 				ADAD9F0E27DA413B00DE0EE7 /* OrderProduct.swift in Sources */,
 				ADAD28F427F4A0BB00CDE510 /* ProductOption.swift in Sources */,
 				ADAD2904280A8A5300CDE510 /* LocationSchema.swift in Sources */,
-				DF34150727F9C56400CC945C /* ShopFormView.swift in Sources */,
+				DF34150727F9C56400CC945C /* ShopCreationFormView.swift in Sources */,
 				DF67101E27DE769E002C5AE0 /* PSSearchBarView.swift in Sources */,
 				AD15B3A327E59DF900513809 /* OrderProductSchema.swift in Sources */,
 				02AD422327DF1D7200F44822 /* CustomerRootView.swift in Sources */,

@@ -8,8 +8,10 @@ struct ShopProfileScreen: View {
     var body: some View {
         NavigationView {
             VStack {
-                ShopOpenCloseButton()
-                ShopEditProfileButton()
+                if viewModel.currentShop != nil {
+                    ShopOpenCloseButton()
+                    ShopEditProfileButton()
+                }
                 Spacer()
                 PSButton(title: "Logout",
                          icon: "arrow.down.left.circle.fill") {

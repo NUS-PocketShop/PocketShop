@@ -34,6 +34,7 @@ struct ShopEditFormView: View {
             .navigationBarItems(trailing: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             })
+            .navigationBarTitleDisplayMode(.inline)
 
             Spacer()
 
@@ -58,6 +59,7 @@ struct ShopEditFormView: View {
             .buttonStyle(FillButtonStyle())
         }
         .padding()
+        .frame(maxWidth: Constants.maxWidthIPad)
     }
 
     private func loadImage() {
