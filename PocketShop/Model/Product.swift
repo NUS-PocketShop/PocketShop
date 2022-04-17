@@ -13,6 +13,8 @@ struct Product: Hashable, Identifiable {
     var shopName: String
     var shopCategory: ShopCategory?
 
+    var categoryOrderingIndex: Int
+
     // For combos
     var subProductIds: [ID]
 

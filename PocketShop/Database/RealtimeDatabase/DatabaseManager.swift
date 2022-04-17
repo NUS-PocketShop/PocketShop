@@ -60,6 +60,10 @@ class DatabaseManager: DatabaseAdapter {
         shops.closeShop(id: id.strVal)
     }
 
+    func setShopCategories(id: ID, categories: [ShopCategory]) {
+        shops.setShopCategories(id: id.strVal, categories: categories)
+    }
+
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void) {
         shops.observeAllShops(actionBlock: actionBlock)
     }
@@ -95,6 +99,10 @@ class DatabaseManager: DatabaseAdapter {
 
     func setProductTags(shopId: ID, productId: ID, tags: [ProductTag]) {
         products.setProductTags(shopId: shopId.strVal, productId: productId.strVal, tags: tags)
+    }
+
+    func setProductOrderingIndex(shopId: ID, productId: ID, index: Int) {
+        products.setProductOrderingIndex(shopId: shopId.strVal, productId: productId.strVal, index: index)
     }
 
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void) {

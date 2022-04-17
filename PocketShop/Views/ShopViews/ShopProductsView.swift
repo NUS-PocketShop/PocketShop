@@ -18,8 +18,16 @@ struct ShopProductsView: View {
 
     var body: some View {
         VStack {
-            ShopHeader(name: shop.name, location: viewModel.getLocationNameFromId(locationId: shop.locationId),
-                       description: shop.description, imageUrl: shop.imageURL)
+            HStack {
+                ShopHeader(name: shop.name, location: viewModel.getLocationNameFromId(locationId: shop.locationId),
+                           description: shop.description, imageUrl: shop.imageURL)
+
+                Button(action: {
+                    activeSheet = .editShop
+                }, label: {
+                    Image(systemName: "square.and.pencil")
+                })
+            }
 
             Spacer()
             ShopOperatingStatusSection(shop: shop)
@@ -34,11 +42,7 @@ struct ShopProductsView: View {
         }
         .padding()
         .toolbar {
-            Button(action: {
-                activeSheet = .editShop
-            }, label: {
-                Image(systemName: "square.and.pencil")
-            })
+            EditButton()
         }
         .sheet(item: $activeSheet) { item in
             switch item {
@@ -113,16 +117,17 @@ private struct ShopItemsList: View {
         List {
             ForEach(shop.categories, id: \.self) { shopCategory in
                 Section(header: Text(shopCategory.title).font(Font.headline.weight(.black))) {
-                    ForEach(shop.soldProducts, id: \.self) { product in
-                        if product.shopCategory?.title == shopCategory.title {
-                            NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
-                                                                                product: product)) {
-                                ShopProductListView(product: product)
-                            }
+                    ForEach(viewModel.getOrderedCategoryProducts(category: shopCategory), id: \.self) { product in
+                        NavigationLink(destination: ShopProductEditFormView(viewModel: viewModel,
+                                                                            product: product)) {
+                            ShopProductListView(product: product)
                         }
                     }
                     .onDelete { positions in
-                        viewModel.deleteProduct(at: positions)
+                        viewModel.deleteProduct(category: shopCategory, at: positions)
+                    }
+                    .onMove { indexSet, index in
+                        viewModel.moveProducts(category: shopCategory, source: indexSet, destination: index)
                     }
                 }
             }

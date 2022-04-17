@@ -180,13 +180,15 @@ private struct SaveNewProductButton: View {
         }
 
         let uniqueTags = Array(Set(tags.filter { !$0.isEmpty })).map { ProductTag(tag: $0) }
+        let shopCategory = shop.categories.first(where: { $0.title == category })
+        let categoryOrderingIndex = viewModel.getOrderedCategoryProducts(category: shopCategory).count
 
         return Product(id: ID(strVal: "default"),
                        name: name, description: description, price: inputPrice,
                        imageURL: "", estimatedPrepTime: estimatedPrepTime, isOutOfStock: false,
                        options: options, tags: uniqueTags,
-                       shopId: shop.id, shopName: shop.name, shopCategory: ShopCategory(title: category),
-                       subProductIds: comboComponents)
+                       shopId: shop.id, shopName: shop.name, shopCategory: shopCategory,
+                       categoryOrderingIndex: categoryOrderingIndex, subProductIds: comboComponents)
     }
 }
 

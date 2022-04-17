@@ -53,16 +53,14 @@ final class VendorViewModel: ObservableObject {
         DatabaseInterface.db.editProduct(shopId: shop.id, product: newProduct, imageData: image.pngData())
     }
 
-    func deleteProduct(at positions: IndexSet) {
+    func deleteProduct(category: ShopCategory, at positions: IndexSet) {
         for index in positions {
             guard let shopId = currentShop?.id else {
                 return
             }
-            let idToDelete = products[index].id
-            DatabaseInterface.db.deleteProduct(shopId: shopId,
-                                               productId: idToDelete)
+            let idToDelete = getOrderedCategoryProducts(category: category)[index].id
+            DatabaseInterface.db.deleteProduct(shopId: shopId, productId: idToDelete)
         }
-        products.remove(atOffsets: positions)
     }
 
     func toggleProductStockStatus(product: Product) {
@@ -105,6 +103,29 @@ final class VendorViewModel: ObservableObject {
 
     func cancelOrder(orderId: ID) {
         DatabaseInterface.db.cancelOrder(id: orderId)
+    }
+
+    func moveProducts(category: ShopCategory, source: IndexSet, destination: Int) {
+        guard let currentShop = currentShop else {
+            return
+        }
+        var categoryProducts = getOrderedCategoryProducts(category: category)
+        categoryProducts.move(fromOffsets: source, toOffset: destination)
+        for index in 0..<categoryProducts.count {
+            DatabaseInterface.db.setProductOrderingIndex(shopId: currentShop.id,
+                                                         productId: categoryProducts[index].id,
+                                                         index: index)
+        }
+    }
+
+    func getOrderedCategoryProducts(category: ShopCategory?) -> [Product] {
+        guard let currentShop = currentShop, let category = category else {
+            return []
+        }
+        let products = currentShop.soldProducts
+        let orderedProducts = products.filter { $0.shopCategory?.title == category.title }
+                                      .sorted { $0.categoryOrderingIndex < $1.categoryOrderingIndex }
+        return orderedProducts
     }
 
     func setOrderAccept(orderId: ID) {

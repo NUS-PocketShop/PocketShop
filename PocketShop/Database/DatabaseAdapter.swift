@@ -13,6 +13,7 @@ protocol DatabaseAdapter {
     func deleteShop(id: ID)
     func openShop(id: ID)
     func closeShop(id: ID)
+    func setShopCategories(id: ID, categories: [ShopCategory])
     func observeAllShops(actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
     func observeShopsByOwner(ownerId: ID,
                              actionBlock: @escaping (DatabaseError?, [Shop]?, DatabaseEvent?) -> Void)
@@ -24,6 +25,7 @@ protocol DatabaseAdapter {
     func setProductToInStock(shopId: ID, productId: ID)
     func setAllProductsInShopToInStock(shopId: ID)
     func setProductTags(shopId: ID, productId: ID, tags: [ProductTag])
+    func setProductOrderingIndex(shopId: ID, productId: ID, index: Int)
     func observeAllProducts(actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
     func observeProductsFromShop(shopId: ID,
                                  actionBlock: @escaping (DatabaseError?, [Product]?, DatabaseEvent?) -> Void)
