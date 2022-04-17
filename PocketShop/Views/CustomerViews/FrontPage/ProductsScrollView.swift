@@ -47,7 +47,8 @@ private struct HorizontalScrollSection: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(products) { product in
-                    if !product.isOutOfStock {
+                    if !product.isOutOfStock
+                        && !(viewModel.shops.first(where: { $0.id == product.shopId })?.isClosed ?? true) {
                         NavigationLink(destination: ProductDetailView(product: product).environmentObject(viewModel)) {
                             ProductSummaryView(product: product).environmentObject(viewModel)
                         }
