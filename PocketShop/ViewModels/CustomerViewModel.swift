@@ -86,7 +86,7 @@ final class CustomerViewModel: ObservableObject {
         let orderProductsGroups = Dictionary(grouping: orderProducts, by: { $0.shopId })
 
         // If it does not has coupon, we can see it as if it has applied coupon
-        var hasAppliedCoupon: Bool = coupon == nil ? true : false
+        var hasAppliedCoupon: Bool = coupon == nil
 
         let maximumTotal = orderProductsGroups.reduce(0) { maxTotal, cartDict in
             max(maxTotal, getTotalPrice(orderProducts: cartDict.value))
